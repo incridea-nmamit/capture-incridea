@@ -72,3 +72,13 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+
+
+model teamMember {
+  id          Int     @id @default(autoincrement())
+  name        String
+  designation String
+  committee   String
+  image       String? // Use String? for optional field, if applicable
+}
