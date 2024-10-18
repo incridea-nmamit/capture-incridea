@@ -65,3 +65,17 @@ model Stories {
   date_time  DateTime @default(now())
   file_path  String
 }
+
+model Users {
+  id    Int    @id @default(autoincrement())
+  name  String
+  email String @unique
+  role  Role
+}
+
+enum Role {
+  admin
+  manager
+  editor
+  unauthorized
+}
