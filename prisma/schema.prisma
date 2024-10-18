@@ -9,18 +9,18 @@ datasource db {
 
 model Events {
   id                Int      @id @default(autoincrement())
-  event_name        String
-  event_description String
-  event_log         String
-  event_type        String
-  event_day         String
+  name        String
+  description String
+  log         String
+  type        String
+  day         String
 }
 
 model Team {
   id                Int      @id @default(autoincrement())
-  member_name       String
-  member_committee  String
-  member_designation String
+  name       String
+  committee  String
+  designation String
 }
 
 model WebAnalytics {
@@ -70,12 +70,12 @@ model Users {
   id    Int    @id @default(autoincrement())
   name  String
   email String @unique
-  role  Role
+  role  Role @default(USER)
 }
 
 enum Role {
-  admin
-  manager
-  editor
-  unauthorized
+  ADMIN
+  MANAGER
+  EDITOR
+  USER
 }
