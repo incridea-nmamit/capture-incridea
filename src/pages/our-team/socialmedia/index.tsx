@@ -12,7 +12,7 @@ const SocialMediaPage = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center  bg-black">
       {/* Title Section */}
       <div className="relative w-full h-[50vh] md:h-[60vh] bg-cover bg-center" style={{ backgroundImage: "url('/images/socialmedia-bg.png')" }}>
         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4">
@@ -24,7 +24,7 @@ const SocialMediaPage = () => {
       </div>
 
       {/* Cards Section */}
-      <div className="py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
+      <div className="text-white py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
         {/* Render Card components for each team member */}
         {teamMembers.map((member, index) => (
           <Card

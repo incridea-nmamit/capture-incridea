@@ -8,24 +8,25 @@ datasource db {
 }
 
 model Events {
-  id              Int      @id @default(autoincrement())
-  event_name      String
+  id                Int      @id @default(autoincrement())
+  event_name        String
   event_description String
-  event_log       String
-  event_type      String
-  event_day       String
+  event_log         String
+  event_type        String
+  event_day         String
 }
 
 model Team {
-  id                Int    @id @default(autoincrement())
+  id                Int      @id @default(autoincrement())
   member_name       String
   member_committee  String
   member_designation String
 }
 
 model WebAnalytics {
-  id        Int      @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   ip_address String
+  page_name  String
   date_time  DateTime @default(now())
 }
 
@@ -33,7 +34,7 @@ model DownloadLog {
   id         Int      @id @default(autoincrement())
   ip_address String
   date_time  DateTime @default(now())
-  image      String
+  file_path  String
 }
 
 model AuditLog {
@@ -56,4 +57,11 @@ model Gallery {
   image_name String
   event_name String
   image_type String
+}
+
+model Stories {
+  id         Int      @id @default(autoincrement())
+  event_name String
+  date_time  DateTime @default(now())
+  file_path  String
 }

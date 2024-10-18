@@ -38,8 +38,8 @@ export default function Home() {
             </div>
 
             {/* Tagline and Description */}
-            <div className="flex flex-col text-white max-w-lg text-left gap-8">
-              <h1 className="text-5xl font-extrabold mb-4">
+            <div className="flex flex-col text-white max-w-2xl text-left gap-8">
+              <h1 className="font-silkscreen text-5xl font-extrabold mb-4">
                 Today's Memories, in your Gallery Today!
               </h1>
               <p className="text-lg">

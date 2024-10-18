@@ -12,7 +12,7 @@ const MediaCommitteePage = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center  bg-black">
       {/* Title Section */}
       <div className="relative w-full h-[50vh] md:h-[60vh] bg-cover bg-center" style={{ backgroundImage: "url('/images/media-bg.png')" }}>
         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4">

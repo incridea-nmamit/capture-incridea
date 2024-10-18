@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Allura';
+    src: url('/fonts/Allura.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'IslandMoments';
+    src: url('/fonts/IslandMoments.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Silkscreen';
+    src: url('/fonts/Silkscreen.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }

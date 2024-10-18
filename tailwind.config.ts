@@ -12,7 +12,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans], // Extending the sans font family
+        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        allura: ['Allura', 'cursive'],
+        islandmoments: ['IslandMoments', 'cursive'], 
+        silkscreen: ['Silkscreen', 'cursive'],// Extending the sans font family
       },
     },
   },
