@@ -7,7 +7,6 @@ import VideoComponent from "~/components/VideoComponent";
 import { api } from "~/utils/api";
 
 export default function Home() {
-  const hello = api.post.hello.useQuery({ text: "from tRPC" });
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
