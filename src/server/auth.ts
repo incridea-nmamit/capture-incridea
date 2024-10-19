@@ -9,6 +9,7 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import GOOGLEProvider from "next-auth/providers/GOOGLE";
+import { string } from 'zod';
 
 import { env } from "~/env";
 import { db } from "~/server/db";
@@ -23,6 +24,7 @@ declare module "next-auth" {
     user: DefaultSession["user"] & {
       id: string;
       role: Role;
+      name: string;
       // ...other properties
       // role: UserRole;
     };
@@ -45,7 +47,12 @@ export const authOptions: NextAuthOptions = {
       // Retrieve the user's role from the database using Prisma
       const userData = await db.user.findUnique({
         where: { id: user.id },
-        select: { role: true },  // Select the 'role' field from the database
+        select: { role: true ,
+                  name: true,
+
+        },
+
+          // Select the 'role' field from the database
       });
 
       return {
@@ -53,7 +60,8 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: user.id,
-          role: userData?.role || Role.user,  // Assign role to session; fallback to 'USER' if undefined
+          role: userData?.role || Role.user,
+          name: userData?.name ?? 'user',// Assign role to session; fallback to 'USER' if undefined
         },
       };
     },

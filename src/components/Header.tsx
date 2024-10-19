@@ -5,8 +5,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react"; // Import useSession
 import NavLink from "./NavLink";
-import { signOut } from 'next-auth/react'
-import { signIn } from 'next-auth/react'
+import { signOut } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
 const Header: FC = () => {
   const { data: session } = useSession(); // Get session data
@@ -26,11 +26,14 @@ const Header: FC = () => {
 
         {/* Render admin navigation if on /admin route */}
         {isAdminRoute ? (
-          <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg">
+          <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10">
             {session ? (
               <>
                 <NavLink href="/admin/dashboard" label="Dashboard" active={pathname === "/admin/dashboard"} />
-                <NavLink href="/admin/analytics" label="Analytics" active={pathname.startsWith("/admin/analytics")} />
+                {/* Check if the user role is admin before showing the Analytics link */}
+                {session.user.role === 'admin' && (
+                  <NavLink href="/admin/analytics" label="Analytics" active={pathname.startsWith("/admin/analytics")} />
+                )}
                 <button
                   onClick={() => signOut()}
                   className="text-white"
@@ -40,15 +43,18 @@ const Header: FC = () => {
               </>
             ) : (
               <div>
-              <button
-               onClick={async()=> await signIn()}
-              >Sign In</button>
-            </div>
+                <button
+                  onClick={async () => await signIn()}
+                  className="text-white"
+                >
+                  Sign In
+                </button>
+              </div>
             )}
           </nav>
         ) : (
           // Render normal navigation if not on /admin route
-          <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg">
+          <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10">
             <NavLink href="/" label="Home" active={pathname === "/"} />
             <NavLink href="/captures" label="Captures" active={pathname.startsWith("/captures")} />
             <NavLink href="/our-team" label="Our Team" active={pathname.startsWith("/our-team")} />
@@ -65,9 +71,8 @@ const Header: FC = () => {
       </header>
 
       <div
-        className={`fixed inset-y-0 right-0 w-64 bg-black p-6 space-y-6 transform transition-transform duration-300 z-50 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed inset-y-0 right-0 w-64 bg-black p-6 space-y-6 transform transition-transform duration-300 z-50 ${isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         role="dialog"
         aria-modal="true"
       >
@@ -85,19 +90,24 @@ const Header: FC = () => {
             {session ? (
               <>
                 <NavLink href="/admin/dashboard" label="Dashboard" active={pathname === "/admin/dashboard"} onClick={() => setIsOpen(false)} />
-                <NavLink href="/admin/analytics" label="Analytics" active={pathname.startsWith("/admin/analytics")} onClick={() => setIsOpen(false)} />
+                {/* Check if the user role is admin before showing the Analytics link */}
+                {session.user.role === 'admin' && (
+                  <NavLink href="/admin/analytics" label="Analytics" active={pathname.startsWith("/admin/analytics")} onClick={() => setIsOpen(false)} />
+                )}
                 <button
-                  onClick={async() => {
-                    await signIn()
-                    setIsOpen(false);
-                  }}
+                  onClick={() => signOut()}
                   className="text-white"
                 >
                   Sign Out
                 </button>
               </>
             ) : (
-              <NavLink href="/auth/signin" label="Sign In" active={pathname === "/auth/signin"} onClick={() => setIsOpen(false)} />
+              <button
+                className="text-white"
+                onClick={async () => await signIn()}
+              >
+                Sign In
+              </button>
             )}
           </div>
         ) : (

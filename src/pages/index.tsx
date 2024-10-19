@@ -36,10 +36,10 @@ export default function Home() {
             {/* Tagline and Description */}
             <div className="flex flex-col text-white max-w-2xl text-left gap-8">
               <h1 className="font-silkscreen text-5xl font-extrabold mb-4">
-                Today's Memories, in your Gallery Today!
+                Your Memories, Our Passion
               </h1>
               <p className="text-lg">
-                Event photos or story-worthy moments, get them the same day! <br />
+                Get your event photos and story-worthy moments. Experience them the same day! <br />
                 <span className="font-bold">captures.incridea.in</span> has it all !
               </p>
             </div>
