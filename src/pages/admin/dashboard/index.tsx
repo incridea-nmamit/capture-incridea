@@ -1,11 +1,12 @@
 // src/pages/admin/dashboard.tsx
 
 import React, { useEffect, useState } from 'react';
+import TeamAdmin from '~/components/TeamAdmin';
 import useUserRole from '~/hooks/useUserRole'; // Import the custom hook
 
 // Sample Components for Each Option
 const Events = () => <div>Events Component</div>;
-const Team = () => <div>Team Component</div>;
+const Team = () => <TeamAdmin/>;
 const Captures = () => <div>Captures Component</div>;
 
 const Dashboard = () => {

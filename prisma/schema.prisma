@@ -7,38 +7,73 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Events {
+model events {
   id                Int      @id @default(autoincrement())
-  event_name        String
-  event_description String
-  event_log         String
-  event_type        String
-  event_day         String
+  name        String
+  description String
+  log         String
+  type        String
+  day         String
 }
 
-model Team {
-  id                Int      @id @default(autoincrement())
-  name       String
-  committee  String
-  designation String
-  say         String
+
+enum Teamgroup {
+  media
+  digital
+  socialmedia
+  developer
+  none
 }
 
-model WebAnalytics {
+enum position {
+  mediahead
+  mediacohead
+  leadvideographer
+  leadphotographer
+  photographer
+  videographer
+  aerialvideographer
+  socialmediahead
+  socialmediacohead
+  socialmediateam
+  frontenddev
+  backenddev
+  fullstackdev
+  digitalhead
+  digitalcohead
+  digitalteam
+  none
+}
+
+model team {
+  id            Int     @id @default(autoincrement())
+  name          String
+  committee1    Teamgroup
+  committee2    Teamgroup
+  designation1  position
+  designation2  position
+  designation3  position
+  image         String
+  say           String
+}
+
+
+
+model webAnalytics {
   id         Int      @id @default(autoincrement())
   ip_address String
   page_name  String
   date_time  DateTime @default(now())
 }
 
-model DownloadLog {
+model downloadLog {
   id         Int      @id @default(autoincrement())
   ip_address String
   date_time  DateTime @default(now())
   file_path  String
 }
 
-model AuditLog {
+model auditLog {
   id                Int      @id @default(autoincrement())
   user              String
   audit_description String
