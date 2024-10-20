@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Events {
+  id                Int      @id @default(autoincrement())
+  event_name        String
+  event_description String
+  event_log         String
+  event_type        String
+  event_day         String
+}
+
+model Team {
+  id                Int      @id @default(autoincrement())
+  name       String
+  committee  String
+  designation String
+  say         String
+}
+
+model WebAnalytics {
+  id         Int      @id @default(autoincrement())
+  ip_address String
+  page_name  String
+  date_time  DateTime @default(now())
+}
+
+model DownloadLog {
+  id         Int      @id @default(autoincrement())
+  ip_address String
+  date_time  DateTime @default(now())
+  file_path  String
+}
+
+model AuditLog {
+  id                Int      @id @default(autoincrement())
+  user              String
+  audit_description String
+  date_time         DateTime @default(now())
+}
+
+model EventAnalysis {
+  id         Int      @id @default(autoincrement())
+  event_name String
+  ip_address String
+  date_time  DateTime @default(now())
+}
+
+model Gallery {
+  id         Int      @id @default(autoincrement())
+  image_path String
+  image_name String
+  event_name String
+  image_type String
+}
+
+model Stories {
+  id         Int      @id @default(autoincrement())
+  event_name String
+  date_time  DateTime @default(now())
+  file_path  String
+}
+
+enum Role {
+  admin
+  manager
+  editor
+  user
+}
+
+model Account {
+    id                       String  @id @default(cuid())
+    userId                   String
+    type                     String
+    provider                 String
+    providerAccountId        String
+    refresh_token            String? // @db.Text
+    access_token             String? // @db.Text
+    expires_at               Int?
+    token_type               String?
+    scope                    String?
+    id_token                 String? // @db.Text
+    session_state            String?
+    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    refresh_token_expires_in Int?
+
+    @@unique([provider, providerAccountId])
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+    role Role @default(user)
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
