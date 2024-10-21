@@ -8,7 +8,7 @@ We aim to keep this project as simple as possible, so you can start with the sca
 https://excalidraw.com/#room=b0106cfe332e1d99c272,1p9dZTDZh5hmp9toUWfYsw
 
 ### Tech Stack
-[TechStack](https://github.com/user-attachments/assets/8dce1df0-40f3-463f-aac0-425d4ea1079c)
+![TechStack](https://github.com/user-attachments/assets/8dce1df0-40f3-463f-aac0-425d4ea1079c)
 
 - [Next.js](https://nextjs.org)
 - [NextAuth.js](https://next-auth.js.org)
