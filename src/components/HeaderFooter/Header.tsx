@@ -111,7 +111,7 @@ const Header: FC = () => {
           &times;
         </button>
 
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-4 text-white">
           {isAdminRoute ? (
             session ? (
               <>
@@ -138,7 +138,7 @@ const Header: FC = () => {
                   Preview
                 </button>
                 {isMobilePreviewOpen && (
-                  <div className="mt-2 flex flex-col space-y-2 pl-4">
+                  <div className="mt-2 flex flex-col space-y-2 pl-4 ">
                     {subLinks.map((link) => (
                       <NavLink
                         key={link.href}

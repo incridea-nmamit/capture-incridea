@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import TeamAdmin from '~/components/TeamAdminComponent/TeamAdmin';
 import useUserRole from '~/hooks/useUserRole'; // Import the custom hook
-import EventsPage from '~/pages/captures/events';
 import EventsAdmin from '~/components/EventsAdminComponent/EventsAdmin';
 
 // Sample Components for Each Option
@@ -47,7 +46,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row bg-gray-900 text-white min-h-screen">
+    <div className="flex flex-col md:flex-row bg-zinc-800 text-white min-h-screen">
       {/* Sidebar */}
       <div className="md:w-48 w-full p-4 bg-zinc-900">
         <h2 className="text-lg font-bold mb-4">Access Data</h2>
