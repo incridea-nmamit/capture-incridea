@@ -1,3 +1,4 @@
+// tailwind.config.ts
 import { type Config } from "tailwindcss"; // Importing the Config type from Tailwind CSS
 import { fontFamily } from "tailwindcss/defaultTheme"; // Importing default font families
 import {
@@ -7,20 +8,22 @@ import {
 import type { OurFileRouter } from "~/server/uploadthing"; // Importing custom file router type
 
 // Tailwind CSS configuration
-export default {
+const config: Config = {
   content: ["./src/**/*.tsx"], // Specify where to look for class names
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        sans: ["var(--font-geist-sans)", ...fontFamily.sans], // Extending the default sans font family
         allura: ['Allura', 'cursive'],
         islandmoments: ['IslandMoments', 'cursive'], 
-        silkscreen: ['Silkscreen', 'cursive'],// Extending the sans font family
+        silkscreen: ['Silkscreen', 'cursive'],
       },
     },
   },
   plugins: [], // No additional plugins specified
-} satisfies Config; // Ensuring it matches the Config type
+};
+
+export default config;
 
 // Uploadthing button and dropzone components
 export const UploadButton = generateUploadButton<OurFileRouter>();

@@ -53,17 +53,29 @@ const TeamAdmin: React.FC = () => {
     const { name, value } = e.target;
     setTeamForm((prev) => ({ ...prev, [name]: value as any }));
   };
+  const [uploadUrl, setUploadUrl] = useState<string>('');
 
-  const handleSubmit = async (uploadKey: string) => {
-    // Validation: Check required fields
+  const handleUploadComplete = (url: string) => {
+    setUploadUrl(url);
+  };
+
+  const handleSubmit = async () => { // Declare async here
+    let uploadKey = uploadUrl; // Moved this declaration outside the if condition
+  
+    if (!uploadKey) {
+      console.log('No URL to submit');
+      return; // Exit early if no URL
+    }
+  
     if (!teamForm.name || !teamForm.committee1 || !teamForm.designation1 || !uploadKey || !teamForm.say) {
       alert("Please fill in all required fields.");
-      return;
+      return; // Exit early if required fields are not filled
     }
-
+  
     try {
       const result = await addTeam.mutateAsync({ ...teamForm, uploadKey }); // Pass uploadKey here
       console.log('Team added:', result);
+      
       setIsPopupOpen(false);
       setTeamForm({
         name: '',
@@ -75,6 +87,8 @@ const TeamAdmin: React.FC = () => {
       console.error('Error adding team:', error);
     }
   };
+  
+  
 
   const getDesignationOptions = () => {
     switch (teamForm.committee1) {
@@ -105,12 +119,12 @@ const TeamAdmin: React.FC = () => {
   return (
     <div className="relative">
       {/* Search and Filter */}
-      <div className="flex items-center mb-4 space-x-2">
-        <div className="relative w-full">
+      <div className="flex items-center mb-4 space-x-2 h-12">
+        <div className="relative w-1/2">
           <input
             type="text"
             placeholder="Search..."
-            className="p-2 pl-10 border border-slate-700 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="text-black p-2 pl-10 border border-slate-700 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-12"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -132,7 +146,7 @@ const TeamAdmin: React.FC = () => {
         </select>
 
         <button
-          className="m-2 p-2  bg-blue-600 text-white rounded "
+          className="m-2 p-2  bg-blue-600 text-white rounded h-12"
           onClick={() => setIsPopupOpen(true)}
         >
           Add Team
@@ -144,29 +158,29 @@ const TeamAdmin: React.FC = () => {
         <table className="min-w-full bg-black border border-slate-700">
           <thead>
             <tr className="text-black bg-gray-100">
-              <th className="py-2 px-4 border-b border-slate-700">Name</th>
-              <th className="py-2 px-4 border-b border-slate-700">Committee 1</th>
-              <th className="py-2 px-4 border-b border-slate-700">Committee 2</th>
-              <th className="py-2 px-4 border-b border-slate-700">Position 1</th>
-              <th className="py-2 px-4 border-b border-slate-700">Postion 2</th>
-              <th className="py-2 px-4 border-b border-slate-700">Position 3</th>
-              <th className="py-2 px-4 border-b border-slate-700">Say</th>
-              <th className="py-2 px-4 border-b border-slate-700">Image</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Name</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Com-1</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Com-2</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Pos-1</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Pos-2</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Pos-3</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Dialogue</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Image</th>
             </tr>
           </thead>
           <tbody>
             {filteredTeams.length > 0 ? (
               filteredTeams.map((team) => (
                 <tr key={team.id} className="hover:bg-gray-50 hover:text-black">
-                  <td className="py-2 px-4 border-b border-slate-700">{team.name}</td>
-                  <td className="py-2 px-4 border-b border-slate-700">{team.committee1}</td>
-                  <td className="py-2 px-4 border-b border-slate-700">{team.committee2}</td>
-                  <td className="py-2 px-4 border-b border-slate-700">{team.designation1}</td>
-                  <td className="py-2 px-4 border-b border-slate-700">{team.designation2}</td>
-                  <td className="py-2 px-4 border-b border-slate-700">{team.designation3}</td>
-                  <td className="py-2 px-4 border-b border-slate-700">{team.say}</td>
-                  <td className="py-2 px-4 border-b border-slate-700">
-                  <img src={team.image} alt={`${team.name}'s Image`} className="w-16 h-16 object-cover" />
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.name}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.committee1}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.committee2}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation1}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation2}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation3}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.say}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                  <img src={team.image} alt={`${team.name}'s Image`} className="flex justify-center w-16 h-16 object-cover " />
                   </td>
                 </tr>
               ))
@@ -184,14 +198,16 @@ const TeamAdmin: React.FC = () => {
       {/* Popup Form */}
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
-          <div className="bg-black p-6 rounded shadow-lg relative">
+          <div className="bg-black p-6 rounded-3xl shadow-lg relative ">
+            
+            <h2 className="text-center text-xl mb-4">Add Team Member</h2>
             <button
-              className="absolute top-2 right-2 text-black text-lg"
+              className="absolute top-2 right-2 text-white text-4xl px-4 py-2"
               onClick={() => setIsPopupOpen(false)}
             >
               &times;
             </button>
-            <h2 className="text-center text-xl mb-4">Add Team Member</h2>
+            
             <input
               type="text"
               name="name"
@@ -203,19 +219,20 @@ const TeamAdmin: React.FC = () => {
             <div className="flex items-center mb-4">
               <select
                 name="committee1"
-                className="p-2 border border-slate-700 rounded w-full"
+                className="text-black p-2 border border-slate-700 rounded w-full"
                 value={teamForm.committee1}
                 onChange={handleSelectChange}
-              >
-                <option value="media">Media</option>
-                <option value="digital">Digital</option>
-                <option value="socialmedia">Social Media</option>
-                <option value="developer">Developer</option>
+              > Select the Committee
+                <option className='text-black' value="media">Media</option>
+                <option className='text-black' value="digital">Digital</option>
+                <option className='text-black' value="socialmedia">Social Media</option>
+                <option className='text-black' value="developer">Developer</option>
               </select>
               <button
                 className="ml-2 p-2 bg-blue-600 text-white rounded"
                 onClick={() => {
                   setTeamForm((prev) => ({ ...prev, committee2: teamForm.committee1 }));
+                
                 }}
               >
                 +
@@ -225,25 +242,24 @@ const TeamAdmin: React.FC = () => {
             {teamForm.committee2 && (
               <select
                 name="committee2"
-                className="mb-4 p-2 border border-slate-700 rounded w-full"
+                className="text-black mb-4 p-2 border border-slate-700 rounded w-full "
                 value={teamForm.committee2}
                 onChange={handleSelectChange}
               >
-                <option value="media">Media</option>
-                <option value="digital">Digital</option>
-                <option value="socialmedia">Social Media</option>
-                <option value="developer">Developer</option>
+                <option className='text-black' value="media">Media</option>
+                <option className='text-black' value="digital">Digital</option>
+                <option className='text-black' value="socialmedia">Social Media</option>
+                <option className='text-black' value="developer">Developer</option>
               </select>
             )}
 
             <div className="flex items-center mb-4">
               <select
                 name="designation1"
-                className="mb-4 p-2 border border-slate-700 rounded w-full"
+                className="text-black p-2 border border-slate-700 rounded w-full"
                 value={teamForm.designation1}
                 onChange={handleSelectChange}
-              >
-                <option value="">Select Designation 1</option>
+              >                
                 {designationOptions.map((option) => (
                   <option key={option} value={option}>
                     {option.charAt(0).toUpperCase() + option.slice(1)}
@@ -264,7 +280,7 @@ const TeamAdmin: React.FC = () => {
               <div className="flex items-center mb-4">
                 <select
                   name="designation2"
-                  className="mb-4 p-2 border border-slate-700 rounded w-full"
+                  className="p-2 border border-slate-700 rounded w-full"
                   value={teamForm.designation2}
                   onChange={handleSelectChange}
                 >
@@ -309,15 +325,10 @@ const TeamAdmin: React.FC = () => {
               value={teamForm.say}
               onChange={handleInputChange}
             />
-
-            <UploadComponent onUploadComplete={(url) => handleSubmit(url)} />
-
-            <button
-              className="mt-4 w-full p-2 bg-green-600 text-white rounded"
-              onClick={() => handleSubmit('')} // Replace '' with the actual upload key when available
-            >
-              Submit
-            </button>
+          <UploadComponent onUploadComplete={handleUploadComplete} />
+          <button className="mt-4 w-full p-2 bg-green-600 text-white rounded" onClick={handleSubmit}>
+            Submit
+          </button>
           </div>
         </div>
       )}

@@ -1,6 +1,7 @@
 // UploadComponent.tsx
 import { UploadButton } from "~/utils/uploadthing";
 import React from 'react';
+import { UploadDropzone } from "tailwind.config";
 
 interface UploadComponentProps {
   onUploadComplete: (uploadKey: string) => void; // Define the prop type
@@ -9,7 +10,8 @@ interface UploadComponentProps {
 const UploadComponent: React.FC<UploadComponentProps> = ({ onUploadComplete }) => {
   return (
     <div>
-      <UploadButton
+      <UploadDropzone
+        className="bg-black p-[20px] h-50 ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300"
         endpoint="imageUploader"
         onClientUploadComplete={(res) => {
           const uploadKey = res?.[0]?.key; // Safely access 'key'
