@@ -31,7 +31,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 1. Clone the repository
 
 ```bash
-git clone https://github.com/incridea-23/incridea-client.git
+git clone https://github.com/incridea-23/capture-incridea.git
 ```
 
 2. Install all dependencies
