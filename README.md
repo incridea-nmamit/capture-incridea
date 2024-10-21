@@ -7,11 +7,11 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 We aim to keep this project as simple as possible, so you can start with the scaffolding we set up and add additional features as needed.
 
 
-### Tech Stack
+### 🌐 Tech Stack
 ![TechStack](https://github.com/user-attachments/assets/9c53a83e-8522-4a75-973b-bd79e676cdf3)
 
 
-### Cloud Content 
+### ☁️Cloud Content 
 - [Uploadthing](https://uploadthing.com) - For storing and managing cloud uploads
 
 ## 📚 Learn More
