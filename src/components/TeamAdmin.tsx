@@ -124,7 +124,7 @@ const TeamAdmin: React.FC = () => {
           <input
             type="text"
             placeholder="Search..."
-            className="text-black p-2 pl-10 border border-slate-700 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-12"
+            className="text-white p-2 pl-10 border border-slate-700 w-full rounded focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -134,7 +134,7 @@ const TeamAdmin: React.FC = () => {
         </div>
 
         <select
-          className="ml-2 p-2 border border-slate-700 rounded text-black h-full"
+          className="ml-2 p-2 border border-slate-700 rounded text-white h-full bg-black"
           value={selectedFilter}
           onChange={(e) => setSelectedFilter(e.target.value)}
         >
@@ -146,7 +146,7 @@ const TeamAdmin: React.FC = () => {
         </select>
 
         <button
-          className="m-2 p-2  bg-blue-600 text-white rounded h-12"
+          className="m-2 p-2  bg-black  text-white rounded h-12"
           onClick={() => setIsPopupOpen(true)}
         >
           Add Team
