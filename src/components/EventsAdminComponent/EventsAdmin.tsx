@@ -133,30 +133,30 @@ const EventsAdmin: React.FC = () => {
         <div>Error loading events. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300">
+          <table className="min-w-full border border-gray-300 bg-black">
             <thead className="bg-white">
               <tr>
                 <th className="text-black border border-gray-300 p-2">ID</th>
                 <th className="text-black border border-gray-300 p-2">Name</th>
-                <th className="text-black border border-gray-300 p-2">Description</th>
-                <th className="text-black border border-gray-300 p-2">Image</th>
+                <th className="text-black border border-gray-300 p-2">Description</th>                
                 <th className="text-black border border-gray-300 p-2">Type</th>
                 <th className="text-black border border-gray-300 p-2">Day</th>
                 <th className="text-black border border-gray-300 p-2">Visibility</th>
+                <th className="text-black border border-gray-300 p-2">Image</th>
               </tr>
             </thead>
             <tbody>
               {filteredEvents?.map((event) => (
-                <tr key={event.id}>
-                  <td className="border border-gray-300 p-2">{event.id}</td>
-                  <td className="border border-gray-300 p-2">{event.name}</td>
-                  <td className="border border-gray-300 p-2">{event.description}</td>
-                  <td className="border border-gray-300 p-2">
+                <tr key={event.id} className='hover:bg-gray-50 hover:text-black'>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{event.id}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{event.name}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{event.description}</td>                  
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{event.type}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{event.day}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{event.visibility}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">
                     <img src={event.image} alt={event.name} className="h-16 w-16 object-cover" />
                   </td>
-                  <td className="border border-gray-300 p-2">{event.type}</td>
-                  <td className="border border-gray-300 p-2">{event.day}</td>
-                  <td className="border border-gray-300 p-2">{event.visibility}</td>
                 </tr>
               ))}
             </tbody>
