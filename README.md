@@ -11,7 +11,7 @@ If you are not familiar with the different technologies used in this project, pl
 - [Next.js](https://nextjs.org)
 - [NextAuth.js](https://next-auth.js.org)
 - [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
+- [PostgreSQL](https://www.postgresql.org/)
 - [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
 
@@ -26,4 +26,24 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## How do I deploy this?
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+### Local setup
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/incridea-23/incridea-client.git
+```
+
+2. Install all dependencies
+
+```bash
+npm i
+```
+
+3. Run the development server:
+
+```bash
+npm run dev
+```
+
+> Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
