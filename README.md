@@ -6,7 +6,6 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 
 We aim to keep this project as simple as possible, so you can start with the scaffolding we set up and add additional features as needed.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective documentation. If you still have questions, join our [GOOGLE](https://t3.gg/GOOGLE) group for help.
 
 ### Tech Stack
 
