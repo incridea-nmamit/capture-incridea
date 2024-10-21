@@ -321,7 +321,7 @@ const TeamAdmin: React.FC = () => {
             <textarea
               name="say"
               placeholder="Say something about the team member..."
-              className="mb-4 p-2 border border-slate-700 rounded w-full"
+              className="mb-1 p-2 border border-slate-700 rounded w-full"
               value={teamForm.say}
               onChange={handleInputChange}
             />
