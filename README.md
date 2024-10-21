@@ -5,7 +5,7 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 ## 🚀 Getting Started
 
 We aim to keep this project as simple as possible, so you can start with the scaffolding we set up and add additional features as needed.
-
+https://excalidraw.com/#room=b0106cfe332e1d99c272,1p9dZTDZh5hmp9toUWfYsw
 
 ### Tech Stack
 
