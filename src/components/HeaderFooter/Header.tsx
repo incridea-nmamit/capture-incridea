@@ -15,7 +15,7 @@ const Header: FC = () => {
   const isAdminRoute = pathname.startsWith("/admin");
 
   const subLinks = [
-    { href: "/admin/events", label: "Events" },
+    { href: "/admin/events", label: "Events"},
     { href: "/admin/team", label: "Team" },
   ];
 
@@ -26,8 +26,8 @@ const Header: FC = () => {
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
       <header className="bg-black shadow-md p-4 flex items-center justify-between">
         <div className="flex items-center space-x-4 px-5">
-          <Image src="/images/inc.png" alt="Logo" width={120} height={70} />
-          <Image src="/images/mxsmc.png" alt="Small Logo" width={180} height={40} />
+          <a href="/"><Image src="/images/inc.png" alt="Logo" width={120} height={70} /></a>
+          <Image src="/images/mxsmc.png" alt="Small Logo" width={110} height={30} />
         </div>
 
         <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10">
@@ -38,12 +38,14 @@ const Header: FC = () => {
                   href="/admin/dashboard"
                   label="Dashboard"
                   active={pathname === "/admin/dashboard"}
+                  className="font-velocista"
                 />
                 {session.user.role === "admin" && (
                   <NavLink
                     href="/admin/analytics"
                     label="Analytics"
                     active={pathname.startsWith("/admin/analytics")}
+                    className="font-velocista"
                   />
                 )}
 
@@ -52,7 +54,7 @@ const Header: FC = () => {
                   onMouseEnter={() => setIsPreviewOpen(true)}
                   onMouseLeave={() => setIsPreviewOpen(false)}
                 >
-                  <button className={isPreviewActive ? "border-b-2 border-white" : ""}>
+                  <button className={isPreviewActive ? " border-b-2 border-white" : "font-velocista"}>
                     Preview
                   </button>
                   {isPreviewOpen && (
@@ -63,26 +65,27 @@ const Header: FC = () => {
                           href={link.href}
                           label={link.label}
                           active={pathname === link.href}
+                          className="font-velocista"
                         />
                       ))}
                     </div>
                   )}
                 </div>
 
-                <button onClick={() => signOut()} className="text-white">
-                  Sign Out
+                <button onClick={() => signOut()} className="text-white font-velocista">
+                  Logout
                 </button>
               </>
             ) : (
-              <button onClick={() => signIn()} className="text-white">
+              <button onClick={() => signIn()} className="text-white font-velocista">
                 Sign In
               </button>
             )
           ) : (
             <>
-              <NavLink href="/" label="Home" active={pathname === "/"} />
-              <NavLink href="/captures" label="Captures" active={pathname.startsWith("/captures")} />
-              <NavLink href="/our-team" label="Our Team" active={pathname.startsWith("/our-team")} />
+              <NavLink className="font-velocista" href="/" label="Home" active={pathname === "/"} />
+              <NavLink className="font-velocista" href="/captures" label="Captures" active={pathname.startsWith("/captures")} />
+              <NavLink className="font-velocista" href="/our-team" label="Our Team" active={pathname.startsWith("/our-team")} />
             </>
           )}
         </nav>
@@ -167,6 +170,7 @@ const Header: FC = () => {
                 label="Captures"
                 active={pathname.startsWith("/captures")}
                 onClick={() => setIsOpen(false)}
+                className="font-velocista"
               />
               <NavLink
                 href="/our-team"

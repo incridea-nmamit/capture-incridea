@@ -17,6 +17,7 @@ const config: Config = {
         allura: ['Allura', 'cursive'],
         islandmoments: ['IslandMoments', 'cursive'], 
         silkscreen: ['Silkscreen', 'cursive'],
+        velocista: ['Velocista', 'cursive'],
       },
     },
   },

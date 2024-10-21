@@ -83,30 +83,16 @@ const EventsAdmin: React.FC = () => {
   };
 
   const handleVisibilityChange = async (id: number, name: string, currentState: string) => {
-    const newState = currentState === "active" ? "inactive" : "active";
-  
-    if (confirm(`Do you want to change the visibility of ${name} from ${currentState} to ${newState}?`)) {
+    const newState = currentState === "active" ? "inactive" : "active";    
       try {
         await updateVisibility.mutateAsync({ id });
         console.log(`Visibility updated to ${newState}`);
+        setVisibilityPopup(null)
         refetch(); // Refetch events after visibility change
       } catch (error) {
         console.error('Error updating visibility:', error);
       }
-    }
   };
-
-  const handleSliderChange = async () => {
-    if (!visibilityPopup) return;
-    try {
-      await updateVisibility.mutateAsync({ id: visibilityPopup.id });
-      setVisibilityPopup(null);
-      refetch(); // Refetch events after successful update
-    } catch (error) {
-      console.error('Error updating visibility:', error);
-    }
-  };
-
   const filteredEvents = events?.filter(event => {
     const matchesSearchTerm = event.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesEventType = selectedEventType === 'all' || event.type === selectedEventType;
@@ -117,12 +103,12 @@ const EventsAdmin: React.FC = () => {
 
   return (
     <div className="p-4">   
-      <div className="mb-4 flex gap-2">
-        <div className="relative w-1/4">
+      <div className="mb-4 flex gap-2 flex-wrap">
+        <div className="relative w-1/2">
           <input
             type="text"
             placeholder="Search..."
-            className="text-white p-2 pl-10 border border-slate-700 w-full rounded focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black"
+            className="font-silkscreen text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -134,29 +120,29 @@ const EventsAdmin: React.FC = () => {
         <select
           value={selectedEventType}
           onChange={(e) => setSelectedEventType(e.target.value)}
-          className="p-2 rounded-none bg-black h-12"
+          className="p-2 rounded-xl bg-black h-12 font-silkscreen"
         >
-          <option value="all">All</option>
-          <option value="core">Core</option>
-          <option value="technical">Technical</option>
-          <option value="nontechnical">Non Technical</option>
-          <option value="special">Special</option>
+          <option className='font-silkscreen' value="all">All</option>
+          <option className='font-silkscreen' value="core">Core</option>
+          <option className='font-silkscreen' value="technical">Technical</option>
+          <option className='font-silkscreen' value="nontechnical">Non Technical</option>
+          <option className='font-silkscreen' value="special">Special</option>
         </select>
 
         <select
           value={selectedDay}
           onChange={(e) => setSelectedDay(e.target.value)}
-          className="p-2 rounded-none bg-black h-12"
+          className="p-2 rounded-xl bg-black h-12 font-silkscreen"
         >
-          <option value="all">All</option>
-          <option value="day1">Day 1</option>
-          <option value="day2">Day 2</option>
-          <option value="day3">Day 3</option>
+          <option className='font-silkscreen' value="all">All</option>
+          <option className='font-silkscreen' value="day1">Day 1</option>
+          <option className='font-silkscreen' value="day2">Day 2</option>
+          <option className='font-silkscreen' value="day3">Day 3</option>
         </select>
 
         <button
           onClick={handleAddEventClick}
-          className="bg-blue-500 text-white p-2 rounded-r h-12"
+          className="bg-black text-white p-2 rounded-xl h-12 font-silkscreen" 
         >
           Add
         </button>
@@ -164,7 +150,7 @@ const EventsAdmin: React.FC = () => {
         {/* Reload Button */}
         <button
           onClick={() => refetch()} // Wrap refetch in an arrow function
-          className="bg-gray-500 text-white p-2 rounded"
+          className="flex items-center bg-black text-white p-2 rounded-xl font-silkscreen"
         >
           <FaSync />
         </button>
@@ -175,34 +161,34 @@ const EventsAdmin: React.FC = () => {
       {isLoading ? (
         <div>Loading...</div>
       ) : isError ? (
-        <div>Error loading events. Please try again later.</div>
+        <div className='font-silkscreen'>Error loading events. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-300 bg-black">
             <thead className="bg-white">
               <tr>
-                <th className="text-black border border-gray-300 p-2">Name</th>
-                <th className="text-black border border-gray-300 p-2">Description</th>                
-                <th className="text-black border border-gray-300 p-2">Type</th>
-                <th className="text-black border border-gray-300 p-2">Day</th>
-                <th className="text-black border border-gray-300 p-2">Visibility</th>
-                <th className="text-black border border-gray-300 p-2">Image</th>
+                <th className="font-silkscreen text-black border border-gray-300 p-2">Name</th>
+                <th className="font-silkscreen text-black border border-gray-300 p-2">Description</th>                
+                <th className="font-silkscreen text-black border border-gray-300 p-2">Type</th>
+                <th className="font-silkscreen text-black border border-gray-300 p-2">Day</th>
+                <th className="font-silkscreen text-black border border-gray-300 p-2">Visibility</th>
+                <th className="font-silkscreen text-black border border-gray-300 p-2">Image</th>
               </tr>
             </thead>
             <tbody>
               {filteredEvents?.map((event) => (
                 <tr key={event.id} className='hover:bg-gray-50 hover:text-black'>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{event.name.toUpperCase()}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{event.description.toUpperCase()}</td>                  
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{event.type.toUpperCase()}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{event.day.toUpperCase()}</td>
+                  <td className="font-silkscreen py-2 px-4 border-b border-slate-700 text-center">{event.name.toUpperCase()}</td>
+                  <td className="font-silkscreen py-2 px-4 border-b border-slate-700 text-center">{event.description.toUpperCase()}</td>                  
+                  <td className="font-silkscreen py-2 px-4 border-b border-slate-700 text-center">{event.type.toUpperCase()}</td>
+                  <td className="font-silkscreen py-2 px-4 border-b border-slate-700 text-center">{event.day.toUpperCase()}</td>
                   <td
-                    className="py-2 px-4 border-b border-slate-700 text-center cursor-pointer"
+                    className="font-silkscreen py-2 px-4 border-b border-slate-700 text-center cursor-pointer"
                     onDoubleClick={() => handleDoubleClickVisibility(event)}
                   >
                     {event.visibility.toUpperCase()}
                   </td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                  <td className="font-silkscreen py-2 px-4 border-b border-slate-700 text-center">
                     <img src={event.image} alt={event.name} className="h-16 w-16 object-cover" />
                   </td>
                 </tr>
@@ -271,8 +257,8 @@ const EventsAdmin: React.FC = () => {
 
       {/* Popup for Visibility Change */}
       {visibilityPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-4 rounded shadow-lg w-96">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
+          <div className="bg-black p-4 rounded shadow-lg w-96">
             <h2 className="text-lg font-bold mb-2">Change Visibility</h2>
             <p>Current Visibility: {visibilityPopup.currentVisibility}</p>
             <p>Change to: {visibilityPopup.newVisibility}</p>

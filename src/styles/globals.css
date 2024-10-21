@@ -21,3 +21,10 @@
     font-weight: normal;
     font-style: normal;
   }
+
+  @font-face {
+    font-family: 'Velocista';
+    src: url('/fonts/Velocista.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
