@@ -14,8 +14,14 @@ model events {
   log         String
   type        String
   day         String
+  visibility  State
 }
 
+
+enum State {
+  active
+  inactive  
+}
 
 enum Teamgroup {
   media
