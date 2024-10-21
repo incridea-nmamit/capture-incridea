@@ -15,6 +15,8 @@ We aim to keep this project as simple as possible, so you can start with the sca
 - [PostgreSQL](https://www.postgresql.org/)
 - [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
+
+### Cloud Content 
 - [Uploadthing](https://uploadthing.com) - For storing and managing cloud uploads
 
 ## 📚 Learn More
