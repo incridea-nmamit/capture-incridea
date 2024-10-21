@@ -8,7 +8,8 @@ We aim to keep this project as simple as possible, so you can start with the sca
 
 
 ### Tech Stack
-![TechStack](https://github.com/user-attachments/assets/8dce1df0-40f3-463f-aac0-425d4ea1079c)
+![TechStack](https://github.com/user-attachments/assets/9c53a83e-8522-4a75-973b-bd79e676cdf3)
+
 
 ### Cloud Content 
 - [Uploadthing](https://uploadthing.com) - For storing and managing cloud uploads
