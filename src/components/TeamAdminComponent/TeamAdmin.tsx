@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { api } from '~/utils/api';
 import { FaSearch } from 'react-icons/fa';
-import UploadComponent from './UploadComponent';
+import UploadComponent from '../UploadComponent';
 
 type Committee = 'media' | 'digital' | 'socialmedia' | 'developer';
 type MediaDesignation = 'mediahead' | 'mediacohead' | 'leadvideographer' | 'leadphotographer' | 'photographer' | 'videographer' | 'aerialvideographer';
@@ -87,25 +87,7 @@ const TeamAdmin: React.FC = () => {
       console.error('Error adding team:', error);
     }
   };
-  
-  
-
-  const getDesignationOptions = () => {
-    switch (teamForm.committee1) {
-      case 'media':
-        return ['mediahead', 'mediacohead', 'leadvideographer', 'leadphotographer', 'photographer', 'videographer', 'aerialvideographer'];
-      case 'socialmedia':
-        return ['socialmediahead', 'socialmediacohead', 'socialmediateam'];
-      case 'developer':
-        return ['frontenddev', 'backenddev', 'fullstackdev'];
-      case 'digital':
-        return ['digitalhead', 'digitalcohead', 'digitalteam'];
-      default:
-        return [];
-    }
-  };
-
-  const designationOptions = [
+    const designationOptions = [
     'mediahead', 'mediacohead', 'leadvideographer', 'leadphotographer',
     'photographer', 'videographer', 'aerialvideographer',
     'socialmediahead', 'socialmediacohead', 'socialmediateam',

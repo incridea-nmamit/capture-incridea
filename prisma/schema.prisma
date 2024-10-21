@@ -11,12 +11,24 @@ model events {
   id                Int      @id @default(autoincrement())
   name        String
   description String
-  log         String
-  type        String
-  day         String
+  image         String
+  type        EventType
+  day         Day
   visibility  State
 }
 
+enum EventType {
+  core
+  technical
+  nontechnical
+  special
+}
+
+enum Day {
+  day1
+  day2
+  day3
+}
 
 enum State {
   active

@@ -1,4 +1,4 @@
-// app/components/EventCard.tsx
+//components/EventCard.tsx
 import { FC } from "react";
 
 interface EventCardProps {
