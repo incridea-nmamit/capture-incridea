@@ -154,13 +154,13 @@ const TeamAdmin: React.FC = () => {
             {filteredTeams.length > 0 ? (
               filteredTeams.map((team) => (
                 <tr key={team.id} className="hover:bg-gray-50 hover:text-black">
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.name}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.committee1}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.committee2}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation1}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation2}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation3}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.say}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.name.toUpperCase()}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.committee1.toUpperCase()}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.committee2.toUpperCase()}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation1.toUpperCase()}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation2.toUpperCase()}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation3.toUpperCase()}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{team.say.toUpperCase()}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
                   <img src={team.image} alt={`${team.name}'s Image`} className="flex justify-center w-16 h-16 object-cover " />
                   </td>
