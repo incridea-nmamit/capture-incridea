@@ -42,30 +42,30 @@ export const eventRouter = createTRPCRouter({
     }),
 
   // Update event visibility (toggle between active and inactive)
-  updateEventVisibility: protectedProcedure
-  .input(
-    z.object({
-      id: z.number().min(1, "Event ID is required"),
-    })
-  )
-  .mutation(async ({ ctx, input }) => {
-    const event = await ctx.db.events.findUnique({
-      where: { id: input.id },
-    });
+    updateEventVisibility: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, "Event ID is required"),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const event = await ctx.db.events.findUnique({
+        where: { id: input.id },
+      });
 
-    if (!event) {
-      throw new Error("Event not found");
-    }
+      if (!event) {
+        throw new Error("Event not found");
+      }
 
-    const updatedEvent = await ctx.db.events.update({
-      where: { id: input.id },
-      data: {
-        visibility: event.visibility === "active" ? "inactive" : "active",
-      },
-    });
+      const updatedEvent = await ctx.db.events.update({
+        where: { id: input.id },
+        data: {
+          visibility: event.visibility === "active" ? "inactive" : "active",
+        },
+      });
 
-    return updatedEvent;
-  }),
+      return updatedEvent;
+    }),
   // Delete an event
   deleteEvent: protectedProcedure
     .input(
