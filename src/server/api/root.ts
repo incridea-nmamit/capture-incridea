@@ -11,6 +11,7 @@ export const appRouter = createTRPCRouter({
   post: postRouter,
   team: teamRouter,
   events: eventRouter
+  
 });
 
 

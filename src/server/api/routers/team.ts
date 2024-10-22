@@ -11,6 +11,52 @@ import {
       const teams = await ctx.db.team.findMany({});
       return teams ?? null;
     }),
+    getMediaTeams: protectedProcedure.query(async ({ ctx }) => {
+      // Fetch teams where either committee1 or committee2 is 'media'
+      const teams = await ctx.db.team.findMany({
+        where: {
+          OR: [
+            { committee1: 'media' },
+            { committee2: 'media' },
+          ],
+        },
+      });
+    
+      // Valid media-related designations to filter by
+      const mediaDesignations = [
+        'mediahead',
+        'mediacohead',
+        'leadvideographer',
+        'leadphotographer',
+        'photographer',
+        'videographer',
+        'aerialvideographer',
+      ];
+    
+      // Filter and restructure each team object
+      const filteredTeams = teams.map((team) => {
+        // Collect valid media designations from designation1, 2, and 3
+        const combinedDesignations = [
+          team.designation1,
+          team.designation2,
+          team.designation3,
+        ]
+          .filter((designation) => designation && mediaDesignations.includes(designation))
+          .join(', '); // Join them into a single string
+    
+        // Return a new team object with only the required fields
+        return {
+          id: team.id, // Keep essential fields like ID (add more if needed)
+          name: team.name, // Add name or other fields you want to keep
+          committee: 'media', // Always set 'media' if the team is in the media committee
+          designation: combinedDesignations,
+          image: team.image, // Use combined designations
+          say: team.say,
+        };
+      });
+    
+      return filteredTeams.length > 0 ? filteredTeams : null;
+    }),    
     
     addTeam: protectedProcedure
       .input(

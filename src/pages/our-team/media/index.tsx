@@ -1,37 +1,49 @@
-"use client";
+import { api } from '~/utils/api';
+import React, { useEffect, useState } from 'react';
+import TeamCard from '~/components/TeamCard'; // Adjust path if needed
 
-import Card from "~/components/Card";
+const MediaCommittee: React.FC = () => {
+  const { data: teamMembers, isLoading, error } = api.team.getMediaTeams.useQuery(); // Fetch data with tRPC
 
+  if (isLoading) {
+    return <div className="text-white">Loading...</div>;
+  }
 
+  if (error) {
+    return <div className="text-red-500">Error loading media teams: {error.message}</div>;
+  }
 
-const MediaCommitteePage = () => {
-  // Sample data for 5 random members
-  const teamMembers = [
-    { name: "Abishek ", designation: "Media Head", imageSrc: "/images/team/media/abhishek.png" },
-    { name: "Gautam", designation: "Media Co-Head", imageSrc: "/images/team/media/gautham.png" },
-  ];
+  if (!teamMembers || teamMembers.length === 0) {
+    return <div className="text-white">No media team members found.</div>;
+  }
 
   return (
-    <div className="flex flex-col items-center  bg-black">
+    <div className="flex flex-col items-center bg-black">
       {/* Title Section */}
-      <div className="relative w-full h-[50vh] md:h-[60vh] bg-cover bg-center" style={{ backgroundImage: "url('/images/media-bg.png')" }}>
+      <div
+        className="relative w-full h-[50vh] md:h-[60vh] bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/media-bg.png')" }}
+      >
         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white text-center">Media Committee</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white text-center">
+            Media Committee
+          </h1>
           <p className="mt-2 text-base md:text-lg text-gray-300 max-w-2xl text-center">
-            Capturing the spirit of our fest through stunning visuals. Our media team is dedicated to delivering high-quality content.
+            Capturing the spirit of our fest through stunning visuals. Our media
+            team is dedicated to delivering high-quality content.
           </p>
         </div>
       </div>
 
       {/* Cards Section */}
-      <div className="py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8 ">
-        {/* Render Card components for each team member */}
+      <div className="py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
         {teamMembers.map((member, index) => (
-          <Card
+          <TeamCard
             key={index}
-            imageSrc={member.imageSrc} // Replace with actual image path
+            imageSrc={member.image} // Assuming 'image' is the correct field from your database
             name={member.name}
             designation={member.designation}
+            say={member.say}
           />
         ))}
       </div>
@@ -39,4 +51,4 @@ const MediaCommitteePage = () => {
   );
 };
 
-export default MediaCommitteePage;
+export default MediaCommittee;

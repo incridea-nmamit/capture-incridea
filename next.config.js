@@ -1,6 +1,6 @@
 /**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
- * for Docker builds.
+ * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
+ * This is especially useful for Docker builds.
  */
 await import("./src/env.js");
 
@@ -17,7 +17,18 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
   transpilePackages: ["geist"],
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'utfs.io',
+        pathname: '/**',
+      },
+    ],
+  },
 };
 
 export default config;
