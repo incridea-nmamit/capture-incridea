@@ -18,6 +18,7 @@ const config: Config = {
         islandmoments: ['IslandMoments', 'cursive'], 
         silkscreen: ['Silkscreen', 'cursive'],
         velocista: ['Velocista', 'cursive'],
+        brigends:['brigends','cursive'],
       },
     },
   },
