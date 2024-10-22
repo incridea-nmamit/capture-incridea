@@ -21,7 +21,7 @@ const SocialMediaPage: React.FC = () => {
   return (
     <div className="flex flex-col items-center  bg-black">
       {/* Title Section */}
-      <div className="relative w-full h-[50vh] md:h-[60vh] bg-cover bg-center" style={{ backgroundImage: "url('/images/socialmedia-bg.png')" }}>
+      <div className="relative w-full h-[50vh] md:h-[40vh] bg-cover bg-center" style={{ backgroundImage: "url('/images/socialmedia-bg.png')" }}>
         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4">
           <h1 className="text-4xl md:text-5xl font-extrabold text-white text-center">Social Media Team</h1>
           <p className="mt-2 text-base md:text-lg text-gray-300 max-w-2xl text-center">
