@@ -41,8 +41,8 @@ const MediaCommittee: React.FC = () => {
           <TeamCard
             key={index}
             imageSrc={member.image} // Assuming 'image' is the correct field from your database
-            name={member.name}
-            designation={member.designation}
+            name={member.name.toUpperCase()}
+            designation={member.designation.toUpperCase()}
             say={member.say}
           />
         ))}

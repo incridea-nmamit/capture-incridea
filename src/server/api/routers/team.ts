@@ -56,6 +56,132 @@ import {
       });
     
       return filteredTeams.length > 0 ? filteredTeams : null;
+    }), 
+    getSocialMediaTeams: protectedProcedure.query(async ({ ctx }) => {
+      // Fetch teams where either committee1 or committee2 is 'media'
+      const teams = await ctx.db.team.findMany({
+        where: {
+          OR: [
+            { committee1: 'socialmedia' },
+            { committee2: 'socialmedia' },
+          ],
+        },
+      });
+    
+      // Valid media-related designations to filter by
+      const socialMediaDesignations = [
+        "socialmediahead",
+        "socialmediacohead",
+        "socialmediateam"
+      ];
+    
+      // Filter and restructure each team object
+      const filteredTeams = teams.map((team) => {
+        // Collect valid media designations from designation1, 2, and 3
+        const combinedDesignations = [
+          team.designation1,
+          team.designation2,
+          team.designation3,
+        ]
+          .filter((designation) => designation && socialMediaDesignations.includes(designation))
+          .join(', '); // Join them into a single string
+    
+        // Return a new team object with only the required fields
+        return {
+          id: team.id, // Keep essential fields like ID (add more if needed)
+          name: team.name, // Add name or other fields you want to keep
+          committee: 'socialmedia', // Always set 'media' if the team is in the media committee
+          designation: combinedDesignations,
+          image: team.image, // Use combined designations
+          say: team.say,
+        };
+      });
+    
+      return filteredTeams.length > 0 ? filteredTeams : null;
+    }), 
+    getDevTeams: protectedProcedure.query(async ({ ctx }) => {
+      // Fetch teams where either committee1 or committee2 is 'media'
+      const teams = await ctx.db.team.findMany({
+        where: {
+          OR: [
+            { committee1: 'developer' },
+            { committee2: 'developer' },
+          ],
+        },
+      });
+    
+      // Valid media-related designations to filter by
+      const devDesignations = [
+        "frontenddev",
+        "backenddev",
+        "fullstackdev",
+      ];
+    
+      // Filter and restructure each team object
+      const filteredTeams = teams.map((team) => {
+        // Collect valid media designations from designation1, 2, and 3
+        const combinedDesignations = [
+          team.designation1,
+          team.designation2,
+          team.designation3,
+        ]
+          .filter((designation) => designation && devDesignations.includes(designation))
+          .join(', '); // Join them into a single string
+    
+        // Return a new team object with only the required fields
+        return {
+          id: team.id, // Keep essential fields like ID (add more if needed)
+          name: team.name, // Add name or other fields you want to keep
+          committee: 'developer', // Always set 'media' if the team is in the media committee
+          designation: combinedDesignations,
+          image: team.image, // Use combined designations
+          say: team.say,
+        };
+      });
+    
+      return filteredTeams.length > 0 ? filteredTeams : null;
+    }), 
+    getDigitalTeams: protectedProcedure.query(async ({ ctx }) => {
+      // Fetch teams where either committee1 or committee2 is 'media'
+      const teams = await ctx.db.team.findMany({
+        where: {
+          OR: [
+            { committee1: 'digital' },
+            { committee2: 'digital' },
+          ],
+        },
+      });
+    
+      // Valid media-related designations to filter by
+      const digitalDesignations = [
+        "digitalhead",
+        "digitalcohead",
+        "digitalteam",
+      ];
+    
+      // Filter and restructure each team object
+      const filteredTeams = teams.map((team) => {
+        // Collect valid media designations from designation1, 2, and 3
+        const combinedDesignations = [
+          team.designation1,
+          team.designation2,
+          team.designation3,
+        ]
+          .filter((designation) => designation && digitalDesignations.includes(designation))
+          .join(', '); // Join them into a single string
+    
+        // Return a new team object with only the required fields
+        return {
+          id: team.id, // Keep essential fields like ID (add more if needed)
+          name: team.name, // Add name or other fields you want to keep
+          committee: 'digital', // Always set 'media' if the team is in the media committee
+          designation: combinedDesignations,
+          image: team.image, // Use combined designations
+          say: team.say,
+        };
+      });
+    
+      return filteredTeams.length > 0 ? filteredTeams : null;
     }),    
     
     addTeam: protectedProcedure
