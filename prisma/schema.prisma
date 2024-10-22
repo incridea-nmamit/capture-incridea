@@ -110,7 +110,6 @@ model Gallery {
   image_path String
   image_name String
   event_name String
-  image_type String
 }
 
 model Stories {

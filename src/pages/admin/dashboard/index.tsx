@@ -4,11 +4,12 @@ import React, { useEffect, useState } from 'react';
 import TeamAdmin from '~/components/TeamAdminComponent/TeamAdmin';
 import useUserRole from '~/hooks/useUserRole'; // Import the custom hook
 import EventsAdmin from '~/components/EventsAdminComponent/EventsAdmin';
+import CapturesAdmin from '~/components/CapturesAdminComponent/CapturesAdmin';
 
 // Sample Components for Each Option
 const Events = () => <EventsAdmin/>;
 const Team = () => <TeamAdmin/>;
-const Captures = () => <div>Captures Component</div>;
+const Captures = () => <CapturesAdmin/>;
 
 const Dashboard = () => {
   const userRole = useUserRole(); // Fetch user role in real-time
