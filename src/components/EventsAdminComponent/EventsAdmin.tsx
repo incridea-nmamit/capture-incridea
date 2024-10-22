@@ -258,12 +258,16 @@ const EventsAdmin: React.FC = () => {
       {/* Popup for Visibility Change */}
       {visibilityPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
-          <div className="bg-black p-4 rounded shadow-lg w-96">
-            <h2 className="text-lg font-bold mb-2">Change Visibility</h2>
-            <p>Current Visibility: {visibilityPopup.currentVisibility}</p>
-            <p>Change to: {visibilityPopup.newVisibility}</p>
-            <button onClick={() => handleVisibilityChange(visibilityPopup.id, visibilityPopup.name, visibilityPopup.currentVisibility)} className="bg-blue-500 text-white p-2 rounded mt-2">Confirm</button>
-            <button onClick={() => setVisibilityPopup(null)} className="mt-2 text-red-500">Cancel</button>
+          <div className="flex-col justify-center bg-black p-14 rounded-3xl shadow-lg w-[40vw] h-auto ">
+            <h2 className="text-lg font-bold mb-2 text-center">Change Visibility</h2>
+            <div>
+              <p className='text-center'>Current Visibility: {visibilityPopup.currentVisibility.toUpperCase()}</p>
+              <p className='text-center'>Change to: {visibilityPopup.newVisibility.toUpperCase()}</p>
+              <div className='flex justify-center gap-5 p-5'>
+                <button onClick={() => handleVisibilityChange(visibilityPopup.id, visibilityPopup.name, visibilityPopup.currentVisibility)} className="  bg-white text-black p-2 rounded mt-2">Confirm ✓</button>
+                <button onClick={() => setVisibilityPopup(null)} className="  bg-white text-black p-2 rounded mt-2">Cancel ✕</button>
+              </div>
+            </div>
           </div>
         </div>
       )}
