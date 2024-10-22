@@ -24,9 +24,14 @@ const Header: FC = () => {
 
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
-      <header className="bg-black shadow-md p-4 flex items-center justify-between flex-wrap">
-        <div className="flex items-center space-x-4 px-5">
-        <a href="https://incridea.in" rel="noopener noreferrer">
+      <header className="bg-black shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start">
+        {/* Logo Section */}
+        <div className="flex items-center w-full md:w-auto">
+          <a
+            href="https://incridea.in"
+            rel="noopener noreferrer"
+            className="mx-auto md:mx-0"
+          >
             <Image
               src="/images/inc.png"
               alt="Logo"
@@ -35,15 +40,9 @@ const Header: FC = () => {
               className="w-auto h-auto max-w-full"
             />
           </a>
-          {/* <Image
-            src="/images/mxsmc.png"
-            alt="Small Logo"
-            width={110}  // Remove comments if include logo for capture
-            height={30}
-            className="w-auto h-auto max-w-full"
-          /> */}
         </div>
 
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10">
           {isAdminRoute ? (
             session ? (
@@ -52,14 +51,14 @@ const Header: FC = () => {
                   href="/admin/dashboard"
                   label="Dashboard"
                   active={pathname === "/admin/dashboard"}
-                  className=""
+                  className="text-xl"
                 />
                 {session.user.role === "admin" && (
                   <NavLink
                     href="/admin/analytics"
                     label="Analytics"
                     active={pathname.startsWith("/admin/analytics")}
-                    className=""
+                    className="text-xl"
                   />
                 )}
                 <div
@@ -68,11 +67,7 @@ const Header: FC = () => {
                   onMouseLeave={() => setIsPreviewOpen(false)}
                 >
                   <button
-                    className={
-                      isPreviewActive
-                        ? "border-b-2 border-white"
-                        : ""
-                    }
+                    className={isPreviewActive ? "border-b-2 border-white text-xl" : ""}
                   >
                     Preview
                   </button>
@@ -84,60 +79,56 @@ const Header: FC = () => {
                           href={link.href}
                           label={link.label}
                           active={pathname === link.href}
-                          className=""
                         />
                       ))}
                     </div>
                   )}
                 </div>
-                <button
-                  onClick={() => signOut()}
-                  className="text-white "
-                >
+                <button onClick={() => signOut()} className="text-white text-xl">
                   Logout
                 </button>
               </>
             ) : (
-              <button
-                onClick={() => signIn()}
-                className="text-white "
-              >
+              <button onClick={() => signIn()} className="text-white text-xl">
                 Sign In
               </button>
             )
           ) : (
             <>
+              <NavLink href="/" label="Home" className="text-xl" active={pathname === "/"} />
               <NavLink
-                className=""
-                href="/"
-                label="Home"
-                active={pathname === "/"}
-              />
-              <NavLink
-                className=""
                 href="/captures"
                 label="Captures"
                 active={pathname.startsWith("/captures")}
+                className="text-xl"
               />
               <NavLink
-                className=""
                 href="/our-team"
                 label="Our Team"
                 active={pathname.startsWith("/our-team")}
+                className="text-xl"
+              />
+              <NavLink
+                href="/about"
+                label="About"
+                active={pathname.startsWith("/about")}
+                className="text-xl"
               />
             </>
           )}
         </nav>
 
+        {/* Mobile Menu Button */}
         <button
           aria-label="Open Menu"
-          className="md:hidden text-white text-3xl focus:outline-none"
+          className="md:hidden text-white text-3xl focus:outline-none absolute right-4"
           onClick={() => setIsOpen(true)}
         >
           &#9776;
         </button>
       </header>
 
+      {/* Mobile Sidebar Menu */}
       <div
         className={`fixed inset-y-0 right-0 w-64 max-w-full bg-black p-6 space-y-6 transform transition-transform duration-300 z-50 ${
           isOpen ? "translate-x-0" : "translate-x-full"
@@ -162,6 +153,7 @@ const Header: FC = () => {
                   label="Dashboard"
                   active={pathname === "/admin/dashboard"}
                   onClick={() => setIsOpen(false)}
+                  className="text-xl w-fit"
                 />
                 {session.user.role === "admin" && (
                   <NavLink
@@ -169,13 +161,15 @@ const Header: FC = () => {
                     label="Analytics"
                     active={pathname.startsWith("/admin/analytics")}
                     onClick={() => setIsOpen(false)}
+                    className="text-xl w-fit"
                   />
                 )}
                 <button
-                  className={`text-white w-full text-left ${
+                  className={`text-white w-full text-left text-xl w-fit${
                     isPreviewActive ? "border-b-2 border-white" : ""
                   }`}
                   onClick={() => setIsMobilePreviewOpen(!isMobilePreviewOpen)}
+                  
                 >
                   Preview
                 </button>
@@ -188,6 +182,7 @@ const Header: FC = () => {
                         label={link.label}
                         active={pathname === link.href}
                         onClick={() => setIsOpen(false)}
+                        className="text-xl w-fit"
                       />
                     ))}
                   </div>
@@ -208,18 +203,29 @@ const Header: FC = () => {
                 label="Home"
                 active={pathname === "/"}
                 onClick={() => setIsOpen(false)}
+                className="text-xl w-fit"
               />
               <NavLink
                 href="/captures"
                 label="Captures"
                 active={pathname.startsWith("/captures")}
                 onClick={() => setIsOpen(false)}
+                className="text-xl w-fit"
               />
               <NavLink
                 href="/our-team"
                 label="Our Team"
                 active={pathname.startsWith("/our-team")}
                 onClick={() => setIsOpen(false)}
+                className="text-xl w-fit"
+              />
+
+              <NavLink
+                href="/about"
+                label="About"
+                active={pathname.startsWith("/about")}
+                onClick={() => setIsOpen(false)}
+                className="text-xl w-fit"
               />
             </>
           )}
