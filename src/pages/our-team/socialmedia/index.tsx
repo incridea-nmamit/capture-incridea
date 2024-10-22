@@ -1,15 +1,22 @@
-// app/our-team/social-media/page.tsx
-"use client";
+import { api } from '~/utils/api';
+import React from 'react';
+import TeamCard from '~/components/TeamCard'; // Adjust path if needed
 
-import Card from "~/components/Card"; // Adjust the import based on your project structure
+const SocialMediaPage: React.FC = () => {
+  const { data: teamMembers, isLoading, error } = api.team.getSocialMediaTeams.useQuery(); // Fetch data with tRPC
 
-const SocialMediaPage = () => {
-  // Sample data for 5 random members
-  const teamMembers = [
-    { name: "Saurabh Sunish", designation: "SMC Head", imageSrc: "/images/team/smc/saurabh.png" },
-    { name: "Aaric ", designation: "SMC Co-Head", imageSrc: "/images/team/smc/aaric.png" },
+  if (isLoading) {
+    return <div className="text-white">Loading...</div>;
+  }
 
-  ];
+  if (error) {
+    return <div className="text-red-500">Error loading media teams: {error.message}</div>;
+  }
+
+  if (!teamMembers || teamMembers.length === 0) {
+    return <div className="text-white">No media team members found.</div>;
+  }
+
 
   return (
     <div className="flex flex-col items-center  bg-black">
@@ -27,11 +34,12 @@ const SocialMediaPage = () => {
       <div className="text-white py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
         {/* Render Card components for each team member */}
         {teamMembers.map((member, index) => (
-          <Card
+          <TeamCard
             key={index}
-            imageSrc={member.imageSrc} // Replace with actual image path
-            name={member.name}
-            designation={member.designation}
+            imageSrc={member.image} // Replace with actual image path
+            name={member.name.toUpperCase()}
+            designation={member.designation.toUpperCase()}
+            say={member.say}
           />
         ))}
       </div>

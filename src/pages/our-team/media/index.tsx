@@ -1,5 +1,5 @@
 import { api } from '~/utils/api';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import TeamCard from '~/components/TeamCard'; // Adjust path if needed
 
 const MediaCommittee: React.FC = () => {
