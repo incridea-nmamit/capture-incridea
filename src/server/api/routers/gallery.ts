@@ -3,48 +3,46 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 import { z } from "zod";
+import { State, EventType, Day } from "@prisma/client";
 
 export const galleryRouter = createTRPCRouter({
-  // Fetch all gallery images
-  getImage: protectedProcedure.query(async ({ ctx }) => {
-    const images = await ctx.db.gallery.findMany({
-      select: {
-        id: true,
-        image_path: true,
-        image_name: true,
-        event_name: true,
-      },
-    });
-    return images ?? null;
+  // Get all events
+  getAllGallery: protectedProcedure.query(async ({ ctx }) => {
+    const gallery = await ctx.db.gallery.findMany({});
+    return gallery ?? [];
   }),
 
-  // Add a new gallery image
+  // Add a new event
   addImage: protectedProcedure
     .input(
       z.object({
-        event_name: z.string().min(1, "Event name is required"),
-        image_path: z.string().url().min(1, "Image URL is required"),
-        image_name: z.string().min(1, "Image name is required"),
+        event_name: z.string().min(1, "Event name is required"),        
+        uploadKey: z.string().min(1, "Upload key is required"),       
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const newImage = await ctx.db.gallery.create({
+      const imageUrl = `https://utfs.io/f/${input.uploadKey}`;
+      const newEvent = await ctx.db.gallery.create({
         data: {
           event_name: input.event_name,
-          image_path: input.image_path,
-          image_name: input.image_name,
+          image_path: imageUrl,
         },
       });
 
-      return newImage;
+      return newEvent;
     }),
 
-  // Delete a gallery image by ID
   deleteImage: protectedProcedure
-    .input(z.object({ id: z.string().min(1, "Image ID is required") }))
+    .input(
+      z.object({
+        id: z.number().min(1, "Event ID is required"),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
       await ctx.db.gallery.delete({
-        where: { id: Number(input.id) }, // Ensure ID is correctly parsed
+        where: { id: input.id },
       });
+
+      return { message: "Image deleted successfully" };
     }),
 });

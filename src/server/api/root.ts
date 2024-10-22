@@ -2,6 +2,7 @@ import { postRouter } from "~/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { teamRouter } from "./routers/team";
 import { eventRouter } from "./routers/event";
+import { galleryRouter } from "./routers/gallery";
 /**
  * This is the primary router for your server.
  *
@@ -10,7 +11,8 @@ import { eventRouter } from "./routers/event";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   team: teamRouter,
-  events: eventRouter
+  events: eventRouter,
+  gallery: galleryRouter
   
 });
 

@@ -108,8 +108,8 @@ model EventAnalysis {
 model Gallery {
   id         Int      @id @default(autoincrement())
   image_path String
-  image_name String
   event_name String
+  date_time  DateTime @default(now())
 }
 
 model Stories {
