@@ -15,19 +15,33 @@ const Header: FC = () => {
   const isAdminRoute = pathname.startsWith("/admin");
 
   const subLinks = [
-    { href: "/admin/events", label: "Events"},
+    { href: "/admin/events", label: "Events" },
     { href: "/admin/team", label: "Team" },
   ];
 
-  // Helper function to determine if we're on any of the preview routes
-  const isPreviewActive = pathname === "/admin/events" || pathname === "/admin/team";
+  const isPreviewActive =
+    pathname === "/admin/events" || pathname === "/admin/team";
 
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
-      <header className="bg-black shadow-md p-4 flex items-center justify-between">
+      <header className="bg-black shadow-md p-4 flex items-center justify-between flex-wrap">
         <div className="flex items-center space-x-4 px-5">
-          <a href="/"><Image src="/images/inc.png" alt="Logo" width={120} height={70} /></a>
-          <Image src="/images/mxsmc.png" alt="Small Logo" width={110} height={30} />
+        <a href="https://incridea.in" rel="noopener noreferrer">
+            <Image
+              src="/images/inc.png"
+              alt="Logo"
+              width={120}
+              height={70}
+              className="w-auto h-auto max-w-full"
+            />
+          </a>
+          {/* <Image
+            src="/images/mxsmc.png"
+            alt="Small Logo"
+            width={110}  // Remove comments if include logo for capture
+            height={30}
+            className="w-auto h-auto max-w-full"
+          /> */}
         </div>
 
         <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10">
@@ -38,54 +52,79 @@ const Header: FC = () => {
                   href="/admin/dashboard"
                   label="Dashboard"
                   active={pathname === "/admin/dashboard"}
-                  className="font-velocista"
+                  className=""
                 />
                 {session.user.role === "admin" && (
                   <NavLink
                     href="/admin/analytics"
                     label="Analytics"
                     active={pathname.startsWith("/admin/analytics")}
-                    className="font-velocista"
+                    className=""
                   />
                 )}
-
                 <div
                   className="relative group"
                   onMouseEnter={() => setIsPreviewOpen(true)}
                   onMouseLeave={() => setIsPreviewOpen(false)}
                 >
-                  <button className={isPreviewActive ? " border-b-2 border-white" : "font-velocista"}>
+                  <button
+                    className={
+                      isPreviewActive
+                        ? "border-b-2 border-white"
+                        : ""
+                    }
+                  >
                     Preview
                   </button>
                   {isPreviewOpen && (
-                    <div className="flex flex-col gap-2 absolute top-full left-0 bg-black text-white p-4 space-y-2 shadow-md rounded-md">
+                    <div className="absolute top-full left-0 bg-black text-white p-4 space-y-2 shadow-md rounded-md">
                       {subLinks.map((link) => (
                         <NavLink
                           key={link.href}
                           href={link.href}
                           label={link.label}
                           active={pathname === link.href}
-                          className="font-velocista"
+                          className=""
                         />
                       ))}
                     </div>
                   )}
                 </div>
-
-                <button onClick={() => signOut()} className="text-white font-velocista">
+                <button
+                  onClick={() => signOut()}
+                  className="text-white "
+                >
                   Logout
                 </button>
               </>
             ) : (
-              <button onClick={() => signIn()} className="text-white font-velocista">
+              <button
+                onClick={() => signIn()}
+                className="text-white "
+              >
                 Sign In
               </button>
             )
           ) : (
             <>
-              <NavLink className="font-velocista" href="/" label="Home" active={pathname === "/"} />
-              <NavLink className="font-velocista" href="/captures" label="Captures" active={pathname.startsWith("/captures")} />
-              <NavLink className="font-velocista" href="/our-team" label="Our Team" active={pathname.startsWith("/our-team")} />
+              <NavLink
+                className=""
+                href="/"
+                label="Home"
+                active={pathname === "/"}
+              />
+              <NavLink
+                className=""
+                href="/captures"
+                label="Captures"
+                active={pathname.startsWith("/captures")}
+              />
+              <NavLink
+                className=""
+                href="/our-team"
+                label="Our Team"
+                active={pathname.startsWith("/our-team")}
+              />
             </>
           )}
         </nav>
@@ -100,7 +139,7 @@ const Header: FC = () => {
       </header>
 
       <div
-        className={`fixed inset-y-0 right-0 w-64 bg-black p-6 space-y-6 transform transition-transform duration-300 z-50 ${
+        className={`fixed inset-y-0 right-0 w-64 max-w-full bg-black p-6 space-y-6 transform transition-transform duration-300 z-50 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         role="dialog"
@@ -141,7 +180,7 @@ const Header: FC = () => {
                   Preview
                 </button>
                 {isMobilePreviewOpen && (
-                  <div className="mt-2 flex flex-col space-y-2 pl-4 ">
+                  <div className="mt-2 flex flex-col space-y-2 pl-4">
                     {subLinks.map((link) => (
                       <NavLink
                         key={link.href}
@@ -164,13 +203,17 @@ const Header: FC = () => {
             )
           ) : (
             <>
-              <NavLink href="/" label="Home" active={pathname === "/"} onClick={() => setIsOpen(false)} />
+              <NavLink
+                href="/"
+                label="Home"
+                active={pathname === "/"}
+                onClick={() => setIsOpen(false)}
+              />
               <NavLink
                 href="/captures"
                 label="Captures"
                 active={pathname.startsWith("/captures")}
                 onClick={() => setIsOpen(false)}
-                className="font-velocista"
               />
               <NavLink
                 href="/our-team"
