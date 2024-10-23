@@ -102,13 +102,14 @@ const EventsAdmin: React.FC = () => {
   });
 
   return (
-    <div className="p-4">   
+    <div className="p-4">  
+    <h1 className='flex justify-center text-3xl font-extrabold mb-8 py-5'>Event Data and Management</h1> 
       <div className="mb-4 flex gap-2 flex-wrap">
         <div className="relative w-1/2">
           <input
             type="text"
             placeholder="Search..."
-            className="font-silkscreen text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black"
+            className=" text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -120,37 +121,37 @@ const EventsAdmin: React.FC = () => {
         <select
           value={selectedEventType}
           onChange={(e) => setSelectedEventType(e.target.value)}
-          className="p-2 rounded-xl bg-black h-12 font-silkscreen"
+          className="p-2 border-slate-700 rounded-xl bg-black h-12 "
         >
-          <option className='font-silkscreen' value="all">All</option>
-          <option className='font-silkscreen' value="core">Core</option>
-          <option className='font-silkscreen' value="technical">Technical</option>
-          <option className='font-silkscreen' value="nontechnical">Non Technical</option>
-          <option className='font-silkscreen' value="special">Special</option>
+          <option className='' value="all">All Category</option>
+          <option className='' value="core">Core</option>
+          <option className='' value="technical">Technical</option>
+          <option className='' value="nontechnical">Non Technical</option>
+          <option className='' value="special">Special</option>
         </select>
 
         <select
           value={selectedDay}
           onChange={(e) => setSelectedDay(e.target.value)}
-          className="p-2 rounded-xl bg-black h-12 font-silkscreen"
+          className="p-2 border-slate-700 rounded-xl bg-black h-12 "
         >
-          <option className='font-silkscreen' value="all">All</option>
-          <option className='font-silkscreen' value="day1">Day 1</option>
-          <option className='font-silkscreen' value="day2">Day 2</option>
-          <option className='font-silkscreen' value="day3">Day 3</option>
+          <option className='' value="all">All Days</option>
+          <option className='' value="day1">Day 1</option>
+          <option className='' value="day2">Day 2</option>
+          <option className='' value="day3">Day 3</option>
         </select>
 
         <button
           onClick={handleAddEventClick}
-          className="bg-black text-white p-2 rounded-xl h-12 font-silkscreen" 
+          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black" 
         >
-          Add
+          Add Event
         </button>
 
         {/* Reload Button */}
         <button
           onClick={() => refetch()} // Wrap refetch in an arrow function
-          className="flex items-center bg-black text-white p-2 rounded-xl font-silkscreen"
+          className="ml-2 p-2 border border-slate-700 rounded-xl w-12 h-12 text-white bg-black flex items-center justify-center"
         >
           <FaSync />
         </button>
@@ -161,34 +162,34 @@ const EventsAdmin: React.FC = () => {
       {isLoading ? (
         <div>Loading...</div>
       ) : isError ? (
-        <div className='font-silkscreen'>Error loading events. Please try again later.</div>
+        <div className=''>Error loading events. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 bg-black">
-            <thead className="bg-white">
-              <tr>
-                <th className="font-silkscreen text-black border border-gray-300 p-2">Name</th>
-                <th className="font-silkscreen text-black border border-gray-300 p-2">Description</th>                
-                <th className="font-silkscreen text-black border border-gray-300 p-2">Type</th>
-                <th className="font-silkscreen text-black border border-gray-300 p-2">Day</th>
-                <th className="font-silkscreen text-black border border-gray-300 p-2">Visibility</th>
-                <th className="font-silkscreen text-black border border-gray-300 p-2">Image</th>
+          <table className="min-w-full bg-black border border-slate-700">
+            <thead>
+              <tr className='text-black bg-gray-100'>
+                <th className="py-2 px-4 border-b border-slate-700 text-center">Name</th>
+                <th className="py-2 px-4 border-b border-slate-700 text-center">Description</th>                
+                <th className="py-2 px-4 border-b border-slate-700 text-center">Category</th>
+                <th className="py-2 px-4 border-b border-slate-700 text-center">Day</th>
+                <th className="py-2 px-4 border-b border-slate-700 text-center">Visibility</th>
+                <th className="py-2 px-4 border-b border-slate-700 text-center">BG Image</th>
               </tr>
             </thead>
             <tbody>
               {filteredEvents?.map((event) => (
                 <tr key={event.id} className='hover:bg-gray-50 hover:text-black'>
-                  <td className="font-silkscreen py-2 px-4 border-b border-slate-700 text-center">{event.name.toUpperCase()}</td>
-                  <td className="font-silkscreen py-2 px-4 border-b border-slate-700 text-center">{event.description.toUpperCase()}</td>                  
-                  <td className="font-silkscreen py-2 px-4 border-b border-slate-700 text-center">{event.type.toUpperCase()}</td>
-                  <td className="font-silkscreen py-2 px-4 border-b border-slate-700 text-center">{event.day.toUpperCase()}</td>
+                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{event.name.toUpperCase()}</td>
+                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{event.description.toUpperCase()}</td>                  
+                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{event.type.toUpperCase()}</td>
+                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{event.day.toUpperCase()}</td>
                   <td
-                    className="font-silkscreen py-2 px-4 border-b border-slate-700 text-center cursor-pointer"
+                    className=" py-2 px-4 border-b border-slate-700 text-center cursor-pointer"
                     onDoubleClick={() => handleDoubleClickVisibility(event)}
                   >
                     {event.visibility.toUpperCase()}
                   </td>
-                  <td className="font-silkscreen py-2 px-4 border-b border-slate-700 text-center">
+                  <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
                     <img src={event.image} alt={event.name} className="h-16 w-16 object-cover" />
                   </td>
                 </tr>
@@ -201,54 +202,64 @@ const EventsAdmin: React.FC = () => {
       {/* Popup for Adding Event */}
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
-          <div className="bg-black p-4 rounded shadow-lg w-96">
-            <div className='flex justify-end'>
-              <h2 className="text-lg font-bold mb-2 text-center px-10" >Add Event</h2>
-              <button onClick={() => setIsPopupOpen(false)} className="mb-2 text-white px-10 text-2xl">&times;</button>
-            </div>
+          <div className="bg-black p-10 rounded-3xl shadow-lg relative text-cen w-96">
+              <h2 className="text-2xl font-bold text-white mb-4 " >Add Event</h2>
+              <button onClick={() => setIsPopupOpen(false)} className="absolute top-6 right-6 text-white p-5">&times;</button>
             <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                name="name"
-                placeholder="Event Name"
-                value={newEvent.name}
-                onChange={handleFormChange}
-                required
-                className="border p-2 mb-2 w-full bg-black text-white"
-              />
+
+              <UploadComponent onUploadComplete={handleUploadComplete} />
+
+              <div className="mt-4">
+                <label className="text-white block mb-1">Name</label>
+                <textarea
+                  name="name"
+                  value={newEvent.name}
+                  onChange={handleFormChange}
+                  className="p-2 w-full border border-slate-700 rounded-xl h-12 bg-black text-white"
+                />
+              </div>
+
+
+            <div className="mt-4">
+              <label className="text-white block mb-1">Description</label>
               <textarea
                 name="description"
-                placeholder="Description"
                 value={newEvent.description}
                 onChange={handleFormChange}
-                required
-                className="border p-2 mb-2 w-full bg-black text-white"
+                className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
               />
+
+
+            </div>
+            <div className="mt-4">
               <select
                 name="type"
                 value={newEvent.type}
                 onChange={handleFormChange}
                 required
-                className="border p-2 mb-2 w-full bg-black text-white"
+                className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
               >
                 <option value="core">Core</option>
                 <option value="technical">Technical</option>
                 <option value="nontechnical">Non Technical</option>
                 <option value="special">Special</option>
               </select>
+            </div>
+            <div className="mt-4">
               <select
                 name="day"
                 value={newEvent.day}
                 onChange={handleFormChange}
                 required
-                className="border p-2 mb-2 w-full bg-black text-white"
+                className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
               >
                 <option value="day1">Day 1</option>
                 <option value="day2">Day 2</option>
                 <option value="day3">Day 3</option>
               </select>
-              <UploadComponent onUploadComplete={handleUploadComplete} />
-              <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-2">Submit</button>
+            </div>
+              
+              <button type="submit" className="mt-4 p-2 bg-white text-black rounded-xl w-full">Submit</button>
             </form>
             
           </div>
@@ -261,8 +272,8 @@ const EventsAdmin: React.FC = () => {
           <div className="flex-col justify-center bg-black p-14 rounded-3xl shadow-lg w-[40vw] h-auto ">
             <h2 className="text-lg font-bold mb-2 text-center">Change Visibility</h2>
             <div>
-              <p className='text-center'>Current Visibility: {visibilityPopup.currentVisibility.toUpperCase()}</p>
-              <p className='text-center'>Change to: {visibilityPopup.newVisibility.toUpperCase()}</p>
+              <p className='text-center'>CURRENT : {visibilityPopup.currentVisibility.toUpperCase()}</p>
+              <p className='text-center'>ARE YOU SURE YO WANT TO CHANGE IT TO {visibilityPopup.newVisibility.toUpperCase()} ?</p>
               <div className='flex justify-center gap-5 p-5'>
                 <button onClick={() => handleVisibilityChange(visibilityPopup.id, visibilityPopup.name, visibilityPopup.currentVisibility)} className="  bg-white text-black p-2 rounded mt-2">Confirm ✓</button>
                 <button onClick={() => setVisibilityPopup(null)} className="  bg-white text-black p-2 rounded mt-2">Cancel ✕</button>
