@@ -13,9 +13,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <div className="font-roboto"> {/* Use Roboto as the font */}
+      <div className="flex flex-col min-h-screen font-roboto"> {/* Use Flexbox to structure the layout */}
         <Header />
-        <Component {...pageProps} />
+        <main className="flex-grow"> {/* Allow the main content to grow */}
+          <Component {...pageProps} />
+        </main>
         <Footer />
       </div>
     </SessionProvider>
