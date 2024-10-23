@@ -66,11 +66,8 @@ enum position {
 model team {
   id            Int     @id @default(autoincrement())
   name          String
-  committee1    Teamgroup
-  committee2    Teamgroup
-  designation1  position
-  designation2  position
-  designation3  position
+  committee    Teamgroup
+  designation  position
   image         String
   say           String
 }
