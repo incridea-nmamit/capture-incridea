@@ -1,10 +1,10 @@
-// UploadComponent.tsx
-import { UploadButton } from "~/utils/uploadthing";
+
 import React from 'react';
 import { UploadDropzone } from "tailwind.config";
 
 interface UploadComponentProps {
   onUploadComplete: (uploadKey: string) => void; // Define the prop type
+  resetUpload: () => void; 
 }
 
 const UploadComponent: React.FC<UploadComponentProps> = ({ onUploadComplete }) => {

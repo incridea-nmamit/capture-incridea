@@ -18,6 +18,7 @@ const TeamAdmin: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [uploadUrl, setUploadUrl] = useState<string>('');
+  const [uploadKey, setUploadKey] = useState(0);
 
   const [teamForm, setTeamForm] = useState<{
     name: string;
@@ -79,6 +80,7 @@ const TeamAdmin: React.FC = () => {
                 console.log('Team added successfully.');
                 setIsPopupOpen(false);
                 setTeamForm({ name: '', committee: 'media', designation: 'mediahead', say: '' });
+                setUploadUrl('');
             },
         });
     } catch (error) {
@@ -180,7 +182,8 @@ const TeamAdmin: React.FC = () => {
           <button onClick={() => setIsPopupOpen(false)} className="absolute top-6 right-6 text-white p-5">&times;</button>
             <h2 className="text-2xl font-bold text-white mb-4">Add Team Member</h2>
 
-            <UploadComponent onUploadComplete={handleUploadComplete} />
+            <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
+
             <div className="mt-4">
               <label className="text-white block mb-1">Name</label>
               <textarea

@@ -158,7 +158,8 @@ const CapturesAdmin: React.FC = () => {
                   ))}
                 </select>
               )}
-              <UploadComponent onUploadComplete={handleUploadComplete} />
+              <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
+
               <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-2">Submit</button>
             </form>
           </div>

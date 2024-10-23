@@ -207,7 +207,8 @@ const EventsAdmin: React.FC = () => {
               <button onClick={() => setIsPopupOpen(false)} className="absolute top-6 right-6 text-white p-5">&times;</button>
             <form onSubmit={handleSubmit}>
 
-              <UploadComponent onUploadComplete={handleUploadComplete} />
+              <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
+
 
               <div className="mt-4">
                 <label className="text-white block mb-1">Name</label>
