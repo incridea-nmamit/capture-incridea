@@ -7,8 +7,9 @@ const useAnalytics = (pageName: string) => {
 
   useEffect(() => {
     const logVisit = async () => {
-      const ipAddress = await fetch('/api/get-ip').then(res => res.text()); // Fetch the IP address from your API
-      await addLog.mutateAsync({ ipAddress, pageName });
+      const ipAddress = await fetch('/api/get-ip').then(res => res.text()); // Retrive data from the page api 
+      const pageName = window.location.pathname;// Fetch the IP address from your API
+      await addLog.mutateAsync({ ipAddress, pageName }); //Enter data to the database
     };
 
     logVisit();
