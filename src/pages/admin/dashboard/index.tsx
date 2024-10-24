@@ -7,6 +7,7 @@ import EventsAdmin from '~/components/EventsAdminComponent/EventsAdmin';
 import CapturesAdmin from '~/components/CapturesAdminComponent/CapturesAdmin';
 import Analytics from '../analytics';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 // Sample Components for Each Option
 const Events = () => <EventsAdmin />;
@@ -14,13 +15,25 @@ const Team = () => <TeamAdmin />;
 const Captures = () => <CapturesAdmin />;
 
 const Dashboard = () => {
-  const { data: session, status } = useSession();
-  const userRole = useUserRole(); // Fetch user role in real-time
+ // Fetch user role in real-time
+ const userRole = useUserRole();
   const [selectedOption, setSelectedOption] = useState('');
   const [options, setOptions] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState('accessData');
   const [showMessage, setShowMessage] = useState(true); // Control the default message visibility
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/unauthorized');
+    }
+
+    // Check user role and redirect if necessary
+    if (status === 'authenticated' && session?.user?.role === 'user') {
+      router.push('/unauthorized');
+    }
+  }, [session, status, router]);
   // Update options based on user role
   useEffect(() => {
     if (userRole === 'admin') {

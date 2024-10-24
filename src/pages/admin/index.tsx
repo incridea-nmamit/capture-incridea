@@ -36,12 +36,19 @@ function Admin() {
     if (status === 'authenticated' && session) {
       typeText();
     }
+    
+    if(status ==='unauthenticated')
+    {
+      router.push('unauthorized')
+    }
 
     // Check user role and redirect if necessary
     if (status === 'authenticated' && session?.user?.role === 'user') {
       router.push('/unauthorized');
     }
   }, [session, status, router]);
+
+  
 
   if (status === 'loading') {
     return <div className="text-white">Loading...</div>; // Loading state
