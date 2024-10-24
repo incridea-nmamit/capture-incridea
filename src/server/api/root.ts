@@ -3,6 +3,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { teamRouter } from "./routers/team";
 import { eventRouter } from "./routers/event";
 import { galleryRouter } from "./routers/gallery";
+import { webRouter } from "./routers/web";
 /**
  * This is the primary router for your server.
  *
@@ -12,8 +13,8 @@ export const appRouter = createTRPCRouter({
   post: postRouter,
   team: teamRouter,
   events: eventRouter,
-  gallery: galleryRouter
-  
+  gallery: galleryRouter,
+  web: webRouter  
 });
 
 

@@ -1,6 +1,5 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { z } from "zod";
-import { WebAnalytics } from "@prisma/client"; // Import your model if necessary
+import { z } from "zod"; // Import your model if necessary
 
 export const webRouter = createTRPCRouter({
   // Add Log Mutation

@@ -1,7 +1,33 @@
+import { useEffect, useRef } from "react"; // Import useRef from React
 import Link from "next/link"; // Import Link from Next.js
-import useAnalytics from '~/hooks/useAnalytics';
+import { api } from "~/utils/api";
+
 const Captures = () => {
-  useAnalytics();
+  const isLogged = useRef(false); // Use a ref to persist the logged state
+  const addLog = api.web.addLog.useMutation();
+
+  const logIP = async () => {
+    if (isLogged.current) return; // Exit if already logged
+
+    try {
+      const response = await fetch('/api/get-ip');
+      const data = await response.json();
+      console.log('IP:', data.ip);
+      const pageName = window.location.pathname;
+      isLogged.current = true; // Set to true after logging
+
+      // Ensure the IP and pageName are passed as an object if expected
+      await addLog.mutateAsync({ ipAddress: data.ip, pageName }); 
+      
+    } catch (error) {
+      console.error('Failed to log IP:', error);
+    }
+  };
+
+  useEffect(() => {
+    logIP(); // Call logIP only once when the component mounts
+  }, []);
+
   return (
     <div
       className="min-h-screen bg-cover bg-center flex flex-col items-center justify-start p-8"
