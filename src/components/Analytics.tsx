@@ -38,24 +38,44 @@ const Analytics = () => {
   const uniqueIPs = new Set(filteredLogs.map(entry => entry.ip_address)).size;
 
   return (
-    <div className="analytics-container">
-      <h1 className="text-3xl font-bold">Analytics</h1>
-      <h2 className="text-xl">Web Analytics</h2>
-
-      <div className="filter-container">
-        <span>Filter:</span>
-        <select value={filter} onChange={e => setFilter(e.target.value)}>
-          <option value="all">All Days</option>
-          <option value="1">Day 1</option>
-          <option value="2">Day 2</option>
-          <option value="3">Day 3</option>
-        </select>
+    <div className="p-6">
+      <h1 className="text-center text-4xl font-bold mb-8 text-white">Analytics</h1>
+      <div className="flex justify-center gap-2">
+        <h2 className="text-center text-2xl mb-4 text-white">Web Analytics</h2>
+        <div className="flex justify-center mb-4">
+          <select
+            value={filter}
+            onChange={e => setFilter(e.target.value)}
+            className="ml-2 border border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-black text-white"
+          >
+            <option value="all">All Days</option>
+            <option value="1">Day 1</option>
+            <option value="2">Day 2</option>
+            <option value="3">Day 3</option>
+          </select>
+        </div>
       </div>
 
-      <div className="results">
-        <p>Total website visits: {totalVisits/2}</p> {/* Divided by 2 for unknown double entry problem */}
-        <p>Total unique viewers: {uniqueIPs}</p>
-      </div>
+      <div className="overflow-x-auto">
+      <table className="min-w-full text-white">
+        <thead className="text-left">
+          <tr>
+            <th className="py-2 px-4 border-b">Description</th>
+            <th className="py-2 px-4 border-b">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="py-2 px-4 border-b">Total Web Visits</td>
+            <td className="py-2 px-4 border-b">{totalVisits / 2}</td> {/* Divided by 2 for unknown double entry problem */}
+          </tr>
+          <tr>
+            <td className="py-2 px-4 border-b">Total Unique Visitors</td>
+            <td className="py-2 px-4 border-b">{uniqueIPs}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     </div>
   );
 };
