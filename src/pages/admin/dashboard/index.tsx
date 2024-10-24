@@ -79,7 +79,6 @@ const Dashboard = () => {
     <div className="flex flex-col md:flex-row bg-zinc-800 text-white min-h-screen">
       {/* Sidebar */}
       <div className="md:w-48 w-full p-4 bg-zinc-900 bg-cover">
-        <h2 className="text-lg font-bold mb-4">Access Data</h2>
   
         {/* Tab Navigation */}        
         {renderTabNavigation()}

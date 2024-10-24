@@ -53,14 +53,6 @@ const Header: FC = () => {
                   active={pathname === "/admin/dashboard"}
                   className="text-xl"
                 />
-                {session.user.role === "admin" && (
-                  <NavLink
-                    href="/admin/analytics"
-                    label="Analytics"
-                    active={pathname.startsWith("/admin/analytics")}
-                    className="text-xl"
-                  />
-                )}
                 <div
                   className="relative group"
                   onMouseEnter={() => setIsPreviewOpen(true)}
