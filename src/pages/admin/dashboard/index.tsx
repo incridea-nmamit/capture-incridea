@@ -49,7 +49,18 @@ const Dashboard = () => {
             Use <span className="text-yellow-500">Tabs</span> to switch to your destination! 🚀
           </p>
           <p className="text-gray-300 mt-2">
-            Don’t worry, we’ve got all your admin needs covered!
+            Don’t worry, we’ve got all your needs covered!
+          </p>
+          <p className="text-blue-400 mt-10">
+            You are the<span className="text-yellow-500">&nbsp;{session?.user.role}&nbsp;</span> 
+            {session?.user.role === 'admin' ? (
+              "you have access to everything✌ !"
+            ) :session?.user.role =='editor' ? (
+            "you can upload / delete captures✌!"
+            ):(
+              " keep up the great work!"
+            )}
+            🚀
           </p>
         </div>
       );
