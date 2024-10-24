@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import Events from '~/components/Event'
+import Events from '~/components/Events'
 import { api } from '~/utils/api';
 
 function EventsPage() {
