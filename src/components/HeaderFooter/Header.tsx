@@ -147,15 +147,6 @@ const Header: FC = () => {
                   onClick={() => setIsOpen(false)}
                   className="text-xl w-fit"
                 />
-                {session.user.role === "admin" && (
-                  <NavLink
-                    href="/admin/analytics"
-                    label="Analytics"
-                    active={pathname.startsWith("/admin/analytics")}
-                    onClick={() => setIsOpen(false)}
-                    className="text-xl w-fit"
-                  />
-                )}
                 <button
                   className={`text-white w-full text-left text-xl w-fit${
                     isPreviewActive ? "border-b-2 border-white" : ""
