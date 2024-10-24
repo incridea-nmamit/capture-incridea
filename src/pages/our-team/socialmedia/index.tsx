@@ -1,5 +1,5 @@
 import { api } from '~/utils/api';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import TeamCard from '~/components/TeamCard'; // Adjust path if needed
 
 const SocialMediaPage: React.FC = () => {
@@ -16,6 +16,39 @@ const SocialMediaPage: React.FC = () => {
   if (!teamMembers || teamMembers.length === 0) {
     return <div className="text-white">No media team members found.</div>;
   }
+
+  const isLogged = useRef(false); // Use a ref to persist the logged state
+  const addLog = api.web.addLog.useMutation();
+  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+  const logIP = async () => {
+    if (isLogged.current) return; // Exit if already logged
+
+    try {
+      const initialPage = window.location.pathname; // Capture initial page name
+  
+      const response = await fetch('/api/get-ip');
+      const data = await response.json();
+      console.log('IP:', data.ip);
+  
+      await delay(5000); // 5-second delay
+  
+      // Check if user is still on the same page
+      const currentPage = window.location.pathname;
+      if (initialPage === currentPage) {
+        await addLog.mutateAsync({ ipAddress: data.ip, pageName: initialPage });
+        console.log('IP logged successfully');
+        isLogged.current = true; // Set to true after logging
+      } else {
+        console.log('User navigated to a different page. Logging aborted.');
+      }
+    } catch (error) {
+      console.error('Failed to log IP:', error);
+    }
+  };
+
+  useEffect(() => {
+    logIP(); // Call logIP only once when the component mounts
+  }, []);
 
 
   return (
