@@ -1,6 +1,7 @@
 import Link from "next/link"; // Import Link from Next.js
-
+import useAnalytics from '~/hooks/useAnalytics';
 const Captures = () => {
+  useAnalytics();
   return (
     <div
       className="min-h-screen bg-cover bg-center flex flex-col items-center justify-start p-8"
