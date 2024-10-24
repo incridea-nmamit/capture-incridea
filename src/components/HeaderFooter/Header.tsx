@@ -171,7 +171,7 @@ const Header: FC = () => {
                   </div>
                 )}
                 <button onClick={() => signOut()} className="text-white">
-                  Sign Out
+                  Log Out
                 </button>
               </>
             ) : (
