@@ -106,6 +106,7 @@ model Gallery {
   id         Int      @id @default(autoincrement())
   image_path String
   event_name String
+  event_category String
   date_time  DateTime @default(now())
 }
 
