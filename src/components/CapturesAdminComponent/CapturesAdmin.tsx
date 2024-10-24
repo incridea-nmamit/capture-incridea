@@ -50,6 +50,7 @@ const CapturesAdmin: React.FC = () => {
 
   return (
     <div className="p-4">
+      <h1 className='flex justify-center text-3xl font-extrabold mb-8 py-5'>Captures Management</h1> 
       <div className="mb-4 flex gap-2 flex-wrap">
         <button
           onClick={handleAddEventClick}

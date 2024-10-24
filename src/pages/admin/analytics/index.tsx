@@ -1,5 +1,5 @@
 import React from 'react'
-import Analysis from '~/components/Analysis'
+import Analysis from '~/components/Analytics'
 
 const Analytics = () => {
   return (

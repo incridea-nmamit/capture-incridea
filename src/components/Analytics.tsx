@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { api } from "~/utils/api";
 
-const Analysis = () => {
+const Analytics = () => {
   const [filter, setFilter] = useState<string>("all"); // State for filter
   const { data: logs = [], isLoading } = api.web.getAllLogs.useQuery(); // Use the getAllLogs query with a default empty array
 
@@ -9,11 +9,11 @@ const Analysis = () => {
   if (isLoading) return <div>Loading...</div>;
 
   // Access the environment variable
-  const analysisDatesEnv = process.env.NEXT_PUBLIC_ANALYSIS_DATES;
+  const analyticsDatesEnv = process.env.NEXT_PUBLIC_ANALYTICS_DATES;
 
   // Convert the environment variable into a Record<string, Date>
-  const dateReferences: Record<string, Date> = analysisDatesEnv
-    ? analysisDatesEnv.split(",").reduce((acc, date, index) => {
+  const dateReferences: Record<string, Date> = analyticsDatesEnv
+    ? analyticsDatesEnv.split(",").reduce((acc, date, index) => {
         const dayKey = `day${index + 1}`; // day1, day2, day3
         acc[dayKey] = new Date(date.trim()); // Convert string to Date object
         return acc;
@@ -38,9 +38,9 @@ const Analysis = () => {
   const uniqueIPs = new Set(filteredLogs.map(entry => entry.ip_address)).size;
 
   return (
-    <div className="analysis-container">
-      <h1 className="text-3xl font-bold">Analysis</h1>
-      <h2 className="text-xl">Web Analysis</h2>
+    <div className="analytics-container">
+      <h1 className="text-3xl font-bold">Analytics</h1>
+      <h2 className="text-xl">Web Analytics</h2>
 
       <div className="filter-container">
         <span>Filter:</span>
@@ -60,4 +60,4 @@ const Analysis = () => {
   );
 };
 
-export default Analysis;
+export default Analytics;
