@@ -22,16 +22,20 @@ const Analytics = () => {
 
   // Filter logs based on the selected day
   const filteredLogs =
-    filter === "all"
-      ? logs
-      : logs.filter(log => {
-          const logDate = new Date(log.date_time);
-          const dateReferenceKey = `day${filter}` as keyof typeof dateReferences; // Ensure correct type
-          const dateReference = dateReferences[dateReferenceKey]; // Access date reference
-
-          // Check if dateReference is defined before comparing dates
-          return dateReference && logDate.toDateString() === dateReference.toDateString();
-        });
+  filter === "all"
+    ? logs.filter(log => log.page_name === "/") // Filter only `/` page visits
+    : logs.filter(log => {
+        const logDate = new Date(log.date_time);
+        const dateReferenceKey = `day${filter}` as keyof typeof dateReferences;
+        const dateReference = dateReferences[dateReferenceKey];
+        
+        // Match both the date and the page_name to `/`
+        return (
+          dateReference &&
+          logDate.toDateString() === dateReference.toDateString() &&
+          log.page_name === "/"
+        );
+      });
 
   // Calculate total visits and unique viewers
   const totalVisits = filteredLogs.length;
@@ -67,7 +71,7 @@ const Analytics = () => {
         <tbody>
           <tr>
             <td className="py-2 px-4 border-b">Total Web Visits</td>
-            <td className="py-2 px-4 border-b">{totalVisits / 2}</td> {/* Divided by 2 for unknown double entry problem */}
+            <td className="py-2 px-4 border-b">{totalVisits/2}</td> {/* Divided by 2 for unknown double entry problem */}
           </tr>
           <tr>
             <td className="py-2 px-4 border-b">Total Unique Visitors</td>
