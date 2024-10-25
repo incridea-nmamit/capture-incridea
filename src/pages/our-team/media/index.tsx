@@ -1,37 +1,23 @@
 import { api } from '~/utils/api';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import TeamCard from '~/components/TeamCard'; // Adjust path if needed
 
 const MediaCommittee: React.FC = () => {
-  const { data: teamMembers, isLoading, error } = api.team.getAllTeams.useQuery(); // Fetch data with tRPC
-
-  if (isLoading) {
-    return <div className="text-white">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="text-red-500">Error loading media teams: {error.message}</div>;
-  }
-
-  if (!teamMembers || teamMembers.length === 0) {
-    return <div className="text-white">No media team members found.</div>;
-  }
-
   const isLogged = useRef(false); // Use a ref to persist the logged state
   const addLog = api.web.addLog.useMutation();
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-  const logIP = async () => {
-    if (isLogged.current) return; // Exit if already logged
 
+  const logIP = useCallback(async () => {
+    if (isLogged.current) return; // Exit if already logged
     try {
       const initialPage = window.location.pathname; // Capture initial page name
-  
+
       const response = await fetch('/api/get-ip');
-      const data = await response.json();
+      const data = await response.json() as { ip: string }; // Ensure data has the correct type
       console.log('IP:', data.ip);
-  
+
       await delay(5000); // 5-second delay
-  
+
       // Check if user is still on the same page
       const currentPage = window.location.pathname;
       if (initialPage === currentPage) {
@@ -44,11 +30,23 @@ const MediaCommittee: React.FC = () => {
     } catch (error) {
       console.error('Failed to log IP:', error);
     }
-  };
+  }, [addLog]);
 
   useEffect(() => {
-    logIP(); // Call logIP only once when the component mounts
-  }, []);
+    logIP().catch(console.error); // Handle promise to avoid no-floating-promises error
+  }, [logIP]);
+
+  const { data: teamMembers, isLoading, error } = api.team.getAllTeams.useQuery(); // Fetch data with tRPC
+
+  if (isLoading) {
+    return <div className="text-white">Loading...</div>;
+  }
+  if (error) {
+    return <div className="text-red-500">Error loading media teams: {error.message}</div>;
+  }
+  if (!teamMembers || teamMembers.length === 0) {
+    return <div className="text-white">No media team members found.</div>;
+  }
 
   return (
     <div className="flex flex-col items-center bg-black">
@@ -67,7 +65,6 @@ const MediaCommittee: React.FC = () => {
           </p>
         </div>
       </div>
-
       {/* Cards Section */}
       <div className="py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
         {teamMembers.map((member, index) => (

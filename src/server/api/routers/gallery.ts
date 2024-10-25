@@ -3,8 +3,6 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 import { z } from "zod";
-import { State, EventType, Day } from "@prisma/client";
-
 export const galleryRouter = createTRPCRouter({
   // Get all events
   getAllGallery: protectedProcedure.query(async ({ ctx }) => {
@@ -16,7 +14,8 @@ export const galleryRouter = createTRPCRouter({
   addImage: protectedProcedure
     .input(
       z.object({
-        event_name: z.string().min(1, "Event name is required"),        
+        event_name: z.string().min(1, "Event name is required"),   
+        event_category: z.string().min(1, "Event name is required"),        
         uploadKey: z.string().min(1, "Upload key is required"),       
       })
     )
@@ -25,6 +24,7 @@ export const galleryRouter = createTRPCRouter({
       const newEvent = await ctx.db.gallery.create({
         data: {
           event_name: input.event_name,
+          event_category: input.event_category,
           image_path: imageUrl,
         },
       });

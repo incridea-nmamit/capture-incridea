@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useMemo} from 'react';
 import { api } from '~/utils/api';
 import { FaSearch, FaSync } from 'react-icons/fa';
 import UploadComponent from '../UploadComponent';
+import Image from 'next/image';
 
 type Committee = 'media' | 'digital' | 'socialmedia' | 'developer';
 type MediaDesignation = 'mediahead' | 'mediacohead' | 'leadvideographer' | 'leadphotographer' | 'photographer' | 'videographer' | 'aerialvideographer';
@@ -18,7 +19,6 @@ const TeamAdmin: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [uploadUrl, setUploadUrl] = useState<string>('');
-  const [uploadKey, setUploadKey] = useState(0);
 
   const [teamForm, setTeamForm] = useState<{
     name: string;
@@ -32,12 +32,12 @@ const TeamAdmin: React.FC = () => {
     say: '',
   });
 
-  const designationOptions: Record<Committee, Designation[]> = {
+  const designationOptions = useMemo<Record<Committee, Designation[]>>(() => ({
     media: ['mediahead', 'mediacohead', 'leadvideographer', 'leadphotographer', 'photographer', 'videographer', 'aerialvideographer'],
     socialmedia: ['socialmediahead', 'socialmediacohead', 'socialmediateam'],
     digital: ['digitalhead', 'digitalcohead', 'digitalteam'],
     developer: ['frontenddev', 'backenddev', 'fullstackdev'],
-  };
+  }), []);
 
   const [filteredDesignations, setFilteredDesignations] = useState<Designation[]>(designationOptions[teamForm.committee]);
 
@@ -45,12 +45,13 @@ const TeamAdmin: React.FC = () => {
   useEffect(() => {
     const newDesignations = designationOptions[teamForm.committee];
     setFilteredDesignations(newDesignations);
-
+  
     setTeamForm((prev) => ({
       ...prev,
       designation: newDesignations[0] ?? prev.designation,
     }));
-  }, [teamForm.committee]);
+  }, [teamForm.committee, designationOptions]); // Added designationOptions to the dependency array
+  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -76,7 +77,7 @@ const TeamAdmin: React.FC = () => {
         await addTeam.mutateAsync({ ...teamForm, uploadKey: uploadUrl }, {
             onSuccess: () => {
                 // Refetch the teams after adding a new one
-                refetch();
+                void refetch();
                 console.log('Team added successfully.');
                 setIsPopupOpen(false);
                 setTeamForm({ name: '', committee: 'media', designation: 'mediahead', say: '' });
@@ -135,7 +136,7 @@ const TeamAdmin: React.FC = () => {
             className="ml-2 p-2 border border-slate-700 rounded-xl w-12 h-12 text-white bg-black flex items-center justify-center"
             onClick={(e) => {
                 e.preventDefault(); // Prevent default button action
-                refetch(); // Call refetch
+                void refetch(); // Call refetch
             }}
         >
             {/* reload icon */}
@@ -155,23 +156,24 @@ const TeamAdmin: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredTeams?.map((team) => (
-              <tr key={team.id} className="hover:bg-gray-50 hover:text-black">
-                <td className="py-2 px-4 border-b border-slate-700 text-center">{team.name.toUpperCase()}</td>
-                <td className="py-2 px-4 border-b border-slate-700 text-center">{team.committee.toUpperCase()}</td>
-                <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation.toUpperCase()}</td>
-                <td className="py-2 px-4 border-b border-slate-700 text-center">{team.say.toUpperCase()}</td>
-                <td className="py-2 px-4 border-b border-slate-700 flex justify-center">
-                  <img src={team.image} alt="Team Member" className="w-16 h-16 object-cover" />
-                </td>
-              </tr>
-            )) || (
-              <tr>
-                <td colSpan={5} className="py-2 px-4 border-b border-slate-700 text-center">
-                  No teams found.
-                </td>
-              </tr>
-            )}
+          {filteredTeams?.map((team) => (
+            <tr key={team.id} className="hover:bg-gray-50 hover:text-black">
+              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.name.toUpperCase()}</td>
+              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.committee.toUpperCase()}</td>
+              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation.toUpperCase()}</td>
+              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.say.toUpperCase()}</td>
+              <td className="py-2 px-4 border-b border-slate-700 flex justify-center">
+                <Image src={team.image} alt="Team Member" className="w-16 h-16 object-cover" />
+              </td>
+            </tr>
+          )) ?? (
+            <tr>
+              <td colSpan={5} className="py-2 px-4 border-b border-slate-700 text-center">
+                No teams found.
+              </td>
+            </tr>
+          )}
+
           </tbody>
         </table>
       </div>

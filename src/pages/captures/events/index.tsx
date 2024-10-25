@@ -1,23 +1,34 @@
-import React, { useEffect, useRef } from 'react'
-import Events from '~/components/Events'
+import React, { useEffect, useRef, useCallback } from 'react';
+import Events from '~/components/Events';
 import { api } from '~/utils/api';
+
+interface IPResponse {
+  ip: string;
+}
 
 function EventsPage() {
   const isLogged = useRef(false); // Use a ref to persist the logged state
   const addLog = api.web.addLog.useMutation();
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-  const logIP = async () => {
+
+  const logIP = useCallback(async () => {
     if (isLogged.current) return; // Exit if already logged
 
     try {
       const initialPage = window.location.pathname; // Capture initial page name
-  
+
       const response = await fetch('/api/get-ip');
-      const data = await response.json();
+
+      // Ensure the response is OK before proceeding
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = (await response.json()) as IPResponse; // Type assertion here
       console.log('IP:', data.ip);
-  
+
       await delay(2000); // 2-second delay
-  
+
       // Check if user is still on the same page
       const currentPage = window.location.pathname;
       if (initialPage === currentPage) {
@@ -30,16 +41,17 @@ function EventsPage() {
     } catch (error) {
       console.error('Failed to log IP:', error);
     }
-  };
+  }, [addLog]);
 
   useEffect(() => {
-    logIP(); // Call logIP only once when the component mounts
-  }, []); // Runs only once on component mount
+    void logIP(); // Call logIP only once when the component mounts
+  }, [logIP]); // Runs only once on component mount
+
   return (
     <div>
-      <Events/>
+      <Events />
     </div>
-  )
+  );
 }
 
-export default EventsPage
+export default EventsPage;

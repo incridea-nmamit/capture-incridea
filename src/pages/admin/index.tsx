@@ -34,17 +34,17 @@ function Admin() {
     };
 
     if (status === 'authenticated' && session) {
-      typeText();
+      void typeText();
     }
     
     if(status ==='unauthenticated')
     {
-      router.push('unauthorized')
+      void router.push('unauthorized')
     }
 
     // Check user role and redirect if necessary
     if (status === 'authenticated' && session?.user?.role === 'user') {
-      router.push('/unauthorized');
+      void router.push('/unauthorized');
     }
   }, [session, status, router]);
 

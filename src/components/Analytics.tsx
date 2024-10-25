@@ -26,7 +26,7 @@ const Analytics = () => {
     ? logs.filter(log => log.page_name === "/") // Filter only `/` page visits
     : logs.filter(log => {
         const logDate = new Date(log.date_time);
-        const dateReferenceKey = `day${filter}` as keyof typeof dateReferences;
+        const dateReferenceKey = `day${filter}`; // Removed the type assertion
         const dateReference = dateReferences[dateReferenceKey];
         
         // Match both the date and the page_name to `/`

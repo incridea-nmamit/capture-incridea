@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { type FC, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSession, signOut, signIn } from "next-auth/react";
@@ -37,7 +37,7 @@ const Header: FC = () => {
               alt="Logo"
               width={120}
               height={70}
-              className="w-auto h-auto max-w-full"
+              className="w-auto h-auto max-w-40"
             />
           </a>
         </div>

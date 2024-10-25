@@ -1,4 +1,3 @@
-import { url } from "inspector";
 import Image from "next/image";
 
 interface CardProps {

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { FaSearch, FaSync, FaTrash } from 'react-icons/fa';
+import { FaSync } from 'react-icons/fa';
 import UploadComponent from '../UploadComponent';
 import { api } from '~/utils/api';
+import Image from 'next/image';
 
 const CapturesAdmin: React.FC = () => {
   const addImage = api.gallery.addImage.useMutation();
   const { data: gallery, isLoading: galleryLoading, isError: galleryError, refetch } = api.gallery.getAllGallery.useQuery();
   const { data: events, isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [newImage, setNewImage] = useState<{ event_name: string; }>({ event_name: '' });
+  const [newImage, setNewImage] = useState<{ event_name: string; event_category: string }>({ event_name: '', event_category: '' });
   const [uploadUrl, setUploadUrl] = useState<string>('');
 
   const handleUploadComplete = (url: string) => {
@@ -19,30 +21,28 @@ const CapturesAdmin: React.FC = () => {
     setIsPopupOpen(true);
   };
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleFormChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewImage(prev => ({ ...prev, [name]: value }));
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!uploadUrl) {
       console.log('No URL to submit');
       return;
     }
-
-    if (!newImage.event_name) {
-      alert("Please select an event name.");
+    if (!newImage.event_name || !newImage.event_category) {
+      alert("Please select an event name and category.");
       return;
     }
-
     try {
       const result = await addImage.mutateAsync({ ...newImage, uploadKey: uploadUrl });
-      console.log('Event added:', result);
+      console.log('Image added:', result);
       setIsPopupOpen(false);
-      setNewImage({ event_name: '' });
+      setNewImage({ event_name: '', event_category: '' });
       setUploadUrl(''); // Resetting the slider state here
-      refetch(); // Refetch gallery after adding
+      void refetch(); // Refetch gallery after adding
     } catch (error) {
       console.error('Error adding image:', error);
     }
@@ -50,7 +50,8 @@ const CapturesAdmin: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className='flex justify-center text-3xl font-extrabold mb-8 py-5'>Captures Management</h1> 
+      <h1 className="flex justify-center text-3xl font-extrabold mb-8 py-5">Captures Management</h1>
+
       <div className="mb-4 flex gap-2 flex-wrap">
         <button
           onClick={handleAddEventClick}
@@ -69,7 +70,7 @@ const CapturesAdmin: React.FC = () => {
       {galleryLoading ? (
         <div>Loading...</div>
       ) : galleryError ? (
-        <div className=''>Error loading events. Please try again later.</div>
+        <div className="">Error loading events. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-300 bg-black">
@@ -81,10 +82,10 @@ const CapturesAdmin: React.FC = () => {
             </thead>
             <tbody>
               {gallery?.map((item) => (
-                <tr key={item.id} className='hover:bg-gray-50 hover:text-black'>
+                <tr key={item.id} className="hover:bg-gray-50 hover:text-black">
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_name}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
-                    <img src={item.image_path} alt={item.event_name} className="h-32 w-32 object-cover" />
+                    <Image src={item.image_path} alt={item.event_name} className="h-32 w-32 object-cover" />
                   </td>
                 </tr>
               ))}
@@ -96,12 +97,11 @@ const CapturesAdmin: React.FC = () => {
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-cen w-96">
-              <h2 className="text-2xl font-bold text-white mb-4 ">Add Capture</h2>
-              <button onClick={() => setIsPopupOpen(false)} className="absolute top-6 right-6 text-white p-5">&times;</button>
+            <h2 className="text-2xl font-bold text-white mb-4">Add Capture</h2>
+            <button onClick={() => setIsPopupOpen(false)} className="absolute top-6 right-6 text-white p-5">&times;</button>
             <form onSubmit={handleSubmit}>
-            <label className="block mt-5 mb-2 text-white">Event Background:</label>
-            <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
-
+              <label className="block mt-5 mb-2 text-white">Event Background:</label>
+              <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
               <label className="block mt-5 mb-2 text-white">Event Name:</label>
               {eventsLoading ? (
                 <select className="w-full p-2 rounded" disabled>
@@ -120,15 +120,20 @@ const CapturesAdmin: React.FC = () => {
                   ))}
                 </select>
               )}
-              
-
+              <label className="block mt-5 mb-2 text-white">Event Category:</label>
+              <input
+                type="text"
+                name="event_category"
+                value={newImage.event_category}
+                onChange={handleFormChange}
+                className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
+              />
               <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-10">Submit</button>
             </form>
           </div>
         </div>
       )}
-
-      </div>
+    </div>
   );
 };
 

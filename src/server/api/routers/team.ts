@@ -7,7 +7,7 @@ export const teamRouter = createTRPCRouter({
   addTeam: protectedProcedure
     .input(
       z.object({
-        name : z.string(),
+        name: z.string(),
         committee: z.nativeEnum(Teamgroup),
         designation: z.nativeEnum(position),
         uploadKey: z.string().min(1, "Upload key is required"),
@@ -16,7 +16,6 @@ export const teamRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const imageUrl = `https://utfs.io/f/${input.uploadKey}`;
-
       const newTeam = await ctx.db.team.create({
         data: {
           name: input.name,
@@ -26,7 +25,6 @@ export const teamRouter = createTRPCRouter({
           say: input.say ?? "", // Handle undefined say field
         },
       });
-
       return newTeam;
     }),
 
@@ -35,7 +33,7 @@ export const teamRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.number().min(1, "Team ID is required"),
-        name: z.string(),
+        name: z.string().optional(),
         committee: z.nativeEnum(Teamgroup).optional(),
         designation: z.nativeEnum(position).optional(),
         uploadKey: z.string().optional(),
@@ -43,7 +41,14 @@ export const teamRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const updates: any = {};
+      const updates: Partial<{
+        name: string;
+        committee: Teamgroup;
+        designation: position;
+        image: string;
+        say: string;
+      }> = {};
+
       if (input.name) updates.name = input.name;
       if (input.committee) updates.committee = input.committee;
       if (input.designation) updates.designation = input.designation;
@@ -54,7 +59,6 @@ export const teamRouter = createTRPCRouter({
         where: { id: input.id },
         data: updates,
       });
-
       return updatedTeam;
     }),
 

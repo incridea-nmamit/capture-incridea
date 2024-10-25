@@ -1,5 +1,5 @@
 //components/EventCard.tsx
-import { FC } from "react";
+import {type FC } from "react";
 
 interface EventCardProps {
   name: string;

@@ -1,7 +1,6 @@
 // NavLink.tsx
-import { FC } from "react";
+import {type  FC } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 interface NavLinkProps {
   href: string;

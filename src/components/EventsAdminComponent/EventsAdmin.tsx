@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { FaSearch, FaSync } from 'react-icons/fa'; // Import the reload icon
 import UploadComponent from '../UploadComponent';
 import { api } from '~/utils/api';
-import { Day, EventType } from '@prisma/client';
+import type { Day, EventType } from '@prisma/client';
+import Image from 'next/image';
 
 const EventsAdmin: React.FC = () => {
   const addEvent = api.events.addEvent.useMutation();
@@ -67,13 +68,19 @@ const EventsAdmin: React.FC = () => {
       setIsPopupOpen(false);
       setNewEvent({ name: '', description: '', type: 'core', day: 'day1' });
       setUploadUrl('');
-      refetch(); // Refetch events after adding
+      void refetch(); // Refetch events after adding
     } catch (error) {
       console.error('Error adding event:', error);
     }
   };
 
-  const handleDoubleClickVisibility = (event: any) => {
+  interface EventData {
+    id: number; // or number, depending on your ID type
+    name: string;
+    visibility: 'active' | 'inactive';
+  }
+  
+  const handleDoubleClickVisibility = (event: EventData) => {
     setVisibilityPopup({
       id: event.id,
       name: event.name,
@@ -81,6 +88,7 @@ const EventsAdmin: React.FC = () => {
       newVisibility: event.visibility === 'active' ? 'inactive' : 'active',
     });
   };
+  
 
   const handleVisibilityChange = async (id: number, name: string, currentState: string) => {
     const newState = currentState === "active" ? "inactive" : "active";    
@@ -88,7 +96,7 @@ const EventsAdmin: React.FC = () => {
         await updateVisibility.mutateAsync({ id });
         console.log(`Visibility updated to ${newState}`);
         setVisibilityPopup(null)
-        refetch(); // Refetch events after visibility change
+        void refetch(); // Refetch events after visibility change
       } catch (error) {
         console.error('Error updating visibility:', error);
       }
@@ -189,9 +197,11 @@ const EventsAdmin: React.FC = () => {
                   >
                     {event.visibility.toUpperCase()}
                   </td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
-                    <img src={event.image} alt={event.name} className="h-16 w-16 object-cover" />
-                  </td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                  <div className="relative h-16 w-16">
+                  <Image src={event.image} alt="Team Member" className="w-16 h-16 object-cover" />
+                  </div>
+                </td>
                 </tr>
               ))}
             </tbody>

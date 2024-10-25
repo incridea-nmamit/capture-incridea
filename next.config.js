@@ -21,6 +21,7 @@ const config = {
   transpilePackages: ["geist"],
 
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

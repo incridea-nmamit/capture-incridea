@@ -1,4 +1,3 @@
-// src/hooks/useUserRole.ts
 import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react'; // Import from NextAuth.js
 
@@ -20,10 +19,13 @@ const useUserRole = () => {
       }
     };
 
-    fetchUserRole();
+    void fetchUserRole(); // Call the function to fetch user role directly
 
     // Optional: Subscribe to session changes (if your library supports it)
-    const intervalId = setInterval(fetchUserRole, 5000); // Check every 5 seconds
+    const intervalId = setInterval(() => {
+      fetchUserRole().catch(console.error); // Handle promise inside setInterval
+    }, 5000); // Check every 5 seconds
+
     return () => clearInterval(intervalId); // Clean up on unmount
   }, []);
 

@@ -1,40 +1,58 @@
-import { useEffect, useRef } from "react"; // Import useRef from React
+import { useEffect, useRef, useCallback } from "react"; // Import useRef from React
 import Link from "next/link"; // Import Link from Next.js
 import { api } from "~/utils/api";
+
+interface IPResponse {
+  ip: string;
+}
 
 const Captures = () => {
   const isLogged = useRef(false); // Use a ref to persist the logged state
   const addLog = api.web.addLog.useMutation();
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-  const logIP = async () => {
+
+  const logIP = useCallback(async () => {
     if (isLogged.current) return; // Exit if already logged
 
     try {
       const initialPage = window.location.pathname; // Capture initial page name
   
       const response = await fetch('/api/get-ip');
-      const data = await response.json();
-      console.log('IP:', data.ip);
-  
-      await delay(2000); // 2-second delay
-  
-      // Check if user is still on the same page
-      const currentPage = window.location.pathname;
-      if (initialPage === currentPage) {
-        await addLog.mutateAsync({ ipAddress: data.ip, pageName: initialPage });
-        console.log('IP logged successfully');
-        isLogged.current = true; // Set to true after logging
+
+      // Ensure the response is OK before proceeding
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      // Use type assertion or check the data structure
+      const data: unknown = await response.json(); // Change to unknown first
+
+      // Type guard to ensure data is of expected type
+      if (isIPResponse(data)) {
+        console.log('IP:', data.ip);
+
+        await delay(2000); // 2-second delay
+
+        // Check if user is still on the same page
+        const currentPage = window.location.pathname;
+        if (initialPage === currentPage) {
+          await addLog.mutateAsync({ ipAddress: data.ip, pageName: initialPage });
+          console.log('IP logged successfully');
+          isLogged.current = true; // Set to true after logging
+        } else {
+          console.log('User navigated to a different page. Logging aborted.');
+        }
       } else {
-        console.log('User navigated to a different page. Logging aborted.');
+        console.error('Received unexpected data structure:', data);
       }
     } catch (error) {
       console.error('Failed to log IP:', error);
     }
-  };
+  }, [addLog]); // Add addLog to dependencies
 
   useEffect(() => {
-    logIP(); // Call logIP only once when the component mounts
-  }, []);
+    void logIP(); // Call logIP only once when the component mounts
+  }, [logIP]); // Correctly handle logIP in dependencies
 
   return (
     <div
@@ -84,6 +102,11 @@ const Captures = () => {
       </div>
     </div>
   );
+};
+
+// Type guard function
+const isIPResponse = (data: unknown): data is IPResponse => {
+  return typeof data === 'object' && data !== null && 'ip' in data;
 };
 
 export default Captures;

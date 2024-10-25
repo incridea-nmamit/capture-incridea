@@ -57,7 +57,7 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: user.id,
-          role: userData?.role || Role.user,
+          role: userData?.role ?? Role.user,
           name: userData?.name ?? 'user',// Assign role to session; fallback to 'USER' if undefined
         },
       };
