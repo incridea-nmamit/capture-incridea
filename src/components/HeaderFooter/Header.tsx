@@ -24,7 +24,7 @@ const Header: FC = () => {
 
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
-      <header className="bg-black shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start">
+      <header className="sticky-header bg-black shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start z-50 ">
         {/* Logo Section */}
         <div className="flex items-center w-full md:w-auto">
           <a

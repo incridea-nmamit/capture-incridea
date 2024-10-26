@@ -1,13 +1,14 @@
 import {
   createTRPCRouter,
   protectedProcedure,
+  publicProcedure,
 } from "~/server/api/trpc";
 import { z } from "zod";
 import { State, EventType, Day } from "@prisma/client";
 
 export const eventRouter = createTRPCRouter({
   // Get all events
-  getAllEvents: protectedProcedure.query(async ({ ctx }) => {
+  getAllEvents: publicProcedure.query(async ({ ctx }) => {
     const events = await ctx.db.events.findMany({});
     return events ?? [];
   }),

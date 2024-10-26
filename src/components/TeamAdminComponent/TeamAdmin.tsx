@@ -101,7 +101,7 @@ const TeamAdmin: React.FC = () => {
 
   return (
     <div className="relative">
-      <h1 className='flex justify-center text-3xl font-extrabold mb-8 py-5'>Team Data and Management</h1>
+      <h1 className='flex justify-center text-center text-3xl font-extrabold mb-8 py-5'>Team Data and Management</h1>
       <div className="flex items-center mb-4 space-x-2 h-12">
         <div className="relative w-1/2">
           <input

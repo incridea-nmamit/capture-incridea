@@ -1,11 +1,12 @@
 import {
   createTRPCRouter,
   protectedProcedure,
+  publicProcedure,
 } from "~/server/api/trpc";
 import { z } from "zod";
 export const galleryRouter = createTRPCRouter({
   // Get all events
-  getAllGallery: protectedProcedure.query(async ({ ctx }) => {
+  getAllGallery: publicProcedure.query(async ({ ctx }) => {
     const gallery = await ctx.db.gallery.findMany({});
     return gallery ?? [];
   }),

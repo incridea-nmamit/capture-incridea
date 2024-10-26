@@ -1,9 +1,9 @@
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod"; // Import your model if necessary
 
 export const webRouter = createTRPCRouter({
   // Add Log Mutation
-  addLog: protectedProcedure
+  addLog: publicProcedure
     .input(
       z.object({
         ipAddress: z.string(),

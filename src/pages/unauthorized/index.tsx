@@ -31,7 +31,7 @@ const NotAuthorized = () => {
         <h1 className="text-5xl font-bold mb-4">Oops! Unauthorized!</h1>
         <p className="text-xl mb-8">Looks like you stumbled into the wrong neighborhood! </p>
         <p className="text-lg">
-          This page isn&apos;t for you! If you think you belong here, maybe try signing in again!
+          This page isn&apos;t for you! Maybe try signing in again with a different account!
         </p>
         <button
           onClick={handleSignOutAndIn}

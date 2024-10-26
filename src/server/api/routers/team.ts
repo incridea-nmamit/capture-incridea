@@ -1,4 +1,4 @@
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { Teamgroup, position } from "@prisma/client";
 
@@ -63,7 +63,7 @@ export const teamRouter = createTRPCRouter({
     }),
 
   // Get All Teams Query
-  getAllTeams: protectedProcedure.query(async ({ ctx }) => {
+  getAllTeams: publicProcedure.query(async ({ ctx }) => {
     const teams = await ctx.db.team.findMany();
     return teams;
   }),

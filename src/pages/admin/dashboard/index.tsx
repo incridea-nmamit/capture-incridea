@@ -51,6 +51,7 @@ const Dashboard = () => {
 
   const renderComponent = () => {
     if (activeTab === 'analytics') return <Analytics />;
+    if (activeTab === 'manageroles') return <Analytics />;
 
     if (showMessageOnce) {
       return (
@@ -67,9 +68,11 @@ const Dashboard = () => {
           <p className="text-blue-400 mt-10">
             You are the <span className="text-yellow-500">&nbsp;{session?.user.role}&nbsp;</span>
             {session?.user.role === 'admin'
-              ? 'you have access to everything✌!'
+              ? ' and you have access to everything✌!'
               : session?.user.role === 'editor'
-              ? 'you can upload / delete captures✌!'
+              ? 'and you can manage all media captures on this website✌!'
+              : session?.user.role === 'manager'
+              ? 'and you can manage & update events and teams on this website✌!'              
               : 'keep up the great work!'}
             🚀
           </p>
@@ -89,16 +92,31 @@ const Dashboard = () => {
   };
 
   const renderTabNavigation = () => (
-    <div className="flex flex-col mb-4">
+    <div className="flex flex-col mb-4 gap-5">
+      {userRole === 'admin' && (
+              <button
+                onClick={() => {
+                  setActiveTab('manageroles');
+                  setShowMessageOnce(false); // Hide message when switching to Analytics
+                }}
+                className={`flex-1 text-center p-2 rounded-lg ${
+                  activeTab === 'manageroles'
+                    ? 'bg-blue-800 text-white'
+                    : 'bg-gray-800 text-gray-300 hover:bg-blue-500'
+                } transition duration-200`}
+              >
+                Manage Roles
+              </button>       
+            )}
       <button
         onClick={() => {
           setActiveTab('accessData');
           setShowMessageOnce(false); // Hide message when clicking Access Data
         }}
-        className={`flex-1 text-center p-2 ${
+        className={`flex-1 text-center p-2 rounded-lg ${
           activeTab === 'accessData'
-            ? 'bg-gray-600 text-white'
-            : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+            ? 'bg-blue-800 text-white'
+            : 'bg-gray-800 text-gray-300 hover:bg-blue-500'
         } transition duration-200`}
       >
         Access Data
@@ -110,14 +128,14 @@ const Dashboard = () => {
             setActiveTab('analytics');
             setShowMessageOnce(false); // Hide message when switching to Analytics
           }}
-          className={`flex-1 text-center p-2 ${
+          className={`flex-1 text-center p-2 rounded-lg ${
             activeTab === 'analytics'
-              ? 'bg-gray-600 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              ? 'bg-blue-800 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-blue-500'
           } transition duration-200`}
         >
           Analytics
-        </button>
+        </button>       
       )}
     </div>
   );
@@ -127,17 +145,21 @@ const Dashboard = () => {
       {/* Sidebar */}
       <div className="md:w-48 w-full p-4 bg-zinc-900 bg-cover">
         {renderTabNavigation()}
+      </div>
 
-        {/* Dropdown for Access Data */}
+      {/* Content Area */}
+      <div className="md:w-5/6 w-full p-4 bg-zinc-800">
+        <div>
+           {/* Dropdown for Access Data */}
         {activeTab === 'accessData' && (
-          <div className="relative mt-2">
+          <div className="relative mt-2 flex justify-end">
             <select
               value={selectedOption}
               onChange={(e) => {
                 setSelectedOption(e.target.value);
                 setShowMessageOnce(false); // Hide message when selecting an option
               }}
-              className="block w-full max-w-xs sm:max-w-full bg-gray-700 border border-gray-600 text-white p-2 rounded shadow-md focus:outline-none focus:ring focus:ring-blue-500 transition duration-200"
+              className="block max-w-xs sm:max-w-full bg-gray-700 border border-gray-600 text-white p-2 rounded shadow-md focus:outline-none focus:ring focus:ring-blue-500 transition duration-200 w-52"
             >
               {options.length > 0 ? (
                 options.map((option) => (
@@ -153,10 +175,9 @@ const Dashboard = () => {
             </select>
           </div>
         )}
+        </div>
+        {renderComponent()}
       </div>
-
-      {/* Content Area */}
-      <div className="md:w-5/6 w-full p-4 bg-zinc-800">{renderComponent()}</div>
     </div>
   );
 };
