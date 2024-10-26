@@ -16,7 +16,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <div className="flex flex-col min-h-screen font-roboto"> {/* Use Flexbox to structure the layout */}
         <Header />
-        <main className="flex-grow"> {/* Allow the main content to grow */}
+        <main className="flex-grow bg-black"> {/* Allow the main content to grow */}
         <TrackPageVisits />
           <Component {...pageProps} />
         </main>
