@@ -163,7 +163,7 @@ const TeamAdmin: React.FC = () => {
               <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation.toUpperCase()}</td>
               <td className="py-2 px-4 border-b border-slate-700 text-center">{team.say.toUpperCase()}</td>
               <td className="py-2 px-4 border-b border-slate-700 flex justify-center">
-                <Image src={team.image} alt="Team Member" className="w-16 h-16 object-cover" />
+                <Image src={team.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
               </td>
             </tr>
           )) ?? (

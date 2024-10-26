@@ -199,7 +199,7 @@ const EventsAdmin: React.FC = () => {
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
                   <div className="relative h-16 w-16">
-                  <Image src={event.image} alt="Team Member" className="w-16 h-16 object-cover" />
+                  <Image src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
                   </div>
                 </td>
                 </tr>
