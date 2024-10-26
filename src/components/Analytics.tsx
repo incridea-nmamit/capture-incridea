@@ -71,7 +71,7 @@ const Analytics = () => {
         <tbody>
           <tr>
             <td className="py-2 px-4 border-b">Total Web Visits</td>
-            <td className="py-2 px-4 border-b">{totalVisits/2}</td> {/* Divided by 2 for unknown double entry problem */}
+            <td className="py-2 px-4 border-b">{totalVisits}</td> {/* Divided by 2 for unknown double entry problem */}
           </tr>
           <tr>
             <td className="py-2 px-4 border-b">Total Unique Visitors</td>
