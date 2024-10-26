@@ -11,7 +11,7 @@ const Header: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isMobilePreviewOpen, setIsMobilePreviewOpen] = useState(false);
-  const pathname = usePathname();
+  const pathname = usePathname() || ""; 
   const isAdminRoute = pathname.startsWith("/admin");
 
   const subLinks = [

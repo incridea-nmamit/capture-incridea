@@ -1,25 +1,30 @@
-//components/EventCard.tsx
-import {type FC } from "react";
+// components/EventCard.tsx
+import { useRouter } from "next/router";
+import { type FC } from "react";
 
 interface EventCardProps {
   name: string;
   description: string;
-  day: number;
+  day: string;
   background: string;
 }
 
 const EventCard: FC<EventCardProps> = ({ name, description, background }) => {
-  return (
-    <div
-      className="relative h-80 w-64 rounded-lg shadow-lg overflow-hidden bg-cover bg-center"
-      style={{ backgroundImage: `url(${background})` }}
-    >
-      {/* Overlay to dim background */}
-      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+  const router = useRouter(); // Initialize useRouter
 
-      <div className="absolute bottom-0 p-4 bg-black bg-opacity-75 text-white w-full">
-        <h2 className="text-lg font-semibold">{name}</h2>
-        <p className="text-sm">{description}</p>
+  const handleCardClick = () => {
+    // Redirect to the new page
+    router.push(`/captures/events/${name.replace(/\s+/g, '-')}`);
+  };
+  return (
+    <div className="relative w-full h-72 rounded-lg overflow-hidden border border-gray-700 shadow-md transition-transform duration-300 transform hover:scale-105"
+    onClick={handleCardClick} // Add onClick handler
+    >
+      <img src={background} alt={name} className="w-full h-full object-cover" />
+      
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent p-4 flex flex-col justify-end">
+        <h2 className="text-lg font-bold text-yellow-400 text-center">{name}</h2>
+        <p className="text-sm text-white line-clamp-4 text-center">{description}</p>
       </div>
     </div>
   );

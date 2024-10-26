@@ -35,7 +35,7 @@ const Captures = () => {
         </Link>
 
         {/* General Card with Link */}
-        <Link href="/captures/general" passHref>
+        <Link href="/captures/your-snaps" passHref>
           <div className="relative group w-80 h-80 rounded-3xl overflow-hidden cursor-pointer">
             {/* Shadow behind the card */}
             <div className="absolute inset-0 -z-10 bg-black rounded-3xl blur-lg opacity-50 group-hover:opacity-75 transition" />
@@ -47,7 +47,7 @@ const Captures = () => {
             >
               <div className="absolute inset-0 bg-black bg-opacity-30 backdrop-blur-sm" />
               <div className="relative flex items-center justify-center h-full text-white text-3xl font-bold">
-                General
+                Your Snaps
               </div>
             </div>
           </div>
