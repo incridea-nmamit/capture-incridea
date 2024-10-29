@@ -86,6 +86,7 @@ const CapturesAdmin: React.FC = () => {
             <thead className="bg-white">
               <tr>
                 <th className="text-black border border-gray-300 p-2">Event-Name</th>
+                <th className="text-black border border-gray-300 p-2">Event-Category</th>
                 <th className="text-black border border-gray-300 p-2">Image</th>
               </tr>
             </thead>
@@ -93,6 +94,7 @@ const CapturesAdmin: React.FC = () => {
               {gallery?.map((item) => (
                 <tr key={item.id} className="hover:bg-gray-50 hover:text-black">
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_name}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_category}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
                     <Image src={item.image_path} alt={item.event_name} width={32} height={32} className="h-32 w-32 object-cover" />
                   </td>

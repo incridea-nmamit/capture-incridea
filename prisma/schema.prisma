@@ -7,6 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+enum RemovalRequestStatus {
+  pending
+  declined
+  approved
+}
+
+model RemovalRequest {
+  id          Int                   @id @default(autoincrement())
+  name        String
+  idcard      String
+  description String
+  image_path  String
+  status      RemovalRequestStatus  @default(pending)
+}
+
 model events {
   id                Int      @id @default(autoincrement())
   name        String
@@ -93,13 +109,6 @@ model auditLog {
   user              String
   audit_description String
   date_time         DateTime @default(now())
-}
-
-model EventAnalysis {
-  id         Int      @id @default(autoincrement())
-  event_name String
-  ip_address String
-  date_time  DateTime @default(now())
 }
 
 model Gallery {
