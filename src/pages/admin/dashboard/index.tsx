@@ -8,6 +8,7 @@ import CapturesAdmin from '~/components/CapturesAdminComponent/CapturesAdmin';
 import Analytics from '../analytics';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import RemovalRequest from '~/components/RemovalRequest';
 
 // Sample Components for Each Option
 const Events = () => <EventsAdmin />;
@@ -52,6 +53,7 @@ const Dashboard = () => {
   const renderComponent = () => {
     if (activeTab === 'analytics') return <Analytics />;
     if (activeTab === 'manageroles') return <Analytics />;
+    if(activeTab === 'removalrequest') return <RemovalRequest />;
 
     if (showMessageOnce) {
       return (
@@ -137,6 +139,21 @@ const Dashboard = () => {
           Analytics
         </button>       
       )}
+      {userRole === 'admin' && (
+              <button
+                onClick={() => {
+                  setActiveTab('removalrequest');
+                  setShowMessageOnce(false); // Hide message when switching to Analytics
+                }}
+                className={`flex-1 text-center p-2 rounded-lg ${
+                  activeTab === 'removalrequest'
+                    ? 'bg-blue-800 text-white'
+                    : 'bg-gray-800 text-gray-300 hover:bg-blue-500'
+                } transition duration-200`}
+              >
+                Removal Request
+              </button>       
+            )}
     </div>
   );
 

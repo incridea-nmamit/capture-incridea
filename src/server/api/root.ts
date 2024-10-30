@@ -4,7 +4,7 @@ import { eventRouter } from "./routers/event";
 import { galleryRouter } from "./routers/gallery";
 import { webRouter } from "./routers/web";
 import { downloadLogRouter } from "./routers/downloadlog";
-import { removalRequestRouter } from "./routers/removalrequest";
+import { removalRequestRouter } from "./routers/removalRequest";
 /**
  * This is the primary router for your server.
  *

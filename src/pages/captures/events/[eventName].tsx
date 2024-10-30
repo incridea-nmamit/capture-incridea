@@ -46,14 +46,25 @@ const EventCaptures = () => {
   const handleUploadComplete = (url: string) => setUploadUrl(url);
 
   const handleSubmit = async () => {
-    await submitRemovalRequest.mutateAsync({
-      name,
-      idcard: uploadUrl,
-      description,
-      image_path: removalImage || "",
-    });
-    closeRemovalPopup(); // Close the popup after submission
+    try {
+      await submitRemovalRequest.mutateAsync({
+        name,
+        idcard: uploadUrl,
+        description,
+        image_path: removalImage || "",
+      });
+      closeRemovalPopup(); // Close the popup after submission
+  
+      // Reset form fields
+      setName("");
+      setDescription("");
+      setUploadUrl("");
+      setRemovalImage(null);
+    } catch (error) {
+      console.error("Error submitting removal request:", error);
+    }
   };
+  
 
   if (isLoading) return <p className="text-white text-center">Loading images...</p>;
   if (error) return <p className="text-white text-center">Error loading images.</p>;
@@ -86,7 +97,7 @@ const EventCaptures = () => {
           onClick={handleClosePopup}
         >
           <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full">
-            <Image src={selectedImage} alt="Selected" width={500} height={500} className="rounded mb-4" />
+            <Image src={selectedImage} alt="Selected" width={400} height={400} className="rounded mb-4" />
             <div className="flex justify-center items-center space-x-4 py-5">
               <button
                 className="bg-white hover:bg-black hover:text-white text-black px-2 py-2 rounded flex items-center transition-all"
@@ -110,11 +121,11 @@ const EventCaptures = () => {
               </button>
             </div>
             <p className="text-xs text-center py-5 w-full">
-              Note: If you prefer this picture not to be Public, please{" "}
+              Note: If you prefer this picture not to be public, please{" "}
               <a className="font-blue cursor-pointer" onClick={() => openRemovalPopup(selectedImage)}>
                 Request Removal
               </a>
-              .
+              We’ll verify your request and work on it soon.
             </p>
           </div>
         </div>
