@@ -21,7 +21,7 @@ const EventCaptures = () => {
   const formattedEventName = (safeEventName || "").replace(/-/g, " ");
   const { data: images, isLoading, error } = api.gallery.getAllGallery.useQuery();
   const logDownload = api.download.logDownload.useMutation();
-  const submitRemovalRequest = api.removalrequest.submit.useMutation(); // TRPC mutation for submission
+  const submitRemovalRequest = api.request.submit.useMutation(); // TRPC mutation for submission
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);

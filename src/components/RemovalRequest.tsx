@@ -12,7 +12,7 @@ const RemovalRequest: React.FC = () => {
   const [actionType, setActionType] = useState<'approve' | 'decline' | null>(null);
 
   const { data: removalRequests, isLoading: requestsLoading, isError: requestsError } =
-    api.removalrequest.getAll.useQuery();
+    api.request.getAll.useQuery();
 
   useEffect(() => {
     if (session?.user?.role === 'editor') {
@@ -33,8 +33,8 @@ const RemovalRequest: React.FC = () => {
     setIsActionPopupOpen(true);
   };
 
-  const { mutate: approveMutation } = api.removalrequest.approve.useMutation();
-  const { mutate: declineMutation } = api.removalrequest.decline.useMutation();
+  const { mutate: approveMutation } = api.request.approve.useMutation();
+  const { mutate: declineMutation } = api.request.decline.useMutation();
 
   const handleConfirmAction = async () => {
     if (actionType === 'approve') {

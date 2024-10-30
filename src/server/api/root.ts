@@ -4,7 +4,7 @@ import { eventRouter } from "./routers/event";
 import { galleryRouter } from "./routers/gallery";
 import { webRouter } from "./routers/web";
 import { downloadLogRouter } from "./routers/downloadlog";
-import { removalRequestRouter } from "./routers/removalRequest";
+import { removalRequestRouter } from "./routers/requests";
 /**
  * This is the primary router for your server.
  *
@@ -16,7 +16,7 @@ export const appRouter = createTRPCRouter({
   gallery: galleryRouter,
   web: webRouter,
   download: downloadLogRouter,
-  removalrequest : removalRequestRouter 
+  request : removalRequestRouter 
 });
 
 

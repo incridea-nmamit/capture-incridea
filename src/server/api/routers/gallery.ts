@@ -46,4 +46,5 @@ export const galleryRouter = createTRPCRouter({
 
       return { message: "Image deleted successfully" };
     }),
+    
 });
