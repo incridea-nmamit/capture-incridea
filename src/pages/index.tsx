@@ -1,8 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import VideoComponent from "~/components/VideoComponent";
-import { api } from "~/utils/api";
 
 export default function Home() {
   const router = useRouter();

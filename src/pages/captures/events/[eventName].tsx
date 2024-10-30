@@ -121,10 +121,13 @@ const EventCaptures = () => {
               </button>
             </div>
             <p className="text-xs text-center py-5 w-full">
-              Note: If you prefer this picture not to be public, please{" "}
-              <a className="font-blue cursor-pointer" onClick={() => openRemovalPopup(selectedImage)}>
-                Request Removal
-              </a>
+              Note: If you prefer this capture not to be public or have any issues.<br /> Please {" "}
+              <a
+                className="text-blue-500 cursor-pointer"
+                onClick={() => openRemovalPopup(selectedImage)}
+              >
+                click here to Request Removal
+              </a>.<br />
               We’ll verify your request and work on it soon.
             </p>
           </div>
