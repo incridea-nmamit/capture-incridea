@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import CaptureCard from "~/components/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
+import Image from 'next/image';
+import UploadComponent from "~/components/UploadComponent"; // Ensure this component exists.
 
 interface ImageData {
   id: number;
@@ -19,8 +21,14 @@ const EventCaptures = () => {
   const formattedEventName = (safeEventName || "").replace(/-/g, " ");
   const { data: images, isLoading, error } = api.gallery.getAllGallery.useQuery();
   const logDownload = api.download.logDownload.useMutation();
+  const submitRemovalRequest = api.removalrequest.submit.useMutation(); // TRPC mutation for submission
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [removalImage, setRemovalImage] = useState<string | null>(null);
+  const [uploadUrl, setUploadUrl] = useState<string>("");
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
 
   const filteredImages = images?.filter((image) => image.event_name === formattedEventName) || [];
 
@@ -30,6 +38,21 @@ const EventCaptures = () => {
   const handleDownload = async (imagePath: string) => {
     await downloadImage(imagePath, "capture-incridea.png");
     await logDownload.mutateAsync({ file_path: imagePath });
+  };
+
+  const openRemovalPopup = (imagePath: string) => setRemovalImage(imagePath);
+  const closeRemovalPopup = () => setRemovalImage(null);
+
+  const handleUploadComplete = (url: string) => setUploadUrl(url);
+
+  const handleSubmit = async () => {
+    await submitRemovalRequest.mutateAsync({
+      name,
+      idcard: uploadUrl,
+      description,
+      image_path: removalImage || "",
+    });
+    closeRemovalPopup(); // Close the popup after submission
   };
 
   if (isLoading) return <p className="text-white text-center">Loading images...</p>;
@@ -63,9 +86,7 @@ const EventCaptures = () => {
           onClick={handleClosePopup}
         >
           <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full">
-            <div className="flex justify-center">
-              <img src={selectedImage} alt="Selected" className="w-full h-auto rounded mb-4" />
-            </div>
+            <Image src={selectedImage} alt="Selected" width={500} height={500} className="rounded mb-4" />
             <div className="flex justify-center items-center space-x-4 py-5">
               <button
                 className="bg-white hover:bg-black hover:text-white text-black px-2 py-2 rounded flex items-center transition-all"
@@ -89,10 +110,52 @@ const EventCaptures = () => {
               </button>
             </div>
             <p className="text-xs text-center py-5 w-full">
-              Note: If you prefer this picture not to be Public,
-              Please feel free to <a className="font-blue">Request Removal</a>.
-              We’ll verify and take care of it promptly.
+              Note: If you prefer this picture not to be Public, please{" "}
+              <a className="font-blue cursor-pointer" onClick={() => openRemovalPopup(selectedImage)}>
+                Request Removal
+              </a>
+              .
             </p>
+          </div>
+        </div>
+      )}
+      {removalImage && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50"
+        >
+          <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full">
+            <h2 className="text-2xl text-white font-bold text-center mb-4">Request Removal</h2>
+            <Image src={removalImage} alt="Removal Image" width={500} height={500} className="rounded mb-4" />
+            <form className="space-y-4">
+              <input
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-2 rounded bg-gray-800 text-white"
+              />
+              <textarea
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full px-4 py-2 rounded bg-gray-800 text-white"
+              />
+              <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl("")} />
+              <button
+                type="button"
+                onClick={handleSubmit}
+                className="w-full bg-green-500 hover:bg-green-700 text-white px-4 py-2 rounded"
+              >
+                Submit Request
+              </button>
+              <button
+                type="button"
+                onClick={closeRemovalPopup}
+                className="w-full bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded"
+              >
+                Close
+              </button>
+            </form>
           </div>
         </div>
       )}
