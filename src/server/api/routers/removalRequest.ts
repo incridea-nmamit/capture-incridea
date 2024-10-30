@@ -10,6 +10,7 @@ export const removalRequestRouter = createTRPCRouter({
         name: z.string().min(1, "Name is required"),
         idcard: z.string().min(1, "ID card URL is required"),
         description: z.string(),
+        email: z.string(),
         image_path: z.string().min(1, "Image path is required"),
       })
     )
@@ -19,6 +20,7 @@ export const removalRequestRouter = createTRPCRouter({
         data: {
           name: input.name,
           idcard: imageUrl,
+          email: input.email,
           description: input.description,
           image_path: input.image_path,
           status: RemovalRequestStatus.pending, // Default status
@@ -39,10 +41,12 @@ export const removalRequestRouter = createTRPCRouter({
         where: { id: input.id },
       });
 
+      // Check if the request exists
       if (!request) {
         throw new Error("Request not found");
       }
 
+      // Update the request status to approved
       const approvedRequest = await ctx.db.removalRequest.update({
         where: { id: input.id },
         data: { status: RemovalRequestStatus.approved }, // Set status to approved
@@ -63,10 +67,12 @@ export const removalRequestRouter = createTRPCRouter({
         where: { id: input.id },
       });
 
+      // Check if the request exists
       if (!request) {
         throw new Error("Request not found");
       }
 
+      // Update the request status to declined
       const declinedRequest = await ctx.db.removalRequest.update({
         where: { id: input.id },
         data: { status: RemovalRequestStatus.declined }, // Set status to declined

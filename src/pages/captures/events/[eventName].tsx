@@ -28,6 +28,7 @@ const EventCaptures = () => {
   const [uploadUrl, setUploadUrl] = useState<string>("");
 
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
 
   const filteredImages = images?.filter((image) => image.event_name === formattedEventName) || [];
@@ -46,24 +47,41 @@ const EventCaptures = () => {
   const handleUploadComplete = (url: string) => setUploadUrl(url);
 
   const handleSubmit = async () => {
+    if (!name || !email || !description) {
+      alert("Please fill all the fields and upload the ID card image.");
+      return;
+    }
+
+    if(!uploadUrl){
+      alert("Select Upload Image after selecting the Image");
+      return;
+    }
+
+    if (!removalImage) {
+      alert("No Selected image to submit");
+      return;
+    }
     try {
       await submitRemovalRequest.mutateAsync({
         name,
         idcard: uploadUrl,
         description,
         image_path: removalImage || "",
+        email,
       });
       closeRemovalPopup(); // Close the popup after submission
   
       // Reset form fields
       setName("");
       setDescription("");
+      setEmail("");
       setUploadUrl("");
       setRemovalImage(null);
     } catch (error) {
       console.error("Error submitting removal request:", error);
     }
   };
+  
   
 
   if (isLoading) return <p className="text-white text-center">Loading images...</p>;
@@ -92,12 +110,15 @@ const EventCaptures = () => {
         ))}
       </main>
       {selectedImage && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50"
-          onClick={handleClosePopup}
-        >
+        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-50">
           <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full">
-            <Image src={selectedImage} alt="Selected" width={400} height={400} className="rounded mb-4" />
+            <div className="flex">
+              <h2 className="text-2xl w-full text-center font-bold text-white">Add Capture</h2>
+              <button onClick={handleClosePopup} className="absolute top-0  right-5 text-white text-4xl p-5">&times;</button>
+            </div>
+            <div className="flex justify-center py-8">
+              <Image src={selectedImage} alt="Selected" width={200} height={200} className="rounded mb-4" />
+            </div>
             <div className="flex justify-center items-center space-x-4 py-5">
               <button
                 className="bg-white hover:bg-black hover:text-white text-black px-2 py-2 rounded flex items-center transition-all"
@@ -123,9 +144,12 @@ const EventCaptures = () => {
             <p className="text-xs text-center py-5 w-full">
               Note: If you prefer this capture not to be public or have any issues.<br /> Please {" "}
               <a
-                className="text-blue-500 cursor-pointer"
-                onClick={() => openRemovalPopup(selectedImage)}
-              >
+                  className="text-blue-500 cursor-pointer"
+                  onClick={() => {
+                    setSelectedImage(null); // Close the image popup
+                    openRemovalPopup(selectedImage); // Open the removal popup
+                  }}
+                >
                 click here to Request Removal
               </a>.<br />
               We’ll verify your request and work on it soon.
@@ -148,6 +172,13 @@ const EventCaptures = () => {
                 placeholder="Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-2 rounded bg-gray-800 text-white"
+              />
+              <input
+                type="email"
+                placeholder="Preffered College Email ID"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-2 rounded bg-gray-800 text-white"
               />
               <textarea
