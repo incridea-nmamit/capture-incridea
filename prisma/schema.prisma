@@ -20,6 +20,7 @@ model RemovalRequest {
   idcard      String
   description String
   image_path  String
+  email       String
   status      RemovalRequestStatus  @default(pending)
 }
 
