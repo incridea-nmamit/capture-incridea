@@ -22,10 +22,9 @@ function Admin() {
   const [welcomeText, setWelcomeText] = useState('');
 
   useEffect(() => {
-    const welcomeMessage = `Welcome to the Admin Panel, ${session?.user?.name}!`;
-    const typingDelay = 0; // milliseconds
-
-    // Typewriter effect
+    const welcomeMessage = `${session?.user?.name}!`;
+    const typingDelay = 0; 
+    //Typewriter  effect
     const typeText = async () => {
       for (let i = 0; i <= welcomeMessage.length; i++) {
         setWelcomeText(welcomeMessage.slice(0, i)); // Update welcome text
@@ -60,13 +59,14 @@ function Admin() {
       <div className="flex items-center justify-center min-h-screen bg-black text-white bg-cover">
         <div className="text-center ">
           <h1 className="text-5xl font-velocista mb-4 ">
+            Welcome to the Admin Panel <br/>
             {welcomeText}
           </h1>
           <p className="font-silkscreen text-lg mb-2">
             You are logged in with {session.user.email}
           </p>
-          <button className="font-velocista mt-4 px-6 py-2 border border-blue-500 text-blue-500 font-bold rounded shadow-lg transition hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-            You are the {session.user.role}
+          <button className="font-velocista mt-4 px-6 py-2 text-blue-500 font-bold rounded shadow-lg transition hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+            You have the {session.user.role} access
           </button>
           <div className="mt-4">
             <button
