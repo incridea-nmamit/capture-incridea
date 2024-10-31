@@ -2,6 +2,10 @@
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
+    ```bash
+    create-t3-app
+    ```
+
 ## 🚀 Getting Started
 
 We aim to keep this project as simple as possible, so you can start with the scaffolding we set up and add additional features as needed.
