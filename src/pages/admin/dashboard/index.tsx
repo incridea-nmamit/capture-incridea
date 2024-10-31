@@ -10,6 +10,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import RemovalRequest from '~/components/RemovalRequest';
 import { api } from '~/utils/api'; // Import TRPC
+import ManageRoles from '~/components/MangeRoles/ManageRoles';
 
 const Dashboard = () => {
   const userRole = useUserRole();
@@ -58,7 +59,7 @@ const Dashboard = () => {
 
   const renderComponent = () => {
     if (activeTab === 'analytics') return <Analytics />;
-    if (activeTab === 'manageroles') return <Analytics />;
+    if (activeTab === 'manageroles') return <ManageRoles />;
     if (activeTab === 'removalrequest') return <RemovalRequest />;
 
     if (showMessageOnce) {

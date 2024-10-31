@@ -5,6 +5,7 @@ import { galleryRouter } from "./routers/gallery";
 import { webRouter } from "./routers/web";
 import { downloadLogRouter } from "./routers/downloadlog";
 import { removalRequestRouter } from "./routers/requests";
+import { userRouter } from "./routers/user";
 /**
  * This is the primary router for your server.
  *
@@ -16,7 +17,8 @@ export const appRouter = createTRPCRouter({
   gallery: galleryRouter,
   web: webRouter,
   download: downloadLogRouter,
-  request : removalRequestRouter 
+  request : removalRequestRouter,
+  user: userRouter
 });
 
 
