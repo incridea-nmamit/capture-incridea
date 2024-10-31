@@ -22,7 +22,7 @@ const Dashboard = () => {
   const { data: session, status } = useSession();
 
   // Fetch removal requests and calculate pending requests count
-  const { data: removalRequests, refetch } = api.removalrequest.getAll.useQuery();
+  const { data: removalRequests, refetch } = api.request.getAll.useQuery();
 
   useEffect(() => {
     if (removalRequests) {

@@ -79,6 +79,14 @@ const Header: FC = () => {
                 <button onClick={() => signOut()} className="text-white text-xl">
                   Logout
                 </button>
+                <Image
+                src={session.user.image ?? ''}
+                alt={session.user.image ? '':''}
+                width={6}
+                height={6}
+                className="h-6 w-6 object-cover rounded-full"
+              />
+
               </>
             ) : (
               <button onClick={() => signIn()} className="text-white text-xl">
