@@ -37,7 +37,6 @@ const ManageRoles = () => {
           <tr className="bg-gray-200">
             <th className="text-black border border-grpy-2 px-4 border-b border-slate-700 text-center">Name</th>
             <th className="text-black border border-grpy-2 px-4 border-b border-slate-700 text-center">Email</th>
-            <th className="text-black border border-grpy-2 px-4 border-b border-slate-700 text-center">Image</th>
             <th className="text-black border border-grpy-2 px-4 border-b border-slate-700 text-center">Role</th>
             <th className="text-black border border-grpy-2 px-4 border-b border-slate-700 text-center">Change Role</th>
           </tr>
@@ -47,15 +46,6 @@ const ManageRoles = () => {
             <tr key={user.id} className="text-center">
               <td className="py-2 px-4 border-b border-slate-700 text-center">{user.name}</td>
               <td className="py-2 px-4 border-b border-slate-700 text-center">{user.email}</td>
-              <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
-                <Image 
-                  src={user.image || ''}  
-                  alt={user.name || ''} 
-                  width={50} 
-                  height={50} 
-                  className="rounded-full"
-                />
-              </td>
               <td className="py-2 px-4 border-b border-slate-700 text-center">{user.role}</td>
               <td className="py-2 px-4 border-b border-slate-700 text-center">
                 <button 

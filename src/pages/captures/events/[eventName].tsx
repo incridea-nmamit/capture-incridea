@@ -182,6 +182,13 @@ const EventCaptures = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-2 rounded bg-gray-800 text-white"
               />
+              <input
+                type="description"
+                placeholder="Please give a brief Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full px-4 py-2 rounded bg-gray-800 text-white"
+              />
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl("")} />
               <button
                 type="button"

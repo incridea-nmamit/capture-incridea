@@ -11,7 +11,7 @@ const RemovalRequest: React.FC = () => {
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [actionType, setActionType] = useState<'approve' | 'decline' | null>(null);
 
-  const { data: removalRequests, isLoading: requestsLoading, isError: requestsError } =
+  const { data: removalRequests, isLoading: requestsLoading, isError: requestsError, refetch } = 
     api.request.getAll.useQuery();
 
   useEffect(() => {
@@ -44,7 +44,8 @@ const RemovalRequest: React.FC = () => {
     }
     setIsActionPopupOpen(false);
     setIsConfirmPopupOpen(false);
-    // Refresh requests or update local state as needed
+    // Refetch the requests after the mutation
+    await refetch();  // Refresh the requests to show the updated state
   };
 
   const handleOpenConfirmPopup = () => {
@@ -118,7 +119,7 @@ const RemovalRequest: React.FC = () => {
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{request.status.toUpperCase()}</td>
                   {statusFilter === 'pending' && ( // Only show action buttons for pending requests
                     <td className="py-2 px-4 border-b border-slate-700 text-center">
-                      <div className='flex  flex-col gap-2'>
+                      <div className='flex flex-col gap-2'>
                         <button
                           onClick={() => handleActionButtonClick(request, 'approve')}
                           className="bg-green-500 text-white py-1 px-3 rounded mr-2 w-28"
@@ -160,7 +161,7 @@ const RemovalRequest: React.FC = () => {
 
       {isConfirmPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-4 rounded shadow-md">
+          <div className="bg-black p-4 rounded shadow-md">
             <h2 className="text-lg font-bold">Confirm {actionType === 'approve' ? 'Approval' : 'Decline'}</h2>
             <p>Are you sure you want to {actionType === 'approve' ? 'approve' : 'decline'} this request?</p>
             <div className="mt-4">
