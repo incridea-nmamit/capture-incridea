@@ -7,6 +7,10 @@ import { useSession, signOut, signIn } from "next-auth/react";
 import NavLink from "./NavLink";
 import { HiOutlineLogout } from "react-icons/hi";
 import { BiSolidDashboard } from "react-icons/bi";
+import { GoHomeFill } from "react-icons/go";
+import { MdCamera } from "react-icons/md";
+import { RiTeamFill } from "react-icons/ri";
+import { HiInformationCircle } from "react-icons/hi";
 
 const Header: FC = () => {
   const { data: session } = useSession();
@@ -40,7 +44,7 @@ const Header: FC = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10">
+        <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10 gap-5">
           {isAdminRoute ? (
             session ? (
               <>
@@ -64,25 +68,38 @@ const Header: FC = () => {
             )
           ) : (
             <>
+            <div className="flex items-center gap-1">
               <NavLink href="/" label="Home" className="text-xl" active={pathname === "/"} />
+              <GoHomeFill />
+
+            </div>
+            <div className="flex items-center gap-1">
               <NavLink
                 href="/captures"
                 label="Captures"
                 active={pathname.startsWith("/captures")}
                 className="text-xl"
               />
+              <MdCamera />
+            </div>
+            <div className="flex items-center gap-1">
               <NavLink
                 href="/our-team"
                 label="Our Team "
                 active={pathname.startsWith("/our-team")}
                 className="text-xl" 
               />
+              <RiTeamFill />
+            </div>
+            <div className="flex items-center gap-1">
               <NavLink
                 href="/about"
                 label="About"
                 active={pathname.startsWith("/about")}
                 className="text-xl"
               />
+              <HiInformationCircle />
+            </div>
             </>
           )}
         </nav>
