@@ -48,17 +48,17 @@ const Header: FC = () => {
           {isAdminRoute ? (
             session ? (
               <>
-                <div className="flex items-center">
+                <div className="flex items-center gap-2">
+                  <BiSolidDashboard/> 
                   <NavLink
                     href="/admin/dashboard"
                     label="Dashboard"
                     active={pathname === "/admin/dashboard"}
                     className="text-xl"
-                  />
-                  <BiSolidDashboard className="inline-block ml-2" /> 
+                  />                  
                 </div>
                 <button onClick={() => signOut()} className="text-white text-xl flex items-center gap-3">
-                  Logout <HiOutlineLogout />
+                  <HiOutlineLogout />Logout
                 </button>
               </>
             ) : (
@@ -69,36 +69,35 @@ const Header: FC = () => {
           ) : (
             <>
             <div className="flex items-center gap-1">
-              <NavLink href="/" label="Home" className="text-xl" active={pathname === "/"} />
               <GoHomeFill />
-
+              <NavLink href="/" label="Home" className="text-xl" active={pathname === "/"} />
             </div>
             <div className="flex items-center gap-1">
+              <MdCamera />
               <NavLink
                 href="/captures"
                 label="Captures"
                 active={pathname.startsWith("/captures")}
                 className="text-xl"
               />
-              <MdCamera />
             </div>
             <div className="flex items-center gap-1">
+              <RiTeamFill />
               <NavLink
                 href="/our-team"
                 label="Our Team "
                 active={pathname.startsWith("/our-team")}
                 className="text-xl" 
-              />
-              <RiTeamFill />
+              />              
             </div>
             <div className="flex items-center gap-1">
+              <HiInformationCircle />
               <NavLink
                 href="/about"
                 label="About"
                 active={pathname.startsWith("/about")}
                 className="text-xl"
-              />
-              <HiInformationCircle />
+              />              
             </div>
             </>
           )}
@@ -135,6 +134,8 @@ const Header: FC = () => {
           {isAdminRoute ? (
             session ? (
               <>
+              <div className="flex items-center gap-3">
+                <BiSolidDashboard/> 
                 <NavLink
                   href="/admin/dashboard"
                   label="Dashboard"
@@ -142,8 +143,9 @@ const Header: FC = () => {
                   onClick={() => setIsOpen(false)}
                   className="text-xl w-fit"
                 />
+              </div>
                 <button onClick={() => signOut()} className="text-white text-xl py-5 flex items-center gap-3">
-                  Logout<HiOutlineLogout />
+                  <HiOutlineLogout />Logout
                 </button>
               </>
             ) : (
@@ -153,6 +155,8 @@ const Header: FC = () => {
             )
           ) : (
             <>
+            <div className="flex items-center gap-1">
+              <GoHomeFill />
               <NavLink
                 href="/"
                 label="Home"
@@ -160,28 +164,37 @@ const Header: FC = () => {
                 onClick={() => setIsOpen(false)}
                 className="text-xl w-fit"
               />
+            </div>
+            <div className="flex items-center gap-1">
+              <MdCamera />
               <NavLink
                 href="/captures"
                 label="Captures"
                 active={pathname.startsWith("/captures")}
                 onClick={() => setIsOpen(false)}
                 className="text-xl w-fit"
-              />
+              />              
+            </div>
+            <div className="flex items-center gap-1">
+              <RiTeamFill />
               <NavLink
                 href="/our-team"
                 label="Our Team"
                 active={pathname.startsWith("/our-team")}
                 onClick={() => setIsOpen(false)}
                 className="text-xl w-fit"
-              />
-
+              />              
+            </div>
+            <div className="flex items-center gap-1">
+              <HiInformationCircle />
               <NavLink
                 href="/about"
                 label="About"
                 active={pathname.startsWith("/about")}
                 onClick={() => setIsOpen(false)}
                 className="text-xl w-fit"
-              />
+              />              
+            </div>
             </>
           )}
         </div>

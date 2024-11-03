@@ -108,11 +108,11 @@ const Dashboard = () => {
             setActiveTab('manageroles');
             setShowMessageOnce(false); // Hide message when switching to Manage Roles
           }}
-          className={`flex-1 text-center p-2 rounded-lg ${
+          className={`flex-1 text-center p-2 rounded-lg   ${
             activeTab === 'manageroles'
-              ? 'bg-blue-800 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-blue-500'
-          } transition duration-200`}
+              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+          } transition duration-200`}  
         >
           Manage Roles
         </button>
@@ -124,9 +124,9 @@ const Dashboard = () => {
         }}
         className={`flex-1 text-center p-2 rounded-lg ${
           activeTab === 'accessData'
-            ? 'bg-blue-800 text-white'
-            : 'bg-gray-800 text-gray-300 hover:bg-blue-500'
-        } transition duration-200`}
+          ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+          : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+        } transition duration-200`}  
       >
         Access Data
       </button>
@@ -139,9 +139,9 @@ const Dashboard = () => {
           }}
           className={`flex-1 text-center p-2 rounded-lg ${
             activeTab === 'analytics'
-              ? 'bg-blue-800 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-blue-500'
-          } transition duration-200`}
+              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+          } transition duration-200`}                
         >
           Analytics
         </button>
@@ -155,9 +155,9 @@ const Dashboard = () => {
         }}
         className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg ${
           activeTab === 'removalrequest'
-            ? 'bg-blue-800 text-white'
-            : 'bg-gray-800 text-gray-300 hover:bg-blue-500'
-        } transition duration-200`}
+              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+          } transition duration-200`}  
       >
         Request
         {pendingCount > 0 && (
