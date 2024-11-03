@@ -172,14 +172,14 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="flex flex-col md:flex-row bg-zinc-800 text-white min-h-screen">
+    <div className="flex flex-col md:flex-row bg-zinc-800 text-white min-h-screen ">
       {/* Sidebar */}
-      <div className="md:w-48 w-full p-4 bg-zinc-900 bg-cover">
+      <div className="md:w-48 w-full p-4 bg-zinc-900 bg-cover bg-opacity-100">
         {renderTabNavigation()}
       </div>
 
       {/* Content Area */}
-      <div className="md:w-5/6 w-full p-4 bg-zinc-800">
+      <div className="md:w-5/6 w-full p-4" style={{ backgroundImage: "url('/images/img-3.png')"}}>
         <div>
           {activeTab === 'accessData' && (
             <div className="relative mt-2 flex justify-end">
