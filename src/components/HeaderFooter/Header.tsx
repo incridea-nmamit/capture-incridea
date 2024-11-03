@@ -5,6 +5,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSession, signOut, signIn } from "next-auth/react";
 import NavLink from "./NavLink";
+import { HiOutlineLogout } from "react-icons/hi";
+import { BiSolidDashboard } from "react-icons/bi";
 
 const Header: FC = () => {
   const { data: session } = useSession();
@@ -42,14 +44,17 @@ const Header: FC = () => {
           {isAdminRoute ? (
             session ? (
               <>
-                <NavLink
-                  href="/admin/dashboard"
-                  label="Dashboard"
-                  active={pathname === "/admin/dashboard"}
-                  className="text-xl"
-                />
-                <button onClick={() => signOut()} className="text-white text-xl">
-                  Logout
+                <div className="flex items-center">
+                  <NavLink
+                    href="/admin/dashboard"
+                    label="Dashboard"
+                    active={pathname === "/admin/dashboard"}
+                    className="text-xl"
+                  />
+                  <BiSolidDashboard className="inline-block ml-2" /> 
+                </div>
+                <button onClick={() => signOut()} className="text-white text-xl flex items-center gap-3">
+                  Logout <HiOutlineLogout />
                 </button>
               </>
             ) : (
@@ -120,6 +125,9 @@ const Header: FC = () => {
                   onClick={() => setIsOpen(false)}
                   className="text-xl w-fit"
                 />
+                <button onClick={() => signOut()} className="text-white text-xl py-5 flex items-center gap-3">
+                  Logout<HiOutlineLogout />
+                </button>
               </>
             ) : (
               <button onClick={() => signIn()} className="text-white">
