@@ -58,8 +58,8 @@ const RemovalRequest: React.FC = () => {
 
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-extrabold text-center">Removal Requests</h1>
+      <div className="flex flex-col justify-between items-center mb-8 gap-6">
+        <h1 className="text-6xl font-Hunters text-center">Removal Requests</h1>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
@@ -77,7 +77,7 @@ const RemovalRequest: React.FC = () => {
       ) : requestsError ? (
         <div>Error loading requests. Please try again later.</div>
       ) : (
-        <div className="overflow-x-auto py-10">
+        <div className="overflow-x-auto py-5">
           <table className="min-w-full border border-gray-300 bg-black">
             <thead className="bg-white">
               <tr>

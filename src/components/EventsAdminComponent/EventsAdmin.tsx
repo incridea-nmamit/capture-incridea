@@ -115,7 +115,7 @@ const EventsAdmin: React.FC = () => {
 
   return (
     <div className="p-4">  
-    <h1 className='flex justify-center text-3xl font-extrabold mb-8 py-5 text-center'>Event Data and Management</h1> 
+    <h1 className='flex justify-center text-6xl font-Hunters mb-8 py-5 text-center'>Event Data and Management</h1> 
       <div className="mb-4 flex gap-2 flex-wrap">
         <div className="relative w-1/2">
           <input

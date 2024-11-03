@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import RemovalRequest from '~/components/RemovalRequest';
 import { api } from '~/utils/api'; // Import TRPC
-import ManageRoles from '~/components/MangeRoles/ManageRoles';
+import ManageRoles from '~/components/ManageRoles/ManageRoles';
 
 const Dashboard = () => {
   const userRole = useUserRole();
@@ -108,7 +108,7 @@ const Dashboard = () => {
             setActiveTab('manageroles');
             setShowMessageOnce(false); // Hide message when switching to Manage Roles
           }}
-          className={`flex-1 text-center p-2 rounded-lg   ${
+          className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
             activeTab === 'manageroles'
               ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
@@ -122,7 +122,7 @@ const Dashboard = () => {
           setActiveTab('accessData');
           setShowMessageOnce(false); // Hide message when switching to Access Data
         }}
-        className={`flex-1 text-center p-2 rounded-lg ${
+        className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
           activeTab === 'accessData'
           ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
           : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
@@ -137,7 +137,7 @@ const Dashboard = () => {
             setActiveTab('analytics');
             setShowMessageOnce(false); // Hide message when switching to Analytics
           }}
-          className={`flex-1 text-center p-2 rounded-lg ${
+          className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
             activeTab === 'analytics'
               ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
@@ -153,7 +153,7 @@ const Dashboard = () => {
           setActiveTab('removalrequest');
           setShowMessageOnce(false); // Hide message when switching to Removal Requests
         }}
-        className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg ${
+        className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
           activeTab === 'removalrequest'
               ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'

@@ -43,7 +43,7 @@ const Analytics = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-center text-4xl font-bold mb-8 text-white">Analytics</h1>
+      <h1 className="text-center text-6xl font-Hunters mb-8 text-white">Analytics</h1>
       <div className="flex justify-center gap-2">
         <h2 className="text-center text-2xl mb-4 text-white">Web Analytics</h2>
         <div className="flex justify-center mb-4">
