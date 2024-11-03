@@ -1,6 +1,4 @@
 // components/CaptureCard.tsx
-
-import { downloadImage } from '../utils/downloadUtils';
 import Image from "next/image";
 
 interface CaptureCardProps {
