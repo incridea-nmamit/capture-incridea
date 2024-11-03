@@ -100,8 +100,8 @@ const TeamCard: React.FC<CardProps> = ({ name, designation, imageSrc, say }) => 
 // };
 
 return (
-  <div className="transform transition-transform hover:rotate-3 hover:scale-105 h-80 w-52 bg-gray-800 rounded-lg shadow-lg p-4">
-    <div className="relative w-40 h-40 overflow-hidden rounded-md mx-auto mb-4">
+  <div className="transform transition-transform hover:rotate-3 hover:scale-105 h-96 w-72 bg-gray-800 rounded-lg shadow-lg p-4">
+    <div className="relative w-56 h-56 overflow-hidden rounded-md mx-auto mb-4">
       <Image 
         src={imageSrc} 
         alt={name} 
@@ -112,8 +112,8 @@ return (
     </div>
     <h3 className="text-2xl font-bold text-white text-center mb-1">{name}</h3>
     <p className="text-gray-400 text-center text-sm">{designation}</p>
-    <div className="flex flex-wrap justify-center py-5">     
-      <p className="text-gray-300 text-center text-sm py-2">- {say} -</p>
+    <div className="flex flex-wrap justify-center py-2">     
+      <p className="text-gray-300 text-center text-sm py-2"> {say} </p>
     </div>
   </div>
 );
