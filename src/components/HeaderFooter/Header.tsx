@@ -9,8 +9,6 @@ import NavLink from "./NavLink";
 const Header: FC = () => {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
-  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const [isMobilePreviewOpen, setIsMobilePreviewOpen] = useState(false);
   const pathname = usePathname() || ""; 
   const isAdminRoute = pathname.startsWith("/admin");
 
@@ -18,9 +16,6 @@ const Header: FC = () => {
     { href: "/admin/events", label: "Events" },
     { href: "/admin/team", label: "Team" },
   ];
-
-  const isPreviewActive =
-    pathname === "/admin/events" || pathname === "/admin/team";
 
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
@@ -53,29 +48,6 @@ const Header: FC = () => {
                   active={pathname === "/admin/dashboard"}
                   className="text-xl"
                 />
-                <div
-                  className="relative group"
-                  onMouseEnter={() => setIsPreviewOpen(true)}
-                  onMouseLeave={() => setIsPreviewOpen(false)}
-                >
-                  <button
-                    className={isPreviewActive ? "border-b-2 border-white text-xl" : ""}
-                  >
-                    Preview
-                  </button>
-                  {isPreviewOpen && (
-                    <div className="absolute top-full left-0 bg-black text-white p-4 space-y-2 shadow-md rounded-md">
-                      {subLinks.map((link) => (
-                        <NavLink
-                          key={link.href}
-                          href={link.href}
-                          label={link.label}
-                          active={pathname === link.href}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
                 <button onClick={() => signOut()} className="text-white text-xl">
                   Logout
                 </button>
@@ -148,32 +120,6 @@ const Header: FC = () => {
                   onClick={() => setIsOpen(false)}
                   className="text-xl w-fit"
                 />
-                <button
-                  className={`text-white w-full text-left text-xl w-fit${
-                    isPreviewActive ? "border-b-2 border-white" : ""
-                  }`}
-                  onClick={() => setIsMobilePreviewOpen(!isMobilePreviewOpen)}
-                  
-                >
-                  Preview
-                </button>
-                {isMobilePreviewOpen && (
-                  <div className="mt-2 flex flex-col space-y-2 pl-4">
-                    {subLinks.map((link) => (
-                      <NavLink
-                        key={link.href}
-                        href={link.href}
-                        label={link.label}
-                        active={pathname === link.href}
-                        onClick={() => setIsOpen(false)}
-                        className="text-xl w-fit"
-                      />
-                    ))}
-                  </div>
-                )}
-                <button onClick={() => signOut()} className="text-white">
-                  Log Out
-                </button>
               </>
             ) : (
               <button onClick={() => signIn()} className="text-white">
