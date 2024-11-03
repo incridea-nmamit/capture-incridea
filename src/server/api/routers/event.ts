@@ -1,15 +1,11 @@
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { State, EventType, Day } from "@prisma/client";
 
 export const eventRouter = createTRPCRouter({
-  // Get all events
+  // Fetch all events
   getAllEvents: publicProcedure.query(async ({ ctx }) => {
-    const events = await ctx.db.events.findMany({});
+    const events = await ctx.db.events.findMany();
     return events ?? [];
   }),
 
@@ -19,10 +15,11 @@ export const eventRouter = createTRPCRouter({
       z.object({
         name: z.string().min(1, "Event name is required"),
         description: z.string().min(1, "Event description is required"),
+        shortDescription: z.string().min(1, "Short description is required"), // New short description validation
         uploadKey: z.string().min(1, "Upload key is required"),
         type: z.nativeEnum(EventType),
         day: z.nativeEnum(Day),
-        visibility: z.nativeEnum(State).default("active"), // Defaults to active
+        visibility: z.nativeEnum(State).default("active"), // Default to active
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -31,6 +28,7 @@ export const eventRouter = createTRPCRouter({
         data: {
           name: input.name,
           description: input.description,
+          shortDescription: input.shortDescription, // Include short description in data
           image: imageUrl,
           type: input.type,
           day: input.day,
@@ -41,8 +39,8 @@ export const eventRouter = createTRPCRouter({
       return newEvent;
     }),
 
-  // Update event visibility (toggle between active and inactive)
-    updateEventVisibility: protectedProcedure
+  // Toggle event visibility between active and inactive
+  updateEventVisibility: protectedProcedure
     .input(
       z.object({
         id: z.number().min(1, "Event ID is required"),
@@ -53,9 +51,7 @@ export const eventRouter = createTRPCRouter({
         where: { id: input.id },
       });
 
-      if (!event) {
-        throw new Error("Event not found");
-      }
+      if (!event) throw new Error("Event not found");
 
       const updatedEvent = await ctx.db.events.update({
         where: { id: input.id },
@@ -66,7 +62,8 @@ export const eventRouter = createTRPCRouter({
 
       return updatedEvent;
     }),
-  // Delete an event
+
+  // Delete an event by ID
   deleteEvent: protectedProcedure
     .input(
       z.object({
@@ -79,5 +76,22 @@ export const eventRouter = createTRPCRouter({
       });
 
       return { message: "Event deleted successfully" };
+    }),
+
+  // Get event by name
+  getEventByName: publicProcedure
+    .input(
+      z.object({
+        name: z.string().min(1, "Event name is required"),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const event = await ctx.db.events.findFirst({
+        where: { name: input.name },
+      });
+
+      if (!event) throw new Error("Event not found");
+
+      return event;
     }),
 });

@@ -25,11 +25,13 @@ const EventsAdmin: React.FC = () => {
   const [newEvent, setNewEvent] = useState<{
     name: string;
     description: string;
+    shortDescription: string;
     type: EventType;
     day: Day;
   }>({
     name: '',
     description: '',
+    shortDescription: '',
     type: 'core',
     day: 'day1',
   });
@@ -51,29 +53,31 @@ const EventsAdmin: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+  
+    // Trim spaces from the name field
+    const trimmedName = newEvent.name.trim();
+  
     if (!uploadUrl) {
       console.log('No URL to submit');
       return;
     }
-
-    if (!newEvent.name || !newEvent.description || !newEvent.type || !newEvent.day) {
+  
+    if (!trimmedName || !newEvent.description || !newEvent.type || !newEvent.day) {
       alert("Please fill in all required fields.");
       return;
     }
-
+  
     try {
-      const result = await addEvent.mutateAsync({ ...newEvent, uploadKey: uploadUrl });
+      const result = await addEvent.mutateAsync({ ...newEvent, name: trimmedName, uploadKey: uploadUrl });
       console.log('Event added:', result);
       setIsPopupOpen(false);
-      setNewEvent({ name: '', description: '', type: 'core', day: 'day1' });
+      setNewEvent({ name: '', description: '', shortDescription: '', type: 'core', day: 'day1' });
       setUploadUrl('');
       void refetch(); // Refetch events after adding
     } catch (error) {
       console.error('Error adding event:', error);
     }
   };
-
   interface EventData {
     id: number; // or number, depending on your ID type
     name: string;
@@ -241,6 +245,15 @@ const EventsAdmin: React.FC = () => {
               />
 
 
+            </div>
+            <div className="mt-4">
+              <label className="text-white block mb-1"> Short Description</label>
+              <textarea
+                name="shortDescription" // Ensure this matches the state key
+                value={newEvent.shortDescription} // Bind to shortDescription state
+                onChange={handleFormChange}
+                className="p-2 w-full border border-slate-700 rounded-xl h-12 bg-black text-white"
+              />
             </div>
             <div className="mt-4">
               <select

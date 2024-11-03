@@ -26,13 +26,15 @@ model RemovalRequest {
 
 model events {
   id                Int      @id @default(autoincrement())
-  name        String
-  description String
-  image         String
-  type        EventType
-  day         Day
-  visibility  State
+  name              String   @unique
+  description       String
+  shortDescription  String   // New field for short description
+  image             String
+  type              EventType
+  day               Day
+  visibility        State
 }
+
 
 enum EventType {
   core

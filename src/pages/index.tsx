@@ -22,7 +22,7 @@ export default function Home() {
         {/* Section 1: Main Hero Section */}
         <div
           className="relative h-screen bg-cover bg-center"
-          style={{ backgroundImage: "url('/images/hero-bg.png')" }}
+          style={{ backgroundImage: "url('/images/img-3.png')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-60" />
           <div className="relative z-10 h-full flex items-center justify-between p-10">
@@ -45,7 +45,7 @@ export default function Home() {
         {/* Section 2: Experience Animation Section */}
         <div
           className="relative h-screen bg-cover bg-center"
-          style={{ backgroundImage: "url('./images/experience-bg.png')" }}
+          style={{ backgroundImage: "url('./images/img-2.png')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50" />
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import CaptureCard from "~/components/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
-import Image from 'next/image';
+import Image from "next/image";
 import UploadComponent from "~/components/UploadComponent"; // Ensure this component exists.
 
 interface ImageData {
@@ -19,14 +19,15 @@ const EventCaptures = () => {
   const { eventName } = router.query;
   const safeEventName = Array.isArray(eventName) ? eventName[0] : eventName || "Event";
   const formattedEventName = (safeEventName || "").replace(/-/g, " ");
+
+  const { data: event } = api.events.getEventByName.useQuery({ name: formattedEventName });
   const { data: images, isLoading, error } = api.gallery.getAllGallery.useQuery();
   const logDownload = api.download.logDownload.useMutation();
-  const submitRemovalRequest = api.request.submit.useMutation(); // TRPC mutation for submission
+  const submitRemovalRequest = api.request.submit.useMutation();
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
   const [uploadUrl, setUploadUrl] = useState<string>("");
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
@@ -52,7 +53,7 @@ const EventCaptures = () => {
       return;
     }
 
-    if(!uploadUrl){
+    if (!uploadUrl) {
       alert("Select Upload Image after selecting the Image");
       return;
     }
@@ -61,6 +62,7 @@ const EventCaptures = () => {
       alert("No Selected image to submit");
       return;
     }
+
     try {
       await submitRemovalRequest.mutateAsync({
         name,
@@ -70,7 +72,7 @@ const EventCaptures = () => {
         email,
       });
       closeRemovalPopup(); // Close the popup after submission
-  
+    
       // Reset form fields
       setName("");
       setDescription("");
@@ -81,8 +83,6 @@ const EventCaptures = () => {
       console.error("Error submitting removal request:", error);
     }
   };
-  
-  
 
   if (isLoading) return <p className="text-white text-center">Loading images...</p>;
   if (error) return <p className="text-white text-center">Error loading images.</p>;
@@ -92,6 +92,8 @@ const EventCaptures = () => {
       <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-8 md:mb-16">
         {formattedEventName} Captures
       </h1>
+      {/* Display event description if it exists */}
+      {event?.description && <p className="text-center text-gray-400 mb-4">{event.description}</p>}
       <main
         className="grid gap-4"
         style={{
@@ -110,11 +112,11 @@ const EventCaptures = () => {
         ))}
       </main>
       {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-50" role="dialog" aria-modal="true">
           <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full">
             <div className="flex">
               <h2 className="text-2xl w-full text-center font-bold text-white">Add Capture</h2>
-              <button onClick={handleClosePopup} className="absolute top-0  right-5 text-white text-4xl p-5">&times;</button>
+              <button onClick={handleClosePopup} className="absolute top-0 right-5 text-white text-4xl p-5">&times;</button>
             </div>
             <div className="flex justify-center py-8">
               <Image src={selectedImage} alt="Selected" width={200} height={200} className="rounded mb-4" />
@@ -158,11 +160,10 @@ const EventCaptures = () => {
         </div>
       )}
       {removalImage && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-20">
+        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-20" role="dialog" aria-modal="true">
           <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full z-50">
             <h2 className="text-2xl text-white font-bold text-center mb-4">Request Removal</h2>
-            <button  onClick={closeRemovalPopup} className="absolute top-1 right-6 text-2xl text-white p-5">&times;</button>
+            <button onClick={closeRemovalPopup} className="absolute top-1 right-6 text-2xl text-white p-5">&times;</button>
             <div className="flex justify-center">
               <Image src={removalImage} alt="Removal Image" width={75} height={75} className="rounded mb-4" />
             </div>
@@ -176,15 +177,9 @@ const EventCaptures = () => {
               />
               <input
                 type="email"
-                placeholder="Preffered College Email ID"
+                placeholder="Preferred College Email ID"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 rounded bg-gray-800 text-white"
-              />
-              <textarea
-                placeholder="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
                 className="w-full px-4 py-2 rounded bg-gray-800 text-white"
               />
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl("")} />
