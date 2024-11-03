@@ -38,7 +38,7 @@ const Header: FC = () => {
               alt="Logo"
               width={120}
               height={70}
-              className="w-auto h-auto max-w-36"
+              className="w-auto h-auto max-w-24"
             />
           </a>
         </div>
@@ -106,7 +106,7 @@ const Header: FC = () => {
         {/* Mobile Menu Button */}
         <button
           aria-label="Open Menu"
-          className="md:hidden text-white text-3xl focus:outline-none absolute right-4"
+          className="md:hidden text-white text-2xl focus:outline-none absolute right-4"
           onClick={() => setIsOpen(true)}
         >
           &#9776;
@@ -130,7 +130,7 @@ const Header: FC = () => {
           &times;
         </button>
 
-        <div className="flex flex-col space-y-4 text-white">
+        <div className="flex flex-col space-y-4 text-white gap-2">
           {isAdminRoute ? (
             session ? (
               <>
