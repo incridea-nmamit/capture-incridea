@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import CaptureCard from "~/components/CaptureCard";
+import CaptureCard from "~/components/CapturePage/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
 import Image from "next/image";
 import UploadComponent from "~/components/UploadComponent"; // Ensure this component exists.

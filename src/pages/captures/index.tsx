@@ -1,6 +1,6 @@
 // ~/pages/Captures.tsx
 import React, { useEffect, useState } from 'react';
-import CapturesComponent from '~/components/CaptureComponent';
+import CapturesComponent from '~/components/CapturePage/CaptureComponent';
 import ReleaseOverlay from '~/components/ReleaseOverlay';
 
 const Captures: React.FC = () => {

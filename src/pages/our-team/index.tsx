@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'react';
-import OurTeam from '~/components/OurTeam';
+import OurTeam from '~/components/TeamPage/OurTeam';
 function OurTeamPage() {
  
   return (

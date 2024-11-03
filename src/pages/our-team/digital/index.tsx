@@ -1,6 +1,6 @@
 import { api } from '~/utils/api';
 import React, { useEffect, useRef, useCallback } from 'react';
-import TeamCard from '~/components/TeamCard'; // Adjust path if needed
+import TeamCard from '~/components/TeamPage/TeamCard'; // Adjust path if needed
 
 const DigitalPage: React.FC = () => {
   const { data: teamMembers, isLoading, error } = api.team.getAllTeams.useQuery(); // Fetch data with tRPC

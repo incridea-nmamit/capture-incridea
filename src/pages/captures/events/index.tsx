@@ -1,4 +1,5 @@
-import Events from '~/components/Events';
+import Events from "~/components/EventPage/Events";
+
 function EventsPage() {
   return (
     <div>
