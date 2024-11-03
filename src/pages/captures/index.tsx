@@ -9,7 +9,7 @@ const Captures = () => {
       className="min-h-screen bg-cover bg-center flex flex-col items-center justify-start p-8"
       style={{ backgroundImage: "url('')" }}
     >
-      <h1 className="text-5xl text-white font-extrabold mb-12 p-8">Captures</h1>
+      <h1 className="text-7xl text-white font-Hunters mb-12 p-8">Captures</h1>
 
       <div className="flex flex-col md:flex-row gap-12">
         {/* Events Card with Link */}

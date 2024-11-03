@@ -14,6 +14,7 @@ export default function Home() {
 
   return (
     <>
+
       <div className="flex flex-col min-h-screen">
         {/* Section 1: Main Hero Section */}
         <div

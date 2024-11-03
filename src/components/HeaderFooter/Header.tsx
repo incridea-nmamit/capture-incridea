@@ -54,11 +54,11 @@ const Header: FC = () => {
                     href="/admin/dashboard"
                     label="Dashboard"
                     active={pathname === "/admin/dashboard"}
-                    className="text-xl"
+                    className="text-xl font-BebasNeue relative top-1"
                   />                  
                 </div>
                 <button onClick={() => signOut()} className="text-white text-xl flex items-center gap-3">
-                  <HiOutlineLogout />Logout
+                  <HiOutlineLogout /> <span className="font-BebasNeue relative top-0.5">Logout</span>
                 </button>
               </>
             ) : (
@@ -69,8 +69,8 @@ const Header: FC = () => {
           ) : (
             <>
             <div className="flex items-center gap-1">
-              <GoHomeFill />
-              <NavLink href="/" label="Home" className="text-xl" active={pathname === "/"} />
+              <div className="flex items-center"><GoHomeFill /></div>
+              <NavLink href="/" label="Home" className="text-xl font-BebasNeue relative top-1" active={pathname === "/"} />
             </div>
             <div className="flex items-center gap-1">
               <MdCamera />
@@ -78,7 +78,7 @@ const Header: FC = () => {
                 href="/captures"
                 label="Captures"
                 active={pathname.startsWith("/captures")}
-                className="text-xl"
+                className="text-xl font-BebasNeue relative top-1"
               />
             </div>
             <div className="flex items-center gap-1">
@@ -87,7 +87,7 @@ const Header: FC = () => {
                 href="/our-team"
                 label="Our Team "
                 active={pathname.startsWith("/our-team")}
-                className="text-xl" 
+                className="text-xl font-BebasNeue  relative top-1" 
               />              
             </div>
             <div className="flex items-center gap-1">
@@ -96,7 +96,7 @@ const Header: FC = () => {
                 href="/about"
                 label="About"
                 active={pathname.startsWith("/about")}
-                className="text-xl"
+                className="text-xl font-BebasNeue relative top-1"
               />              
             </div>
             </>
