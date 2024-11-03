@@ -33,7 +33,7 @@ async function main() {
   await Promise.all(eventPromises);
 
   // Create Gallery Entries
-  const galleryPromises = Array.from({ length: 50 }, async () => {
+  const galleryPromises = Array.from({ length: 200 }, async () => {
     const eventCategory = Math.random() < 0.5 ? 'events' : 'snaps';
     const eventName = eventCategory === 'events' ? eventNames[Math.floor(Math.random() * eventNames.length)] || 'Default Event' : 'Default Event'; 
   
@@ -51,18 +51,45 @@ async function main() {
   // Create Team Entries
   const teamNames = Array.from({ length: 50 }, (_, i) => `Team Member ${i + 1}`);
   const teamPromises = teamNames.map(async (name) => {
-    const committee = ['media', 'digital', 'socialmedia', 'developer'][Math.floor(Math.random() * 4)] as 'media' | 'digital' | 'socialmedia' | 'developer';
-    const designation = [
-      'mediahead', 'mediacohead', 'leadvideographer', 'leadphotographer',
-      'photographer', 'videographer', 'aerialvideographer', 'socialmediahead',
-      'socialmediacohead', 'socialmediateam', 'frontenddev', 'backenddev',
-      'fullstackdev', 'digitalhead', 'digitalcohead', 'digitalteam'
-    ][Math.floor(Math.random() * 16)] as
-      'mediahead' | 'mediacohead' | 'leadvideographer' | 'leadphotographer' |
-      'photographer' | 'videographer' | 'aerialvideographer' | 'socialmediahead' |
-      'socialmediacohead' | 'socialmediateam' | 'frontenddev' | 'backenddev' |
-      'fullstackdev' | 'digitalhead' | 'digitalcohead' | 'digitalteam';
+    // Determine the committee
+    const committee = ['media', 'digital', 'socialmedia', 'developer'][
+      Math.floor(Math.random() * 4)
+    ] as 'media' | 'digital' | 'socialmedia' | 'developer';
 
+    // Define designation options based on committee
+    const designationOptions: Record<typeof committee, string[]> = {
+      media: [
+        'mediahead', 'mediacohead', 'leadvideographer', 'leadphotographer',
+        'photographer', 'videographer', 'aerialvideographer'
+      ],
+      digital: ['digitalhead', 'digitalcohead', 'digitalteam'],
+      socialmedia: ['socialmediahead', 'socialmediacohead', 'socialmediateam'],
+      developer: ['frontenddev', 'backenddev', 'fullstackdev']
+    };
+
+    // Randomly select a designation based on the committee
+    const designation =
+      designationOptions[committee][
+        Math.floor(Math.random() * designationOptions[committee].length)
+      ] as
+        | 'mediahead'
+        | 'mediacohead'
+        | 'leadvideographer'
+        | 'leadphotographer'
+        | 'photographer'
+        | 'videographer'
+        | 'aerialvideographer'
+        | 'digitalhead'
+        | 'digitalcohead'
+        | 'digitalteam'
+        | 'socialmediahead'
+        | 'socialmediacohead'
+        | 'socialmediateam'
+        | 'frontenddev'
+        | 'backenddev'
+        | 'fullstackdev';
+
+    // Create the team member with the selected committee and designation
     return prisma.team.create({
       data: {
         name,

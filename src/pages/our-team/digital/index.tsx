@@ -13,6 +13,25 @@ const DigitalPage: React.FC = () => {
   if (!teamMembers || teamMembers.length === 0) {
     return <div className="text-white">No media team members found.</div>;
   }
+  const designationMapping = {
+    mediahead: "Media Head",
+    mediacohead: "Media Co-Head",
+    leadvideographer: "Lead Videographer",
+    leadphotographer: "Lead Photographer",
+    photographer: "Photographer",
+    videographer: "Videographer",
+    aerialvideographer: "Aerial Videographer",
+    socialmediahead: "Social Media Head",
+    socialmediacohead: "Social Media Co-Head",
+    socialmediateam: "SMC Team",
+    frontenddev: "Front End Developer",
+    backenddev: "Back End Developer",
+    fullstackdev: "Full Stack Developer",
+    digitalhead: "Digital Head",
+    digitalcohead: "Digital Co-Head",
+    digitalteam: "Digital Team",
+    none: ""
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-black">
@@ -34,8 +53,8 @@ const DigitalPage: React.FC = () => {
             <TeamCard
               key={index}
               imageSrc={member.image} // Assuming 'image' is the correct field from your database
-              name={member.name.toUpperCase()}
-              designation={member.designation.toUpperCase()}
+              name={member.name}
+              designation={designationMapping[member.designation] || member.designation}
               say={member.say}
             />
           )

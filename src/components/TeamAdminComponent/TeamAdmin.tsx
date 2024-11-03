@@ -148,20 +148,40 @@ const TeamAdmin: React.FC = () => {
         <table className="min-w-full bg-black border border-slate-700">
           <thead>
             <tr className="text-black bg-gray-100">
-              <th className="py-2 px-4 border-b border-slate-700 text-center">NAME</th>
-              <th className="py-2 px-4 border-b border-slate-700 text-center">COMMITEEE</th>
-              <th className="py-2 px-4 border-b border-slate-700 text-center">POSITION</th>
-              <th className="py-2 px-4 border-b border-slate-700 text-center">SAY</th>
-              <th className="py-2 px-4 border-b border-slate-700 text-center">IMAGE</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Name</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Committee</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Position</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Say</th>
+              <th className="py-2 px-4 border-b border-slate-700 text-center">Image</th>
             </tr>
           </thead>
           <tbody>
           {filteredTeams?.map((team) => (
             <tr key={team.id} className="hover:bg-gray-50 hover:text-black">
-              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.name.toUpperCase()}</td>
-              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.committee.toUpperCase()}</td>
-              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.designation.toUpperCase()}</td>
-              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.say.toUpperCase()}</td>
+              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.name}</td>
+              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.committee.charAt(0).toUpperCase() + team.committee.slice(1)}</td>
+              <td className="py-2 px-4 border-b border-slate-700 text-center">
+                {{
+                  mediahead: "Media Head",
+                  mediacohead: "Media Co-Head",
+                  leadvideographer: "Lead Videographer",
+                  leadphotographer: "Lead Photographer",
+                  photographer: "Photographer",
+                  videographer: "Videographer",
+                  aerialvideographer: "Aerial Videographer",
+                  socialmediahead: "Social Media Head",
+                  socialmediacohead: "Social Media Co-Head",
+                  socialmediateam: "SMC Team",
+                  frontenddev: "Front End Developer",
+                  backenddev: "Back End Developer",
+                  fullstackdev: "Full Stack Developer",
+                  digitalhead: "Digital Head",
+                  digitalcohead: "Digital Co-Head",
+                  digitalteam: "Digital Team",
+                  none: ""
+                }[team.designation] || team.designation}
+              </td>
+              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.say}</td>
               <td className="py-2 px-4 border-b border-slate-700 flex justify-center">
                 <Image src={team.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
               </td>
