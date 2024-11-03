@@ -122,8 +122,9 @@ const Header: FC = () => {
 
       {/* Mobile Sidebar Menu */}
       <div
-        className={`fixed inset-y-0 right-0 w-64 max-w-full bg-black p-6 space-y-6 transform transition-transform duration-300 z-50 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed inset-y-0 right-0 w-64 max-w-full bg-black opacity-100 p-6 space-y-6 
+          transform transition-transform duration-300 z-50 
+          ${isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         role="dialog"
         aria-modal="true"
