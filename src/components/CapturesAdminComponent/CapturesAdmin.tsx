@@ -86,7 +86,7 @@ const CapturesAdmin: React.FC = () => {
             <thead className="bg-white">
               <tr>
                 <th className="text-black border border-gray-300 p-2">Event-Name</th>
-                <th className="text-black border border-gray-300 p-2">Event-Category</th>
+                <th className="text-black border border-gray-300 p-2">Capture-Category</th>
                 <th className="text-black border border-gray-300 p-2">Image</th>
               </tr>
             </thead>
@@ -94,8 +94,8 @@ const CapturesAdmin: React.FC = () => {
               {gallery?.map((item) => (
                 <tr key={item.id} className="hover:bg-gray-50 hover:text-black">
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_name}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_category}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_category.charAt(0).toUpperCase() + item.event_category.slice(1)}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
                     <Image src={item.image_path} alt={item.event_name} width={32} height={32} className="h-32 w-32 object-cover" />
                   </td>
                 </tr>
@@ -111,10 +111,10 @@ const CapturesAdmin: React.FC = () => {
             <h2 className="text-2xl font-bold text-white mb-4">Add Capture</h2>
             <button onClick={() => setIsPopupOpen(false)} className="absolute top-6 right-6 text-white p-5">&times;</button>
             <form onSubmit={handleSubmit}>
-              <label className="block mt-5 mb-2 text-white">Event Background:</label>
+              <label className="block mt-5 mb-2 text-white text-left">Capture:</label>
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
               
-              <label className="block mt-5 mb-2 text-white">Event Category:</label>
+              <label className="block mt-5 mb-2 text-left text-white">Capture Category:</label>
               <select
                 name="event_category"
                 value={newImage.event_category}
@@ -129,7 +129,7 @@ const CapturesAdmin: React.FC = () => {
 
               {newImage.event_category === "events" && (
                 <>
-                  <label className="block mt-5 mb-2 text-white">Event Name:</label>
+                  <label className="block mt-5 mb-2 text-left text-white">Event Name:</label>
                   {eventsLoading ? (
                     <select className="w-full p-2 rounded" disabled>
                       <option>Loading events...</option>

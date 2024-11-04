@@ -191,15 +191,27 @@ const EventsAdmin: React.FC = () => {
             <tbody>
               {filteredEvents?.map((event) => (
                 <tr key={event.id} className='hover:bg-gray-50 hover:text-black'>
-                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{event.name.toUpperCase()}</td>
-                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{event.description.toUpperCase()}</td>                  
-                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{event.type.toUpperCase()}</td>
-                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{event.day.toUpperCase()}</td>
+                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{event.name}</td>
+                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{event.description}</td>                  
+                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{{
+                  core: "Core",
+                  technical: "Technical",
+                  nontechnical: "Non-Technical",
+                  special: "Special",
+                }[event.type] || event.type}
+                </td>
+                  <td className=" py-2 px-4 border-b border-slate-700 text-center">
+                          {{
+                        day1: "Day-1",
+                        day2: "Day-2",
+                        day3: "Day-3",
+                      }[event.day] || event.day}
+                </td>
                   <td
                     className=" py-2 px-4 border-b border-slate-700 text-center cursor-pointer"
                     onDoubleClick={() => handleDoubleClickVisibility(event)}
                   >
-                    {event.visibility.toUpperCase()}
+                    {event.visibility.charAt(0).toUpperCase() + event.visibility.slice(1)}
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
                   <div className="relative h-16 w-16">
