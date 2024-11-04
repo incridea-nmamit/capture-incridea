@@ -9,7 +9,7 @@ import { UTApi } from "uploadthing/server";
 export const utapi = new UTApi();
 
 export const ourFileRouter = { 
-  imageUploader: f({ image: { maxFileSize: "16MB" } }) 
+  imageUploader: f({ image: { maxFileSize: "16MB" ,maxFileCount: 1} }) 
     .middleware(async ({ req, res }) => { 
       // This code runs on your server before upload 
       const user = auth(req, res); // No need to await as auth returns a synchronous result 
