@@ -95,9 +95,9 @@ const RemovalRequest: React.FC = () => {
             <tbody>
               {filteredRequests?.map((request) => (
                 <tr key={request.id} className="hover:bg-gray-50 hover:text-black">
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{request.name.toUpperCase()}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{request.email.toUpperCase()}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{request.description.toUpperCase()}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{request.name}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{request.email}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{request.description}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
                     <Image
                       src={request.image_path}
@@ -116,7 +116,7 @@ const RemovalRequest: React.FC = () => {
                       className="h-32 w-32 object-cover"
                     />
                   </td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{request.status.toUpperCase()}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{request.status.charAt(0).toUpperCase() + request.status.slice(1)}</td>
                   {statusFilter === 'pending' && ( // Only show action buttons for pending requests
                     <td className="py-2 px-4 border-b border-slate-700 text-center">
                       <div className='flex flex-col gap-2'>
