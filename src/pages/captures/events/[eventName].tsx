@@ -89,11 +89,13 @@ const EventCaptures = () => {
 
   return (
     <div className="p-6 bg-black min-h-screen">
-      <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-8 md:mb-4">
-        {formattedEventName} Captures
+      <h1 className="text-3xl md:text-7xl font-Hunters text-white text-center mb-8 md:mb-4">
+        {formattedEventName}Captures
       </h1>
       {/* Display event description if it exists */}
-      {event?.description && <p className="text-center text-gray-400 mb-16">{event.description}</p>}
+      <div className="flex justify-center">
+        {event?.description && <p className="text-center text-gray-400 mb-16 w-3/4">{event.description}</p>}
+      </div>
       <main
         className="grid gap-4"
         style={{
