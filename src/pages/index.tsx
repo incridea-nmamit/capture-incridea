@@ -19,17 +19,17 @@ export default function Home() {
         {/* Section 1: Main Hero Section */}
         <div
           className="relative h-screen bg-cover bg-center"
-          style={{ backgroundImage: "url('/images/img-3.png')" }}
+          style={{ backgroundImage: "url('/images/bg-10.png')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-60" />
-          <div className="relative z-10 h-full flex items-center justify-between p-10">
+          <div className="relative z-10 h-3/4 flex items-center justify-between md:p-20">
             {/* Conditionally render the video only on the client */}
-            <div className="flex-shrink-0 px-8">
+            <div className="flex-shrink-0 px-8 md:px-40">
             </div>
             {/* Tagline and Description */}
             <div className="flex flex-col text-white max-w-2xl text-left gap-8">
               <h1 className="text-7xl font-ClubHouse mb-4">
-                Your Memories, Our Passion
+                Your Memories,<br/> Our Passion
               </h1>
               <p className="text-md ">
                 Get your event photos and story-worthy moments.<br/> Experience them the same day!
@@ -50,7 +50,7 @@ export default function Home() {
             </h2>
             <button
               onClick={() => void router.push("/captures")}
-              className="px-8 py-4 text-lg bg-white text-black font-bold rounded hover:bg-gray-200 transition"
+              className="px-8 py-4 text-lg font-bold text-white rounded-lg transition transform bg-gradient-to-r from-red-500 to-red-700 hover:scale-105 hover:-translate-y-1 dark:from-red-600 dark:to-red-800"
             >
               Go to Captures
             </button>

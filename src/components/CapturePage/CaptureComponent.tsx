@@ -59,7 +59,7 @@ const CapturesComponent = () => {
             {/* Card content */}
             <div
               className="relative w-full h-full bg-cover bg-center rounded-3xl shadow-2xl"
-              style={{ backgroundImage: "url('/images/event-bg2.png')" }}
+              style={{ backgroundImage: "url('/images/admin-bg.png')" }}
             >
               <div className="absolute inset-0 bg-black bg-opacity-30 backdrop-blur-sm" />
               <div className="relative flex items-center justify-center h-full text-white text-3xl font-bold">

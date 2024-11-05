@@ -38,7 +38,7 @@ const OurTeam = () => {
         <Link href="/our-team/socialmedia" passHref>
           <div
             className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-            style={{ backgroundImage: "url('/images/socialmedia-bg.png')" }}  // Ensure the image path is correct
+            style={{ backgroundImage: "url('/images/smc-bg.png')" }}  // Ensure the image path is correct
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
             <div className="relative flex flex-col items-center justify-center h-full text-center text-white text-2xl font-bold">
