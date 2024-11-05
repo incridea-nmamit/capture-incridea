@@ -1,8 +1,8 @@
 // src/app/components/Footer.tsx
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white text-center py-4">
-      <p>© Incridea 2025  |  Under Development</p>
+    <footer className="bg-black text-white text-center py-4">
+      <p className="text-xs">&copy; Incridea 2025</p>
     </footer>
   );
 };

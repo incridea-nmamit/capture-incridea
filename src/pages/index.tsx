@@ -45,7 +45,7 @@ export default function Home() {
         >
           <div className="absolute inset-0 bg-black bg-opacity-50" />
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
-            <h2 className="text-4xl md:text-6xl text-white font-extrabold mb-8 animate-bounce">
+            <h2 className="text-4xl md:text-6xl text-white font-Finish mb-8 animate-bounce">
               Experience captures.incridea.in
             </h2>
             <button
