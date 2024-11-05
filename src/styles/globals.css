@@ -27,15 +27,36 @@
     font-weight: normal;
     font-style: normal;
   }
+
+  @font-face {
+    font-family: 'Garet';
+    src: url('/fonts/Garet.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
   @font-face {
     font-family: 'Finish';
     src: url('/fonts/Finish.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
+
+  @font-face {
+    font-family: 'ClubHouse';
+    src: url('/fonts/ClubHouse.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
   @font-face {
     font-family: 'Velocista';
     src: url('/fonts/Velocista.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Romance';
+    src: url('/fonts/Romance.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
@@ -56,6 +77,13 @@
   @font-face {
     font-family: 'Hunters';
     src: url('/fonts/Hunters.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'CreamCake';
+    src: url('/fonts/CreamCake.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
   }

@@ -25,16 +25,15 @@ export default function Home() {
           <div className="relative z-10 h-full flex items-center justify-between p-10">
             {/* Conditionally render the video only on the client */}
             <div className="flex-shrink-0 px-8">
-              {isMounted && <VideoComponent />}
             </div>
             {/* Tagline and Description */}
             <div className="flex flex-col text-white max-w-2xl text-left gap-8">
-              <h1 className="font-silkscreen text-5xl font-extrabold mb-4">
+              <h1 className="text-7xl font-ClubHouse mb-4">
                 Your Memories, Our Passion
               </h1>
-              <p className="text-lg">
-                Get your event photos and story-worthy moments. Experience them the same day! <br />
-                <span className="font-bold">captures.incridea.in</span> has it all!
+              <p className="text-md ">
+                Get your event photos and story-worthy moments.<br/> Experience them the same day!
+                <span className="font-bold"> captures.incridea.in</span> has it all!
               </p>
             </div>
           </div>
