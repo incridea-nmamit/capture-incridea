@@ -1,6 +1,8 @@
 import { api } from '~/utils/api';
 import React, { useEffect, useRef, useCallback } from 'react';
 import TeamCard from '~/components/TeamPage/TeamCard'; // Adjust path if needed
+import TitleSection from '~/components/TeamPage/TeamTitle';
+import FallingClipart from '~/components/FallingClipart';
 
 const MediaCommittee: React.FC = () => {
    const { data: teamMembers, isLoading, error } = api.team.getAllTeams.useQuery(); // Fetch data with tRPC
@@ -36,23 +38,15 @@ const MediaCommittee: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center bg-black">
+      <FallingClipart />
       {/* Title Section */}
-      <div
-        className="relative w-full h-[50vh] md:min-h-[55vh] bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/media-bg.png')" }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4">
-          <h1 className="text-4xl font-Hunters md:text-7xl text-white text-center">
-            Media Committee
-          </h1>
-          <p className="mt-2 text-base md:text-lg text-gray-300 max-w-2xl text-center">
-            Capturing the spirit of our fest through stunning visuals. Our media
-            team is dedicated to delivering high-quality content.
-          </p>
-        </div>
-      </div>
+      <TitleSection 
+        title="Media Committee"
+        description="Capturing the spirit of our fest through stunning visuals. Our media team is dedicated to delivering high-quality content."
+        backgroundImage="/images/media-bg.png"
+      />
       {/* Cards Section */}
-      <div className="py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
+      <div className="z-40 py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
         {teamMembers.map((member, index) => (
           member.committee === 'media' && ( // Check if the committee is media
             <TeamCard

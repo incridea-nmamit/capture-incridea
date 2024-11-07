@@ -1,6 +1,8 @@
 import { api } from '~/utils/api';
 import React, { useEffect, useRef, useCallback } from 'react';
 import TeamCard from '~/components/TeamPage/TeamCard'; // Adjust path if needed
+import FallingClipart from '~/components/FallingClipart';
+import TitleSection from '~/components/TeamPage/TeamTitle';
 
 const SocialMediaPage: React.FC = () => {
   const { data: teamMembers, isLoading, error } = api.team.getAllTeams.useQuery(); // Fetch data with tRPC
@@ -37,17 +39,15 @@ const SocialMediaPage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center bg-black">
+      <FallingClipart />
       {/* Title Section */}
-      <div className="relative w-full h-[50vh] md:h-[55vh] bg-cover bg-center" style={{ backgroundImage: "url('/images/smc-bg.png')" }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4">
-          <h1 className="text-4xl font-Hunters md:text-7xl text-white text-center">Social Media Team</h1>
-          <p className="mt-2 text-base md:text-lg text-gray-300 max-w-2xl text-center">
-            Engaging our audience and building community through strategic social media initiatives.
-          </p>
-        </div>
-      </div>
+      <TitleSection 
+        title="Social Media Team"
+        description="Engaging our audience and building community through strategic social media initiatives"
+        backgroundImage="/images/smc-bg.png"
+      />
       {/* Cards Section */}
-      <div className="text-white py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
+      <div className="z-40 text-white py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
         {/* Render Card components for each team member */}
         {teamMembers.map((member, index) => (
           member.committee === 'socialmedia' && ( // Check if the committee is media
