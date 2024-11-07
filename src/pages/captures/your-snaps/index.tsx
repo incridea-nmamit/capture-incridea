@@ -159,7 +159,7 @@ const YourSnapsPage: React.FC = () => {
       )}
 
       {removalImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-20" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50" role="dialog" aria-modal="true">
           <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full z-50">
             <h2 className="text-2xl text-white font-bold text-center mb-4">Request Removal</h2>
             <button onClick={closeRemovalPopup} className="absolute top-1 right-6 text-2xl text-white p-5">&times;</button>
