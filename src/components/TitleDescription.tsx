@@ -9,7 +9,7 @@ interface TitleDescriptionProps {
 const TitleDescription: React.FC<TitleDescriptionProps> = ({ title, description, imagePath }) => {
   return (
     <div 
-      className="relative w-full h-[25vh] md:h-[50vh] bg-cover bg-center" 
+      className="z-50 bg-black relative w-full h-[25vh] md:h-[50vh] bg-cover bg-center" 
       style={{ backgroundImage: `url('${imagePath}')` }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-65 flex flex-col items-center justify-center p-4">

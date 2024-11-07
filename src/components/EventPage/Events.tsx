@@ -62,7 +62,7 @@ const Events: FC = () => {
           filteredEvents.map((event, index) => (
             <div key={index} className="flex justify-center items-center">
               <div
-                className="bg-black rounded-lg shadow-lg overflow-hidden flex flex-col justify-between aspect-square"
+                className="bg-black rounded-lg shadow-lg overflow-hidden flex flex-col justify-between aspect-square z-50"
                 style={{ height: "300px", width: "300px" }}
               >
                 <EventCard

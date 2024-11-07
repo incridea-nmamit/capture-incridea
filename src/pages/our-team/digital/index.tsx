@@ -1,6 +1,7 @@
 import { api } from '~/utils/api';
 import React, { useEffect, useRef, useCallback } from 'react';
 import TeamCard from '~/components/TeamPage/TeamCard'; // Adjust path if needed
+import FallingClipart from '~/components/FallingClipart';
 
 const DigitalPage: React.FC = () => {
   const { data: teamMembers, isLoading, error } = api.team.getAllTeams.useQuery(); // Fetch data with tRPC
@@ -34,9 +35,11 @@ const DigitalPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-black">
+  
+    <div className="flex flex-col min-h-screen">
+      <FallingClipart />
       {/* Title Section */}
-      <div className="relative w-full h-[50vh] md:h-[55vh] bg-cover bg-center" style={{ backgroundImage: "url('/images/digital-bg.png')" }}>
+      <div className="relative w-full h-[50vh] md:h-[55vh] bg-cover bg-center z-40" style={{ backgroundImage: "url('/images/digital-bg.png')" }}>
         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4">
           <h1 className="text-4xl font-Hunters md:text-7xl text-white text-center">Digital Team</h1>
           <p className="mt-2 text-base md:text-lg text-gray-300 max-w-2xl text-center">
@@ -46,7 +49,7 @@ const DigitalPage: React.FC = () => {
       </div>
 
       {/* Cards Section */}
-      <div className="py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8 flex-grow">
+      <div className="z-40 py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8 flex-grow">
         {/* Render Card components for each team member */}
         {teamMembers.map((member, index) => (
           member.committee === 'digital' && (

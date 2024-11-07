@@ -120,3 +120,30 @@
   z-index: 50;
 }
 
+@keyframes fallAndRotate {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}
+
+.falling-image {
+  position: absolute;
+  top: 0;
+  opacity: 0.7; /* Slight opacity for the whole animation */
+  animation: fallAndRotate 10s linear infinite, scale 5s alternate infinite;
+  pointer-events: none; /* Disable mouse interaction */
+}

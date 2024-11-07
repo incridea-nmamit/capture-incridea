@@ -1,4 +1,5 @@
 import Events from "~/components/EventPage/Events";
+import FallingClipart from "~/components/FallingClipart";
 import TitleDescription from "~/components/TitleDescription";
 
 function EventsPage() {
@@ -9,6 +10,7 @@ function EventsPage() {
         description="Events Description here"
         imagePath="/images/event.jpg"
       />
+      <FallingClipart />
       <Events />
     </div>
   );
