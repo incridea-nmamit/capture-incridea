@@ -19,44 +19,62 @@ const CapturesAdmin: React.FC = () => {
 
   const handleAddEventClick = () => {
     setIsPopupOpen(true);
+    setNewImage({ event_name: '', event_category: 'events' }); // Reset form state and set category to "events"
   };
-
+  
+  const handlePopupClose = () => {
+    setIsPopupOpen(false);
+    setNewImage({ event_name: '', event_category: 'events' }); // Reset form state and set category to "events"
+  };
+  
   const handleFormChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
-    setNewImage(prev => ({ ...prev, [name]: value }));
-    
-    // Reset event_name to an empty string if category is not "events"
-    if (name === "event_category" && value !== "events") {
-      setNewImage(prev => ({ ...prev, event_name: '' }));
+  
+    if (name === "event_category") {
+      // Automatically set event_name to 'capture' for 'snaps' or 'behindincridea' categories
+      if (value === "snaps" || value === "behindincridea") {
+        setNewImage(prev => ({ ...prev, [name]: value, event_name: 'capture' }));
+      } else {
+        // For other categories, reset event_name to an empty string
+        setNewImage(prev => ({ ...prev, [name]: value, event_name: '' }));
+      }
+    } else {
+      // For all other form fields, update them normally
+      setNewImage(prev => ({ ...prev, [name]: value }));
     }
   };
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!uploadUrl) {
-      console.log('No URL to submit');
-      return;
-    }
+  
+    // Ensure event name is set if category is "events"
     if (newImage.event_category === "events" && newImage.event_name === "") {
       alert("Please select a valid event name.");
       return;
     }
-    if (!newImage.event_name || !newImage.event_category) {
-      alert("Please select an event name and category.");
+  
+    // Check if image is uploaded for "snaps" or "behindincridea"
+    if ((newImage.event_category === "snaps" || newImage.event_category === "behindincridea") && !uploadUrl) {
+      alert("Please upload an image.");
       return;
     }
+  
+    if (!newImage.event_category) {
+      alert("Please select a category.");
+      return;
+    }
+  
     try {
       const result = await addImage.mutateAsync({ ...newImage, uploadKey: uploadUrl });
       console.log('Image added:', result);
       setIsPopupOpen(false);
-      setNewImage({ event_name: '', event_category: '' }); // Reset to initial values
+      setNewImage({ event_name: 'capture', event_category: 'events' }); // Reset form state to initial values
       setUploadUrl(''); // Resetting the upload URL
       void refetch(); // Refetch gallery after adding
     } catch (error) {
       console.error('Error adding image:', error);
     }
-  };
-
+  };  
   return (
     <div className="p-4">
       <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Captures Management</h1>
@@ -109,7 +127,7 @@ const CapturesAdmin: React.FC = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
             <h2 className="text-2xl font-bold text-white mb-4">Add Capture</h2>
-            <button onClick={() => setIsPopupOpen(false)} className="absolute top-6 right-6 text-white p-5">&times;</button>
+            <button onClick={() => handlePopupClose()} className="absolute top-6 right-6 text-white p-5">&times;</button>
             <form onSubmit={handleSubmit}>
               <label className="block mt-5 mb-2 text-white text-left">Capture:</label>
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
