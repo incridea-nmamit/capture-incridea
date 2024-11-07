@@ -50,7 +50,7 @@ export default function Home() {
             </h2>
             <button
               onClick={() => void router.push("/captures")}
-              className="px-8 py-4 text-lg font-bold text-white rounded-lg transition transform bg-gradient-to-r from-red-500 to-red-700 hover:scale-105 hover:-translate-y-1 dark:from-red-600 dark:to-red-800"
+              className="px-8 font-BebasNeue py-4 text-2xl text-white rounded-lg transition transform bg-gradient-to-r from-red-500 to-red-700 hover:scale-105 hover:-translate-y-1 dark:from-red-600 dark:to-red-800"
             >
               Go to Captures
             </button>

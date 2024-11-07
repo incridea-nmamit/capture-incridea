@@ -13,7 +13,7 @@ const LoadingAnimation = () => {
                             alt="Loading"
                             className="w-3/4 h-auto object-cover rounded-full blur-lg" // Scale down to 75% of the container size
                             style={{
-                                animation: 'focus 3s ease infinite', // Swift animation for blur
+                                animation: 'focus 4s ease infinite', // Swift animation for blur
                             }}
                         />
                     </div>
@@ -23,30 +23,30 @@ const LoadingAnimation = () => {
             <style jsx>{`
                 @keyframes focus {
                     0% {
-                        filter: blur(3px);
-                    }
-                    50% {
                         filter: blur(0px);
                     }
-                    100% {
+                    50% {
                         filter: blur(3px);
+                    }
+                    100% {
+                        filter: blur(0px);
                     }
                 }
 
                 @keyframes ring {
                     0% {
-                        transform: rotate(20deg);
-                    }
-                    50% {
                         transform: rotate(-20deg);
                     }
-                    100% {
+                    50% {
                         transform: rotate(20deg);
+                    }
+                    100% {
+                        transform: rotate(-20deg);
                     }
                 }
 
                 .animate-ring {
-                    animation: ring 3s ease infinite; // Swift rotation
+                    animation: ring 4s ease infinite; // Swift rotation
                 }
             `}</style>
         </div>
