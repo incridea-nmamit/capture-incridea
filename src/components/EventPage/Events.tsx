@@ -24,7 +24,6 @@ const Events: FC = () => {
 
   return (
     <div className="p-6 bg-black min-h-screen">
-      <h1 className="text-center text-7xl font-Hunters mb-8 text-white">Events</h1>
       <div className="flex flex-row md:flex-row items-center gap-4 mb-8">
         <div className="relative flex-grow">
           <input
