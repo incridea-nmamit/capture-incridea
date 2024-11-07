@@ -93,7 +93,7 @@ const YourSnapsPage: React.FC = () => {
       >
         {filteredImages.map((image) => {
           return (
-            <div key={image.id} className="relative overflow-hidden rounded-lg z-50">
+            <div key={image.id} className="relative overflow-hidden rounded-lg z-40">
               <CaptureCard
                 imagePath={image.image_path}
                 altText="Snaps image"

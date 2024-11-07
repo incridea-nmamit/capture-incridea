@@ -57,12 +57,12 @@ const Events: FC = () => {
           <option value="day3">Day 3</option>
         </select>
       </div>
-      <div className="flex flex-wrap justify-center gap-6 mt-6">
+      <div className="z-40 flex flex-wrap justify-center gap-6 mt-6">
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event, index) => (
             <div key={index} className="flex justify-center items-center">
               <div
-                className="bg-black rounded-lg shadow-lg overflow-hidden flex flex-col justify-between aspect-square z-50"
+                className="bg-black rounded-lg shadow-lg overflow-hidden flex flex-col justify-between aspect-square z-40"
                 style={{ height: "300px", width: "300px" }}
               >
                 <EventCard

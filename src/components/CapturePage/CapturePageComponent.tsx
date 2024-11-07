@@ -13,7 +13,7 @@ const CapturesComponent = () => {
       >
         <h1 className="text-7xl text-white font-Hunters mb-12 p-8 z-40">Captures</h1>
 
-        <div className="flex flex-col md:flex-row gap-12 flex-wrap justify-center z-50">
+        <div className="flex flex-col md:flex-row gap-12 flex-wrap justify-center z-40">
           {/* Events Card */}
           <CapturePageCard 
             title="Events" 
