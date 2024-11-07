@@ -36,6 +36,31 @@ const SocialMediaPage: React.FC = () => {
     digitalteam: "Digital Team",
     none: ""
   };
+  const designationPriority = [
+    'mediahead',
+    'socialmediahead',
+    'digitalhead',
+    'fullstackdev',
+    'mediacohead',
+    'socialmediacohead',
+    'digitalcohead',
+    'leadvideographer',
+    'leadphotographer',
+    'aerialvideographer',
+    'photographer',
+    'videographer',
+    'socialmediateam',
+    'frontenddev',
+    'backenddev',
+    'digitalteam',
+    'none'
+  ];
+
+  // Sort team members by designation priority
+  const sortedTeamMembers = teamMembers
+    .filter(member => member.committee === 'media') // Filter media committee members
+    .sort((a, b) => designationPriority.indexOf(a.designation) - designationPriority.indexOf(b.designation));
+
 
   return (
     <div className="flex flex-col items-center bg-black">
@@ -49,8 +74,7 @@ const SocialMediaPage: React.FC = () => {
       {/* Cards Section */}
       <div className="z-40 text-white py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
         {/* Render Card components for each team member */}
-        {teamMembers.map((member, index) => (
-          member.committee === 'socialmedia' && ( // Check if the committee is media
+        {sortedTeamMembers.map((member, index) => (
             <TeamCard
               key={index}
               imageSrc={member.image} // Assuming 'image' is the correct field from your database
@@ -58,7 +82,6 @@ const SocialMediaPage: React.FC = () => {
               designation={designationMapping[member.designation] || member.designation}
               say={member.say}
             />
-          )
         ))}
       </div>
     </div>

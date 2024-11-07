@@ -34,12 +34,35 @@ const DigitalPage: React.FC = () => {
     digitalteam: "Digital Team",
     none: ""
   };
+  const designationPriority = [
+    'mediahead',
+    'socialmediahead',
+    'digitalhead',
+    'fullstackdev',
+    'mediacohead',
+    'socialmediacohead',
+    'digitalcohead',
+    'leadvideographer',
+    'leadphotographer',
+    'aerialvideographer',
+    'photographer',
+    'videographer',
+    'socialmediateam',
+    'frontenddev',
+    'backenddev',
+    'digitalteam',
+    'none'
+  ];
+
+  // Sort team members by designation priority
+  const sortedTeamMembers = teamMembers
+    .filter(member => member.committee === 'media') // Filter media committee members
+    .sort((a, b) => designationPriority.indexOf(a.designation) - designationPriority.indexOf(b.designation));
 
   return (
   
     <div className="flex flex-col min-h-screen">
       <FallingClipart />
-      {/* Title Section */}
       {/* Title Section */}
       <TitleSection
         title="Digital Team"
@@ -50,8 +73,8 @@ const DigitalPage: React.FC = () => {
       {/* Cards Section */}
       <div className="z-40 py-6 md:py-12 px-4 md:px-6 flex flex-col items-center md:flex-row flex-wrap justify-center gap-6 md:gap-8 flex-grow">
         {/* Render Card components for each team member */}
-        {teamMembers.map((member, index) => (
-          member.committee === 'digital' && (
+        {sortedTeamMembers.map((member, index) => (
+
             <TeamCard
               key={index}
               imageSrc={member.image} // Assuming 'image' is the correct field from your database
@@ -59,7 +82,6 @@ const DigitalPage: React.FC = () => {
               designation={designationMapping[member.designation] || member.designation}
               say={member.say}
             />
-          )
         ))}
       </div>
     </div>
