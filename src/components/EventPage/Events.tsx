@@ -24,8 +24,8 @@ const Events: FC = () => {
 
   return (
     <div className="p-6 bg-black min-h-screen">
-      <div className="flex flex-row md:flex-row items-center gap-4 mb-8 z-40">
-        <div className="relative flex-grow z-40">
+      <div className="flex flex-row md:flex-row items-center gap-4 mb-8 z-30">
+        <div className="relative flex-grow z-30">
           <input
             type="text"
             placeholder="Search events by name"
@@ -38,7 +38,7 @@ const Events: FC = () => {
         <select
           value={selectedEventType}
           onChange={(e) => setSelectedEventType(e.target.value.toLowerCase())}
-          className="p-2 z-40 border-slate-700 rounded-xl bg-transparent h-12 text-white"
+          className="p-2 z-30 border-slate-700 rounded-xl bg-transparent h-12 text-white"
         >
           <option value="all">All Categories</option>
           <option value="core">Core</option>
@@ -49,7 +49,7 @@ const Events: FC = () => {
         <select
           value={selectedDay}
           onChange={(e) => setSelectedDay(e.target.value)}
-          className="p-2 z-40 border-slate-700 rounded-xl bg-transparent h-12 text-white"
+          className="p-2 z-30 border-slate-700 rounded-xl bg-transparent h-12 text-white"
         >
           <option value="all">All Days</option>
           <option value="day1">Day 1</option>
@@ -57,10 +57,10 @@ const Events: FC = () => {
           <option value="day3">Day 3</option>
         </select>
       </div>
-      <div className="z-40 flex flex-wrap justify-center gap-6 mt-6">
+      <div className="z-30 flex flex-wrap justify-center gap-6 mt-6">
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event, index) => (
-            <div key={index} className="flex justify-center items-center">
+            <div key={index} className="flex justify-center items-center z-30">
               <div
                 className="bg-black rounded-lg shadow-lg overflow-hidden flex flex-col justify-between aspect-square z-40"
                 style={{ height: "300px", width: "300px" }}

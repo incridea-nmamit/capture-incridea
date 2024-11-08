@@ -78,15 +78,11 @@ const behindincridea = () => {
 
   return (
     <div>
-    <div className="relative w-full h-[50vh] md:h-[55vh] bg-cover bg-center" 
-      style={{ backgroundImage: "url('/images/admin-bg.png')" }}>
-      <div className="absolute inset-0 bg-black bg-opacity-65 flex flex-col items-center justify-center p-4">
-        <h1 className="text-4xl font-Hunters md:text-7xl text-white text-center">Behind Incridea</h1>
-        <p className="mt-2 text-base md:text-lg text-gray-300 max-w-2xl text-center">
-          Engaging our audience and building community through strategic social media initiatives.
-        </p>
-      </div>
-    </div>
+    <TitleDescription 
+        title="Behind Incridea" 
+        description="Engaging our audience and building community through strategic social media initiatives"
+        imagePath="/images/admin-bg.png"
+      />
     <FallingClipart />
     <div
         className="grid gap-4 p-10"
@@ -97,7 +93,7 @@ const behindincridea = () => {
       >
         {filteredImages.map((image) => {
           return (
-            <div key={image.id} className="relative overflow-hidden rounded-lg z-50">
+            <div key={image.id} className="relative overflow-hidden rounded-lg z-20">
               <CaptureCard
                 imagePath={image.image_path}
                 altText="Snaps image"
@@ -109,7 +105,7 @@ const behindincridea = () => {
       </div>
 
       {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-50" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-30" role="dialog" aria-modal="true">
           <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full">
             <div className="flex">
               <h2 className="text-2xl w-full text-center font-bold text-white">Add Capture</h2>
@@ -165,7 +161,7 @@ const behindincridea = () => {
       )}
 
       {removalImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-30" role="dialog" aria-modal="true">
           <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full z-50">
             <h2 className="text-2xl text-white font-bold text-center mb-4">Request Removal</h2>
             <button onClick={closeRemovalPopup} className="absolute top-1 right-6 text-2xl text-white p-5">&times;</button>

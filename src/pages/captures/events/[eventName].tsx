@@ -89,11 +89,11 @@ const EventCaptures = () => {
 
   return (
     <div className="p-6 bg-black min-h-screen">
-      <h1 className="text-3xl md:text-7xl font-Hunters text-white text-center mb-8 md:mb-4">
+      <h1 className="text-3xl md:text-7xl font-Hunters text-white text-center mb-8 md:mb-4 z-20">
         {formattedEventName}Captures
       </h1>
       {/* Display event description if it exists */}
-      <div className="flex justify-center">
+      <div className="flex justify-center z-20">
         {event?.description && <p className="text-center text-gray-400 mb-16 w-3/4">{event.description}</p>}
       </div>
       <main
@@ -104,7 +104,7 @@ const EventCaptures = () => {
         }}
       >
         {filteredImages.map((image) => (
-          <div key={image.id} className="relative overflow-hidden rounded-lg">
+          <div key={image.id} className="relative overflow-hidden rounded-lg z-20">
             <CaptureCard
               imagePath={image.image_path}
               altText={formattedEventName ?? "Event image"}
@@ -114,8 +114,8 @@ const EventCaptures = () => {
         ))}
       </main>
       {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-50" role="dialog" aria-modal="true">
-          <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full">
+        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-30" role="dialog" aria-modal="true">
+          <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full z-30">
             <div className="flex">
               <h2 className="text-2xl w-full text-center font-bold text-white">Add Capture</h2>
               <button onClick={handleClosePopup} className="absolute top-0 right-5 text-white text-4xl p-5">&times;</button>
@@ -145,7 +145,7 @@ const EventCaptures = () => {
                 Download
               </button>
             </div>
-            <p className="text-xs text-center py-5 w-full">
+            <p className="text-xs text-center py-5 w-full z-30">
               Note: If you prefer this capture not to be public or have any issues.<br /> Please {" "}
               <a
                   className="text-blue-500 cursor-pointer"
@@ -162,12 +162,12 @@ const EventCaptures = () => {
         </div>
       )}
       {removalImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-20" role="dialog" aria-modal="true">
-          <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full z-50">
-            <h2 className="text-2xl text-white font-bold text-center mb-4">Request Removal</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-30" role="dialog" aria-modal="true">
+          <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full z-30">
+            <h2 className="text-2xl text-white font-bold text-center mb-4 z-30">Request Removal</h2>
             <button onClick={closeRemovalPopup} className="absolute top-1 right-6 text-2xl text-white p-5">&times;</button>
-            <div className="flex justify-center">
-              <Image src={removalImage} alt="Removal Image" width={75} height={75} className="rounded mb-4" />
+            <div className="flex justify-center z-30">
+              <Image src={removalImage} alt="Removal Image" width={90} height={90} className="rounded mb-4" />
             </div>
             <form className="space-y-4">
               <input
@@ -186,7 +186,7 @@ const EventCaptures = () => {
               />
               <input
                 type="description"
-                placeholder="Please give a brief Description"
+                placeholder="Describe your issue with this image"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full px-4 py-2 rounded bg-gray-800 text-white"
@@ -195,7 +195,7 @@ const EventCaptures = () => {
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="w-full bg-green-500 hover:bg-green-700 text-white px-4 py-2 rounded"
+                className="w-full bg-green-500 hover:bg-green-700 text-white px-4 py-2 rounded z-40"
               >
                 Submit Request
               </button>

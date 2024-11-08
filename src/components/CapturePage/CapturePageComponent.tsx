@@ -4,16 +4,14 @@ import CapturePageCard from "./CapturePageCard";
 const CapturesComponent = () => {
   return (
     <div>
-      {/* FallingClipart component is now wrapped in a single parent div */}
       <FallingClipart />
-
       <div
-        className="min-h-screen bg-cover bg-center flex flex-col items-center justify-start p-8"
+        className="min-h-screen bg-cover bg-center flex flex-col items-center justify-start p-8 z-30"
         style={{ backgroundImage: "url('')" }}
       >
-        <h1 className="text-7xl text-white font-Hunters mb-12 p-8 z-40">Captures</h1>
+        <h1 className="text-7xl text-white font-Hunters mb-12 p-8 z-30">Captures</h1>
 
-        <div className="flex flex-col md:flex-row gap-12 flex-wrap justify-center z-40">
+        <div className="flex flex-col md:flex-row gap-12 flex-wrap justify-center z-30">
           {/* Events Card */}
           <CapturePageCard 
             title="Events" 

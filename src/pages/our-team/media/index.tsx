@@ -63,7 +63,7 @@ const MediaCommittee: React.FC = () => {
     .sort((a, b) => designationPriority.indexOf(a.designation) - designationPriority.indexOf(b.designation));
 
   return (
-    <div className="flex flex-col items-center bg-black">
+    <div className="flex flex-col items-center bg-black z-20">
       <FallingClipart />
       {/* Title Section */}
       <TitleSection 
@@ -72,7 +72,7 @@ const MediaCommittee: React.FC = () => {
         backgroundImage="/images/media-bg.png"
       />
       {/* Cards Section */}
-      <div className="z-40 py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
+      <div className=" z-20 py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
         {sortedTeamMembers.map((member, index) => (
           <TeamCard
             key={index}

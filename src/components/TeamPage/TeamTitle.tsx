@@ -10,7 +10,7 @@ interface TitleSectionProps {
 const TitleSection: React.FC<TitleSectionProps> = ({ title, description, backgroundImage }) => {
   return (
     <div 
-      className="relative w-full h-[50vh] md:h-[55vh] bg-cover bg-center z-40"
+      className="relative w-full h-[50vh] md:h-[55vh] bg-cover bg-center  z-20"
       style={{ backgroundImage: `url('${backgroundImage}')` }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4">

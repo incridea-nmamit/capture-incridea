@@ -4,12 +4,12 @@ import Link from "next/link"; // Import Link from Next.js
 
 const OurTeam = () => {
   return (
-    <div className="min-h-[calc(100vh-60px)] bg-black text-white flex flex-col items-center py-12 px-6 ">
+    <div className="min-h-[calc(100vh-60px)] bg-black text-white flex flex-col items-center py-12 px-6 z-20">
       {/* Page Title */}
-      <h1 className="text-8xl font-Hunters mb-8 z-40">Our Team</h1>
+      <h1 className="text-8xl font-Hunters mb-8 z-20">Our Team</h1>
 
       {/* Small Description */}
-      <p className="text-lg text-center max-w-3xl text-gray-400 mb-12 z-40">
+      <p className="text-lg text-center max-w-3xl text-gray-400 mb-12 z-20">
         Our committees have been the backbone of Incridea, working tirelessly 
         to ensure a seamless and creative experience. From capturing the essence of the 
         event to engaging with audiences online and managing digital platforms, each committee 
@@ -17,7 +17,7 @@ const OurTeam = () => {
       </p>
 
       {/* Cards Container */}
-      <div className="flex flex-col md:flex-row gap-8 flex-wrap justify-center z-40">
+      <div className="flex flex-col md:flex-row gap-8 flex-wrap justify-center z-20">
         {/* Media Committee Card */}
         <Link href="/our-team/media" passHref>
           <div

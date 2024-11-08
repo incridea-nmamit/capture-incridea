@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import CapturesComponent from '~/components/CapturePage/CapturePageComponent';
 import ReleaseOverlay from '~/components/ReleaseOverlay';
-import FallingClipart from '~/components/FallingClipart';
 
 const Captures: React.FC = () => {
   const [isReleased, setIsReleased] = useState<boolean>(false);

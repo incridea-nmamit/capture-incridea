@@ -44,7 +44,7 @@ const Header: FC = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10 gap-5">
+        <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10 gap-5 z-40">
           {isAdminRoute ? (
             session ? (
               <>

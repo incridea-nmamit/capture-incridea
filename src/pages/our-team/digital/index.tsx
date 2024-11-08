@@ -71,7 +71,7 @@ const DigitalPage: React.FC = () => {
       />
 
       {/* Cards Section */}
-      <div className="z-40 py-6 md:py-12 px-4 md:px-6 flex flex-col items-center md:flex-row flex-wrap justify-center gap-6 md:gap-8 flex-grow">
+      <div className=" z-20 py-6 md:py-12 px-4 md:px-6 flex flex-col items-center md:flex-row flex-wrap justify-center gap-6 md:gap-8 flex-grow">
         {/* Render Card components for each team member */}
         {sortedTeamMembers.map((member, index) => (
 
