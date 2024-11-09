@@ -28,14 +28,14 @@ const NotAuthorized = () => {
       {/* Dim the background using an absolute div with black background and opacity */}
       <div className="absolute inset-0 bg-black opacity-75" />
       <div className="relative z-10 text-center text-white p-8">
-        <h1 className="text-5xl font-bold mb-4">Oops! Unauthorized!</h1>
+        <h1 className="text-5xl font-bold mb-4">Oops! Your Unauthorized!</h1>
         <p className="text-xl mb-8">Looks like you stumbled into the wrong neighborhood! </p>
         <p className="text-lg">
-          This page isn&apos;t for you! Maybe try signing in again with a different account!
+          This page isn&apos;t for you! Maybe try signing in again with a authorized account!
         </p>
         <button
           onClick={handleSignOutAndIn}
-          className="mt-4 px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition"
+          className="mt-4 px-6 py-2 bg-white text-black font-bold rounded hover:bg-black hover:text-white transition"
         >
           Sign In
         </button>
