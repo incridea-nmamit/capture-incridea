@@ -80,7 +80,7 @@ const YourSnapsPage: React.FC = () => {
       <TitleDescription 
         title="Your Snaps" 
         description="Engaging our audience and building community through strategic social media initiatives."
-        imagePath="/images/admin-bg.png"
+        imagePath="/images/snaps.png"
       />
       <FallingClipart />
 
