@@ -11,23 +11,32 @@ import { GoHomeFill } from "react-icons/go";
 import { MdCamera } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi";
+import { GrGallery } from "react-icons/gr";
+
+// Constants for links and their icons
+const adminLinks = [
+  { href: "/admin/dashboard", label: "Dashboard", icon: <BiSolidDashboard /> },
+];
+
+const userLinks = [
+  { href: "/", label: "Home", icon: <GoHomeFill /> },
+  { href: "/captures", label: "Captures", icon: <MdCamera /> },
+  { href: "/our-team", label: "Our Team", icon: <RiTeamFill /> },
+  { href: "/gallery", label: "Gallery", icon: <GrGallery /> },
+  { href: "/about", label: "About", icon: <HiInformationCircle /> },
+];
 
 const Header: FC = () => {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname() || ""; 
+  const pathname = usePathname() || "";
   const isAdminRoute = pathname.startsWith("/admin");
-
-  const subLinks = [
-    { href: "/admin/events", label: "Events" },
-    { href: "/admin/team", label: "Team" },
-  ];
 
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
-      <header className="sticky-header bg-black shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start z-50 ">
+      <header className="sticky-header bg-black shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start z-50 w-full ">
         {/* Logo Section */}
-        <div className="flex items-center w-full md:w-auto px-10">
+        <div className="flex justify-center items-center w-full md:w-auto px-10">
           <a
             href="https://incridea.in"
             rel="noopener noreferrer"
@@ -45,61 +54,47 @@ const Header: FC = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10 gap-5 z-40">
-          {isAdminRoute ? (
-            session ? (
-              <>
-                <div className="flex items-center gap-2">
-                  <BiSolidDashboard/> 
+          {session ? (
+            // Admin Navigation (if session exists and is on an admin route)
+            isAdminRoute ? (
+              adminLinks.map((link) => (
+                <div key={link.href} className="flex items-center gap-2">
+                  {link.icon}
                   <NavLink
-                    href="/admin/dashboard"
-                    label="Dashboard"
-                    active={pathname === "/admin/dashboard"}
+                    href={link.href}
+                    label={link.label}
+                    active={pathname === link.href}
                     className="text-xl font-BebasNeue relative top-1"
-                  />                  
+                  />
                 </div>
-                <button onClick={() => signOut()} className="text-white text-xl flex items-center gap-3">
-                  <HiOutlineLogout /> <span className="font-BebasNeue relative top-0.5">Logout</span>
-                </button>
-              </>
+              ))
             ) : (
-              <button onClick={() => signIn()} className="text-white text-xl">
-                Sign In
-              </button>
+              userLinks.map((link) => (
+                <div key={link.href} className="flex items-center gap-1">
+                  {link.icon}
+                  <NavLink
+                    href={link.href}
+                    label={link.label}
+                    active={link.href === '/' ? pathname === link.href : pathname.startsWith(link.href)}
+                    className="text-xl font-BebasNeue relative top-1"
+                  />
+                </div>
+              ))
             )
           ) : (
-            <>
-            <div className="flex items-center gap-1">
-              <div className="flex items-center"><GoHomeFill /></div>
-              <NavLink href="/" label="Home" className="text-xl font-BebasNeue relative top-1" active={pathname === "/"} />
-            </div>
-            <div className="flex items-center gap-1">
-              <MdCamera />
-              <NavLink
-                href="/captures"
-                label="Captures"
-                active={pathname.startsWith("/captures")}
-                className="text-xl font-BebasNeue relative top-1"
-              />
-            </div>
-            <div className="flex items-center gap-1">
-              <RiTeamFill />
-              <NavLink
-                href="/our-team"
-                label="Our Team "
-                active={pathname.startsWith("/our-team")}
-                className="text-xl font-BebasNeue  relative top-1" 
-              />              
-            </div>
-            <div className="flex items-center gap-1">
-              <HiInformationCircle />
-              <NavLink
-                href="/about"
-                label="About"
-                active={pathname.startsWith("/about")}
-                className="text-xl font-BebasNeue relative top-1"
-              />              
-            </div>
-            </>
+            <button onClick={() => signIn()} className="text-white text-xl flex">
+              <HiOutlineLogout /> <span className="font-BebasNeue relative top-0.5">SignIn</span>
+            </button>
+          )}
+
+          {/* Only show logout button if on admin route */}
+          {session && isAdminRoute && (
+            <button
+              onClick={() => signOut()}
+              className="text-white text-xl flex items-center gap-3"
+            >
+              <HiOutlineLogout /> <span className="font-BebasNeue relative top-0.5">Logout</span>
+            </button>
           )}
         </nav>
 
@@ -131,71 +126,48 @@ const Header: FC = () => {
         </button>
 
         <div className="flex flex-col space-y-4 text-white gap-2">
-          {isAdminRoute ? (
-            session ? (
-              <>
-              <div className="flex items-center gap-3">
-                <BiSolidDashboard/> 
-                <NavLink
-                  href="/admin/dashboard"
-                  label="Dashboard"
-                  active={pathname === "/admin/dashboard"}
-                  onClick={() => setIsOpen(false)}
-                  className="text-xl w-fit"
-                />
-              </div>
-                <button onClick={() => signOut()} className="text-white text-xl py-5 flex items-center gap-3">
-                  <HiOutlineLogout />Logout
-                </button>
-              </>
+          {session ? (
+            isAdminRoute ? (
+              adminLinks.map((link) => (
+                <div key={link.href} className="flex items-center gap-3">
+                  {link.icon}
+                  <NavLink
+                    href={link.href}
+                    label={link.label}
+                    active={pathname === link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="text-xl w-fit"
+                  />
+                </div>
+              ))
             ) : (
-              <button onClick={() => signIn()} className="text-white">
-                Sign In
-              </button>
+              userLinks.map((link) => (
+                <div key={link.href} className="flex items-center gap-1">
+                  {link.icon}
+                  <NavLink
+                    href={link.href}
+                    label={link.label}
+                    active={link.href === '/' ? pathname === link.href : pathname.startsWith(link.href)}
+                    onClick={() => setIsOpen(false)}
+                    className="text-xl w-fit"
+                  />
+                </div>
+              ))
             )
           ) : (
-            <>
-            <div className="flex items-center gap-1">
-              <GoHomeFill />
-              <NavLink
-                href="/"
-                label="Home"
-                active={pathname === "/"}
-                onClick={() => setIsOpen(false)}
-                className="text-xl w-fit"
-              />
-            </div>
-            <div className="flex items-center gap-1">
-              <MdCamera />
-              <NavLink
-                href="/captures"
-                label="Captures"
-                active={pathname.startsWith("/captures")}
-                onClick={() => setIsOpen(false)}
-                className="text-xl w-fit"
-              />              
-            </div>
-            <div className="flex items-center gap-1">
-              <RiTeamFill />
-              <NavLink
-                href="/our-team"
-                label="Our Team"
-                active={pathname.startsWith("/our-team")}
-                onClick={() => setIsOpen(false)}
-                className="text-xl w-fit"
-              />              
-            </div>
-            <div className="flex items-center gap-1">
-              <HiInformationCircle />
-              <NavLink
-                href="/about"
-                label="About"
-                active={pathname.startsWith("/about")}
-                onClick={() => setIsOpen(false)}
-                className="text-xl w-fit"
-              />              
-            </div>
-            </>
+            <button onClick={() => signIn()} className="text-white">
+              <HiOutlineLogout /> <span className="font-BebasNeue relative top-0.5">SignIn</span>
+            </button>
+          )}
+
+          {/* Only show logout button if on admin route */}
+          {session && isAdminRoute && (
+            <button
+              onClick={() => signOut()}
+              className="text-white text-xl py-5 flex items-center gap-3"
+            >
+              <HiOutlineLogout />Logout
+            </button>
           )}
         </div>
       </div>
