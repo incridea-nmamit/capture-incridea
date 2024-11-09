@@ -14,7 +14,7 @@ const CapturesAdmin: React.FC = () => {
   const [newImage, setNewImage] = useState<{ event_name: string; event_category: string }>({ event_name: '', event_category: '' });
   const [uploadUrl, setUploadUrl] = useState<string>('');
 
-  const toaststyle = {
+  const toastStyle = {
     style: {
       borderRadius: '10px',
       background: 'black',
@@ -28,67 +28,73 @@ const CapturesAdmin: React.FC = () => {
 
   const handleAddEventClick = () => {
     setIsPopupOpen(true);
-    setNewImage({ event_name: '', event_category: 'events' }); // Reset form state and set category to "events"
+    setNewImage({ event_name: '', event_category: 'events' });
   };
-  
+
   const handlePopupClose = () => {
     setIsPopupOpen(false);
-    setNewImage({ event_name: '', event_category: 'events' }); // Reset form state and set category to "events"
+    setNewImage({ event_name: '', event_category: 'events' });
   };
-  
+
   const handleFormChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
   
-    if (name === "event_category") {
-      // Automatically set event_name to 'capture' for 'snaps' or 'behindincridea' categories
-      if (value === "snaps" || value === "behindincridea") {
-        setNewImage(prev => ({ ...prev, [name]: value, event_name: 'capture' }));
+    if (name === 'event_category') {
+      if (value === 'snaps' || value === 'behindincridea' || value === 'pronight') {
+        setNewImage(prev => ({ ...prev, [name]: value, event_name: 'capture' })); // Set default for these categories
       } else {
-        // For other categories, reset event_name to an empty string
-        setNewImage(prev => ({ ...prev, [name]: value, event_name: '' }));
+        setNewImage(prev => ({ ...prev, [name]: value, event_name: '' })); // Reset event_name for other categories
       }
     } else {
-      // For all other form fields, update them normally
       setNewImage(prev => ({ ...prev, [name]: value }));
     }
   };
   
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-  
-    // Ensure event name is set if category is "events"
-    if (newImage.event_category === "events" && newImage.event_name === "") {
-      toast.error("Please select a valid event name.", toaststyle);
-      return;
-    }
-  
-    // Check if image is uploaded for "snaps" or "behindincridea"
-    if ((newImage.event_category === "snaps" || newImage.event_category === "behindincridea") && !uploadUrl) {
-      toast.error("Please upload an image.", toaststyle);
-      return;
-    }
-  
-    if (!newImage.event_category) {
-      toast.error("Please select a category.", toaststyle);
-      return;
-    }
+  e.preventDefault();
 
-    if(uploadUrl==""){
-      toast.error("Select and Upload the Image", toaststyle);
-    }
-  
-    try {
-      const result = await addImage.mutateAsync({ ...newImage, uploadKey: uploadUrl });
-      console.log('Image added:', result);
-      setIsPopupOpen(false);
-      setNewImage({ event_name: 'capture', event_category: 'events' }); // Reset form state to initial values
-      setUploadUrl(''); // Resetting the upload URL
-      void refetch(); // Refetch gallery after adding
-      toast.success("Capture Added");
-    } catch (error) {
-      toast.error("Capture Not Uploaded", toaststyle);
-    }
-  };  
+  // If event_category is "events", ensure event_name is not empty
+  if (newImage.event_category === 'events' && !newImage.event_name) {
+    toast.error('Please select a valid event name.', toastStyle);
+    return;
+  }
+
+  // If event_category is "pronight", make sure event_name is set to "capture" or another valid value
+  if (newImage.event_category === 'pronight' && newImage.event_name === '') {
+    toast.error('Event name is required for Pronight category.', toastStyle);
+    return;
+  }
+
+  // Handle checks for image upload for categories like "snaps" or "behindincridea"
+  if ((newImage.event_category === 'snaps' || newImage.event_category === 'behindincridea' || newImage.event_category === 'pronight') && !uploadUrl) {
+    toast.error('Please upload an image.', toastStyle);
+    return;
+  }
+
+  // Ensure event_category is selected
+  if (!newImage.event_category) {
+    toast.error('Please select a category.', toastStyle);
+    return;
+  }
+
+  if (!uploadUrl) {
+    toast.error('Select and Upload the Image', toastStyle);
+    return;
+  }
+
+  try {
+    const result = await addImage.mutateAsync({ ...newImage, uploadKey: uploadUrl });
+    console.log('Image added:', result);
+    setIsPopupOpen(false);
+    setNewImage({ event_name: 'capture', event_category: 'events' });
+    setUploadUrl('');
+    void refetch();
+    toast.success('Capture Added');
+  } catch (error) {
+    toast.error('Capture Not Uploaded', toastStyle);
+  }
+};
+
   return (
     <div className="p-4">
       <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Captures Management</h1>
@@ -111,7 +117,7 @@ const CapturesAdmin: React.FC = () => {
       {galleryLoading ? (
         <div>Loading...</div>
       ) : galleryError ? (
-        <div>Error loading events. Please try again later.</div>
+        <div>Error loading gallery. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-300 bg-black">
@@ -141,11 +147,13 @@ const CapturesAdmin: React.FC = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
             <h2 className="text-2xl font-bold text-white mb-4">Add Capture</h2>
-            <button onClick={() => handlePopupClose()} className="absolute top-6 right-6 text-white p-5">&times;</button>
+            <button onClick={handlePopupClose} className="absolute top-6 right-6 text-white p-5">
+              &times;
+            </button>
             <form onSubmit={handleSubmit}>
               <label className="block mt-5 mb-2 text-white text-left">Capture:</label>
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
-              
+
               <label className="block mt-5 mb-2 text-left text-white">Capture Category:</label>
               <select
                 name="event_category"
@@ -153,13 +161,16 @@ const CapturesAdmin: React.FC = () => {
                 onChange={handleFormChange}
                 className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
               >
-                <option value="" disabled>Select a category</option>
+                <option value="" disabled>
+                  Select a category
+                </option>
                 <option value="events">Events</option>
+                <option value="pronight">Pronight</option>
                 <option value="snaps">Snaps</option>
                 <option value="behindincridea">Behind Incridea</option>
               </select>
 
-              {newImage.event_category === "events" && (
+              {newImage.event_category === 'events' && (
                 <>
                   <label className="block mt-5 mb-2 text-left text-white">Event Name:</label>
                   {eventsLoading ? (
@@ -173,16 +184,22 @@ const CapturesAdmin: React.FC = () => {
                       onChange={handleFormChange}
                       className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
                     >
-                      <option value="" disabled>Select an event</option> {/* Disabled placeholder */}
+                      <option value="" disabled>
+                        Select an event
+                      </option>
                       {events?.map(event => (
-                        <option key={event.id} value={event.name}>{event.name}</option>
+                        <option key={event.id} value={event.name}>
+                          {event.name}
+                        </option>
                       ))}
                     </select>
                   )}
                 </>
               )}
-              
-              <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-10">Submit</button>
+
+              <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-10">
+                Submit
+              </button>
             </form>
           </div>
         </div>

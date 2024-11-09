@@ -6,7 +6,8 @@ const images = [
   '/images/dronepng.png',
   '/images/micpng.png',
   '/images/mobpng.png',
-  '/images/vidpng.png',
+  '/images/gim.png',
+  '/images/mobgim.png',
 ];
 
 const FallingClipart: React.FC = () => {
