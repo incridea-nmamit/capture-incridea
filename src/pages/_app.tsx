@@ -12,6 +12,7 @@ import Header from "~/components/HeaderFooter/Header";
 import Footer from "~/components/HeaderFooter/Footer";
 import TrackPageVisits from "~/components/TrackPageVisits";
 import CameraLoading from "~/components/CameraLoading";
+import { Toaster } from "react-hot-toast";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -19,6 +20,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+
 
   useEffect(() => {
     const handleRouteChangeStart = () => setLoading(true);
@@ -46,9 +49,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta property="og:image" content="/images/img-3.png" />
         <meta property="og:url" content="https://captures.incridea.in" />
       </Head>
-      <div className="flex flex-col min-h-screen font-roboto">
-        <Header />
+      <div className="flex flex-col min-h-screen font-roboto">        
+        <Header />        
         <main className="flex-grow bg-black text-white">
+          <div>
+            <Toaster position="top-right"
+            reverseOrder={false}
+            />
+          </div>
           <TrackPageVisits />
           {loading ? (
             <CameraLoading /> // Show loading animation

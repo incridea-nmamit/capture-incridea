@@ -3,6 +3,7 @@ import { FaSync } from 'react-icons/fa';
 import UploadComponent from '../UploadComponent';
 import { api } from '~/utils/api';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 
 const CapturesAdmin: React.FC = () => {
   const addImage = api.gallery.addImage.useMutation();
@@ -12,6 +13,14 @@ const CapturesAdmin: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newImage, setNewImage] = useState<{ event_name: string; event_category: string }>({ event_name: '', event_category: '' });
   const [uploadUrl, setUploadUrl] = useState<string>('');
+
+  const toaststyle = {
+    style: {
+      borderRadius: '10px',
+      background: 'black',
+      color: 'white',
+    },
+  };
 
   const handleUploadComplete = (url: string) => {
     setUploadUrl(url);
@@ -49,19 +58,23 @@ const CapturesAdmin: React.FC = () => {
   
     // Ensure event name is set if category is "events"
     if (newImage.event_category === "events" && newImage.event_name === "") {
-      alert("Please select a valid event name.");
+      toast.error("Please select a valid event name.", toaststyle);
       return;
     }
   
     // Check if image is uploaded for "snaps" or "behindincridea"
     if ((newImage.event_category === "snaps" || newImage.event_category === "behindincridea") && !uploadUrl) {
-      alert("Please upload an image.");
+      toast.error("Please upload an image.", toaststyle);
       return;
     }
   
     if (!newImage.event_category) {
-      alert("Please select a category.");
+      toast.error("Please select a category.", toaststyle);
       return;
+    }
+
+    if(uploadUrl==""){
+      toast.error("Select and Upload the Image", toaststyle);
     }
   
     try {
@@ -71,8 +84,9 @@ const CapturesAdmin: React.FC = () => {
       setNewImage({ event_name: 'capture', event_category: 'events' }); // Reset form state to initial values
       setUploadUrl(''); // Resetting the upload URL
       void refetch(); // Refetch gallery after adding
+      toast.success("Capture Added");
     } catch (error) {
-      console.error('Error adding image:', error);
+      toast.error("Capture Not Uploaded", toaststyle);
     }
   };  
   return (
