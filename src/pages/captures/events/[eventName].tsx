@@ -89,7 +89,7 @@ const EventCaptures = () => {
 
   return (
     <div className="p-6 bg-black min-h-screen">
-      <h1 className="text-3xl md:text-7xl font-Hunters text-white text-center mb-8 md:mb-4 z-20">
+      <h1 className="text-3xl md:text-7xl font-Hunters text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
         {formattedEventName}Captures
       </h1>
       {/* Display event description if it exists */}

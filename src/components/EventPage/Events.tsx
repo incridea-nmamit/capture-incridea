@@ -8,15 +8,18 @@ const Events: FC = () => {
   const [selectedEventType, setSelectedEventType] = useState<string>("all");
   const [selectedDay, setSelectedDay] = useState<string>("all");
 
-  // Fetch events data using tRPC query on the client side.
-  const { data: eventsData = [], isLoading } = api.events.getAllEvents.useQuery();
-
+  // Fetch events data using tRPC query with refetch interval for real-time updates.
+  const { data: eventsData = [], isLoading } = api.events.getAllEvents.useQuery(undefined, {
+    refetchInterval: 5000, // Refetch every 5 seconds to simulate real-time updates
+  });
+  // Filter events based on search, type, day, and visibility set to "active"
   const filteredEvents = eventsData
     .filter((event) => {
+      const matchesVisibility = event.visibility === "active";
       const matchesSearch = event.name.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesType = selectedEventType === "all" || event.type.toLowerCase() === selectedEventType;
       const matchesDay = selectedDay === "all" || event.day === selectedDay;
-      return matchesSearch && matchesType && matchesDay;
+      return matchesVisibility && matchesSearch && matchesType && matchesDay;
     })
     .sort((a, b) => a.day.localeCompare(b.day));
 
@@ -67,7 +70,7 @@ const Events: FC = () => {
               >
                 <EventCard
                   name={event.name}
-                  description={event.shortDescription} // Display short description
+                  description={event.shortDescription}
                   day={event.day}
                   background={event.image}
                 />
