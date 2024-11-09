@@ -147,3 +147,12 @@
   animation: fallAndRotate 10s linear infinite, scale 5s alternate infinite;
   pointer-events: none; /* Disable mouse interaction */
 }
+
+/* Custom class to hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+}
