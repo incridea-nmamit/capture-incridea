@@ -1,5 +1,6 @@
 // ~/components/ReleaseOverlay.tsx
 import React, { useEffect, useState } from 'react';
+import FallingClipart from './FallingClipart';
 
 interface ReleaseOverlayProps {
   releaseDate: string; // Expected to be in ISO 8601 format
@@ -58,7 +59,10 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
   const timeDisplay = timeLeft !== null ? formatTimeLeft(timeLeft) : { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80 text-white text-center">
+    <div>
+    <FallingClipart />
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-opacity-80 text-white text-center z-20">
+      
       <h1 className="mb-8 text-8xl font-Hunters">Captures</h1>
       <p className="mb-8 w-3/4 text-center">
         <p className='font-bold'>Capture Incridea is your ultimate hub for experiencing the vibrant energy of Incridea! </p><br/>
@@ -67,13 +71,15 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
       </p>
       <div className="flex items-center justify-center space-x-4 mt-8">
         {['Days', 'Hours', 'Minutes', 'Seconds'].map((label, index) => (
-          <div key={index} className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg p-6 shadow-lg transition-transform transform hover:scale-105 w-24">
+          <div key={index} className="bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-lg p-6 shadow-lg transition-transform transform hover:scale-105 w-24">
             <span className="text-4xl font-bold">{formatTwoDigits(timeDisplay[label.toLowerCase() as keyof typeof timeDisplay])}</span>
             <div className="text-sm font-semibold">{label}</div>
           </div>
         ))}
       </div>
       <p className='mt-8'>Hold tight while we sift through today’s moments to bring you pure captures like never before!</p>
+    </div>
+
     </div>
   );
 };
