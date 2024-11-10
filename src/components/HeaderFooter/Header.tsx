@@ -41,24 +41,24 @@ const Header: FC = () => {
   if (!isMounted) return null;
 
   return (
-    
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
-      <header className="sticky-header backdrop-blur-sm shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start z-50 w-full">
-        <div className="flex justify-center items-center w-full md:w-auto px-10">
-          <a
-            href="https://incridea.in"
-            rel="noopener noreferrer"
-            className="mx-auto md:mx-0"
-          >
-            <Image
-              src="/images/inc.png"
-              alt="Logo"
-              width={120}
-              height={70}
-              className="w-auto h-auto max-w-24"
-            />
-          </a>
-        </div>
+    <header className="sticky-header backdrop-blur-sm shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start z-50 w-full bg-black">
+      {/* Set bg-black directly on the header to keep it consistent */}
+      <div className="flex justify-center items-center w-full md:w-auto px-10">
+        <a
+          href="https://incridea.in"
+          rel="noopener noreferrer"
+          className="mx-auto md:mx-0"
+        >
+          <Image
+            src="/images/inc.png"
+            alt="Logo"
+            width={120}
+            height={70}
+            className="w-auto h-auto max-w-24"
+          />
+        </a>
+      </div>
 
         <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10 gap-5 z-40">
           {session ? (

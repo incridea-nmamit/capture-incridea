@@ -39,7 +39,10 @@ const CapturesComponent = () => {
         className="min-h-screen bg-cover bg-center flex flex-col items-center justify-start p-8 z-30"
         style={{ backgroundImage: "url('')" }}
       >
-        <h1 className="text-6xl md:text-8xl text-white font-Hunters mb-12 p-8 z-30">Captures</h1>
+        <h1 className="text-6xl md:text-8xl text-white font-Hunters mb-5 z-30">Captures</h1>
+        <p className="text-lg text-center max-w-3xl text-gray-400 mb-12 z-20">
+        Relive the highlights and immerse yourself in the spirit of our college community as we celebrate the unforgettable moments that make Incridea truly special!
+        </p>
 
         <div className="flex flex-col md:flex-row gap-12 flex-wrap justify-center z-30">
           {/* Map through the cards array to render CapturePageCard components */}

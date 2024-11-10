@@ -1,19 +1,18 @@
+// CameraLoading.tsx
 import React from 'react';
 
-const LoadingAnimation = () => {
+const CameraLoading = () => {
     return (
-        <div className="flex items-center justify-center h-screen w-screen bg-black bg-opacity-50 backdrop-blur-sm">
+        <div className="fixed inset-0 flex items-center justify-center z-60 bg-black bg-opacity-80 backdrop-blur-sm">
             <div className="relative w-40 h-40">
-                {/* Rotating camera container */}
                 <div className="absolute inset-0 bg-gray-800 border-8 border-gray-700 rounded-lg animate-ring flex flex-col items-center justify-center">
-                    {/* Static image in the center, representing the lens view */}
                     <div className="w-full h-full flex items-center justify-center">
                         <img
-                            src="/images/inc.png" // Use the specified image source
+                            src="/images/inc.png"
                             alt="Loading"
-                            className="w-3/4 h-auto object-cover rounded-full blur-lg" // Scale down to 75% of the container size
+                            className="w-3/4 h-auto object-cover rounded-full blur-lg"
                             style={{
-                                animation: 'focus 4s ease infinite', // Swift animation for blur
+                                animation: 'focus 4s ease infinite',
                             }}
                         />
                     </div>
@@ -46,11 +45,11 @@ const LoadingAnimation = () => {
                 }
 
                 .animate-ring {
-                    animation: ring 4s ease infinite; // Swift rotation
+                    animation: ring 4s ease infinite;
                 }
             `}</style>
         </div>
     );
 };
 
-export default LoadingAnimation;
+export default CameraLoading;
