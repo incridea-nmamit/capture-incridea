@@ -24,7 +24,7 @@ const userLinks = [
   { href: "/captures", label: "Captures", icon: <MdCamera /> },
   { href: "/our-team", label: "Our Team", icon: <RiTeamFill /> },
   { href: "/gallery", label: "Gallery", icon: <GrGallery /> },
-  { href: "/about", label: "About", icon: <HiInformationCircle /> },
+  // { href: "/about", label: "About", icon: <HiInformationCircle /> },
 ];
 
 const Header: FC = () => {
@@ -152,7 +152,7 @@ const Header: FC = () => {
                     label={link.label}
                     active={pathname === link.href}
                     onClick={() => setIsOpen(false)}
-                    className="text-xl w-fit"
+                    className="text-xl w-fit  font-BebasNeue"
                   />
                 </div>
               ))
@@ -165,7 +165,7 @@ const Header: FC = () => {
                     label={link.label}
                     active={link.href === "/" ? pathname === link.href : pathname.startsWith(link.href)}
                     onClick={() => setIsOpen(false)}
-                    className="text-xl w-fit"
+                    className="text-xl w-fit font-BebasNeue"
                   />
                 </div>
               ))
@@ -179,7 +179,7 @@ const Header: FC = () => {
                   label={link.label}
                   active={link.href === "/" ? pathname === link.href : pathname.startsWith(link.href)}
                   onClick={() => setIsOpen(false)}
-                  className="text-xl w-fit"
+                  className="text-xl w-fit font-BebasNeue"
                 />
               </div>
             ))
