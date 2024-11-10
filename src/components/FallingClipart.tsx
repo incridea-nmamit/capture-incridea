@@ -24,7 +24,7 @@ const FallingClipart: React.FC = () => {
         image.style.position = 'absolute';
         image.style.width = `${Math.random() * 20 + 30}px`; // Random size between 30px and 50px
         image.style.left = `${Math.random() * window.innerWidth}px`;
-        image.style.top = `-${Math.random() * 100}px`; // Start slightly above the viewport
+        image.style.top = `-${Math.random() * 200 + 100}px`; // Start slightly above the viewport
         image.style.opacity = '0.7';
         image.style.transition = 'transform 4s ease-in, top 4s ease-in';
 
