@@ -71,11 +71,10 @@ export const eventRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.events.delete({
+      const deletedEvent = await ctx.db.events.delete({
         where: { id: input.id },
       });
-
-      return { message: "Event deleted successfully" };
+      return deletedEvent;
     }),
 
   // Get event by name

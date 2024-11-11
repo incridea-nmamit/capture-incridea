@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
-import { FaSearch, FaSync } from 'react-icons/fa'; // Import the reload icon
+import { FaSearch, FaSync, FaTrash } from 'react-icons/fa'; // Import the reload icon
 import UploadComponent from '../UploadComponent';
 import { api } from '~/utils/api';
 import type { Day, EventType } from '@prisma/client';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 
 const EventsAdmin: React.FC = () => {
   const addEvent = api.events.addEvent.useMutation();
   const updateVisibility = api.events.updateEventVisibility.useMutation();
   const { data: events, isLoading, isError, refetch } = api.events.getAllEvents.useQuery(); // Get refetch method
-
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState<{ id: number; name: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedEventType, setSelectedEventType] = useState('all');
   const [selectedDay, setSelectedDay] = useState('all');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+  const deleteEvent = api.events.deleteEvent.useMutation();
   const [visibilityPopup, setVisibilityPopup] = useState<{
     id: number;
     name: string;
@@ -37,7 +39,10 @@ const EventsAdmin: React.FC = () => {
   });
 
   const [uploadUrl, setUploadUrl] = useState<string>('');
-
+  const handleDeleteClick = (eventId: number, eventName: string) => {
+    setIsDeletePopupOpen(true);
+    setEventToDelete({ id: eventId, name: eventName });
+  };
   const handleUploadComplete = (url: string) => {
     setUploadUrl(url);
   };
@@ -91,6 +96,27 @@ const EventsAdmin: React.FC = () => {
       currentVisibility: event.visibility,
       newVisibility: event.visibility === 'active' ? 'inactive' : 'active',
     });
+  };
+
+  const confirmDelete = async () => {
+    if (eventToDelete) {
+      try {
+        await deleteEvent.mutateAsync({ id: eventToDelete.id });
+        toast.success(`${eventToDelete.name} deleted successfully.`);
+        void refetch();
+      } catch (error) {
+        toast.error('Error deleting event');
+      } finally {
+        setIsDeletePopupOpen(false);
+        setEventToDelete(null);
+      }
+    }
+  };
+
+  const cancelDelete = () => {
+    toast.error('Event not deleted.');
+    setIsDeletePopupOpen(false);
+    setEventToDelete(null);
   };
   
 
@@ -177,6 +203,7 @@ const EventsAdmin: React.FC = () => {
                 <th className="py-2 px-4 border-b border-slate-700 text-center">Day</th>
                 <th className="py-2 px-4 border-b border-slate-700 text-center">Visibility</th>
                 <th className="py-2 px-4 border-b border-slate-700 text-center">BG Image</th>
+                <th className="py-2 px-4 border-b border-slate-700 text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -217,6 +244,11 @@ const EventsAdmin: React.FC = () => {
                   <div className="relative h-16 w-16">
                   <Image src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
                   </div>
+                </td>
+                <td className="py-2 px-4 border-b border-slate-700 text-center" onClick={() => handleDeleteClick(event.id, event.name)}>
+                <button onClick={() => handleDeleteClick(event.id, event.name)}>
+                    <FaTrash className="text-red-600 hover:text-red-800" />
+                  </button>
                 </td>
                 </tr>
               ))}
@@ -298,6 +330,20 @@ const EventsAdmin: React.FC = () => {
               <button type="submit" className="mt-4 p-2 bg-white text-black rounded-xl w-full">Submit</button>
             </form>
             
+          </div>
+        </div>
+      )}
+
+            {/* Delete confirmation popup */}
+            {isDeletePopupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 backdrop-blur-sm">
+          <div className="bg-black p-6 rounded-md">
+            <h2 className="text-lg mb-4">Delete Confirmation</h2>
+            <p>Are you sure you want to delete {eventToDelete?.name}?</p>
+            <div className="flex justify-end mt-4 space-x-4">
+              <button onClick={confirmDelete} className="bg-red-600 text-white px-4 py-2 rounded">Delete</button>
+              <button onClick={cancelDelete} className="bg-gray-300 px-4 py-2 rounded">Cancel</button>
+            </div>
           </div>
         </div>
       )}
