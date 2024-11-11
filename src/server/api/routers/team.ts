@@ -22,7 +22,7 @@ export const teamRouter = createTRPCRouter({
           committee: input.committee,
           designation: input.designation,
           image: imageUrl,
-          say: input.say ?? "", // Handle undefined say field
+          say: input.say ?? "",
         },
       });
       return newTeam;
@@ -60,6 +60,20 @@ export const teamRouter = createTRPCRouter({
         data: updates,
       });
       return updatedTeam;
+    }),
+
+  // Delete Team Mutation
+  deleteTeam: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, "Team ID is required"),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const deletedTeam = await ctx.db.team.delete({
+        where: { id: input.id },
+      });
+      return deletedTeam;
     }),
 
   // Get All Teams Query
