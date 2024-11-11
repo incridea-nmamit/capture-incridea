@@ -107,7 +107,7 @@ const TeamAdmin: React.FC = () => {
           <input
             type="text"
             placeholder="Search..."
-            className="text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black"
+            className="font-BebasNeue text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -117,7 +117,7 @@ const TeamAdmin: React.FC = () => {
         </div>
 
         <select
-          className="ml-2 p-2 border border-slate-700 rounded-xl text-white h-full bg-black"
+          className="font-BebasNeue ml-2 p-2 border border-slate-700 rounded-xl text-white h-full bg-black"
           value={selectedFilter}
           onChange={(e) => setSelectedFilter(e.target.value)}
         >
@@ -129,19 +129,9 @@ const TeamAdmin: React.FC = () => {
           ))}
         </select>
 
-        <button className="ml-2 p-2 border border-slate-700 rounded-xl w-32 text-white h-full bg-black" onClick={() => setIsPopupOpen(true)}>
-          Add
-        </button>        
-        <button
-            className="ml-2 p-2 border border-slate-700 rounded-xl w-12 h-12 text-white bg-black flex items-center justify-center"
-            onClick={(e) => {
-                e.preventDefault(); // Prevent default button action
-                void refetch(); // Call refetch
-            }}
-        >
-            {/* reload icon */}
-            <FaSync />
-        </button>
+        <button className="font-BebasNeue ml-2 p-2 border border-slate-700 rounded-xl w-32 text-white h-full bg-black" onClick={() => setIsPopupOpen(true)}>
+          Add Member
+        </button>     
       </div>
 
       <div className="overflow-x-auto  py-5">

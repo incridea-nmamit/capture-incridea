@@ -106,12 +106,6 @@ const CapturesAdmin: React.FC = () => {
         >
           Add Capture
         </button>
-        <button
-          onClick={() => refetch()}
-          className="ml-2 p-2 border border-slate-700 rounded-xl w-12 h-12 text-white bg-black flex items-center justify-center"
-        >
-          <FaSync />
-        </button>
       </div>
 
       {galleryLoading ? (
