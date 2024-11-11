@@ -158,9 +158,9 @@ const TeamAdmin: React.FC = () => {
           <tbody>
           {filteredTeams?.map((team) => (
             <tr key={team.id} className="hover:bg-gray-50 hover:text-black">
-              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.name}</td>
-              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.committee.charAt(0).toUpperCase() + team.committee.slice(1)}</td>
-              <td className="py-2 px-4 border-b border-slate-700 text-center">
+              <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.name}</td>
+              <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.committee.charAt(0).toUpperCase() + team.committee.slice(1)}</td>
+              <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">
                 {{
                   mediahead: "Media Head",
                   mediacohead: "Media Co-Head",
@@ -181,7 +181,7 @@ const TeamAdmin: React.FC = () => {
                   none: ""
                 }[team.designation] || team.designation}
               </td>
-              <td className="py-2 px-4 border-b border-slate-700 text-center">{team.say}</td>
+              <td className="py-2 px-4 border-b border-slate-700 text-center w-40 text-xs">{team.say}</td>
               <td className="py-2 px-4 border-b border-slate-700 flex justify-center">
                 <Image src={team.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
               </td>

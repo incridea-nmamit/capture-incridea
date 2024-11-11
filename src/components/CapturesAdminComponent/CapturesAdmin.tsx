@@ -102,9 +102,9 @@ const CapturesAdmin: React.FC = () => {
       <div className="mb-4 flex gap-2 flex-wrap">
         <button
           onClick={handleAddEventClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black"
+          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
         >
-          Add
+          Add Capture
         </button>
         <button
           onClick={() => refetch()}
@@ -123,7 +123,7 @@ const CapturesAdmin: React.FC = () => {
           <table className="min-w-full border border-gray-300 bg-black">
             <thead className="bg-white">
               <tr>
-                <th className="text-black border border-gray-300 p-2">Event-Name</th>
+                <th className="text-black border border-gray-300 p-2 ">Event-Name</th>
                 <th className="text-black border border-gray-300 p-2">Capture-Category</th>
                 <th className="text-black border border-gray-300 p-2">Image</th>
               </tr>

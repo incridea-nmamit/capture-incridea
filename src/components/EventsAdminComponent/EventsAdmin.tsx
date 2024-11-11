@@ -121,7 +121,7 @@ const EventsAdmin: React.FC = () => {
           <input
             type="text"
             placeholder="Search..."
-            className=" text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black"
+            className="font-BebasNeue text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -133,7 +133,7 @@ const EventsAdmin: React.FC = () => {
         <select
           value={selectedEventType}
           onChange={(e) => setSelectedEventType(e.target.value)}
-          className="p-2 border-slate-700 rounded-xl bg-black h-12 "
+          className="p-2 border-slate-700 rounded-xl bg-black h-12 font-BebasNeue"
         >
           <option className='' value="all">All Category</option>
           <option className='' value="core">Core</option>
@@ -145,7 +145,7 @@ const EventsAdmin: React.FC = () => {
         <select
           value={selectedDay}
           onChange={(e) => setSelectedDay(e.target.value)}
-          className="p-2 border-slate-700 rounded-xl bg-black h-12 "
+          className="p-2 border-slate-700 rounded-xl bg-black h-12 font-BebasNeue"
         >
           <option className='' value="all">All Days</option>
           <option className='' value="day1">Day 1</option>
@@ -155,19 +155,10 @@ const EventsAdmin: React.FC = () => {
 
         <button
           onClick={handleAddEventClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black" 
+          className="p-2 border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue" 
         >
           Add Event
         </button>
-
-        {/* Reload Button */}
-        <button
-          onClick={() => refetch()} // Wrap refetch in an arrow function
-          className="ml-2 p-2 border border-slate-700 rounded-xl w-12 h-12 text-white bg-black flex items-center justify-center"
-        >
-          <FaSync />
-        </button>
-
       </div>
 
       {/* Events Table */}
@@ -191,28 +182,37 @@ const EventsAdmin: React.FC = () => {
             <tbody>
               {filteredEvents?.map((event) => (
                 <tr key={event.id} className='hover:bg-gray-50 hover:text-black'>
-                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{event.name}</td>
-                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{event.description}</td>                  
-                  <td className=" py-2 px-4 border-b border-slate-700 text-center">{{
+                  <td className=" py-2 px-4 border-b border-slate-700 text-center  text-xs">{event.name}</td>
+                  <td className=" py-2 px-4 w-56 border-b border-slate-700 text-center text-xs">{event.description}</td>                  
+                  <td className=" py-2 px-4 border-b border-slate-700 text-center text-xs">{{
                   core: "Core",
                   technical: "Technical",
                   nontechnical: "Non-Technical",
                   special: "Special",
                 }[event.type] || event.type}
                 </td>
-                  <td className=" py-2 px-4 border-b border-slate-700 text-center">
+                  <td className=" py-2 px-4 border-b border-slate-700 text-center text-xs">
                           {{
                         day1: "Day-1",
                         day2: "Day-2",
                         day3: "Day-3",
                       }[event.day] || event.day}
                 </td>
-                  <td
-                    className=" py-2 px-4 border-b border-slate-700 text-center cursor-pointer"
+                <td
+                    className="py-2 px-4 border-b border-slate-700 text-center cursor-pointer"
                     onDoubleClick={() => handleDoubleClickVisibility(event)}
                   >
-                    {event.visibility.charAt(0).toUpperCase() + event.visibility.slice(1)}
+                    {event.visibility === 'active' ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <span className="w-4 h-4 rounded-full bg-green-500"></span>
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-2">
+                        <span className="w-4 h-4 rounded-full bg-red-500"></span>
+                      </span>
+                    )}
                   </td>
+
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
                   <div className="relative h-16 w-16">
                   <Image src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />

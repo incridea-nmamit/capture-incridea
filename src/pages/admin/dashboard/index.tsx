@@ -189,7 +189,7 @@ const Dashboard = () => {
                   setSelectedOption(e.target.value);
                   setShowMessageOnce(false); // Hide message when selecting an option
                 }}
-                className="block max-w-xs sm:max-w-full bg-gray-700 border border-gray-600 text-white p-2 rounded shadow-md focus:outline-none focus:ring focus:ring-blue-500 transition duration-200 w-52"
+                className="block  font-BebasNeue max-w-xs sm:max-w-full bg-gray-700 border border-gray-600 text-white p-2 rounded shadow-md focus:outline-none focus:ring focus:ring-blue-500 transition duration-200 w-52"
               >
                 {options.length > 0 ? (
                   options.map((option) => (
