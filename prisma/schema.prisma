@@ -76,6 +76,9 @@ enum position {
   frontenddev
   backenddev
   fullstackdev
+  teamleadfrontenddev
+  teamleadbackenddev
+  teamleadfullstackdev
   digitalhead
   digitalcohead
   digitalteam

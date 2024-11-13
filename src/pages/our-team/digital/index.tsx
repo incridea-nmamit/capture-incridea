@@ -29,16 +29,19 @@ const DigitalPage: React.FC = () => {
     frontenddev: "Front End Developer",
     backenddev: "Back End Developer",
     fullstackdev: "Full Stack Developer",
+    teamleadfrontenddev: "Team Lead | Front End Developer",
+    teamleadbackenddev: "Team Lead | Back End Developer",
+    teamleadfullstackdev: "Team Lead | Full Stack Developer",
     digitalhead: "Digital Head",
     digitalcohead: "Digital Co-Head",
     digitalteam: "Digital Team",
     none: ""
   };
+
   const designationPriority = [
     'mediahead',
     'socialmediahead',
     'digitalhead',
-    'fullstackdev',
     'mediacohead',
     'socialmediacohead',
     'digitalcohead',
@@ -48,6 +51,10 @@ const DigitalPage: React.FC = () => {
     'photographer',
     'videographer',
     'socialmediateam',
+    'teamleadfullstackdev',
+    'teamleadfrontenddev',
+    'teamleadbackenddev',
+    'fullstackdev',
     'frontenddev',
     'backenddev',
     'digitalteam',

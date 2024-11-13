@@ -18,6 +18,39 @@ const OurTeam = () => {
 
       {/* Cards Container */}
       <div className="flex flex-col md:flex-row gap-8 flex-wrap justify-center z-20">
+
+        {/* Developers Card */}
+        <Link href="/our-team/developers" passHref>
+          <div
+            className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
+            style={{ backgroundImage: "url('/images/digital-bg.png')" }}  // Ensure the image path is correct
+          >
+            <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
+            <div className="relative flex text-center flex-col items-center justify-center h-full text-white text-2xl font-bold">
+              Capture Incridea Developers
+              <p className="mt-2 text-center text-base text-gray-300">
+                Developing for your convinience.
+              </p>
+            </div>
+          </div>
+        </Link>
+
+                {/* Digital Committee Card */}
+                <Link href="/our-team/digital" passHref>
+          <div
+            className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
+            style={{ backgroundImage: "url('/images/digital-bg.png')" }}  // Ensure the image path is correct
+          >
+            <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
+            <div className="relative flex flex-col items-center justify-center h-full text-white text-2xl font-bold">
+              Digital Committee
+              <p className="mt-2 text-center text-base text-gray-300">
+                Innovating digital experiences and managing online presence.
+              </p>
+            </div>
+          </div>
+        </Link>
+
         {/* Media Committee Card */}
         <Link href="/our-team/media" passHref>
           <div
@@ -48,23 +81,7 @@ const OurTeam = () => {
               </p>
             </div>
           </div>
-        </Link>
-
-        {/* Digital Committee Card */}
-        <Link href="/our-team/digital" passHref>
-          <div
-            className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-            style={{ backgroundImage: "url('/images/digital-bg.png')" }}  // Ensure the image path is correct
-          >
-            <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
-            <div className="relative flex flex-col items-center justify-center h-full text-white text-2xl font-bold">
-              Digital Committee
-              <p className="mt-2 text-center text-base text-gray-300">
-                Innovating digital experiences and managing online presence.
-              </p>
-            </div>
-          </div>
-        </Link>
+        </Link>        
       </div>
     </div>
   );

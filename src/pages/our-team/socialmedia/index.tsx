@@ -31,16 +31,19 @@ const SocialMediaPage: React.FC = () => {
     frontenddev: "Front End Developer",
     backenddev: "Back End Developer",
     fullstackdev: "Full Stack Developer",
+    teamleadfrontenddev: "Team Lead | Front End Developer",
+    teamleadbackenddev: "Team Lead | Back End Developer",
+    teamleadfullstackdev: "Team Lead | Full Stack Developer",
     digitalhead: "Digital Head",
     digitalcohead: "Digital Co-Head",
     digitalteam: "Digital Team",
     none: ""
   };
+
   const designationPriority = [
     'mediahead',
     'socialmediahead',
     'digitalhead',
-    'fullstackdev',
     'mediacohead',
     'socialmediacohead',
     'digitalcohead',
@@ -50,12 +53,15 @@ const SocialMediaPage: React.FC = () => {
     'photographer',
     'videographer',
     'socialmediateam',
+    'teamleadfullstackdev',
+    'teamleadfrontenddev',
+    'teamleadbackenddev',
+    'fullstackdev',
     'frontenddev',
     'backenddev',
     'digitalteam',
     'none'
   ];
-
   // Sort team members by designation priority
   const sortedTeamMembers = teamMembers
     .filter(member => member.committee === 'media') // Filter media committee members

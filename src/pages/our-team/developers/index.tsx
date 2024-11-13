@@ -28,12 +28,12 @@ const MediaCommittee: React.FC = () => {
     socialmediahead: "Social Media Head",
     socialmediacohead: "Social Media Co-Head",
     socialmediateam: "SMC Team",
-    frontenddev: "Front End Developer",
-    backenddev: "Back End Developer",
-    fullstackdev: "Full Stack Developer",
     teamleadfrontenddev: "Team Lead | Front End Developer",
     teamleadbackenddev: "Team Lead | Back End Developer",
     teamleadfullstackdev: "Team Lead | Full Stack Developer",
+    frontenddev: "Front End Developer",
+    backenddev: "Back End Developer",
+    fullstackdev: "Full Stack Developer",
     digitalhead: "Digital Head",
     digitalcohead: "Digital Co-Head",
     digitalteam: "Digital Team",
@@ -65,7 +65,7 @@ const MediaCommittee: React.FC = () => {
 
   // Sort team members by designation priority
   const sortedTeamMembers = teamMembers
-    .filter(member => member.committee === 'media') // Filter media committee members
+    .filter(member => member.committee === 'developer') // Filter media committee members
     .sort((a, b) => designationPriority.indexOf(a.designation) - designationPriority.indexOf(b.designation));
 
   return (
@@ -73,8 +73,8 @@ const MediaCommittee: React.FC = () => {
       <FallingClipart />
       {/* Title Section */}
       <TitleSection 
-        title="Media Committee"
-        description="Capturing the spirit of our fest through stunning visuals. Our media team is dedicated to delivering high-quality content."
+        title="Capture Incridea Developers"
+        description="Developing for your convinience"
         backgroundImage="/images/media-bg.png"
       />
       {/* Cards Section */}
