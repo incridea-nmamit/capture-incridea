@@ -23,27 +23,55 @@ ChartJS.register(
 );
 
 const Analytics = () => {
-  const [filter, setFilter] = useState<string>("all"); // State for filter
-  const [captureFilter, setCaptureFilter] = useState<string>("all"); // State for capture filter
-  const [eventFilter, setEventFilter] = useState<string>("all"); // State for event filter
-  const { data: events = [], isLoading: eventsLoading } = api.events.getAllEvents.useQuery(); // Fetch events
-  const { data: logs = [], isLoading } = api.web.getAllLogs.useQuery(); // Use the getAllLogs query with a default empty array
-  const [graphData, setGraphData] = useState<{ time: string; visits: number; unique: number; viewsPerUnique: number }[]>([]);
+  const [filter, setFilter] = useState<string>("all");
+  const [captureFilter, setCaptureFilter] = useState<string>("all");
+  const [eventFilter, setEventFilter] = useState<string>("all");
+  const { data: events = [], isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
+  const { data: logs = [], isLoading } = api.web.getAllLogs.useQuery();
+  const { data: gallery = [], isLoading:galleryLoading } = api.gallery.getAllGallery.useQuery();
+  const [graphData, setGraphData] = useState<{ time: string; visits: number; unique: number; viewsPerUnique: number; avgTimeSpent: number }[]>([]);
+  const [growthData, setGrowthData] = useState<{ time: string; cumulativeVisits: number }[]>([]);
 
-  // Access the environment variable
   const analyticsDatesEnv = process.env.NEXT_PUBLIC_ANALYTICS_DATES;
-
-  // Convert the environment variable into a Record<string, Date>
   const dateReferences: Record<string, Date> = analyticsDatesEnv
     ? analyticsDatesEnv.split(",").reduce((acc, date, index) => {
-        const dayKey = `day${index + 1}`; // day1, day2, day3
-        acc[dayKey] = new Date(date.trim()); // Convert string to Date object
+        const dayKey = `day${index + 1}`;
+        acc[dayKey] = new Date(date.trim());
         return acc;
       }, {} as Record<string, Date>)
     : {};
 
-  // Filter capture data based on captureFilter and selected day
-  const filteredCaptures = captureFilter === "all"
+  // Filter and calculate analytics
+  const filteredLogs =
+    filter === "all"
+      ? logs.filter((log) => log.page_name.includes("/"))
+      : logs.filter((log) => {
+          const logDate = new Date(log.date_time);
+          const time = log.time_spent;
+          const dateReferenceKey = `day${filter}`;
+          const dateReference = dateReferences[dateReferenceKey];
+          return dateReference && logDate.toDateString() === dateReference.toDateString() && log.page_name.includes("/");
+        });
+      const totalTimeSpent = filteredLogs.reduce((total, log) => total + (log.time_spent || 0), 0);
+      const averageTimeSpent = filteredLogs.length > 0 ? totalTimeSpent / filteredLogs.length : 0;
+      const hours = Math.floor(averageTimeSpent / 3600);
+      const minutes = Math.floor((averageTimeSpent % 3600) / 60);
+      const seconds = Math.floor(averageTimeSpent % 60);
+      const thours = Math.floor(totalTimeSpent / 3600);
+      const tminutes = Math.floor((totalTimeSpent % 3600) / 60);
+      const tseconds = Math.floor(totalTimeSpent % 60);
+    const filteredGallery =
+    filter === "all"
+      ? gallery // If no filter is selected, fetch all gallery entries
+      : gallery.filter((galleryItem) => {
+          const galleryItemDate = new Date(galleryItem.date_time); // Assuming each gallery item has a `date_time` field
+          const dateReferenceKey = `day${filter}`;
+          const dateReference = dateReferences[dateReferenceKey];
+          return dateReference && galleryItemDate.toDateString() === dateReference.toDateString();
+        });
+
+    // Filter capture data based on captureFilter and selected day
+    const filteredCaptures = captureFilter === "all"
     ? logs.filter((log) => {
         const logDate = new Date(log.date_time);
         const dateReferenceKey = `day${filter}`;
@@ -51,6 +79,7 @@ const Analytics = () => {
         return (
           (log.page_name.includes("pronight") ||
             log.page_name.includes("your-snaps") ||
+            log.page_name.includes("our-team") ||
             log.page_name.includes("behindincridea")) &&
           (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
         );
@@ -66,7 +95,7 @@ const Analytics = () => {
       });
 
   const captureVisits = filteredCaptures.length;
-  const uniqueCaptureIPs = new Set(filteredCaptures.map((entry) => entry.ip_address)).size;
+  const uniqueCaptureIPs = new Set(filteredCaptures.map((entry) => entry.cookie_id)).size;
 
   // Filter event data based on eventFilter and selected day
   const filteredEvents = eventFilter === "all"
@@ -90,62 +119,64 @@ const Analytics = () => {
       });
 
   const eventVisits = filteredEvents.length;
-  const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.ip_address)).size;
+  const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.cookie_id)).size;
 
-
-
-  // Filter logs based on the selected day
-  const filteredLogs =
-    filter === "all"
-      ? logs.filter((log) => log.page_name === "/") // Filter only `/` page visits
-      : logs.filter((log) => {
-          const logDate = new Date(log.date_time);
-          const dateReferenceKey = `day${filter}`;
-          const dateReference = dateReferences[dateReferenceKey];
-          return (
-            dateReference &&
-            logDate.toDateString() === dateReference.toDateString() &&
-            log.page_name === "/"
-          );
-        });
-
-  // Calculate total visits and unique viewers
-  const totalVisits = filteredLogs.length;
-  const uniqueIPs = new Set(filteredLogs.map((entry) => entry.ip_address)).size;
-
-  // Process data for graphs
   useEffect(() => {
-    const visitData = filteredLogs.reduce<{ [key: string]: { visits: number; uniqueIPs: Set<string> } }>(
+    const visitData = filteredLogs.reduce<{ [key: string]: { visits: number; uniqueIPs: Set<string>; totalTime: number } }>(
       (acc, log) => {
         const dateObj = new Date(log.date_time);
-        const dateKey = dateObj.toLocaleDateString([], { month: "short", day: "numeric" }); // Exclude the year
-        const timeKey = dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); // Exclude seconds
-        const combinedKey = `${dateKey} ${timeKey}`; // Combine date and time without year and seconds
-  
+        const dateKey = dateObj.toLocaleDateString([], { month: "short", day: "numeric" });
+        const timeKey = dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        const combinedKey = `${dateKey} ${timeKey}`;
+
         if (!acc[combinedKey]) {
-          acc[combinedKey] = { visits: 0, uniqueIPs: new Set() };
+          acc[combinedKey] = { visits: 0, uniqueIPs: new Set(), totalTime: 0 };
         }
+
         acc[combinedKey].visits += 1;
-        acc[combinedKey].uniqueIPs.add(log.ip_address);
+        acc[combinedKey].uniqueIPs.add(log.cookie_id);
+        acc[combinedKey].totalTime += log.time_spent; // Accumulate time spent
+
         return acc;
       },
       {}
     );
-  
+
     const timeSeriesData = Object.entries(visitData).map(([time, data]) => ({
       time,
       visits: data.visits,
       unique: data.uniqueIPs.size,
-      viewsPerUnique: data.uniqueIPs.size ? data.visits / data.uniqueIPs.size : 0, // Calculate the ratio
+      viewsPerUnique: data.uniqueIPs.size ? data.visits / data.uniqueIPs.size : 0,
+      avgTimeSpent: data.visits > 0 ? data.totalTime / data.visits : 0, // Calculate average time spent
     }));
-  
-    setGraphData(timeSeriesData);
-  }, [filteredLogs]);
-  
 
-  // Define data for "Total Visits Over Time" graph
+    setGraphData(timeSeriesData);
+
+    // Calculate cumulative visits for growth rate chart
+    let cumulativeVisits = 0;
+    const growthSeriesData = timeSeriesData.map((data) => {
+      cumulativeVisits += data.visits;
+      return { time: data.time, cumulativeVisits };
+    });
+
+    setGrowthData(growthSeriesData);
+  }, [filteredLogs]);
+
+  const avgTimeSpentGraphData = {
+    labels: graphData.map((data) => data.time),
+    datasets: [
+      {
+        label: "Average Time Spent per Visit (s)",
+        data: graphData.map((data) => data.avgTimeSpent),
+        borderColor: "rgba(255, 159, 64, 1)", // Orange color
+        backgroundColor: "rgba(255, 159, 64, 0.2)",
+        fill: true,
+      },
+    ],
+  };
+
   const visitGraphData = {
-    labels: graphData.map((data) => data.time), // Display both date and time
+    labels: graphData.map((data) => data.time),
     datasets: [
       {
         label: "Total Visits",
@@ -157,9 +188,8 @@ const Analytics = () => {
     ],
   };
 
-  // Define data for "Unique Visitors Over Time" graph
   const uniqueGraphData = {
-    labels: graphData.map((data) => data.time), // Display both date and time
+    labels: graphData.map((data) => data.time),
     datasets: [
       {
         label: "Unique Visitors",
@@ -171,21 +201,32 @@ const Analytics = () => {
     ],
   };
 
-  // Define data for "Total Views per Unique View" graph
   const viewsPerUniqueGraphData = {
-    labels: graphData.map((data) => data.time), // Display both date and time
+    labels: graphData.map((data) => data.time),
     datasets: [
       {
         label: "Total Views per Unique View",
         data: graphData.map((data) => data.viewsPerUnique),
-        borderColor: "rgba(153, 102, 255, 1)", // Purple color for the line
+        borderColor: "rgba(153, 102, 255, 1)",
         backgroundColor: "rgba(153, 102, 255, 0.2)",
         fill: true,
       },
     ],
   };
 
-  // Chart options
+  const growthGraphData = {
+    labels: growthData.map((data) => data.time),
+    datasets: [
+      {
+        label: "Cumulative Visits Growth",
+        data: growthData.map((data) => data.cumulativeVisits),
+        borderColor: "rgba(54, 162, 235, 1)", // Blue color
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        fill: true,
+      },
+    ],
+  };
+
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -194,31 +235,30 @@ const Analytics = () => {
       tooltip: { backgroundColor: "rgba(0, 0, 0, 0.8)", titleColor: "white", bodyColor: "white" },
     },
     scales: {
-      x: { 
+      x: {
         ticks: { 
           color: "white",
           autoSkip: true, 
           maxRotation: 90, 
           minRotation: 45,
-        }, 
-        grid: { display: false } 
+        },
+        grid: { display: false }
       },
       y: { ticks: { color: "white" }, grid: { color: "rgba(255, 255, 255, 0.1)" } },
     },
   };
 
-  if (isLoading || eventsLoading) return <div>Loading...</div>;
+  if (isLoading || eventsLoading || galleryLoading) return <div>Loading...</div>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-center text-6xl font-Hunters mb-8 text-white">Analytics</h1>
+    <div className="p-6 mb-20">
+      <h1 className="text-center text-6xl font-Hunters mb-8 text-white">Detailed Admin Analytics</h1>
       <div className="flex justify-center gap-2">
-        <h2 className="text-center text-2xl mb-4 text-white">Web Analytics</h2>
         <div className="flex justify-center mb-4">
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="ml-2 border border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-black text-white"
+            className="ml-2 border font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-black text-white"
           >
             <option value="all">All Days</option>
             <option value="1">Day 1</option>
@@ -241,22 +281,37 @@ const Analytics = () => {
             <tr>
               <td className="py-2 px-4 border-b">Total Web Visits</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{totalVisits}</td>
+              <td className="py-2 px-4 border-b">{filteredLogs.length}</td>
             </tr>
             <tr>
               <td className="py-2 px-4 border-b">Total Unique Visitors</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{uniqueIPs}</td>
+              <td className="py-2 px-4 border-b">{new Set(filteredLogs.map((entry) => entry.cookie_id)).size}</td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Time Spent</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{thours} hours {tminutes} minutes {tseconds} seconds</td> 
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Average Time Spent</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{hours} hours {minutes} minutes {seconds} seconds</td> 
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Captures</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{filteredGallery.length}</td> 
             </tr>
           </tbody>
         </table>
       </div>
-
+      
       <div className="overflow-x-auto mt-5">
         <table className="min-w-full text-white">
           <thead className="bg-gray-700">
             <tr>
-              <th className="p-2 w-1/3">Captures</th>
+              <th className="p-2 w-1/3">Routes</th>
               <th className="p-2 w-1/3">Total Visits</th>
               <th className="p-2 w-1/3">Unique Visitors</th>
             </tr>
@@ -267,12 +322,13 @@ const Analytics = () => {
                 <select
                   value={captureFilter}
                   onChange={(e) => setCaptureFilter(e.target.value)}
-                  className="border border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-black text-white"
+                  className="border  font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-black text-white"
                 >
-                  <option value="all">All Captures</option>
+                  <option value="all">All Routes</option>
                   <option value="pronight">Pronight</option>
                   <option value="your-snaps">Your Snaps</option>
                   <option value="behindincridea">Behind Incridea</option>
+                  <option value="our-team">Our Team</option>
                 </select>
               </td>
               <td className="p-2 text-center w-1/3">{captureVisits}</td>
@@ -297,7 +353,7 @@ const Analytics = () => {
                 <select
                   value={eventFilter}
                   onChange={(e) => setEventFilter(e.target.value)}
-                  className="border border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-black text-white"
+                  className="border  font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-black text-white"
                 >
                   <option value="all">All Events</option>
                   {events.map((event) => (
@@ -314,22 +370,29 @@ const Analytics = () => {
         </table>
         </div>
 
-      {/* Line chart for Total Visits */}
+      <div className="mt-20 w-full h-56 mx-auto bg-black p-4 rounded-2xl">
+        <h3 className="text-center text-2xl text-white mb-4">Visits Growth Rate</h3>
+        <Line data={growthGraphData} options={chartOptions} />
+      </div>
+
+      <div className="mt-20 w-full h-56 mx-auto bg-black p-4 rounded-2xl">
+        <h3 className="text-center text-2xl text-white mb-4">Average Time Spent per Visit</h3>
+        <Line data={avgTimeSpentGraphData} options={chartOptions} />
+      </div>
+
       <div className="mt-20 w-full h-56 mx-auto bg-black p-4 rounded-2xl">
         <h3 className="text-center text-2xl text-white mb-4">Total Visits Over Time</h3>
-        <Line className="bg-black" data={visitGraphData} options={chartOptions} />
+        <Line data={visitGraphData} options={chartOptions} />
       </div>
 
-      {/* Line chart for Unique Visitors */}
       <div className="mt-20 w-full h-56 mx-auto bg-black p-4 rounded-2xl">
         <h3 className="text-center text-2xl text-white mb-4">Unique Visitors Over Time</h3>
-        <Line className="bg-black" data={uniqueGraphData} options={chartOptions} />
+        <Line data={uniqueGraphData} options={chartOptions} />
       </div>
 
-      {/* Line chart for Total Views per Unique View */}
       <div className="mt-20 w-full h-56 mx-auto bg-black p-4 rounded-2xl">
-        <h3 className="text-center text-2xl text-white mb-4">Total Views per Unique View Over Time</h3>
-        <Line className="bg-black" data={viewsPerUniqueGraphData} options={chartOptions} />
+        <h3 className="text-center text-2xl text-white mb-4">Views per Unique Visitor Over Time</h3>
+        <Line data={viewsPerUniqueGraphData} options={chartOptions} />
       </div>
     </div>
   );
