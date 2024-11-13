@@ -240,10 +240,9 @@ const EventsAdmin: React.FC = () => {
                     )}
                   </td>
 
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">
-                  <div className="relative h-16 w-16">
+                  <td className="py-2 px-4 border-b border-slate-700 text-center w-16">
                   <Image src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
-                  </div>
+
                 </td>
                 <td className="py-2 px-4 border-b border-slate-700 text-center" onClick={() => handleDeleteClick(event.id, event.name)}>
                 <button onClick={() => handleDeleteClick(event.id, event.name)}>
