@@ -42,21 +42,56 @@ const Analytics = () => {
       }, {} as Record<string, Date>)
     : {};
 
-    // Filter capture data based on captureFilter
+  // Filter capture data based on captureFilter and selected day
   const filteredCaptures = captureFilter === "all"
-  ? logs.filter((log) => log.page_name.includes("pronight") || log.page_name.includes("your-snaps") || log.page_name.includes("behindincridea"))
-  : logs.filter((log) => log.page_name.includes(captureFilter));
+    ? logs.filter((log) => {
+        const logDate = new Date(log.date_time);
+        const dateReferenceKey = `day${filter}`;
+        const dateReference = dateReferences[dateReferenceKey];
+        return (
+          (log.page_name.includes("pronight") ||
+            log.page_name.includes("your-snaps") ||
+            log.page_name.includes("behindincridea")) &&
+          (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
+        );
+      })
+    : logs.filter((log) => {
+        const logDate = new Date(log.date_time);
+        const dateReferenceKey = `day${filter}`;
+        const dateReference = dateReferences[dateReferenceKey];
+        return (
+          log.page_name.includes(captureFilter) &&
+          (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
+        );
+      });
 
-const captureVisits = filteredCaptures.length;
-const uniqueCaptureIPs = new Set(filteredCaptures.map((entry) => entry.ip_address)).size;
+  const captureVisits = filteredCaptures.length;
+  const uniqueCaptureIPs = new Set(filteredCaptures.map((entry) => entry.ip_address)).size;
 
-// Filter event data based on eventFilter
-const filteredEvents = eventFilter === "all"
-  ? logs.filter((log) => log.page_name.includes("event"))
-  : logs.filter((log) => log.page_name.includes(eventFilter));
+  // Filter event data based on eventFilter and selected day
+  const filteredEvents = eventFilter === "all"
+    ? logs.filter((log) => {
+        const logDate = new Date(log.date_time);
+        const dateReferenceKey = `day${filter}`;
+        const dateReference = dateReferences[dateReferenceKey];
+        return (
+          log.page_name.includes("event") &&
+          (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
+        );
+      })
+    : logs.filter((log) => {
+        const logDate = new Date(log.date_time);
+        const dateReferenceKey = `day${filter}`;
+        const dateReference = dateReferences[dateReferenceKey];
+        return (
+          log.page_name.includes(eventFilter) &&
+          (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
+        );
+      });
 
-const eventVisits = filteredEvents.length;
-const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.ip_address)).size;
+  const eventVisits = filteredEvents.length;
+  const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.ip_address)).size;
+
 
 
   // Filter logs based on the selected day
@@ -272,8 +307,8 @@ const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.ip_address)).
                   ))}
                 </select>
               </td>
-              <td className="p-2 text-center w-1/3">{uniqueEventIPs}</td>
               <td className="p-2 text-center w-1/3">{eventVisits}</td>
+              <td className="p-2 text-center w-1/3">{uniqueEventIPs}</td>              
             </tr>
           </tbody>
         </table>
