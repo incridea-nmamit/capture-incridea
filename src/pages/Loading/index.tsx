@@ -1,6 +1,6 @@
 // pages/loading.tsx
 
-import CameraLoading from '~/components/CameraLoading';
+import CameraLoading from '~/components/LoadingAnimation/CameraLoading';
 
 export default function LoadingPage() {
   return (

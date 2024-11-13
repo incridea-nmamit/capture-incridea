@@ -1,7 +1,7 @@
 import { api } from '~/utils/api';
 import React, { useEffect, useRef, useCallback } from 'react';
 import TeamCard from '~/components/TeamPage/TeamCard'; // Adjust path if needed
-import FallingClipart from '~/components/FallingClipart';
+import FallingClipart from '~/components/BackgroundFallAnimation/FallingClipart';
 import TitleSection from '~/components/TeamPage/TeamTitle';
 
 const DigitalPage: React.FC = () => {

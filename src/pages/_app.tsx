@@ -11,7 +11,7 @@ import "~/styles/globals.css";
 import Header from "~/components/HeaderFooter/Header";
 import Footer from "~/components/HeaderFooter/Footer";
 import TrackPageVisits from "~/components/TrackPageVisits";
-import CameraLoading from "~/components/CameraLoading";
+import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { Toaster } from "react-hot-toast";
 
 const MyApp: AppType<{ session: Session | null }> = ({

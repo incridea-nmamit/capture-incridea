@@ -1,4 +1,4 @@
-import FallingClipart from "../FallingClipart";
+import FallingClipart from "../BackgroundFallAnimation/FallingClipart";
 import CapturePageCard from "./CapturePageCard";
 
 const CapturesComponent = () => {

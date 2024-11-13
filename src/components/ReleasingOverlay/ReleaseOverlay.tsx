@@ -1,6 +1,6 @@
 // ~/components/ReleaseOverlay.tsx
 import React, { useEffect, useState } from 'react';
-import FallingClipart from './FallingClipart';
+import FallingClipart from '../BackgroundFallAnimation/FallingClipart';
 
 interface ReleaseOverlayProps {
   releaseDate: string; // Expected to be in ISO 8601 format

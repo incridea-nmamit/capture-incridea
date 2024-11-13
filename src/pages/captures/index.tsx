@@ -1,7 +1,7 @@
 // ~/pages/captures/index.tsx
 import React, { useEffect, useState } from 'react';
 import CapturesComponent from '~/components/CapturePage/CapturePageComponent';
-import ReleaseOverlay from '~/components/ReleaseOverlay';
+import ReleaseOverlay from '~/components/ReleasingOverlay/ReleaseOverlay';
 
 const Captures: React.FC = () => {
   const [isReleased, setIsReleased] = useState<boolean>(false);

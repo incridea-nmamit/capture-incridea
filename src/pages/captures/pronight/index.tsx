@@ -5,7 +5,7 @@ import downloadImage from "~/utils/downloadUtils";
 import Image from "next/image";
 import UploadComponent from "~/components/UploadComponent"; // Ensure this component exists.
 import TitleDescription from "~/components/TitleDescription";
-import FallingClipart from "~/components/FallingClipart";
+import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";
 
 
 

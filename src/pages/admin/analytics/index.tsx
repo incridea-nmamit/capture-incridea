@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
-import Analysis from '~/components/Analytics'
+import Analysis from '~/components/AnalyticsPage/Analytics'
 
 const Analytics = () => {
   const router = useRouter();

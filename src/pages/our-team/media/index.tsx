@@ -2,7 +2,7 @@ import { api } from '~/utils/api';
 import React, { useEffect, useRef, useCallback } from 'react';
 import TeamCard from '~/components/TeamPage/TeamCard'; // Adjust path if needed
 import TitleSection from '~/components/TeamPage/TeamTitle';
-import FallingClipart from '~/components/FallingClipart';
+import FallingClipart from '~/components/BackgroundFallAnimation/FallingClipart';
 
 const MediaCommittee: React.FC = () => {
   const { data: teamMembers, isLoading, error } = api.team.getAllTeams.useQuery(); // Fetch data with tRPC

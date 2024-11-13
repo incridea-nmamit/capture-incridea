@@ -8,7 +8,7 @@ import CapturesAdmin from '~/components/CapturesAdminComponent/CapturesAdmin';
 import Analytics from '../analytics';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import RemovalRequest from '~/components/RemovalRequest';
+import RemovalRequest from '~/components/RemovalRequestPage/RemovalRequest';
 import { api } from '~/utils/api'; // Import TRPC
 import ManageRoles from '~/components/ManageRoles/ManageRoles';
 
