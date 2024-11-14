@@ -52,7 +52,14 @@ You can also check out the [create-t3-app GitHub repository](https://github.com/
     npm install
     ```
 
-3. Run the development server:
+3. Generate main seed
+
+    ```bash
+    npm run seed:main
+    ```
+
+
+4. Run the development server:
 
     ```bash
     npm run dev
