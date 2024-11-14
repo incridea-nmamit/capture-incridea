@@ -6,6 +6,7 @@ import { webRouter } from "./routers/web";
 import { downloadLogRouter } from "./routers/downloadlog";
 import { removalRequestRouter } from "./routers/requests";
 import { userRouter } from "./routers/user";
+import { captureRouter } from "./routers/capturecard";
 /**
  * This is the primary router for your server.
  *
@@ -18,7 +19,8 @@ export const appRouter = createTRPCRouter({
   web: webRouter,
   download: downloadLogRouter,
   request : removalRequestRouter,
-  user: userRouter
+  user: userRouter,
+  capturecard: captureRouter,
 });
 
 
