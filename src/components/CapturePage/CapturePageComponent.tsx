@@ -33,7 +33,7 @@ const CapturesComponent = () => {
       title: "Cutural",
       description: "Amazing cultural program",
       imagePath: "/images/g-7.png",
-      link: "/captures/behindincridea",
+      link: "/captures/cultural",
     },    
   ];
 
@@ -49,7 +49,7 @@ const CapturesComponent = () => {
         Relive the highlights and immerse yourself in the spirit of our college community as we celebrate the unforgettable moments that make Incridea truly special!
         </p>
 
-        <div className="flex flex-col md:flex-row gap-12 flex-wrap justify-center z-30 w-3/4">
+        <div className="flex flex-col md:px-28 md:flex-row gap-12 flex-wrap justify-center z-30">
           {/* Map through the cards array to render CapturePageCard components */}
           {cards.map((card, index) => (
             <CapturePageCard

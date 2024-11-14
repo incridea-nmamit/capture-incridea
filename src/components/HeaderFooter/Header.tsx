@@ -11,7 +11,6 @@ import { GoHomeFill } from "react-icons/go";
 import { MdCamera } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi";
-import { GrGallery } from "react-icons/gr";
 
 // Constants for links and their icons
 const adminLinks = [
@@ -23,8 +22,8 @@ const userLinks = [
   { href: "/", label: "Home", icon: <GoHomeFill /> },
   { href: "/captures", label: "Captures", icon: <MdCamera /> },
   { href: "/our-team", label: "Our Team", icon: <RiTeamFill /> },
-  { href: "/gallery", label: "Gallery", icon: <GrGallery /> },
-  // { href: "/about", label: "About", icon: <HiInformationCircle /> },
+  // { href: "/gallery", label: "Gallery", icon: <GrGallery /> },
+  { href: "/about", label: "About", icon: <HiInformationCircle /> },
 ];
 
 const Header: FC = () => {
