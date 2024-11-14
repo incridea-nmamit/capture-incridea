@@ -189,8 +189,12 @@ model VerificationToken {
 model CaptureCard {
   id        Int      @id @default(autoincrement())
   cardName  String
-  cardState String
+  cardState CardState
   cardRtime DateTime
 }
 
 
+enum CardState {
+active
+inactive
+}

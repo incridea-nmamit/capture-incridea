@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import RemovalRequest from '~/components/RemovalRequestPage/RemovalRequest';
 import { api } from '~/utils/api';
 import ManageRoles from '~/components/ManageRoles/ManageRoles';
+import ExecuteEvents from '~/components/ExecuteTabAdmin/ExecuteEvents';
 
 const Dashboard = () => {
   const userRole = useUserRole();
@@ -59,6 +60,7 @@ const Dashboard = () => {
     if (activeTab === 'analytics') return <Analytics />;
     if (activeTab === 'manageroles') return <ManageRoles />;
     if (activeTab === 'removalrequest') return <RemovalRequest />;
+    if (activeTab === 'executeevents') return <ExecuteEvents />;
 
     if (showMessageOnce) {
       return (
@@ -163,6 +165,23 @@ const Dashboard = () => {
             {pendingCount}
           </span>
         )}
+      </button>
+      
+      )}
+
+{(userRole === 'admin' || userRole === 'editor') && (
+        <button
+        onClick={() => {
+          setActiveTab('executeevents');
+          setShowMessageOnce(false);
+        }}
+        className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
+          activeTab === 'executeevents'
+              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+          } transition duration-200`}  
+      >
+        Execute Events
       </button>
       
       )}
