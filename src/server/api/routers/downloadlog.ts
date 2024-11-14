@@ -16,7 +16,7 @@ export const downloadLogRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       // Fetch the IP address
       const baseUrl = process.env.BASE_URL;
-      console.log("Base URL:", baseUrl); // Debugging
+      console.log("Base URL:", baseUrl);
       const ipResponse = await fetch(`${baseUrl}/api/get-ip`);
       const { ip } = await ipResponse.json();
 

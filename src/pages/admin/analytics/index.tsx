@@ -11,8 +11,6 @@ const Analytics = () => {
     if (status === 'unauthenticated') {
      void router.push('/unauthorized');
     }
-
-    // Check user role and redirect if necessary
     if (status === 'authenticated' && session?.user?.role === 'user') {
       void router.push('/unauthorized');
     }

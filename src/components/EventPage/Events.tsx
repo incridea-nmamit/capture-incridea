@@ -7,8 +7,6 @@ const Events: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedEventType, setSelectedEventType] = useState<string>("all");
   const [selectedDay, setSelectedDay] = useState<string>("all");
-
-  // Fetch events data using tRPC query with refetch interval for real-time updates.
   const { data: eventsData = [], isLoading } = api.events.getAllEvents.useQuery(undefined, {
     refetchInterval: 5000, // Refetch every 5 seconds to simulate real-time updates
   });

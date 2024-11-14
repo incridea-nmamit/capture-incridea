@@ -9,7 +9,7 @@ import Analytics from '../analytics';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import RemovalRequest from '~/components/RemovalRequestPage/RemovalRequest';
-import { api } from '~/utils/api'; // Import TRPC
+import { api } from '~/utils/api';
 import ManageRoles from '~/components/ManageRoles/ManageRoles';
 
 const Dashboard = () => {
@@ -21,9 +21,7 @@ const Dashboard = () => {
   const [pendingCount, setPendingCount] = useState<number>(0); // Pending requests count
   const router = useRouter();
   const { data: session, status } = useSession();
-
-  // Fetch removal requests and calculate pending requests count
-  const { data: removalRequests, refetch } = api.request.getAll.useQuery();
+  const { data: removalRequests} = api.request.getAll.useQuery();
 
   useEffect(() => {
     if (removalRequests) {
@@ -106,7 +104,7 @@ const Dashboard = () => {
         <button
           onClick={() => {
             setActiveTab('manageroles');
-            setShowMessageOnce(false); // Hide message when switching to Manage Roles
+            setShowMessageOnce(false);
           }}
           className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
             activeTab === 'manageroles'
@@ -120,7 +118,7 @@ const Dashboard = () => {
       <button
         onClick={() => {
           setActiveTab('accessData');
-          setShowMessageOnce(false); // Hide message when switching to Access Data
+          setShowMessageOnce(false);
         }}
         className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
           activeTab === 'accessData'
@@ -135,7 +133,7 @@ const Dashboard = () => {
         <button
           onClick={() => {
             setActiveTab('analytics');
-            setShowMessageOnce(false); // Hide message when switching to Analytics
+            setShowMessageOnce(false);
           }}
           className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
             activeTab === 'analytics'
@@ -151,7 +149,7 @@ const Dashboard = () => {
         <button
         onClick={() => {
           setActiveTab('removalrequest');
-          setShowMessageOnce(false); // Hide message when switching to Removal Requests
+          setShowMessageOnce(false);
         }}
         className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
           activeTab === 'removalrequest'

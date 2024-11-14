@@ -10,7 +10,7 @@ const typewriterEffect = (text: string, delay: number) => {
         index++;
       } else {
         clearInterval(result);
-        resolve(); // Resolve the promise when the typing is done
+        resolve();
       }
     }, delay);
   });
@@ -24,11 +24,10 @@ function Admin() {
   useEffect(() => {
     const welcomeMessage = `${session?.user?.name}!`;
     const typingDelay = 0; 
-    //Typewriter  effect
     const typeText = async () => {
       for (let i = 0; i <= welcomeMessage.length; i++) {
-        setWelcomeText(welcomeMessage.slice(0, i)); // Update welcome text
-        await typewriterEffect(welcomeMessage.slice(0, i), typingDelay); // Wait for typing delay
+        setWelcomeText(welcomeMessage.slice(0, i));
+        await typewriterEffect(welcomeMessage.slice(0, i), typingDelay);
       }
     };
 
@@ -40,8 +39,6 @@ function Admin() {
     {
       void router.push('unauthorized')
     }
-
-    // Check user role and redirect if necessary
     if (status === 'authenticated' && session?.user?.role === 'user') {
       void router.push('/unauthorized');
     }
@@ -50,7 +47,7 @@ function Admin() {
   
 
   if (status === 'loading') {
-    return <div className="text-white">Loading...</div>; // Loading state
+    return <div className="text-white">Loading...</div>;
   }
 
 

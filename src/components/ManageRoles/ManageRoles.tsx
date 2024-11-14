@@ -9,11 +9,11 @@ const ManageRoles = () => {
   const [newRole, setNewRole] = useState<'admin' | 'manager' | 'editor' | 'user'>('user');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const { data: usersData, refetch } = api.user.getAllUsers.useQuery(); // Add refetch
+  const { data: usersData, refetch } = api.user.getAllUsers.useQuery();
   const changeRoleMutation = api.user.changeUserRole.useMutation({
     onSuccess: () => {
-      refetch();  // Refetch the users list after a successful role change
-      setIsPopupOpen(false);  // Close the popup
+      refetch();
+      setIsPopupOpen(false);
     },
   });
 

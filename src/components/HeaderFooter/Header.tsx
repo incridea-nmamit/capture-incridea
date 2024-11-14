@@ -12,7 +12,7 @@ import { MdCamera } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi";
 
-// Constants for links and their icons
+
 const adminLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: <BiSolidDashboard /> },
   { href: "/", label: "MainWebPage", icon: <GoHomeFill /> },
@@ -42,7 +42,6 @@ const Header: FC = () => {
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
     <header className="sticky-header backdrop-blur-sm shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start z-50 w-full bg-black">
-      {/* Set bg-black directly on the header to keep it consistent */}
       <div className="flex justify-center items-center w-full md:w-auto px-10">
         <a
           href="https://incridea.in"

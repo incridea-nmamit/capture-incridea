@@ -1,11 +1,11 @@
 import { api } from '~/utils/api';
 import React, { useEffect, useRef, useCallback } from 'react';
-import TeamCard from '~/components/TeamPage/TeamCard'; // Adjust path if needed
+import TeamCard from '~/components/TeamPage/TeamCard';
 import FallingClipart from '~/components/BackgroundFallAnimation/FallingClipart';
 import TitleSection from '~/components/TeamPage/TeamTitle';
 
 const SocialMediaPage: React.FC = () => {
-  const { data: teamMembers, isLoading, error } = api.team.getAllTeams.useQuery(); // Fetch data with tRPC
+  const { data: teamMembers, isLoading, error } = api.team.getAllTeams.useQuery();
 
   if (isLoading) {
     return <div className="text-white">Loading...</div>;
@@ -64,7 +64,7 @@ const SocialMediaPage: React.FC = () => {
   ];
   // Sort team members by designation priority
   const sortedTeamMembers = teamMembers
-    .filter(member => member.committee === 'media') // Filter media committee members
+    .filter(member => member.committee === 'media') 
     .sort((a, b) => designationPriority.indexOf(a.designation) - designationPriority.indexOf(b.designation));
 
 
@@ -83,7 +83,7 @@ const SocialMediaPage: React.FC = () => {
         {sortedTeamMembers.map((member, index) => (
             <TeamCard
               key={index}
-              imageSrc={member.image} // Assuming 'image' is the correct field from your database
+              imageSrc={member.image}
               name={member.name}
               designation={designationMapping[member.designation] || member.designation}
               say={member.say}

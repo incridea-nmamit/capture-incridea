@@ -65,7 +65,7 @@ const MediaCommittee: React.FC = () => {
 
   // Sort team members by designation priority
   const sortedTeamMembers = teamMembers
-    .filter(member => member.committee === 'developer') // Filter media committee members
+    .filter(member => member.committee === 'developer')
     .sort((a, b) => designationPriority.indexOf(a.designation) - designationPriority.indexOf(b.designation));
 
   return (
@@ -82,7 +82,7 @@ const MediaCommittee: React.FC = () => {
         {sortedTeamMembers.map((member, index) => (
           <TeamCard
             key={index}
-            imageSrc={member.image} // Assuming 'image' is the correct field from your database
+            imageSrc={member.image}
             name={member.name}
             designation={designationMapping[member.designation] || member.designation}
             say={member.say}

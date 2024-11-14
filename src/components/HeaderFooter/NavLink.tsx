@@ -7,7 +7,7 @@ interface NavLinkProps {
   label: string;
   active: boolean;
   onClick?: () => void;
-  className?: string; // Allow className prop
+  className?: string;
 }
 
 const NavLink: FC<NavLinkProps> = ({ href, label, active, onClick, className = "" }) => {

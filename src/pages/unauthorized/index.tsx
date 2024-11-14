@@ -7,9 +7,7 @@ const NotAuthorized = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if the session is loading
     if (status === 'loading') return;
-    // If the session exists and the role is not 'user', redirect to /admin
     if (session && session.user.role !== 'user') {
       void router.push('/admin');
     }

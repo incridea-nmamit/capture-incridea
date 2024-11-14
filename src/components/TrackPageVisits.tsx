@@ -102,14 +102,12 @@ const TrackPageVisits = () => {
     };
 
     router.events.on("routeChangeStart", handleRouteChange);
-
-    // Cleanup event listener
     return () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
   }, [cookieId, logPageVisit, router]);
 
-  return null; // This component doesn't render anything
+  return null; 
 };
 
 export default TrackPageVisits;

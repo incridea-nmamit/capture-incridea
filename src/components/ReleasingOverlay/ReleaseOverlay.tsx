@@ -8,8 +8,8 @@ interface ReleaseOverlayProps {
 }
 
 const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease }) => {
-  const [timeLeft, setTimeLeft] = useState<number | null>(null); // Start as null to avoid SSR mismatch
-  const [isMounted, setIsMounted] = useState<boolean>(false); // Track if the component is mounted
+  const [timeLeft, setTimeLeft] = useState<number | null>(null); 
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMounted(true); // Set to true once the component is mounted
@@ -53,7 +53,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
 
   // Only render the countdown when the component is mounted
   if (!isMounted) {
-    return null; // Prevent rendering until client-side hydration
+    return null;
   }
 
   const timeDisplay = timeLeft !== null ? formatTimeLeft(timeLeft) : { days: 0, hours: 0, minutes: 0, seconds: 0 };

@@ -15,11 +15,11 @@ export const eventRouter = createTRPCRouter({
       z.object({
         name: z.string().min(1, "Event name is required"),
         description: z.string().min(1, "Event description is required"),
-        shortDescription: z.string().min(1, "Short description is required"), // New short description validation
+        shortDescription: z.string().min(1, "Short description is required"),
         uploadKey: z.string().min(1, "Upload key is required"),
         type: z.nativeEnum(EventType),
         day: z.nativeEnum(Day),
-        visibility: z.nativeEnum(State).default("active"), // Default to active
+        visibility: z.nativeEnum(State).default("active"),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -28,7 +28,7 @@ export const eventRouter = createTRPCRouter({
         data: {
           name: input.name,
           description: input.description,
-          shortDescription: input.shortDescription, // Include short description in data
+          shortDescription: input.shortDescription,
           image: imageUrl,
           type: input.type,
           day: input.day,

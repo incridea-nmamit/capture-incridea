@@ -56,7 +56,7 @@ const FallingClipart: React.FC = () => {
       className="fixed inset-0 pointer-events-none z-10"
       ref={containerRef}
       style={{
-        backgroundImage: "url('/images/stars.png')", // Replace with your background image path
+        backgroundImage: "url('/images/stars.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}

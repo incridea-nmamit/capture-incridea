@@ -44,7 +44,6 @@ const RemovalRequest: React.FC = () => {
     }
     setIsActionPopupOpen(false);
     setIsConfirmPopupOpen(false);
-    // Refetch the requests after the mutation
     await refetch();  // Refresh the requests to show the updated state
   };
 
@@ -87,7 +86,7 @@ const RemovalRequest: React.FC = () => {
                 <th className="text-black border border-gray-300 p-2">Image</th>
                 <th className="text-black border border-gray-300 p-2">Document</th>
                 <th className="text-black border border-gray-300 p-2">Status</th>
-                {statusFilter === 'pending' && ( // Only show Action column for pending requests
+                {statusFilter === 'pending' && (
                   <th className="text-black border border-gray-300 p-2">Action</th>
                 )}
               </tr>
@@ -117,7 +116,7 @@ const RemovalRequest: React.FC = () => {
                     />
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{request.status.charAt(0).toUpperCase() + request.status.slice(1)}</td>
-                  {statusFilter === 'pending' && ( // Only show action buttons for pending requests
+                  {statusFilter === 'pending' && (
                     <td className="py-2 px-4 border-b border-slate-700 text-center">
                       <div className='flex flex-col gap-2'>
                         <button

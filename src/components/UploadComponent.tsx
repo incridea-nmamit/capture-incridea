@@ -14,9 +14,9 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ onUploadComplete }) =
         className="bg-black p-[20px] h-50 ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300"
         endpoint="imageUploader"
         onClientUploadComplete={(res) => {
-          const uploadKey = res?.[0]?.key; // Safely access 'key'
+          const uploadKey = res?.[0]?.key;
           if (uploadKey) {
-            onUploadComplete(uploadKey); // Call the prop function with the key
+            onUploadComplete(uploadKey);
           } else {
             alert("Upload failed or no key received.");
           }

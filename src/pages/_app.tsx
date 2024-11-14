@@ -59,7 +59,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           </div>
           <TrackPageVisits />
           {loading ? (
-            <CameraLoading /> // Show loading animation
+            <CameraLoading />
           ) : (
             <Component {...pageProps} />
           )}

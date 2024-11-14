@@ -2,7 +2,6 @@ import FallingClipart from "../BackgroundFallAnimation/FallingClipart";
 import CapturePageCard from "./CapturePageCard";
 
 const CapturesComponent = () => {
-  // Array of card data
   const cards = [
     
     {
@@ -50,10 +49,9 @@ const CapturesComponent = () => {
         </p>
 
         <div className="flex flex-col md:px-28 md:flex-row gap-12 flex-wrap justify-center z-30">
-          {/* Map through the cards array to render CapturePageCard components */}
           {cards.map((card, index) => (
             <CapturePageCard
-              key={index}  // Use index as a key for mapping
+              key={index}
               title={card.title}
               description={card.description}
               imagePath={card.imagePath}

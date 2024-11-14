@@ -3,7 +3,7 @@ import { api } from "~/utils/api";
 import CaptureCard from "~/components/CapturePage/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
 import Image from "next/image";
-import UploadComponent from "~/components/UploadComponent"; // Ensure this component exists.
+import UploadComponent from "~/components/UploadComponent";
 import TitleDescription from "~/components/TitleDescription";
 import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";
 
@@ -59,7 +59,7 @@ const YourSnapsPage: React.FC = () => {
         image_path: removalImage || "",
         email,
       });
-      closeRemovalPopup(); // Close the popup after submission
+      closeRemovalPopup();
     
       // Reset form fields
       setName("");
@@ -148,8 +148,8 @@ const YourSnapsPage: React.FC = () => {
               <a
                 className="text-blue-500 cursor-pointer"
                 onClick={() => {
-                  setSelectedImage(null); // Close the image popup
-                  openRemovalPopup(selectedImage); // Open the removal popup
+                  setSelectedImage(null);
+                  openRemovalPopup(selectedImage);
                 }}
               >
                 click here to Request Removal

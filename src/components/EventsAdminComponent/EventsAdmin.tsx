@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaSearch, FaSync, FaTrash } from 'react-icons/fa'; // Import the reload icon
+import { FaSearch, FaSync, FaTrash } from 'react-icons/fa';
 import UploadComponent from '../UploadComponent';
 import { api } from '~/utils/api';
 import type { Day, EventType } from '@prisma/client';
@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 const EventsAdmin: React.FC = () => {
   const addEvent = api.events.addEvent.useMutation();
   const updateVisibility = api.events.updateEventVisibility.useMutation();
-  const { data: events, isLoading, isError, refetch } = api.events.getAllEvents.useQuery(); // Get refetch method
+  const { data: events, isLoading, isError, refetch } = api.events.getAllEvents.useQuery();
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState<{ id: number; name: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -84,7 +84,7 @@ const EventsAdmin: React.FC = () => {
     }
   };
   interface EventData {
-    id: number; // or number, depending on your ID type
+    id: number; 
     name: string;
     visibility: 'active' | 'inactive';
   }
@@ -126,7 +126,7 @@ const EventsAdmin: React.FC = () => {
         await updateVisibility.mutateAsync({ id });
         console.log(`Visibility updated to ${newState}`);
         setVisibilityPopup(null)
-        void refetch(); // Refetch events after visibility change
+        void refetch();
       } catch (error) {
         console.error('Error updating visibility:', error);
       }
@@ -292,8 +292,8 @@ const EventsAdmin: React.FC = () => {
             <div className="mt-4">
               <label className="text-white block mb-1"> Short Description</label>
               <textarea
-                name="shortDescription" // Ensure this matches the state key
-                value={newEvent.shortDescription} // Bind to shortDescription state
+                name="shortDescription"
+                value={newEvent.shortDescription} 
                 onChange={handleFormChange}
                 className="p-2 w-full border border-slate-700 rounded-xl h-12 bg-black text-white"
               />

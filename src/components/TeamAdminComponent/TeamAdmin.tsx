@@ -43,7 +43,7 @@ const TeamAdmin: React.FC = () => {
     setFilteredDesignations(newDesignations);
     setTeamForm((prev) => ({
       ...prev,
-      designation: newDesignations[0] as Designation,  // Add `as Designation`
+      designation: newDesignations[0] as Designation,
     }));
   }, [teamForm.committee, designationOptions]);
   
@@ -184,6 +184,9 @@ const TeamAdmin: React.FC = () => {
                     socialmediahead: "Social Media Head",
                     socialmediacohead: "Social Media Co-Head",
                     socialmediateam: "SMC Team",
+                    teamleadfullstackdev: "Team Lead | Full Stack Developer",
+                    teamleadfrontenddev: "Team Lead | Front End Developer",
+                    teamleadbackenddev: "Team Lead | Back End Developer",
                     frontenddev: "Front End Developer",
                     backenddev: "Back End Developer",
                     fullstackdev: "Full Stack Developer",
