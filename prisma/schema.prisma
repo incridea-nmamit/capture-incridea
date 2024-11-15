@@ -97,11 +97,13 @@ model team {
 
 
 model webAnalytics {
-  id          Int      @id @default(autoincrement())
-  cookie_id   String   // Unique identifier for each user (cookie)
-  page_name   String   // Name of the page visited
-  time_spent  Int      // Time spent on the page in seconds
-  date_time   DateTime @default(now()) // Timestamp when the log was created
+  id        Int      @id @default(autoincrement())
+  cookie_id String  
+  uniqueId  String 
+  routePath String  
+  timer     Int?   
+  isView    Int    
+  dateTime  DateTime @default(now())
 }
 
 model downloadLog {
@@ -197,11 +199,4 @@ model CaptureCard {
 enum CardState {
 active
 inactive
-}
-
-model liveViewers {
-  id         Int      @id @default(autoincrement())
-  routePath  String  
-  viewerCount Int   
-  updatedAt  DateTime @updatedAt
 }
