@@ -27,7 +27,7 @@ const Analytics = () => {
   const [captureFilter, setCaptureFilter] = useState<string>("all");
   const [eventFilter, setEventFilter] = useState<string>("all");
   const { data: events = [], isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
-  const { data: logs = [], isLoading } = api.web.getAllLogs.useQuery();
+  const { data: logs = [], isLoading } = api.analytics.getAnalytics.useQuery();
   const { data: gallery = [], isLoading:galleryLoading } = api.gallery.getAllGallery.useQuery();
   const [graphData, setGraphData] = useState<{ time: string; visits: number; unique: number; viewsPerUnique: number; avgTimeSpent: number }[]>([]);
   const [growthData, setGrowthData] = useState<{ time: string; cumulativeVisits: number }[]>([]);
@@ -44,15 +44,15 @@ const Analytics = () => {
   // Filter and calculate analytics
   const filteredLogs =
     filter === "all"
-      ? logs.filter((log) => log.page_name.includes("/"))
+      ? logs.filter((log) => log.routePath.includes("/"))
       : logs.filter((log) => {
-          const logDate = new Date(log.date_time);
-          const time = log.time_spent;
+          const logDate = new Date(log.dateTime);
+          const time = log.timer;
           const dateReferenceKey = `day${filter}`;
           const dateReference = dateReferences[dateReferenceKey];
-          return dateReference && logDate.toDateString() === dateReference.toDateString() && log.page_name.includes("/");
+          return dateReference && logDate.toDateString() === dateReference.toDateString() && log.routePath.includes("/");
         });
-      const totalTimeSpent = filteredLogs.reduce((total, log) => total + (log.time_spent || 0), 0);
+      const totalTimeSpent = filteredLogs.reduce((total, log) => total + (log.timer || 0), 0);
       const averageTimeSpent = filteredLogs.length > 0 ? totalTimeSpent / filteredLogs.length : 0;
       const hours = Math.floor(averageTimeSpent / 3600);
       const minutes = Math.floor((averageTimeSpent % 3600) / 60);
@@ -73,23 +73,23 @@ const Analytics = () => {
     // Filter capture data based on captureFilter and selected day
     const filteredCaptures = captureFilter === "all"
     ? logs.filter((log) => {
-        const logDate = new Date(log.date_time);
+        const logDate = new Date(log.dateTime);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
         return (
-          (log.page_name.includes("pronight") ||
-            log.page_name.includes("your-snaps") ||
-            log.page_name.includes("our-team") ||
-            log.page_name.includes("behindincridea")) &&
+          (log.routePath.includes("pronight") ||
+            log.routePath.includes("your-snaps") ||
+            log.routePath.includes("our-team") ||
+            log.routePath.includes("behindincridea")) &&
           (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
         );
       })
     : logs.filter((log) => {
-        const logDate = new Date(log.date_time);
+        const logDate = new Date(log.dateTime);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
         return (
-          log.page_name.includes(captureFilter) &&
+          log.routePath.includes(captureFilter) &&
           (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
         );
       });
@@ -100,20 +100,20 @@ const Analytics = () => {
   // Filter event data based on eventFilter and selected day
   const filteredEvents = eventFilter === "all"
     ? logs.filter((log) => {
-        const logDate = new Date(log.date_time);
+        const logDate = new Date(log.dateTime);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
         return (
-          log.page_name.includes("event") &&
+          log.routePath.includes("event") &&
           (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
         );
       })
     : logs.filter((log) => {
-        const logDate = new Date(log.date_time);
+        const logDate = new Date(log.dateTime);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
         return (
-          log.page_name.includes(eventFilter) &&
+          log.routePath.includes(eventFilter) &&
           (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
         );
       });
@@ -124,7 +124,7 @@ const Analytics = () => {
   useEffect(() => {
     const visitData = filteredLogs.reduce<{ [key: string]: { visits: number; uniqueIPs: Set<string>; totalTime: number } }>(
       (acc, log) => {
-        const dateObj = new Date(log.date_time);
+        const dateObj = new Date(log.dateTime);
         const dateKey = dateObj.toLocaleDateString([], { month: "short", day: "numeric" });
         const timeKey = dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         const combinedKey = `${dateKey} ${timeKey}`;
@@ -135,7 +135,7 @@ const Analytics = () => {
 
         acc[combinedKey].visits += 1;
         acc[combinedKey].uniqueIPs.add(log.cookie_id);
-        acc[combinedKey].totalTime += log.time_spent; // Accumulate time spent
+        acc[combinedKey].totalTime += log.timer ?? 0; // Accumulate time spent
 
         return acc;
       },

@@ -42,4 +42,8 @@ export const analyticsRouter = createTRPCRouter({
         },
       });
     }),
+    getAnalytics: publicProcedure.query(async ({ ctx }) => {
+      const data = await ctx.db.webAnalytics.findMany();
+      return data;
+    }),
 });
