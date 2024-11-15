@@ -14,7 +14,7 @@
     "db:studio": "prisma studio",
     "dev": "next dev",
     "seed": "cross-env NODE_ENV=development prisma db seed",
-    "seed:data": "tsx prisma/seed.ts",
+    "seed:data": "tsx prisma/dataseed.ts",
     "seed:main": "tsx prisma/mainseed.ts",
     "postinstall": "prisma generate",
     "lint": "next lint",
