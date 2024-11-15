@@ -198,3 +198,10 @@ enum CardState {
 active
 inactive
 }
+
+model liveViewers {
+  id         Int      @id @default(autoincrement())
+  routePath  String  
+  viewerCount Int   
+  updatedAt  DateTime @updatedAt
+}
