@@ -1,31 +1,31 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, CardState } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const seed = async () => {
   const cards = [
     {
       cardName: "Events",
-      cardState: "active",
+      cardState: CardState.active, // Use the enum value here
       cardRtime: new Date(),
     },
     {
       cardName: "Pronight",
-      cardState: "active",
+      cardState: CardState.active,
       cardRtime: new Date(),
     },
     {
       cardName: "Your Snaps",
-      cardState: "active",
+      cardState: CardState.active,
       cardRtime: new Date(),
     },
     {
       cardName: "Behind Incridea",
-      cardState: "active",
+      cardState: CardState.active,
       cardRtime: new Date(),
     },
     {
       cardName: "Cultural",
-      cardState: "active",
+      cardState: CardState.active,
       cardRtime: new Date(),
     },
   ];
@@ -35,6 +35,7 @@ const seed = async () => {
       data: card,
     });
   }
+
 };
 
 seed()
@@ -43,5 +44,6 @@ seed()
     process.exit(1);
   })
   .finally(async () => {
+    console.log('Seeding completed.');
     await prisma.$disconnect();
   });
