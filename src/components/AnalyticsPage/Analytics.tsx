@@ -131,11 +131,11 @@ const Analytics = () => {
 
         if (!acc[combinedKey]) {
           acc[combinedKey] = { visits: 0, uniqueIPs: new Set(), totalTime: 0 };
-        }
+        } 
 
         acc[combinedKey].visits += 1;
         acc[combinedKey].uniqueIPs.add(log.cookie_id);
-        acc[combinedKey].totalTime += log.timer ?? 0; // Accumulate time spent
+        acc[combinedKey].totalTime += log.timer ?? 0;
 
         return acc;
       },
@@ -147,7 +147,7 @@ const Analytics = () => {
       visits: data.visits,
       unique: data.uniqueIPs.size,
       viewsPerUnique: data.uniqueIPs.size ? data.visits / data.uniqueIPs.size : 0,
-      avgTimeSpent: data.visits > 0 ? data.totalTime / data.visits : 0, // Calculate average time spent
+      avgTimeSpent: data.visits > 0 ? data.totalTime / data.visits : 0, 
     }));
 
     setGraphData(timeSeriesData);
