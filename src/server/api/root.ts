@@ -7,6 +7,7 @@ import { removalRequestRouter } from "./routers/requests";
 import { userRouter } from "./routers/user";
 import { captureRouter } from "./routers/capturecard";
 import { analyticsRouter } from "./routers/analytics";
+import { variableRouter } from "./routers/variable";
 /**
  * This is the primary router for your server.
  *
@@ -21,6 +22,7 @@ export const appRouter = createTRPCRouter({
   request : removalRequestRouter,
   user: userRouter,
   capturecard: captureRouter,
+  variable: variableRouter
 });
 
 

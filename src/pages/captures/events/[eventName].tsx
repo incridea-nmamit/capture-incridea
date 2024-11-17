@@ -5,6 +5,8 @@ import CaptureCard from "~/components/CapturePage/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
 import Image from "next/image";
 import UploadComponent from "~/components/UploadComponent";
+import Cookies from "js-cookie";
+import { generateUniqueId } from "~/utils/generateUniqueId";
 
 interface ImageData {
   id: number;
@@ -33,13 +35,14 @@ const EventCaptures = () => {
   const [description, setDescription] = useState("");
 
   const filteredImages = images?.filter((image) => image.event_name === formattedEventName) || [];
-
+  const cookieId = Cookies.get("cookieId") || generateUniqueId();
+  Cookies.set("cookieId", cookieId, { expires: 365 });
   const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
   const handleClosePopup = () => setSelectedImage(null);
 
-  const handleDownload = async (imagePath: string) => {
+  const handleDownload = async (imagePath: string , cookieId: string) => {
     await downloadImage(imagePath, "capture-incridea.png");
-    await logDownload.mutateAsync({ file_path: imagePath });
+    await logDownload.mutateAsync({ file_path: imagePath , cookieId});
   };
 
   const openRemovalPopup = (imagePath: string) => setRemovalImage(imagePath);
@@ -126,7 +129,7 @@ const EventCaptures = () => {
             <div className="flex justify-center items-center space-x-4 py-5">
               <button
                 className="bg-white hover:bg-black hover:text-white text-black px-2 py-2 rounded flex items-center transition-all"
-                onClick={() => handleDownload(selectedImage)}
+                onClick={() => handleDownload(selectedImage , cookieId)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

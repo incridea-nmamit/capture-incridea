@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
@@ -15,7 +15,7 @@ enum RemovalRequestStatus {
 }
 
 model RemovalRequest {
-  id          Int                   @id @default(autoincrement())
+  id          Int                   @id @default(sequence())
   name        String
   idcard      String
   description String
@@ -25,7 +25,7 @@ model RemovalRequest {
 }
 
 model events {
-  id                Int      @id @default(autoincrement())
+  id                Int      @id @default(sequence())
   name              String   @unique
   description       String
   shortDescription  String   // New field for short description
@@ -86,7 +86,7 @@ enum position {
 }
 
 model team {
-  id            Int     @id @default(autoincrement())
+  id            Int     @id @default(sequence())
   name          String
   committee    Teamgroup
   designation  position
@@ -97,32 +97,33 @@ model team {
 
 
 model webAnalytics {
-  id        Int      @id @default(autoincrement())
+  id        Int      @id @default(sequence())
   cookie_id String  
   uniqueId  String 
   routePath String  
   isChecked String
   timer     Int?   
   isView    Int    
-  dateTime  DateTime @default(now())
+  startPing  DateTime 
+  lastPing DateTime
 }
 
 model downloadLog {
-  id         Int      @id @default(autoincrement())
-  ip_address String
+  id         Int      @id @default(sequence())
+  cookieId String
   date_time  DateTime @default(now())
   file_path  String
 }
 
 model auditLog {
-  id                Int      @id @default(autoincrement())
+  id                Int      @id @default(sequence())
   user              String
   audit_description String
   date_time         DateTime @default(now())
 }
 
 model Gallery {
-  id         Int      @id @default(autoincrement())
+  id         Int      @id @default(sequence())
   image_path String
   event_name String
   event_category String
@@ -130,7 +131,7 @@ model Gallery {
 }
 
 model Stories {
-  id         Int      @id @default(autoincrement())
+  id         Int      @id @default(sequence())
   event_name String
   date_time  DateTime @default(now())
   file_path  String
@@ -190,7 +191,7 @@ model VerificationToken {
 }
 
 model CaptureCard {
-  id        Int      @id @default(autoincrement())
+  id        Int      @id @default(sequence())
   cardName  String
   cardState CardState
   cardRtime DateTime
@@ -201,3 +202,17 @@ enum CardState {
 active
 inactive
 }
+
+model Variables {
+  id        Int      @id @default(sequence())
+  key  String      @unique
+  value  String
+}
+
+model CaptureLike {
+  id        Int      @id @default(sequence())
+  capturePath String
+  cookieId  String
+  like      Boolean
+}
+

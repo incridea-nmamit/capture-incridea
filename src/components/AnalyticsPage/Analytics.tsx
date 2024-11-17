@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useQueries } from "@tanstack/react-query";
 
 ChartJS.register(
   CategoryScale,
@@ -41,12 +42,19 @@ const Analytics = () => {
       }, {} as Record<string, Date>)
     : {};
 
+    const queries = useQueries({
+      queries: Array.from({ length: 3 }, (_, i) => ({
+        queryKey: ['variable', `Day-${i + 1}`],
+        queryFn: () => api.variable.getVariable.useQuery({ key: `Day-${i + 1}` }),
+      })),
+    });
+
   // Filter and calculate analytics
   const filteredLogs =
     filter === "all"
       ? logs.filter((log) => log.routePath.includes("/"))
       : logs.filter((log) => {
-          const logDate = new Date(log.dateTime);
+          const logDate = new Date(log.startPing);
           const time = log.timer;
           const dateReferenceKey = `day${filter}`;
           const dateReference = dateReferences[dateReferenceKey];
@@ -71,52 +79,98 @@ const Analytics = () => {
         });
 
     // Filter capture data based on captureFilter and selected day
+    // Assuming captureFilter and logs are defined elsewhere
+
     const filteredCaptures = captureFilter === "all"
     ? logs.filter((log) => {
-        const logDate = new Date(log.dateTime);
+        const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
+  
+        // Define a list of valid route paths to check
+        const validRoutes = [
+          "pronight", 
+          "your-snaps", 
+          "our-team", 
+          "about", 
+          "events", 
+          "/", 
+          "behindincridea",
+          "captures"
+        ];
+  
+        // Check if the routePath matches any of the valid routes
+        const isValidRoute = validRoutes.some((route) => log.routePath.includes(route));
+  
         return (
-          (log.routePath.includes("pronight") ||
-            log.routePath.includes("your-snaps") ||
-            log.routePath.includes("our-team") ||
-            log.routePath.includes("behindincridea")) &&
-          (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
+          isValidRoute && // Ensure the routePath matches
+          (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) && // Check date filter
+          log.isChecked // Ensure the log is checked
         );
       })
     : logs.filter((log) => {
-        const logDate = new Date(log.dateTime);
+        const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
+  
+        // Adjust conditions for "Home" and "Events"
+        if (captureFilter === "/") {
+          return (
+            log.routePath === "/" && // Only matches "/" route
+            (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
+            log.isChecked
+          );
+        }
+        if (captureFilter === "captures") {
+          return (
+            log.routePath === "/captures" && // Only matches "/" route
+            (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
+            log.isChecked
+          );
+        }
+  
+        if (captureFilter === "events") {
+          return (
+            log.routePath === "/captures/events" && // Only matches "/events" route
+            (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
+            log.isChecked
+          );
+        }
+  
+        // General filter for other routes
         return (
-          log.routePath.includes(captureFilter) &&
-          (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
+          log.routePath.includes(captureFilter) && // Ensure the routePath includes captureFilter
+          (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) && // Check date filter
+          log.isChecked // Ensure the log is checked
         );
-      });
+    }); 
 
-  const captureVisits = filteredCaptures.length;
-  const uniqueCaptureIPs = new Set(filteredCaptures.map((entry) => entry.cookie_id)).size;
+  
+  const routeVisits = filteredCaptures.length;
+  const uniqueRouteIDs = new Set(filteredCaptures.filter(log => log.isChecked).map((entry) => entry.cookie_id)).size;
+  
 
   // Filter event data based on eventFilter and selected day
   const filteredEvents = eventFilter === "all"
-    ? logs.filter((log) => {
-        const logDate = new Date(log.dateTime);
-        const dateReferenceKey = `day${filter}`;
-        const dateReference = dateReferences[dateReferenceKey];
-        return (
-          log.routePath.includes("event") &&
-          (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
-        );
-      })
-    : logs.filter((log) => {
-        const logDate = new Date(log.dateTime);
-        const dateReferenceKey = `day${filter}`;
-        const dateReference = dateReferences[dateReferenceKey];
-        return (
-          log.routePath.includes(eventFilter) &&
-          (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
-        );
-      });
+  ? logs.filter((log) => {
+      const logDate = new Date(log.startPing);
+      const dateReferenceKey = `day${filter}`;
+      const dateReference = dateReferences[dateReferenceKey];
+      return (
+        log.routePath.startsWith("/captures/events") && // Ensure route starts with "/events/"
+        (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
+      );
+    })
+  : logs.filter((log) => {
+      const logDate = new Date(log.startPing);
+      const dateReferenceKey = `day${filter}`;
+      const dateReference = dateReferences[dateReferenceKey];
+      return (
+        log.routePath===`/captures/events/${eventFilter}` && // Match exact route for the selected event
+        (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
+      );
+    });
+
 
   const eventVisits = filteredEvents.length;
   const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.cookie_id)).size;
@@ -124,7 +178,7 @@ const Analytics = () => {
   useEffect(() => {
     const visitData = filteredLogs.reduce<{ [key: string]: { visits: number; uniqueIPs: Set<string>; totalTime: number } }>(
       (acc, log) => {
-        const dateObj = new Date(log.dateTime);
+        const dateObj = new Date(log.startPing);
         const dateKey = dateObj.toLocaleDateString([], { month: "short", day: "numeric" });
         const timeKey = dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         const combinedKey = `${dateKey} ${timeKey}`;
@@ -325,14 +379,20 @@ const Analytics = () => {
                   className="border  font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-black text-white"
                 >
                   <option value="all">All Routes</option>
+                  <option value="/">Home</option>
+                  <option value="captures">Captures</option>
+                  <option value="events">Events</option>
                   <option value="pronight">Pronight</option>
                   <option value="your-snaps">Your Snaps</option>
                   <option value="behindincridea">Behind Incridea</option>
                   <option value="our-team">Our Team</option>
+                  <option value="about">About</option>
+                  
+                  
                 </select>
               </td>
-              <td className="p-2 text-center w-1/3">{captureVisits}</td>
-              <td className="p-2 text-center w-1/3">{uniqueCaptureIPs}</td>
+              <td className="p-2 text-center w-1/3">{routeVisits}</td>
+              <td className="p-2 text-center w-1/3">{uniqueRouteIDs}</td>
             </tr>
           </tbody>
         </table>
@@ -356,11 +416,14 @@ const Analytics = () => {
                   className="border  font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-black text-white"
                 >
                   <option value="all">All Events</option>
-                  {events.map((event) => (
-                    <option key={event.id} value={event.name}>
-                      {event.name}
-                    </option>
-                  ))}
+                  {events.map((event) => {
+                    const formattedEventName = event.name.split(' ').join('-'); // Split by space and join with hyphen
+                    return (
+                      <option key={event.id} value={formattedEventName}>
+                        {formattedEventName}
+                      </option>
+                    );
+                  })}
                 </select>
               </td>
               <td className="p-2 text-center w-1/3">{eventVisits}</td>

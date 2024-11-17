@@ -11,19 +11,14 @@ export const downloadLogRouter = createTRPCRouter({
     .input(
       z.object({
         file_path: z.string().min(1, "File path is required"),
+        cookieId: z.string().min(1, "Cookie is required"),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      // Fetch the IP address
-      const baseUrl = process.env.BASE_URL;
-      console.log("Base URL:", baseUrl);
-      const ipResponse = await fetch(`${baseUrl}/api/get-ip`);
-      const { ip } = await ipResponse.json();
-
       // Log the download
       const newLog = await ctx.db.downloadLog.create({
         data: {
-          ip_address: ip,
+          cookieId: input.cookieId,
           file_path: input.file_path,
         },
       });

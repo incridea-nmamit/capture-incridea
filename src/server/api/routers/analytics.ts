@@ -14,6 +14,7 @@ export const analyticsRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       const { cookieId, uniqueId, routePath } = input;
+      const currentDateAndTime = new Date();
       await db.webAnalytics.create({
         data: {
           cookie_id: cookieId,
@@ -22,6 +23,8 @@ export const analyticsRouter = createTRPCRouter({
           isChecked: "no",
           timer: 0,
           isView: 1,
+          startPing: currentDateAndTime,
+          lastPing: currentDateAndTime,
         },
       });
     }),
@@ -36,12 +39,14 @@ export const analyticsRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       const { uniqueId, timer } = input;
+      const currentDateAndTime = new Date();
       await db.webAnalytics.updateMany({
         where: { uniqueId },
         data: {
           timer,
           isChecked: "yes",
           isView: 0,
+          lastPing: currentDateAndTime,  
         },
       });
     }),
@@ -72,6 +77,23 @@ export const analyticsRouter = createTRPCRouter({
         },
       });
     }),
-
+    syncTimerVisit: publicProcedure
+    .input(
+      z.object({
+        uniqueId: z.string(),
+        timer: z.number(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { uniqueId, timer } = input;
+      const currentDateAndTime = new Date();
+      await db.webAnalytics.updateMany({
+        where: { uniqueId },
+        data: {
+          timer,
+          lastPing: currentDateAndTime,
+        },
+      });
+    }),
     
 });

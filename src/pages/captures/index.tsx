@@ -1,42 +1,42 @@
-// ~/pages/captures/index.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CapturesComponent from '~/components/CapturePage/CapturePageComponent';
 import ReleaseOverlay from '~/components/ReleasingOverlay/ReleaseOverlay';
+import { api } from '~/utils/api';
+
 
 const Captures: React.FC = () => {
   const [isReleased, setIsReleased] = useState<boolean>(false);
-  const [releaseDate, setReleaseDate] = useState<string>(process.env.NEXT_PUBLIC_WEBRELEASE as string); // Use state for release date
+  const { data, isLoading, error } = api.variable.getVariable.useQuery({
+    key: 'CountDown-Capture',
+  });
 
   const handleRelease = () => {
     setIsReleased(true);
   };
 
-  // Check if the release date has already passed
-  const checkReleaseDate = () => {
+  const checkReleaseDate = (releaseDate: string | undefined) => {
+    if (!releaseDate) return false; // No release date available yet
     const releaseDateTime = new Date(releaseDate).getTime();
     const currentTime = Date.now();
     return releaseDateTime > currentTime;
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newReleaseDate = process.env.NEXT_PUBLIC_WEBRELEASE as string; // Get the latest release date
-      if (newReleaseDate !== releaseDate) {
-        setReleaseDate(newReleaseDate); // Update the state if it has changed
-      }
-    }, 1000); // Check every second
+  if (isLoading) {
+    return <div>Loading...</div>; // Show a loading state while fetching data
+  }
 
-    return () => clearInterval(interval);
-  }, [releaseDate]);
+  if (error || !data?.value) {
+    return <div>Error loading release date.</div>; // Handle errors or missing data
+  }
+
+  const releaseDate = data.value; // The fetched release date
 
   return (
     <>
-      {checkReleaseDate() && !isReleased ? (
+      {checkReleaseDate(releaseDate) && !isReleased ? (
         <ReleaseOverlay releaseDate={releaseDate} onRelease={handleRelease} />
       ) : (
-        <>          
-          <CapturesComponent />
-        </>
+        <CapturesComponent />
       )}
     </>
   );
