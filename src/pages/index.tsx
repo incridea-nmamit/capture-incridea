@@ -29,6 +29,7 @@ export default function Home() {
       setHeaderHeight(header.clientHeight);
     }
   }, []);
+
   return (
     <>
       <Head>
@@ -86,8 +87,8 @@ export default function Home() {
           </div>
         </section>
 
-                {/* Section 2: Experience Animation Section */}
-                <div
+        {/* Section 2: Experience Animation Section */}
+        <div
           className="relative h-screen snap-start bg-cover bg-center"
           // style={{ backgroundImage: "url('/images/img-2.png')" }}
         >
@@ -139,8 +140,7 @@ export default function Home() {
           </div>
         </div>          
         </div>
-      </div>
-      
+      </div>      
     </>
   );
 }
