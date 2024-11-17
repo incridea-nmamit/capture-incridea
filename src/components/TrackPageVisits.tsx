@@ -7,6 +7,7 @@ import { generateUniqueId } from "~/utils/generateUniqueId";
 const TrackPageVisits = () => {
   const logVisitMutation = api.analytics.logVisit.useMutation();
   const updateVisitMutation = api.analytics.updateVisit.useMutation();
+  const updateNullEntriesMutation = api.analytics.updateNullEntries.useMutation();
   const router = useRouter();
   const timerRef = useRef<number>(0);
   const uniqueIdRef = useRef<string | null>(null);
@@ -22,8 +23,27 @@ const TrackPageVisits = () => {
 
       const routePath = router.asPath;
       if (routePath.startsWith("/admin") || routePath.startsWith("/unauthorised")) return;
+      updateNullEntriesMutation.mutate(
+        { cookieId },
+        {
+          onSuccess: () => {
+            // After successful null entries update, log the new visit
+            logVisitMutation.mutate(
+              { cookieId, uniqueId, routePath },
+              {
+                onError: (error) => {
+                  console.error("Error logging visit:", error);
+                },
+              }
+            );
+          },
+          onError: (error) => {
+            console.error("Error updating null entries:", error);
+          },
+        }
+      );
 
-      logVisitMutation.mutate({ cookieId, uniqueId, routePath });
+
 
       timerRef.current = 0;
       if (intervalRef.current) clearInterval(intervalRef.current);

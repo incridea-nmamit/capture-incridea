@@ -42,8 +42,31 @@ export const analyticsRouter = createTRPCRouter({
         },
       });
     }),
-    getAnalytics: publicProcedure.query(async ({ ctx }) => {
+
+  // Retrieve analytics data
+  getAnalytics: publicProcedure.query(async ({ ctx }) => {
       const data = await ctx.db.webAnalytics.findMany();
       return data;
+  }),
+
+  // Procedure to update entries with null timer values
+  updateNullEntries: publicProcedure
+    .input(
+      z.object({
+        cookieId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { cookieId } = input;
+      await db.webAnalytics.updateMany({
+        where: {
+          cookie_id: cookieId,
+          timer: null,
+        },
+        data: {
+          timer: 0,
+          isView: 0,
+        },
+      });
     }),
 });
