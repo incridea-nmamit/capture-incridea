@@ -52,7 +52,8 @@ const Analytics = () => {
   // Filter and calculate analytics
   const filteredLogs =
     filter === "all"
-      ? logs.filter((log) => log.routePath.includes("/"))
+    
+      ? logs.filter((log) => log.routePath.includes("/") && log.isChecked==="yes")
       : logs.filter((log) => {
           const logDate = new Date(log.startPing);
           const time = log.timer;
@@ -105,7 +106,7 @@ const Analytics = () => {
         return (
           isValidRoute && // Ensure the routePath matches
           (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) && // Check date filter
-          log.isChecked // Ensure the log is checked
+          log.isChecked==="yes" // Ensure the log is checked
         );
       })
     : logs.filter((log) => {
@@ -118,14 +119,14 @@ const Analytics = () => {
           return (
             log.routePath === "/" && // Only matches "/" route
             (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
-            log.isChecked
+            log.isChecked==="yes"
           );
         }
         if (captureFilter === "captures") {
           return (
             log.routePath === "/captures" && // Only matches "/" route
             (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
-            log.isChecked
+            log.isChecked==="yes"
           );
         }
   
@@ -133,7 +134,7 @@ const Analytics = () => {
           return (
             log.routePath === "/captures/events" && // Only matches "/events" route
             (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
-            log.isChecked
+            log.isChecked==="yes"
           );
         }
   
@@ -141,13 +142,13 @@ const Analytics = () => {
         return (
           log.routePath.includes(captureFilter) && // Ensure the routePath includes captureFilter
           (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) && // Check date filter
-          log.isChecked // Ensure the log is checked
+          log.isChecked==="yes" // Ensure the log is checked
         );
     }); 
 
   
   const routeVisits = filteredCaptures.length;
-  const uniqueRouteIDs = new Set(filteredCaptures.filter(log => log.isChecked).map((entry) => entry.cookie_id)).size;
+  const uniqueRouteIDs = new Set(filteredCaptures.filter(log => log.isChecked==="yes").map((entry) => entry.cookie_id)).size;
   
 
   // Filter event data based on eventFilter and selected day
