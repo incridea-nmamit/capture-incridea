@@ -101,6 +101,7 @@ model webAnalytics {
   cookie_id String  
   uniqueId  String 
   routePath String  
+  isChecked String
   timer     Int?   
   isView    Int    
   dateTime  DateTime @default(now())

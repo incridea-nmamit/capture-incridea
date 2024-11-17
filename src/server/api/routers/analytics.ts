@@ -19,6 +19,8 @@ export const analyticsRouter = createTRPCRouter({
           cookie_id: cookieId,
           uniqueId: uniqueId,
           routePath: routePath,
+          isChecked: "no",
+          timer: 0,
           isView: 1,
         },
       });
@@ -38,6 +40,7 @@ export const analyticsRouter = createTRPCRouter({
         where: { uniqueId },
         data: {
           timer,
+          isChecked: "yes",
           isView: 0,
         },
       });
@@ -61,12 +64,14 @@ export const analyticsRouter = createTRPCRouter({
       await db.webAnalytics.updateMany({
         where: {
           cookie_id: cookieId,
-          timer: null,
+          isChecked: "no",
         },
         data: {
-          timer: 0,
+          isChecked:"yes",
           isView: 0,
         },
       });
     }),
+
+    
 });

@@ -8,10 +8,12 @@ const TrackPageVisits = () => {
   const logVisitMutation = api.analytics.logVisit.useMutation();
   const updateVisitMutation = api.analytics.updateVisit.useMutation();
   const updateNullEntriesMutation = api.analytics.updateNullEntries.useMutation();
+  const syncTimerMutation = api.analytics.updateVisit.useMutation();
   const router = useRouter();
   const timerRef = useRef<number>(0);
   const uniqueIdRef = useRef<string | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const syncIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handlePageVisit = () => {
@@ -23,11 +25,11 @@ const TrackPageVisits = () => {
 
       const routePath = router.asPath;
       if (routePath.startsWith("/admin") || routePath.startsWith("/unauthorised")) return;
+
       updateNullEntriesMutation.mutate(
         { cookieId },
         {
           onSuccess: () => {
-            // After successful null entries update, log the new visit
             logVisitMutation.mutate(
               { cookieId, uniqueId, routePath },
               {
@@ -43,13 +45,26 @@ const TrackPageVisits = () => {
         }
       );
 
-
-
       timerRef.current = 0;
+
+      // Clear existing intervals to avoid duplicates
       if (intervalRef.current) clearInterval(intervalRef.current);
+      if (syncIntervalRef.current) clearInterval(syncIntervalRef.current);
+
+      // Start timer
       intervalRef.current = setInterval(() => {
         timerRef.current++;
       }, 1000);
+
+      // Start 20-second sync interval
+      syncIntervalRef.current = setInterval(() => {
+        if (uniqueIdRef.current) {
+          syncTimerMutation.mutate({
+            uniqueId: uniqueIdRef.current,
+            timer: timerRef.current,
+          });
+        }
+      }, 20000); // Sync every 20 seconds
     };
 
     const handlePageExit = () => {
@@ -60,6 +75,7 @@ const TrackPageVisits = () => {
         });
       }
       if (intervalRef.current) clearInterval(intervalRef.current);
+      if (syncIntervalRef.current) clearInterval(syncIntervalRef.current);
     };
 
     if (document.readyState === "complete") {
