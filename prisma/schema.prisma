@@ -103,7 +103,6 @@ model webAnalytics {
   routePath String  
   isChecked String
   timer     Int?   
-  isView    Int    
   startPing  DateTime 
   lastPing DateTime
 }

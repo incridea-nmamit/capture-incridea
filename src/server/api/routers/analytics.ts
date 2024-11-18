@@ -22,7 +22,6 @@ export const analyticsRouter = createTRPCRouter({
           routePath: routePath,
           isChecked: "no",
           timer: 0,
-          isView: 1,
           startPing: currentDateAndTime,
           lastPing: currentDateAndTime,
         },
@@ -45,7 +44,6 @@ export const analyticsRouter = createTRPCRouter({
         data: {
           timer,
           isChecked: "yes",
-          isView: 0,
           lastPing: currentDateAndTime,  
         },
       });
@@ -73,7 +71,6 @@ export const analyticsRouter = createTRPCRouter({
         },
         data: {
           isChecked:"yes",
-          isView: 0,
         },
       });
     }),
