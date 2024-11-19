@@ -12,6 +12,8 @@ import {
   Legend,
 } from "chart.js";
 import { useQueries } from "@tanstack/react-query";
+import RoutePathTable from "../LiveAnalytics";
+import CameraLoading from "../LoadingAnimation/CameraLoading";
 
 ChartJS.register(
   CategoryScale,
@@ -303,7 +305,7 @@ const Analytics = () => {
     },
   };
 
-  if (isLoading || eventsLoading || galleryLoading) return <div>Loading...</div>;
+  if (isLoading || eventsLoading || galleryLoading) return <CameraLoading/>;
 
   return (
     <div className="p-6 mb-20">
@@ -433,7 +435,7 @@ const Analytics = () => {
           </tbody>
         </table>
         </div>
-
+      <RoutePathTable/>
       <div className="mt-20 w-full h-56 mx-auto bg-black p-4 rounded-2xl">
         <h3 className="text-center text-2xl text-white mb-4">Visits Growth Rate</h3>
         <Line data={growthGraphData} options={chartOptions} />

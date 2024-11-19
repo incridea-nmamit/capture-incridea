@@ -5,7 +5,7 @@ import { type AppType } from "next/app";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
-import Head from 'next/head';
+import Head from "next/head";
 
 import "~/styles/globals.css";
 import Header from "~/components/HeaderFooter/Header";
@@ -13,6 +13,7 @@ import Footer from "~/components/HeaderFooter/Footer";
 import TrackPageVisits from "~/components/TrackPageVisits";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { Toaster } from "react-hot-toast";
+import ViewerLogger from "~/components/ViewerLogger";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -20,8 +21,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
-
 
   useEffect(() => {
     const handleRouteChangeStart = () => setLoading(true);
@@ -42,27 +41,26 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <Head>
         <title>Capture Incridea</title>
-        <meta name="description" content="Capture Incridea: Get your event photos and story-worthy moments." />
+        <meta
+          name="description"
+          content="Capture Incridea: Get your event photos and story-worthy moments."
+        />
         <link rel="icon" href="/images/favicon/favicon.ico" />
         <meta property="og:title" content="Capture Incridea" />
-        <meta property="og:description" content="Get your event photos and story-worthy moments. Experience them the same day!" />
+        <meta
+          property="og:description"
+          content="Get your event photos and story-worthy moments. Experience them the same day!"
+        />
         <meta property="og:image" content="/images/img-3.png" />
         <meta property="og:url" content="https://captures.incridea.in" />
       </Head>
-      <div className="flex flex-col min-h-screen font-roboto">        
-        <Header />        
+      <div className="flex flex-col min-h-screen font-roboto">
+        <Header />
         <main className="flex-grow bg-black text-white">
-          <div>
-            <Toaster position="top-right"
-            reverseOrder={false}
-            />
-          </div>
+          <Toaster position="top-right" reverseOrder={false} />
+          <ViewerLogger />
           <TrackPageVisits />
-          {loading ? (
-            <CameraLoading />
-          ) : (
-            <Component {...pageProps} />
-          )}
+          {loading ? <CameraLoading /> : <Component {...pageProps} />}
         </main>
         <Footer />
       </div>

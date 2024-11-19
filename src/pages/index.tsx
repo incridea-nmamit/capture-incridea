@@ -1,7 +1,10 @@
+// pages/index.tsx
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Reel from "~/components/reel"; // Assuming `Reel` is SSR-safe
+import dynamic from "next/dynamic";
+
+const Reel = dynamic(() => import("~/components/reel"), { ssr: false });
 
 const reelImags = [
   { src: "/images/gallery/g-1.png" },
@@ -15,10 +18,9 @@ const reelImags = [
 
 export default function Home() {
   const router = useRouter();
-  const [headerHeight, setHeaderHeight] = useState(0);
+  const [headerHeight, setHeaderHeight] = useState<number | null>(null);
 
   useEffect(() => {
-    // Calculate header height dynamically after mounting
     const header = document.querySelector("header");
     if (header) {
       setHeaderHeight(header.clientHeight);
@@ -50,7 +52,9 @@ export default function Home() {
                 Your Memories, Our Passion
               </h1>
               <p className="text-sm md:text-base px-10">
-                Get your event photos and story-worthy moments.<br /> Experience them the same day!{" "}
+                Get your event photos and story-worthy moments.
+                <br />
+                Experience them the same day!{" "}
                 <strong>captures.incridea.in</strong> has it all!
               </p>
             </div>
@@ -82,7 +86,6 @@ export default function Home() {
         {/* Section 3: Reel Section */}
         <section className="relative h-screen snap-start bg-black">
           <div className="relative w-full max-w-7xl xl:mx-auto min-h-[70vh] flex items-center overflow-hidden">
-            {/* Mobile / Small Screen Reel */}
             <div className="w-full xl:mx-auto flex justify-center sm:mb-24 md:mb-64 lg:mb-72 2xl:hidden relative z-10">
               <Reel
                 classes="blur-sm opacity-[0.47] md:opacity-100"
@@ -100,7 +103,6 @@ export default function Home() {
               />
             </div>
 
-            {/* Desktop Reel */}
             <div className="w-full xl:mx-auto hidden justify-center 2xl:flex">
               <Reel classes="" baseVelocity={-1.5} angle={0} direction={1} reelImg={reelImags} />
             </div>

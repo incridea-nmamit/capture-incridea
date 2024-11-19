@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { api } from '~/utils/api';
 import Image from 'next/image';
+import CameraLoading from '../LoadingAnimation/CameraLoading';
 
 const RemovalRequest: React.FC = () => {
   const { data: session, status } = useSession();
@@ -52,7 +53,7 @@ const RemovalRequest: React.FC = () => {
   };
 
   if (status === 'loading') {
-    return <div>Loading session...</div>;
+    return <CameraLoading/>;
   }
 
   return (

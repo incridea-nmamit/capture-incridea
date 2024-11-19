@@ -2,6 +2,7 @@ import { type FC, useState } from "react";
 import EventCard from "./EventCard";
 import { AiOutlineSearch } from "react-icons/ai";
 import { api } from "~/utils/api";
+import CameraLoading from "../LoadingAnimation/CameraLoading";
 
 const Events: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -21,7 +22,7 @@ const Events: FC = () => {
     })
     .sort((a, b) => a.day.localeCompare(b.day));
 
-  if (isLoading) return <p className="text-white text-center">Loading events...</p>;
+  if (isLoading) return <CameraLoading/>;
 
   return (
     <div className="p-6 bg-black min-h-screen">
