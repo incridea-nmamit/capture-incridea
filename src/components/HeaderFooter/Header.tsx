@@ -49,7 +49,7 @@ const Header: FC = () => {
           className="mx-auto md:mx-0"
         >
           <Image
-            src="/images/inc.png"
+            src="https://utfs.io/f/0yks13NtToBiMOM3L9fzWI7ScAKGqQtv4FT8wMPEHbihruCg"
             alt="Logo"
             width={120}
             height={70}

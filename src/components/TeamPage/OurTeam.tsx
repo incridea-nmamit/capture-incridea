@@ -23,7 +23,7 @@ const OurTeam = () => {
         <Link href="/our-team/developers" passHref>
           <div
             className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-            style={{ backgroundImage: "url('/images/img-2.png')" }} 
+            style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBiNX5DnCjzD2wWm5AylYHcVfipk40e8O9RubFS')" }} 
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
             <div className="relative flex text-center flex-col items-center justify-center h-full text-white text-2xl font-bold">
@@ -39,7 +39,7 @@ const OurTeam = () => {
                 <Link href="/our-team/digital" passHref>
           <div
             className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-            style={{ backgroundImage: "url('/images/digital-bg.png')" }} 
+            style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBiAnPYNkyysDlBgTvxSE49eUkcFGPA1Yjh5wIK')" }} 
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
             <div className="relative flex flex-col items-center justify-center h-full text-white text-2xl font-bold">
@@ -55,7 +55,7 @@ const OurTeam = () => {
         <Link href="/our-team/media" passHref>
           <div
             className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-            style={{ backgroundImage: "url('/images/media-bg.png')" }}
+            style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBi9i0lf2ogikwWxTSynjh8EY7rbsRV6vKmQGft')" }}
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
             <div className="relative flex flex-col items-center justify-center h-full text-white text-2xl font-bold">
@@ -71,7 +71,7 @@ const OurTeam = () => {
         <Link href="/our-team/socialmedia" passHref>
           <div
             className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-            style={{ backgroundImage: "url('/images/smc-bg.png')" }}
+            style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBiNScub3pjzD2wWm5AylYHcVfipk40e8O9RubF')" }}
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
             <div className="relative flex flex-col items-center justify-center h-full text-center text-white text-2xl font-bold">

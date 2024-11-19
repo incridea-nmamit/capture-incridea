@@ -7,13 +7,13 @@ import dynamic from "next/dynamic";
 const Reel = dynamic(() => import("~/components/reel"), { ssr: false });
 
 const reelImags = [
-  { src: "/images/gallery/g-1.png" },
-  { src: "/images/gallery/g-2.png" },
-  { src: "/images/gallery/g-3.png" },
-  { src: "/images/gallery/g-4.png" },
-  { src: "/images/gallery/g-5.png" },
-  { src: "/images/gallery/g-6.png" },
-  { src: "/images/gallery/g-7.png" },
+  { src: "https://utfs.io/f/0yks13NtToBiyMGDp5dKMt25jkdFfWpIvLESBusza14COqm3" },
+  { src: "https://utfs.io/f/0yks13NtToBiRytYFqGmqjGOIgx47y3cAJSCbQ1V82Nitrsf" },
+  { src: "https://utfs.io/f/0yks13NtToBi6HmZQ4hUy9ofa2RpzAV7ldXGwM4xgSure8sE" },
+  { src: "https://utfs.io/f/0yks13NtToBiJ9b4q7w4BLygFdW15xChAKiDEleRHcja6tkI" },
+  { src: "https://utfs.io/f/0yks13NtToBipWkLivmnEQxj9Ckq6tA4uGeavWLzMV5woYHP" },
+  { src: "https://utfs.io/f/0yks13NtToBidkGYwLhfcvGemo1qIhyiPK56u3ZrnLzJUQRW" },
+  { src: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4" },
 ];
 
 export default function Home() {
@@ -64,7 +64,7 @@ export default function Home() {
         {/* Section 2: Experience Animation Section */}
         <section
           className="relative h-screen snap-start bg-cover bg-center"
-          style={{ backgroundImage: "url('/images/bg-10.png')" }}
+          style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBib378ksJ8B3sc1wrJXDKH6FoRyAaOq4jCidVG')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50" />
           <div

@@ -21,7 +21,7 @@ const NotAuthorized = () => {
   return (
     <div
       className="relative flex items-center justify-center min-h-screen bg-cover bg-center"
-      style={{ backgroundImage: "url('/images/bg/aaric.jpg')" }}
+      style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBiaGUQ9W8GMCjeJVFKURvyq263Lgw98YaAfWdx')" }}
     >
       {/* Dim the background using an absolute div with black background and opacity */}
       <div className="absolute inset-0 bg-black opacity-75" />

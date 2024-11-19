@@ -76,7 +76,7 @@ const SocialMediaPage: React.FC = () => {
       <TitleSection 
         title="Social Media Team"
         description="Engaging our audience and building community through strategic social media initiatives"
-        backgroundImage="/images/smc-bg.png"
+        backgroundImage="https://utfs.io/f/0yks13NtToBiNScub3pjzD2wWm5AylYHcVfipk40e8O9RubF"
       />
       {/* Cards Section */}
       <div className=" z-20 text-white py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">

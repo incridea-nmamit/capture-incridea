@@ -75,7 +75,7 @@ const DigitalPage: React.FC = () => {
       <TitleSection
         title="Digital Team"
         description="Driving our digital presence with innovative marketing strategies and campaigns."
-        backgroundImage="/images/digital-bg.png"
+        backgroundImage="https://utfs.io/f/0yks13NtToBiAnPYNkyysDlBgTvxSE49eUkcFGPA1Yjh5wIK"
       />
 
       {/* Cards Section */}

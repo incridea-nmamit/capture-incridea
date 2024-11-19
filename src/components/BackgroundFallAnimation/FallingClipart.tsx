@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 
 const images = [
-  '/images/cam2png.png',
-  '/images/campng.png',
-  '/images/dronepng.png',
-  '/images/micpng.png',
-  '/images/mobpng.png',
-  '/images/gim.png',
-  '/images/mobgim.png',
+  'https://utfs.io/f/0yks13NtToBi4Qu8UcGv1SaXrdI2cpUh9EC5iNOTmMuDkPnw',
+  'https://utfs.io/f/0yks13NtToBimGn6KrW4rLdYOgjBIhS01PQMHmAZoRaCfVDK',
+  'https://utfs.io/f/0yks13NtToBinjnQQYF56OIDvu2PeYJ4icMh7aBfCbHQRAoq',
+  'https://utfs.io/f/0yks13NtToBiky0ZJV1mUBlZChpNgEAV1rv23iI9YK7HWSfa',
+  'https://utfs.io/f/0yks13NtToBijsrrujtZKfcud6snUA8tzaTQ9hI0kVgWplby',
+  'https://utfs.io/f/0yks13NtToBiNSi7MLHjzD2wWm5AylYHcVfipk40e8O9RubF',
+  'https://utfs.io/f/0yks13NtToBiraCXvbIUcBmoP98lMs3ZrOe2aL4VD1dpYAwj',
+  'https://utfs.io/f/0yks13NtToBiPJ6BZfsu8SvNgVL69KsUPy21WpGfn4lrhZCA',
 ];
 
 const FallingClipart: React.FC = () => {
@@ -56,7 +57,7 @@ const FallingClipart: React.FC = () => {
       className="fixed inset-0 pointer-events-none z-10"
       ref={containerRef}
       style={{
-        backgroundImage: "url('/images/stars.png')",
+        backgroundImage: "url('https://utfs.io/f/0yks13NtToBi0kW8LTNtToBiULsc4C1KNaJSf9je8Rp2kXmI')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}

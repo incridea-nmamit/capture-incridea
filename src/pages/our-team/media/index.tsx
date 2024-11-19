@@ -76,7 +76,7 @@ const MediaCommittee: React.FC = () => {
       <TitleSection 
         title="Media Committee"
         description="Capturing the spirit of our fest through stunning visuals. Our media team is dedicated to delivering high-quality content."
-        backgroundImage="/images/media-bg.png"
+        backgroundImage="https://utfs.io/f/0yks13NtToBi9i0lf2ogikwWxTSynjh8EY7rbsRV6vKmQGft"
       />
       {/* Cards Section */}
       <div className=" z-20 py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">

@@ -253,7 +253,7 @@ const Dashboard = () => {
       </div>
 
       {/* Content Area */}
-      <div className="md:w-5/6 w-full min-h-screen p-4" style={{ backgroundImage: "url('/images/img-3.png')"}}>
+      <div className="md:w-5/6 w-full min-h-screen p-4" style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBi0t1oCo8NtToBiULsc4C1KNaJSf9je8Rp2kXm')"}}>
         <div>
           {activeTab === 'accessData' && (
             <div className="relative mt-2 flex justify-end">

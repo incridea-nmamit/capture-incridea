@@ -86,7 +86,7 @@ const behindincridea = () => {
     <TitleDescription 
         title="Behind Incridea" 
         description="Engaging our audience and building community through strategic social media initiatives"
-        imagePath="/images/admin-bg.png"
+        imagePath="https://utfs.io/f/0yks13NtToBiR2RImlGmqjGOIgx47y3cAJSCbQ1V82Nitrsf"
       />
     <FallingClipart />
     <div

@@ -8,7 +8,7 @@ const CameraLoading = () => {
                 <div className="absolute inset-0 bg-gray-800 border-8 border-gray-700 rounded-lg animate-ring flex flex-col items-center justify-center">
                     <div className="w-full h-full flex items-center justify-center">
                         <img
-                            src="/images/inc.png"
+                            src="https://utfs.io/f/0yks13NtToBiMOM3L9fzWI7ScAKGqQtv4FT8wMPEHbihruCg"
                             alt="Loading"
                             className="w-3/4 h-auto object-cover rounded-full blur-lg"
                             style={{

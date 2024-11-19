@@ -45,13 +45,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
           name="description"
           content="Capture Incridea: Get your event photos and story-worthy moments."
         />
-        <link rel="icon" href="/images/favicon/favicon.ico" />
+        <link rel="icon" href="https://utfs.io/f/0yks13NtToBia9tXha8GMCjeJVFKURvyq263Lgw98YaAfWdx" />
         <meta property="og:title" content="Capture Incridea" />
         <meta
           property="og:description"
           content="Get your event photos and story-worthy moments. Experience them the same day!"
         />
-        <meta property="og:image" content="/images/img-3.png" />
         <meta property="og:url" content="https://captures.incridea.in" />
       </Head>
       <div className="flex flex-col min-h-screen font-roboto">

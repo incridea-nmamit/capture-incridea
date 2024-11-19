@@ -85,7 +85,7 @@ const Pronight = () => {
     <TitleDescription 
         title="Pronight Captures" 
         description="Engaging our audience and building community through strategic social media initiatives"
-        imagePath="/images/event-bg2.png"
+        imagePath="https://utfs.io/f/0yks13NtToBitJchJ4NSCB2X9TSlbJxWYgG6rpN3n8swf4Fz"
       />
     <FallingClipart />
     <div
