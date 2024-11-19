@@ -13,6 +13,8 @@ import { api } from '~/utils/api';
 import ManageRoles from '~/components/ManageRoles/ManageRoles';
 import ExecuteEvents from '~/components/ExecuteTabAdmin/ExecuteEvents';
 import RoutePathTable from '~/components/LiveAnalytics';
+import VariableComponent from '~/components/VariableComponent';
+import ResetDB from '~/components/ResetDB';
 
 const Dashboard = () => {
   const userRole = useUserRole();
@@ -63,6 +65,8 @@ const Dashboard = () => {
     if (activeTab === 'removalrequest') return <RemovalRequest />;
     if (activeTab === 'executeevents') return <ExecuteEvents />;
     if (activeTab === 'liveanalytics') return <RoutePathTable />;
+    if (activeTab === 'reset') return <ResetDB/>;
+    if (activeTab === 'variables') return <VariableComponent />;
 
     if (showMessageOnce) {
       return (
@@ -171,7 +175,24 @@ const Dashboard = () => {
       
       )}
 
-{(userRole === 'admin' || userRole === 'editor') && (
+{(userRole === 'admin') && (
+        <button
+        onClick={() => {
+          setActiveTab('variables');
+          setShowMessageOnce(false);
+        }}
+        className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
+          activeTab === 'variables'
+              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+          } transition duration-200`}  
+      >
+        Variables
+      </button>
+      
+      )}
+
+{(userRole === 'admin') && (
         <button
         onClick={() => {
           setActiveTab('executeevents');
@@ -188,7 +209,7 @@ const Dashboard = () => {
       
       )}
 
-{(userRole === 'admin' || userRole === 'editor') && (
+{(userRole === 'admin') && (
         <button
         onClick={() => {
           setActiveTab('liveanalytics');
@@ -201,6 +222,23 @@ const Dashboard = () => {
           } transition duration-200`}  
       >
        Live Analytics
+      </button>
+      
+      )}
+
+{(userRole === 'admin') && (
+        <button
+        onClick={() => {
+          setActiveTab('reset');
+          setShowMessageOnce(false);
+        }}
+        className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
+          activeTab === 'reset'
+              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+          } transition duration-200`}  
+      >
+       Reset DB
       </button>
       
       )}

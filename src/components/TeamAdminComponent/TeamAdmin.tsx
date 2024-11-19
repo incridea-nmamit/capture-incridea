@@ -4,6 +4,7 @@ import { FaSearch, FaSync, FaTrash } from 'react-icons/fa';
 import UploadComponent from '../UploadComponent';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import CameraLoading from '../LoadingAnimation/CameraLoading';
 
 type Committee = 'media' | 'digital' | 'socialmedia' | 'developer';
 type MediaDesignation = 'mediahead' | 'mediacohead' | 'leadvideographer' | 'leadphotographer' | 'photographer' | 'videographer' | 'aerialvideographer';
@@ -115,7 +116,7 @@ const TeamAdmin: React.FC = () => {
     return matchesFilter && matchesSearch;
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <CameraLoading/>;
   if (isError) return <div>Error loading teams. Please try again later.</div>;
 
   return (

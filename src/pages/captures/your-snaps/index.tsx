@@ -6,6 +6,9 @@ import Image from "next/image";
 import UploadComponent from "~/components/UploadComponent";
 import TitleDescription from "~/components/TitleDescription";
 import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";
+import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
+import Cookies from "js-cookie";
+import { generateUniqueId } from "~/utils/generateUniqueId";
 
 
 const YourSnapsPage: React.FC = () => {
@@ -19,7 +22,8 @@ const YourSnapsPage: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
-
+  const cookieId = Cookies.get("cookieId") || generateUniqueId();
+  Cookies.set("cookieId", cookieId, { expires: 365 });
   const filteredImages = images?.filter((image) => image.event_category === 'snaps') || [];
 
   const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
@@ -27,7 +31,7 @@ const YourSnapsPage: React.FC = () => {
 
   const handleDownload = async (imagePath: string) => {
     await downloadImage(imagePath, "capture-incridea.png");
-    await logDownload.mutateAsync({ file_path: imagePath });
+    await logDownload.mutateAsync({ file_path: imagePath , cookieId});
   };
 
   const openRemovalPopup = (imagePath: string) => setRemovalImage(imagePath);
@@ -72,7 +76,7 @@ const YourSnapsPage: React.FC = () => {
     }
   };
 
-  if (isLoading) return <p className="text-white text-center">Loading images...</p>;
+  if (isLoading) return <CameraLoading/>;
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (

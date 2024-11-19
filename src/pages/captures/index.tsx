@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CapturesComponent from '~/components/CapturePage/CapturePageComponent';
+import CameraLoading from '~/components/LoadingAnimation/CameraLoading';
 import ReleaseOverlay from '~/components/ReleasingOverlay/ReleaseOverlay';
 import { api } from '~/utils/api';
 
@@ -22,7 +23,7 @@ const Captures: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; // Show a loading state while fetching data
+    return <CameraLoading/>; // Show a loading state while fetching data
   }
 
   if (error || !data?.value) {

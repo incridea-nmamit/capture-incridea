@@ -6,6 +6,9 @@ import Image from "next/image";
 import UploadComponent from "~/components/UploadComponent";
 import TitleDescription from "~/components/TitleDescription";
 import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";
+import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
+import Cookies from "js-cookie";
+import { generateUniqueId } from "~/utils/generateUniqueId";
 
 
 
@@ -13,7 +16,8 @@ const Pronight = () => {
   const { data: images, isLoading, error } = api.gallery.getAllGallery.useQuery();
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
-
+  const cookieId = Cookies.get("cookieId") || generateUniqueId();
+  Cookies.set("cookieId", cookieId, { expires: 365 });
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
   const [uploadUrl, setUploadUrl] = useState<string>(""); 
@@ -28,7 +32,7 @@ const Pronight = () => {
 
   const handleDownload = async (imagePath: string) => {
     await downloadImage(imagePath, "capture-incridea.png");
-    await logDownload.mutateAsync({ file_path: imagePath });
+    await logDownload.mutateAsync({ file_path: imagePath , cookieId});
   };
 
   const openRemovalPopup = (imagePath: string) => setRemovalImage(imagePath);
@@ -73,7 +77,7 @@ const Pronight = () => {
     }
   };
 
-  if (isLoading) return <p className="text-white text-center">Loading images...</p>;
+  if (isLoading) return <CameraLoading/>;
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (

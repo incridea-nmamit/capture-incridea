@@ -3,11 +3,12 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import TeamCard from '~/components/TeamPage/TeamCard'; 
 import FallingClipart from '~/components/BackgroundFallAnimation/FallingClipart';
 import TitleSection from '~/components/TeamPage/TeamTitle';
+import CameraLoading from '~/components/LoadingAnimation/CameraLoading';
 
 const DigitalPage: React.FC = () => {
   const { data: teamMembers, isLoading, error } = api.team.getAllTeams.useQuery();
   if (isLoading) {
-    return <div className="text-white">Loading...</div>;
+    return <CameraLoading/>;
   }
   if (error) {
     return <div className="text-red-500">Error loading media teams: {error.message}</div>;

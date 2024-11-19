@@ -4,6 +4,7 @@ import UploadComponent from '../UploadComponent';
 import { api } from '~/utils/api';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import CameraLoading from '../LoadingAnimation/CameraLoading';
 
 const CapturesAdmin: React.FC = () => {
   const addImage = api.gallery.addImage.useMutation();
@@ -94,6 +95,8 @@ const CapturesAdmin: React.FC = () => {
     toast.error('Capture Not Uploaded', toastStyle);
   }
 };
+
+if (eventsLoading || galleryLoading) return <CameraLoading/>;
 
   return (
     <div className="p-4">

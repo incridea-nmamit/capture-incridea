@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import FallingClipart from "../BackgroundFallAnimation/FallingClipart";
 import CapturePageCard from "./CapturePageCard";
 import { api } from '~/utils/api';
+import CameraLoading from '../LoadingAnimation/CameraLoading';
 
 const CapturesComponent = () => {
   const { data: cardStates, isLoading, refetch } = api.capturecard.getCards.useQuery();
@@ -53,7 +54,7 @@ const CapturesComponent = () => {
     return () => clearInterval(intervalId);
   }, [refetch]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <CameraLoading/>;
 
   // Map cardStates to match cards and add cardState and cardRtime to each card
   const sortedCards = cards

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import CaptureCard from "~/components/CapturePage/CaptureCard";
+import { isMobile ,isTablet, isDesktop } from 'react-device-detect';
 import downloadImage from "~/utils/downloadUtils";
 import Image from "next/image";
 import UploadComponent from "~/components/UploadComponent";
 import Cookies from "js-cookie";
 import { generateUniqueId } from "~/utils/generateUniqueId";
+import { Box, ImageList, ImageListItem } from "@mui/material";
+import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 
 interface ImageData {
   id: number;
@@ -87,7 +89,9 @@ const EventCaptures = () => {
     }
   };
 
-  if (isLoading) return <p className="text-white text-center">Loading images...</p>;
+  const devicecol = isMobile ? 3 : isTablet ? 3 : isDesktop ? 5 : 5;
+
+  if (isLoading) return <CameraLoading/>;
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
@@ -100,21 +104,36 @@ const EventCaptures = () => {
         {event?.description && <p className="text-center text-gray-400 mb-16 w-3/4">{event.description}</p>}
       </div>
       <main
-        className="grid gap-4"
-        style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-          gridAutoRows: "auto",
+        className='flex justify-center items-center'
+      >
+      <Box
+        sx={{
+          width: '100vw', // Full width of the viewport
+          overflowY: 'visible', // Let the content overflow naturally
+          scrollbarWidth: 'none', // Hides scrollbar in Firefox
+          '&::-webkit-scrollbar': {
+            display: 'none', // Hides scrollbar in Chrome, Safari, Edge
+          },
+          WebkitOverflowScrolling: 'touch', // Enables smooth scrolling for touch devices
         }}
       >
-        {filteredImages.map((image) => (
-          <div key={image.id} className="relative overflow-hidden rounded-lg z-20">
-            <CaptureCard
-              imagePath={image.image_path}
-              altText={formattedEventName ?? "Event image"}
-              onClick={() => handleImageClick(image.image_path)}
-            />
-          </div>
-        ))}
+        
+        <ImageList variant="masonry" cols={devicecol} gap={8}>
+          {filteredImages.map((image) => (
+            <ImageListItem key={image.id}>
+              <Image
+                src={`${image.image_path}?w=248&fit=crop&auto=format`}
+                alt={image.event_name}
+                loading="lazy"
+                width={248}
+                height={0}
+                onClick={() => handleImageClick(image.image_path)}
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+      </Box>
+
       </main>
       {selectedImage && (
         <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-30" role="dialog" aria-modal="true">

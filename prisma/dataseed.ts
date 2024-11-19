@@ -11,9 +11,18 @@ const shortDescriptions = Array.from({ length: 20 }, (_, i) =>
 );
 const imagePath = 'https://utfs.io/f/0yks13NtToBiyD1mo3dKMt25jkdFfWpIvLESBusza14COqm3';
 
+// Gallery images
+const galleryImages: string[] = [
+  'https://utfs.io/f/0yks13NtToBiPdGGXXsu8SvNgVL69KsUPy21WpGfn4lrhZCA',
+  'https://utfs.io/f/0yks13NtToBiLbQMFGmgsTC1Ne2Iapcmz9LhH4YD6ZQuJVRX',
+  'https://utfs.io/f/0yks13NtToBiqInGu16XZ2ECWgjGtRJM7BdbKQ8DYaV1rw4c',
+];
+
 async function main() {
-  // Clear existing events
+  // Clear existing events, gallery, and team data
   await prisma.events.deleteMany({});
+  await prisma.gallery.deleteMany({});
+  await prisma.team.deleteMany({});
 
   // Create Events
   const eventPromises = eventNames.map((name, index) =>
@@ -30,33 +39,31 @@ async function main() {
     })
   );
 
-  await Promise.all(eventPromises);
+  const createdEvents = await Promise.all(eventPromises);
 
-  // Create Gallery Entries
-  const galleryPromises = Array.from({ length: 200 }, async () => {
-    const eventCategory = Math.random() < 0.5 ? 'events' : 'snaps';
-    const eventName = eventCategory === 'events' ? eventNames[Math.floor(Math.random() * eventNames.length)] || 'Default Event' : 'Default Event'; 
-  
-    return prisma.gallery.create({
-      data: {
-        image_path: imagePath,
-        event_name: eventName,
-        event_category: eventCategory,
-      },
-    });
-  });
-  
+  // Create 100 Random Gallery Entries Per Event
+  const galleryPromises = createdEvents.flatMap((event) =>
+    Array.from({ length: 100 }, () => {
+      const randomImage = galleryImages[Math.floor(Math.random() * galleryImages.length)] || 'default-image-url';
+      return prisma.gallery.create({
+        data: {
+          image_path: randomImage,
+          event_name: event.name,
+          event_category: 'events',
+        },
+      });
+    })
+  );
+
   await Promise.all(galleryPromises);
 
   // Create Team Entries
   const teamNames = Array.from({ length: 50 }, (_, i) => `Team Member ${i + 1}`);
   const teamPromises = teamNames.map(async (name) => {
-    // Determine the committee
     const committee = ['media', 'digital', 'socialmedia', 'developer'][
       Math.floor(Math.random() * 4)
     ] as 'media' | 'digital' | 'socialmedia' | 'developer';
 
-    // Define designation options based on committee
     const designationOptions: Record<typeof committee, string[]> = {
       media: [
         'mediahead', 'mediacohead', 'leadvideographer', 'leadphotographer',
@@ -67,7 +74,6 @@ async function main() {
       developer: ['frontenddev', 'backenddev', 'fullstackdev']
     };
 
-    // Randomly select a designation based on the committee
     const designation =
       designationOptions[committee][
         Math.floor(Math.random() * designationOptions[committee].length)
@@ -89,7 +95,6 @@ async function main() {
         | 'backenddev'
         | 'fullstackdev';
 
-    // Create the team member with the selected committee and designation
     return prisma.team.create({
       data: {
         name,

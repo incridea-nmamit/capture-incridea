@@ -5,6 +5,7 @@ import { api } from '~/utils/api';
 import type { Day, EventType } from '@prisma/client';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import CameraLoading from '../LoadingAnimation/CameraLoading';
 
 const EventsAdmin: React.FC = () => {
   const addEvent = api.events.addEvent.useMutation();
@@ -189,7 +190,7 @@ const EventsAdmin: React.FC = () => {
 
       {/* Events Table */}
       {isLoading ? (
-        <div>Loading...</div>
+        <CameraLoading/>
       ) : isError ? (
         <div className=''>Error loading events. Please try again later.</div>
       ) : (

@@ -3,12 +3,13 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import TeamCard from '~/components/TeamPage/TeamCard'; // Adjust path if needed
 import TitleSection from '~/components/TeamPage/TeamTitle';
 import FallingClipart from '~/components/BackgroundFallAnimation/FallingClipart';
+import CameraLoading from '~/components/LoadingAnimation/CameraLoading';
 
 const MediaCommittee: React.FC = () => {
   const { data: teamMembers, isLoading, error } = api.team.getAllTeams.useQuery(); // Fetch data with tRPC
 
   if (isLoading) {
-    return <div className="text-white">Loading...</div>;
+    return <CameraLoading/>;
   }
   if (error) {
     return <div className="text-red-500">Error loading media teams: {error.message}</div>;
