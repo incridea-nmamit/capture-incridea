@@ -7,7 +7,12 @@ import { z } from "zod";
 export const galleryRouter = createTRPCRouter({
   // Get all events
   getAllGallery: publicProcedure.query(async ({ ctx }) => {
-    const gallery = await ctx.db.gallery.findMany({});
+    const gallery = await ctx.db.gallery.findMany({
+      orderBy: {
+        date_time:"desc"
+      }
+
+    });
     return gallery ?? [];
   }),
 
