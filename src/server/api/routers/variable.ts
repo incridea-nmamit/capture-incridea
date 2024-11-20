@@ -1,5 +1,6 @@
+// src/server/api/routers/variables.ts
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"; // Adjust the import path as needed
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc"; // Adjust the import path as needed
 import { db } from "~/server/db"; // Assuming you have a Prisma instance setup
 
 export const variableRouter = createTRPCRouter({
@@ -32,10 +33,20 @@ export const variableRouter = createTRPCRouter({
       }
     }),
 
-    getAllVariables: publicProcedure.query(async ({ ctx }) => {
-        const variables = await ctx.db.variables.findMany();
-        return variables;
-      }),
-
-
+  updateKey: protectedProcedure
+    .input(
+      z.object({
+        value: z.string(),
+        key: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { value, key } = input;
+      await db.variables.updateMany({
+        where: { key },
+        data: {
+          value,
+        },
+      });
+    }),
 });

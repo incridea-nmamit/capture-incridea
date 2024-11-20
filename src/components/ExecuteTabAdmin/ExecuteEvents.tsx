@@ -15,9 +15,9 @@ const ExecuteEvents = () => {
       <table className="min-w-full border border-gray-300 bg-black">
         <thead>
           <tr className="bg-gray-200">
-            <th className="text-black border border-gray-200 px-4 text-center">Card Name</th>
-            <th className="text-black border border-gray-200 px-4 text-center">Card State</th>
-            <th className="text-black border border-gray-200 px-4 text-center">Card Expiry</th>
+            <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Card Name</th>
+            <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Card State</th>
+            <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Card Expiry</th>
           </tr>
         </thead>
         <tbody>
@@ -27,9 +27,6 @@ const ExecuteEvents = () => {
               <td className="py-2 px-4 border-b border-slate-700 text-center">{card.cardState}</td>
               <td className="py-2 px-4 border-b border-slate-700 text-center">
                 {new Date(card.cardRtime).toLocaleString()}
-              </td>
-              <td className="py-2 px-4 border-b border-slate-700 text-center">
-                {/* Add role change functionality here */}
               </td>
             </tr>
           ))}

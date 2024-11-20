@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { api } from '~/utils/api';
 import CameraLoading from './LoadingAnimation/CameraLoading';
+import { FaEye } from 'react-icons/fa';
 
 const RoutePathTable = () => {
   // Fetch all viewers for counting route occurrences
@@ -57,20 +58,20 @@ const RoutePathTable = () => {
   }
 
   return (
-    <div>
+    <div className='my-5'>
       <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Live Viewers</h1>
       <table className="min-w-full border border-gray-300 bg-black">
         <thead>
           <tr className='bg-gray-200'>
-            <th className="text-black border border-gray-200 px-4 text-center">RoutePath</th>
+            <th className="text-black border border-gray-200 px-4 text-left">RoutePath</th>
             <th className="text-black border border-gray-200 px-4 text-center">Count</th>
           </tr>
         </thead>
         <tbody>
           {allRoutes.map(route => (
             <tr key={route} className='text-center'>
-              <td className="py-2 px-4 border-b border-slate-700 text-center">{route}</td>
-              <td className="py-2 px-4 border-b border-slate-700 text-center">{routeCounts[route] || 0}</td>
+              <td className="py-2 px-4 border-b border-slate-700 text-left">{route}</td>
+              <td className="py-2 px-4 border-b flex justify-center items-center gap-2 border-slate-700 text-center"><FaEye />{routeCounts[route] || 0}</td>
             </tr>
           ))}
         </tbody>

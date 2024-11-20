@@ -120,9 +120,9 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
           <table className="min-w-full border border-gray-300 bg-black">
             <thead className="bg-white">
               <tr>
-                <th className="text-black border border-gray-300 p-2 ">Event-Name</th>
-                <th className="text-black border border-gray-300 p-2">Capture-Category</th>
-                <th className="text-black border border-gray-300 p-2">Image</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center ">Event-Name</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Capture-Category</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Image</th>
               </tr>
             </thead>
             <tbody>

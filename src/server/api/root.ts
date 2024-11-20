@@ -23,7 +23,7 @@ export const appRouter = createTRPCRouter({
   request : removalRequestRouter,
   user: userRouter,
   capturecard: captureRouter,
-  variable: variableRouter,
+  variables: variableRouter,
   viewer: viewerRouter,
 });
 

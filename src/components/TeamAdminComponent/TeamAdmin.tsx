@@ -160,12 +160,12 @@ const TeamAdmin: React.FC = () => {
         <table className="min-w-full bg-black border border-slate-700">
           <thead>
             <tr className="text-black bg-gray-100">
-              <th className="py-2 px-4 border-b border-slate-700 text-center">Name</th>
-              <th className="py-2 px-4 border-b border-slate-700 text-center">Committee</th>
-              <th className="py-2 px-4 border-b border-slate-700 text-center">Position</th>
-              <th className="py-2 px-4 border-b border-slate-700 text-center">Say</th>
-              <th className="py-2 px-4 border-b border-slate-700 text-center">Image</th>
-              <th className="py-2 px-4 border-b border-slate-700 text-center">Delete</th>
+              <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
+              <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Committee</th>
+              <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Position</th>
+              <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Say</th>
+              <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Image</th>
+              <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Delete</th>
             </tr>
           </thead>
           <tbody>

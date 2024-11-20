@@ -9,7 +9,7 @@ const descriptions = Array.from({ length: 20 }, (_, i) =>
 const shortDescriptions = Array.from({ length: 20 }, (_, i) =>
   `Short desc for event ${i + 1}.`
 );
-const imagePath = 'https://utfs.io/f/0yks13NtToBiyD1mo3dKMt25jkdFfWpIvLESBusza14COqm3';
+const imagePath = 'https://utfs.io/f/0yks13NtToBin0vAAUF56OIDvu2PeYJ4icMh7aBfCbHQRAoq';
 
 // Gallery images
 const galleryImages: string[] = [

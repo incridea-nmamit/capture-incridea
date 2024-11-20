@@ -15,6 +15,7 @@ import ExecuteEvents from '~/components/ExecuteTabAdmin/ExecuteEvents';
 import RoutePathTable from '~/components/LiveAnalytics';
 import VariableComponent from '~/components/VariableComponent';
 import ResetDB from '~/components/ResetDB';
+import CheckResetPass from '~/components/change-pass-toast';
 
 const Dashboard = () => {
   const userRole = useUserRole();
@@ -60,13 +61,13 @@ const Dashboard = () => {
   }, [userRole]);
 
   const renderComponent = () => {
-    if (activeTab === 'analytics') return <Analytics />;
-    if (activeTab === 'manageroles') return <ManageRoles />;
-    if (activeTab === 'removalrequest') return <RemovalRequest />;
-    if (activeTab === 'executeevents') return <ExecuteEvents />;
-    if (activeTab === 'liveanalytics') return <RoutePathTable />;
-    if (activeTab === 'reset') return <ResetDB/>;
-    if (activeTab === 'variables') return <VariableComponent />;
+    if (activeTab === 'analytics') return <div><CheckResetPass/><Analytics /></div>;
+    if (activeTab === 'manageroles') return <div><CheckResetPass/><ManageRoles /></div>;
+    if (activeTab === 'removalrequest') return <div><CheckResetPass/><RemovalRequest /></div>;
+    if (activeTab === 'executeevents') return <div><CheckResetPass/><ExecuteEvents /></div>;
+    if (activeTab === 'liveanalytics') return <div><CheckResetPass/><RoutePathTable /></div>;
+    if (activeTab === 'reset') return <div><CheckResetPass/><ResetDB/></div>;
+    if (activeTab === 'variables') return <div><CheckResetPass/><VariableComponent /></div>;
 
     if (showMessageOnce) {
       return (
