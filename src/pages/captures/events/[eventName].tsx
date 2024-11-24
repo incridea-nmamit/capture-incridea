@@ -127,6 +127,7 @@ const EventCaptures = () => {
                 loading="lazy"
                 width={248}
                 height={0}
+                quality={20}
                 onClick={() => handleImageClick(image.image_path)}
               />
             </ImageListItem>
