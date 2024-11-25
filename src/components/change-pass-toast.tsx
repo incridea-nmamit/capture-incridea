@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 const CheckResetPass = () => {
   const { data: session, status } = useSession();
-  const { data: variableData } = api.variables.getVariable.useQuery({ key: "reset-pass" });
+  const { data: variableData } = api.variable.getVariable.useQuery({ key: "reset-pass" });
 
   useEffect(() => {
     if (
