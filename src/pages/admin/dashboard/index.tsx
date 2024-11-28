@@ -211,23 +211,6 @@ const Dashboard = () => {
 {(userRole === 'admin') && (
         <button
         onClick={() => {
-          setActiveTab('liveanalytics');
-          setShowMessageOnce(false);
-        }}
-        className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
-          activeTab === 'liveanalytics'
-              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
-          } transition duration-200`}  
-      >
-       Live Analytics
-      </button>
-      
-      )}
-
-{(userRole === 'admin') && (
-        <button
-        onClick={() => {
           setActiveTab('reset');
           setShowMessageOnce(false);
         }}
