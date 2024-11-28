@@ -25,6 +25,9 @@ const EventCard: FC<EventCardProps> = ({ name, description, background }) => {
         src={background}
         alt={name}
         fill
+        width={72}
+        height={72}
+        quality={20}
         className="object-cover w-72 h-72"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent p-4 flex flex-col justify-end">

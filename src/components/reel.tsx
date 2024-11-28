@@ -47,6 +47,7 @@ const Reel = ({
                   <Image
                     src={img.src}
                     fill
+                    quality={50}
                     className="object-cover object-center rounded-md"
                     alt={`reel-image-${idx}`}
                   />

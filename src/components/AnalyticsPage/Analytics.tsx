@@ -47,7 +47,7 @@ const Analytics = () => {
     const queries = useQueries({
       queries: Array.from({ length: 3 }, (_, i) => ({
         queryKey: ['variable', `Day-${i + 1}`],
-        queryFn: () => api.variable.getVariable.useQuery({ key: `Day-${i + 1}` }),
+        queryFn: () => api.variables.getVariable.useQuery({ key: `Day-${i + 1}` }),
       })),
     });
 

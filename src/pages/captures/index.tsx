@@ -7,7 +7,7 @@ import { api } from '~/utils/api';
 
 const Captures: React.FC = () => {
   const [isReleased, setIsReleased] = useState<boolean>(false);
-  const { data, isLoading, error } = api.variable.getVariable.useQuery({
+  const { data, isLoading, error } = api.variables.getVariable.useQuery({
     key: 'CountDown-Capture',
   });
 

@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     /* Base Options: */
+    "importHelpers": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "target": "ESNext",
+    "target": "es2022",
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
@@ -25,7 +26,6 @@
 
     /* Path Aliases */
     "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types", "./src/types"],
     "paths": {
       "~/*": ["./src/*"]
     }
