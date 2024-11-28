@@ -214,11 +214,3 @@ model CaptureLike {
   cookieId  String
   like      Boolean
 }
-
-model Viewer {
-  id        Int      @id @default(sequence())
-  cookie_id String   @unique
-  routePath String
-  lastPing  DateTime
-  expiry    DateTime
-}

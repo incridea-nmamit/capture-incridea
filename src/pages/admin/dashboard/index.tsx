@@ -12,7 +12,6 @@ import RemovalRequest from '~/components/RemovalRequestPage/RemovalRequest';
 import { api } from '~/utils/api';
 import ManageRoles from '~/components/ManageRoles/ManageRoles';
 import ExecuteEvents from '~/components/ExecuteTabAdmin/ExecuteEvents';
-import RoutePathTable from '~/components/LiveAnalytics';
 import VariableComponent from '~/components/VariableComponent';
 import ResetDB from '~/components/ResetDB';
 import CheckResetPass from '~/components/change-pass-toast';
@@ -65,7 +64,6 @@ const Dashboard = () => {
     if (activeTab === 'manageroles') return <div><CheckResetPass/><ManageRoles /></div>;
     if (activeTab === 'removalrequest') return <div><CheckResetPass/><RemovalRequest /></div>;
     if (activeTab === 'executeevents') return <div><CheckResetPass/><ExecuteEvents /></div>;
-    if (activeTab === 'liveanalytics') return <div><CheckResetPass/><RoutePathTable /></div>;
     if (activeTab === 'reset') return <div><CheckResetPass/><ResetDB/></div>;
     if (activeTab === 'variables') return <div><CheckResetPass/><VariableComponent /></div>;
 

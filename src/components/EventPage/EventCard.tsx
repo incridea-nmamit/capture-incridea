@@ -25,8 +25,6 @@ const EventCard: FC<EventCardProps> = ({ name, description, background }) => {
         src={background}
         alt={name}
         fill
-        width={72}
-        height={72}
         quality={20}
         className="object-cover w-72 h-72"
       />

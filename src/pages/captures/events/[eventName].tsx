@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import { isMobile ,isTablet, isDesktop } from 'react-device-detect';
+import { isMobile, isTablet, isDesktop } from 'react-device-detect';
 import downloadImage from "~/utils/downloadUtils";
 import Image from "next/image";
 import UploadComponent from "~/components/UploadComponent";
@@ -9,14 +9,6 @@ import Cookies from "js-cookie";
 import { generateUniqueId } from "~/utils/generateUniqueId";
 import { Box, ImageList, ImageListItem } from "@mui/material";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
-
-interface ImageData {
-  id: number;
-  event_name: string;
-  event_category: string;
-  image_path: string;
-  date_time: Date;
-}
 
 const EventCaptures = () => {
   const router = useRouter();
@@ -39,12 +31,13 @@ const EventCaptures = () => {
   const filteredImages = images?.filter((image) => image.event_name === formattedEventName) || [];
   const cookieId = Cookies.get("cookieId") || generateUniqueId();
   Cookies.set("cookieId", cookieId, { expires: 365 });
+
   const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
   const handleClosePopup = () => setSelectedImage(null);
 
-  const handleDownload = async (imagePath: string , cookieId: string) => {
+  const handleDownload = async (imagePath: string, cookieId: string) => {
     await downloadImage(imagePath, "capture-incridea.png");
-    await logDownload.mutateAsync({ file_path: imagePath , cookieId});
+    await logDownload.mutateAsync({ file_path: imagePath, cookieId });
   };
 
   const openRemovalPopup = (imagePath: string) => setRemovalImage(imagePath);
@@ -91,51 +84,65 @@ const EventCaptures = () => {
 
   const devicecol = isMobile ? 3 : isTablet ? 3 : isDesktop ? 5 : 5;
 
-  if (isLoading) return <CameraLoading/>;
+  // Prefetch images when the component is mounted
+  useEffect(() => {
+    filteredImages.forEach((image) => {
+      const link = document.createElement("link");
+      link.rel = "prefetch";
+      link.href = `${image.image_path}?w=248&fit=crop&auto=format`; // Prefetch image URL
+      link.as = "image"; // Specify the resource type
+      document.head.appendChild(link); // Append the <link> to the document head
+    });
+
+    // Cleanup: Remove prefetch links when the component is unmounted
+    return () => {
+      const links = document.querySelectorAll('link[rel="prefetch"]');
+      links.forEach((link) => link.remove());
+    };
+  }, [filteredImages]); // Re-run the effect if `filteredImages` changes
+
+  if (isLoading) return <CameraLoading />;
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
     <div className="p-6 bg-black min-h-screen">
       <h1 className="text-3xl md:text-7xl font-Hunters text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
-        {formattedEventName}Captures
+        {formattedEventName} Captures
       </h1>
       {/* Display event description if it exists */}
       <div className="flex justify-center z-20">
         {event?.description && <p className="text-center text-gray-400 mb-16 w-3/4">{event.description}</p>}
       </div>
-      <main
-        className='flex justify-center items-center'
-      >
-      <Box
-        sx={{
-          width: '100vw', // Full width of the viewport
-          overflowY: 'visible', // Let the content overflow naturally
-          scrollbarWidth: 'none', // Hides scrollbar in Firefox
-          '&::-webkit-scrollbar': {
-            display: 'none', // Hides scrollbar in Chrome, Safari, Edge
-          },
-          WebkitOverflowScrolling: 'touch', // Enables smooth scrolling for touch devices
-        }}
-      >
-        
-        <ImageList variant="masonry" cols={devicecol} gap={8}>
-          {filteredImages.map((image) => (
-            <ImageListItem key={image.id}>
-              <Image
-                src={`${image.image_path}?w=248&fit=crop&auto=format`}
-                alt={image.event_name}
-                loading="lazy"
-                width={248}
-                height={0}
-                quality={20}
-                onClick={() => handleImageClick(image.image_path)}
-              />
-            </ImageListItem>
-          ))}
-        </ImageList>
-      </Box>
-
+      <main className="flex justify-center items-center">
+        <Box
+          sx={{
+            width: "100vw", // Full width of the viewport
+            overflowY: "visible", // Let the content overflow naturally
+            scrollbarWidth: "none", // Hide scrollbar in Firefox
+            "&::-webkit-scrollbar": {
+              display: "none", // Hide scrollbar in Chrome, Safari, Edge
+            },
+            WebkitOverflowScrolling: "touch", // Enable smooth scrolling for touch devices
+          }}
+        >
+          <ImageList variant="masonry" cols={devicecol} gap={8}>
+            {filteredImages.map((image) => (
+              <ImageListItem key={image.id}>
+                <Image
+                  src={`${image.image_path}?w=248&fit=crop&auto=format`}
+                  alt={image.event_name}
+                  loading="lazy"
+                  width={248}
+                  height={0}
+                  quality={20}
+                  onClick={() => handleImageClick(image.image_path)}
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+        </Box>
       </main>
+
       {selectedImage && (
         <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-30" role="dialog" aria-modal="true">
           <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full z-30">
@@ -149,7 +156,7 @@ const EventCaptures = () => {
             <div className="flex justify-center items-center space-x-4 py-5">
               <button
                 className="bg-white hover:bg-black hover:text-white text-black px-2 py-2 rounded flex items-center transition-all"
-                onClick={() => handleDownload(selectedImage , cookieId)}
+                onClick={() => handleDownload(selectedImage, cookieId)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -171,12 +178,12 @@ const EventCaptures = () => {
             <p className="text-xs text-center py-5 w-full z-30">
               Note: If you prefer this capture not to be public or have any issues.<br /> Please {" "}
               <a
-                  className="text-blue-500 cursor-pointer"
-                  onClick={() => {
-                    setSelectedImage(null);
-                    openRemovalPopup(selectedImage);
-                  }}
-                >
+                className="text-blue-500 cursor-pointer"
+                onClick={() => {
+                  setSelectedImage(null);
+                  openRemovalPopup(selectedImage);
+                }}
+              >
                 click here to Request Removal
               </a>.<br />
               We’ll verify your request and work on it soon.

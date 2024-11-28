@@ -13,7 +13,6 @@ import Footer from "~/components/HeaderFooter/Footer";
 import TrackPageVisits from "~/components/TrackPageVisits";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { Toaster } from "react-hot-toast";
-import ViewerLogger from "~/components/ViewerLogger";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -57,7 +56,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <Header />
         <main className="flex-grow bg-black text-white">
           <Toaster position="top-right" reverseOrder={false} />
-          <ViewerLogger />
           <TrackPageVisits />
           {loading ? <CameraLoading /> : <Component {...pageProps} />}
         </main>

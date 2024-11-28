@@ -12,7 +12,6 @@ import {
   Legend,
 } from "chart.js";
 import { useQueries } from "@tanstack/react-query";
-import RoutePathTable from "../LiveAnalytics";
 import CameraLoading from "../LoadingAnimation/CameraLoading";
 
 ChartJS.register(
@@ -435,7 +434,6 @@ const Analytics = () => {
           </tbody>
         </table>
         </div>
-      <RoutePathTable/>
       <div className="mt-20 w-full h-56 mx-auto bg-black p-4 rounded-2xl">
         <h3 className="text-center text-2xl text-white mb-4">Visits Growth Rate</h3>
         <Line data={growthGraphData} options={chartOptions} />
