@@ -4,7 +4,4 @@ import { ourFileRouter } from "~/server/uploadthing";
  
 export default createRouteHandler({
   router: ourFileRouter,
- 
-  // Apply an (optional) custom config:
-  // config: { ... },
 });

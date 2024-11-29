@@ -21,7 +21,7 @@ const Events: FC = () => {
       router.push("/captures"); // Redirect to /capture if inactive
     }
   }, [cardState, router]);
-  // Filter events based on search, type, day, and visibility set to "active"
+
   const filteredEvents = eventsData
     .filter((event) => {
       const matchesVisibility = event.visibility === "active";

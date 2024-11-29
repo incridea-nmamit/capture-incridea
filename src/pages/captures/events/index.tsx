@@ -7,7 +7,7 @@ function EventsPage() {
     <div>
       <TitleDescription 
         title="Events" 
-        description="Events Description here"
+        description="Vibrant Events"
         imagePath="/images/event.jpg"
       />
       <FallingClipart />

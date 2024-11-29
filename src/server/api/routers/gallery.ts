@@ -1,8 +1,4 @@
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import {  createTRPCRouter, protectedProcedure, publicProcedure} from "~/server/api/trpc";
 import { z } from "zod";
 export const galleryRouter = createTRPCRouter({
   // Get all events

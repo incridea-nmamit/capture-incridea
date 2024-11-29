@@ -10,12 +10,12 @@ import {
 } from "framer-motion";
 import { wrap } from "@motionone/utils";
 
-// Update the ParallaxProps interface to include direction
+
 interface ParallaxProps {
   children: JSX.Element;
   baseVelocity: number;
   angle: number;
-  direction?: number; // Add optional direction prop here
+  direction?: number;
 }
 
 const ScrollVelocityCarousel = ({

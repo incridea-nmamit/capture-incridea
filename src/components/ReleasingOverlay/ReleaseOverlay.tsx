@@ -1,10 +1,9 @@
-// ~/components/ReleaseOverlay.tsx
 import React, { useEffect, useState } from 'react';
 import FallingClipart from '../BackgroundFallAnimation/FallingClipart';
 
 interface ReleaseOverlayProps {
-  releaseDate: string; // Expected to be in ISO 8601 format
-  onRelease: () => void; // Function to call when the countdown ends
+  releaseDate: string; 
+  onRelease: () => void;
 }
 
 const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease }) => {

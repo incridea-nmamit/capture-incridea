@@ -1,33 +1,29 @@
-// src/server/api/routers/variables.ts
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc"; // Adjust the import path as needed
-import { db } from "~/server/db"; // Assuming you have a Prisma instance setup
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc"; 
+import { db } from "~/server/db"; 
 
 export const variableRouter = createTRPCRouter({
-  // Define the 'getVariable' query inside the router
+
   getVariable: publicProcedure
     .input(
       z.object({
         key: z.string(),
       })
     )
-    .query(async ({ input }) => { // Use 'query' here instead of 'mutation'
+    .query(async ({ input }) => { 
       const { key } = input;
 
       try {
-        // Query the Variables table to find the matching key
-        const variable = await db.variables.findUnique({
-          where: { key }, // Prisma will look for a unique 'key'
-        });
 
-        // If the variable is found, return the value; otherwise, return a message
+        const variable = await db.variables.findUnique({
+          where: { key }, 
+        });
         if (variable) {
-          return { value: variable.value }; // Return the value found
+          return { value: variable.value }; 
         } else {
-          return { message: "Key not found" }; // Or an error message if not found
+          return { message: "Key not found" };
         }
       } catch (error) {
-        // Handle any potential errors (e.g., database errors)
         console.error(error);
         return { message: "An error occurred while fetching the data" };
       }

@@ -1,5 +1,3 @@
-import { CardState } from '@prisma/client';
-// src/server/trpc/router/captureCard.ts
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 

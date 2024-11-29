@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import CaptureCard from "~/components/CapturePage/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
-import Image from "next/image";
-import UploadComponent from "~/components/UploadComponent";
 import TitleDescription from "~/components/TitleDescription";
 import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
@@ -61,7 +59,6 @@ const Pronight = () => {
     imagePath: string;
   }) => {
     try {
-      // Replace with your API call to submit the removal request
       await submitRemovalRequest.mutateAsync({
         name: data.name,
         email: data.email,

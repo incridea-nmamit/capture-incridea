@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaSearch, FaSync, FaTrash } from 'react-icons/fa';
+import { FaSearch, FaTrash } from 'react-icons/fa';
 import UploadComponent from '../UploadComponent';
 import { api } from '~/utils/api';
 import type { Day, EventType } from '@prisma/client';

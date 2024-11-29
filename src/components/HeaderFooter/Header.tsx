@@ -1,5 +1,3 @@
-"use client";
-
 import { type FC, useState, useEffect } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";

@@ -1,4 +1,3 @@
-// hooks/useDownloadLogger.ts
 import Cookies from 'js-cookie';
 import { api } from '~/utils/api';
 import { generateUniqueId } from '~/utils/generateUniqueId';

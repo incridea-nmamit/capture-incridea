@@ -1,6 +1,6 @@
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { RemovalRequestStatus } from "@prisma/client"; // Import the enum
+import { RemovalRequestStatus } from "@prisma/client";
 
 export const removalRequestRouter = createTRPCRouter({
   // Submit a new removal request
@@ -49,7 +49,7 @@ export const removalRequestRouter = createTRPCRouter({
       // Update the request status to approved
       const approvedRequest = await ctx.db.removalRequest.update({
         where: { id: input.id },
-        data: { status: RemovalRequestStatus.approved }, // Set status to approved
+        data: { status: RemovalRequestStatus.approved },
       });
 
       return approvedRequest;

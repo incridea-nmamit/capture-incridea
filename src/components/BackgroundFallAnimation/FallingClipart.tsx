@@ -47,7 +47,7 @@ const FallingClipart: React.FC = () => {
       }
     };
 
-    const interval = setInterval(createFallingImage, 700); // Create a new image every 700ms
+    const interval = setInterval(createFallingImage, 700);
 
     return () => clearInterval(interval);
   }, []);

@@ -6,11 +6,11 @@ const useUserRole = () => {
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const session = await getSession(); // Get the current session
+        const session = await getSession();
         if (session) {
-          setUserRole(session.user.role); // Set user role from session
+          setUserRole(session.user.role); 
         } else {
-          setUserRole(null); // No session found
+          setUserRole(null);
         }
       } catch (error) {
         console.error(error);

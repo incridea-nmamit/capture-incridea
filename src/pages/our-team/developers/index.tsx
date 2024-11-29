@@ -15,7 +15,7 @@ const MediaCommittee: React.FC = () => {
     return <div className="text-red-500">Error loading media teams: {error.message}</div>;
   }
   if (!teamMembers || teamMembers.length === 0) {
-    return <div className="text-white">No media team members found.</div>;
+    return <div className="text-white">No developers found.</div>;
   }
 
   const designationMapping = {

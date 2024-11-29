@@ -1,7 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { db } from "~/server/db"; // Ensure db is correctly configured
-
+import { db } from "~/server/db";
 export const analyticsRouter = createTRPCRouter({
   // Log a new visit
   logVisit: publicProcedure

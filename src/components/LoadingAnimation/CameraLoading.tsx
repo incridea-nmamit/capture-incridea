@@ -1,4 +1,3 @@
-// CameraLoading.tsx
 import React from 'react';
 
 const CameraLoading = () => {

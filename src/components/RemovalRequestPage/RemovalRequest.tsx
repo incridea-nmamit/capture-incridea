@@ -45,7 +45,7 @@ const RemovalRequest: React.FC = () => {
     }
     setIsActionPopupOpen(false);
     setIsConfirmPopupOpen(false);
-    await refetch();  // Refresh the requests to show the updated state
+    await refetch();
   };
 
   const handleOpenConfirmPopup = () => {

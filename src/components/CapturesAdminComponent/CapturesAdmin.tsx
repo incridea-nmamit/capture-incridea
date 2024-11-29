@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FaSync } from 'react-icons/fa';
 import UploadComponent from '../UploadComponent';
 import { api } from '~/utils/api';
 import Image from 'next/image';

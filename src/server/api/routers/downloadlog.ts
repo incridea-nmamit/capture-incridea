@@ -2,7 +2,7 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/
 import { z } from "zod";
 
 export const downloadLogRouter = createTRPCRouter({
-  getAllLogs: publicProcedure.query(async ({ ctx }) => {
+  getAllLogs: protectedProcedure.query(async ({ ctx }) => {
     const logs = await ctx.db.downloadLog.findMany({});
     return logs ?? [];
   }),

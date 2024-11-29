@@ -71,7 +71,6 @@ const DigitalPage: React.FC = () => {
   
     <div className="flex flex-col min-h-screen">
       <FallingClipart />
-      {/* Title Section */}
       <TitleSection
         title="Digital Team"
         description="Driving our digital presence with innovative marketing strategies and campaigns."

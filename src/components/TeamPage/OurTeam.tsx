@@ -6,7 +6,7 @@ const OurTeam = () => {
   return (
     <div className="min-h-[calc(100vh-60px)] bg-black text-white flex flex-col items-center py-12 px-6 z-20">
       {/* Page Title */}
-      <h1 className="text-8xl font-Hunters mb-8 z-20">Our Team</h1>
+      <h1 className="text-8xl font-Hunters mb-8 z-20">Our Elite Teams</h1>
 
       {/* Small Description */}
       <p className="text-lg text-center max-w-3xl text-gray-400 mb-12 z-20">
@@ -43,7 +43,7 @@ const OurTeam = () => {
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
             <div className="relative flex flex-col items-center justify-center h-full text-white text-2xl font-bold">
-              Digital Committee
+              Digital Team
               <p className="mt-2 text-center text-base text-gray-300">
                 Innovating digital experiences and managing online presence.
               </p>
@@ -59,7 +59,7 @@ const OurTeam = () => {
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
             <div className="relative flex flex-col items-center justify-center h-full text-white text-2xl font-bold">
-              Media Committee
+              Media Team
               <p className="mt-2 text-center text-base text-gray-300">
                 Capturing the spirit of our fest through stunning visuals.
               </p>
@@ -75,7 +75,7 @@ const OurTeam = () => {
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
             <div className="relative flex flex-col items-center justify-center h-full text-center text-white text-2xl font-bold">
-              Social Media Committee
+              Social Media Team
               <p className="mt-2 text-center text-base text-gray-300">
                 Engaging audiences and sharing updates with creativity.
               </p>

@@ -3,16 +3,16 @@ import Image from "next/image";
 import UploadComponent from "~/components/UploadComponent";
 
 interface RequestRemovalModalProps {
-  isOpen: boolean; // Controls whether the modal is visible
-  imagePath: string | null; // Path to the image to display
-  onClose: () => void; // Function to close the modal
+  isOpen: boolean; 
+  imagePath: string | null; 
+  onClose: () => void; 
   onSubmit: (data: {
     name: string;
     email: string;
     description: string;
     uploadUrl: string;
     imagePath: string;
-  }) => void; // Function to handle form submission
+  }) => void; 
 }
 
 const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({

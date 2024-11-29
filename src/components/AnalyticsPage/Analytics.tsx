@@ -50,7 +50,6 @@ const Analytics = () => {
       })),
     });
 
-  // Filter and calculate analytics
   const filteredLogs =
     filter === "all"
     
@@ -80,16 +79,12 @@ const Analytics = () => {
           return dateReference && galleryItemDate.toDateString() === dateReference.toDateString();
         });
 
-    // Filter capture data based on captureFilter and selected day
-    // Assuming captureFilter and logs are defined elsewhere
-
     const filteredCaptures = captureFilter === "all"
     ? logs.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
-  
-        // Define a list of valid route paths to check
+
         const validRoutes = [
           "pronight", 
           "your-snaps", 
@@ -115,7 +110,7 @@ const Analytics = () => {
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
   
-        // Adjust conditions for "Home" and "Events"
+
         if (captureFilter === "/") {
           return (
             log.routePath === "/" && // Only matches "/" route

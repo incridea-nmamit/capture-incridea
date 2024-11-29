@@ -1,4 +1,3 @@
-// NavLink.tsx
 import {type  FC } from "react";
 import Link from "next/link";
 

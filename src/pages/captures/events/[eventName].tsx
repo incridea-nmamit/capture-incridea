@@ -62,7 +62,6 @@ const EventCaptures = () => {
     imagePath: string;
   }) => {
     try {
-      // Replace with your API call to submit the removal request
       await submitRemovalRequest.mutateAsync({
         name: data.name,
         email: data.email,
@@ -77,22 +76,21 @@ const EventCaptures = () => {
   };
   const devicecol = isMobile ? 3 : isTablet ? 3 : isDesktop ? 5 : 5;
 
-  // Prefetch images when the component is mounted
   useEffect(() => {
     filteredImages.forEach((image) => {
       const link = document.createElement("link");
       link.rel = "prefetch";
-      link.href = `${image.image_path}?w=248&fit=crop&auto=format`; // Prefetch image URL
-      link.as = "image"; // Specify the resource type
-      document.head.appendChild(link); // Append the <link> to the document head
+      link.href = `${image.image_path}?w=248&fit=crop&auto=format`; 
+      link.as = "image";
+      document.head.appendChild(link); 
     });
 
-    // Cleanup: Remove prefetch links when the component is unmounted
+   
     return () => {
       const links = document.querySelectorAll('link[rel="prefetch"]');
       links.forEach((link) => link.remove());
     };
-  }, [filteredImages]); // Re-run the effect if `filteredImages` changes
+  }, [filteredImages]); 
 
   if (isLoading) return <CameraLoading />;
   if (error) return <p className="text-white text-center">Error loading images.</p>;
@@ -109,13 +107,13 @@ const EventCaptures = () => {
       <main className="flex justify-center items-center">
         <Box
           sx={{
-            width: "100vw", // Full width of the viewport
-            overflowY: "visible", // Let the content overflow naturally
-            scrollbarWidth: "none", // Hide scrollbar in Firefox
+            width: "100vw", 
+            overflowY: "visible", 
+            scrollbarWidth: "none", 
             "&::-webkit-scrollbar": {
-              display: "none", // Hide scrollbar in Chrome, Safari, Edge
+              display: "none",
             },
-            WebkitOverflowScrolling: "touch", // Enable smooth scrolling for touch devices
+            WebkitOverflowScrolling: "touch", 
           }}
         >
           <ImageList variant="masonry" cols={devicecol} gap={8}>

@@ -1,5 +1,3 @@
-// src/pages/admin/dashboard.tsx
-
 import React, { useEffect, useState } from 'react';
 import TeamAdmin from '~/components/TeamAdminComponent/TeamAdmin';
 import useUserRole from '~/hooks/useUserRole';
@@ -20,9 +18,9 @@ const Dashboard = () => {
   const userRole = useUserRole();
   const [selectedOption, setSelectedOption] = useState('');
   const [options, setOptions] = useState<string[]>([]);
-  const [activeTab, setActiveTab] = useState<string>(''); // Start with no active tab
-  const [showMessageOnce, setShowMessageOnce] = useState(true); // Control the default message
-  const [pendingCount, setPendingCount] = useState<number>(0); // Pending requests count
+  const [activeTab, setActiveTab] = useState<string>(''); 
+  const [showMessageOnce, setShowMessageOnce] = useState(true); 
+  const [pendingCount, setPendingCount] = useState<number>(0); 
   const router = useRouter();
   const { data: session, status } = useSession();
   const { data: removalRequests} = api.request.getAll.useQuery();

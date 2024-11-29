@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import CaptureCard from "~/components/CapturePage/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
-
 import TitleDescription from "~/components/TitleDescription";
 import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
@@ -57,7 +56,6 @@ const Cultural = () => {
     imagePath: string;
   }) => {
     try {
-      // Replace with your API call to submit the removal request
       await submitRemovalRequest.mutateAsync({
         name: data.name,
         email: data.email,
@@ -77,7 +75,7 @@ const Cultural = () => {
   return (
     <div>
     <TitleDescription 
-        title="Cultural Captures" 
+        title="Cultural Program Captures" 
         description="Engaging our audience and building community through strategic social media initiatives"
         imagePath="https://utfs.io/f/0yks13NtToBitJchJ4NSCB2X9TSlbJxWYgG6rpN3n8swf4Fz"
       />

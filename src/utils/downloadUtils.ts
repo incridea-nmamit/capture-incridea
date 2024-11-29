@@ -1,6 +1,5 @@
 import { saveAs } from "file-saver";
 
-// Declare the downloadImage function
 export const downloadImage = async (imageUrl: string, filename: string) => {
   try {
     const response = await fetch(imageUrl);
@@ -14,5 +13,4 @@ export const downloadImage = async (imageUrl: string, filename: string) => {
   }
 };
 
-// Ensure you export the function
 export default downloadImage;

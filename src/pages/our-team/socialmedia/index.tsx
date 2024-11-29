@@ -1,5 +1,5 @@
 import { api } from '~/utils/api';
-import React, { useEffect, useRef, useCallback } from 'react';
+import React from 'react';
 import TeamCard from '~/components/TeamPage/TeamCard';
 import FallingClipart from '~/components/BackgroundFallAnimation/FallingClipart';
 import TitleSection from '~/components/TeamPage/TeamTitle';

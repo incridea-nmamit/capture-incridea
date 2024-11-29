@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { api } from '~/utils/api';
-import { FaSearch, FaSync, FaTrash } from 'react-icons/fa';
+import { FaSearch, FaTrash } from 'react-icons/fa';
 import UploadComponent from '../UploadComponent';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
