@@ -13,6 +13,8 @@ import Footer from "~/components/HeaderFooter/Footer";
 import TrackPageVisits from "~/components/TrackPageVisits";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { Toaster } from "react-hot-toast";
+import { generateUniqueId } from "~/utils/generateUniqueId";
+import Cookies from "js-cookie";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -20,7 +22,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
+  const cookieId = Cookies.get("cookieId") || generateUniqueId();
+  Cookies.set("cookieId", cookieId, { expires: 365 });
   useEffect(() => {
     const handleRouteChangeStart = () => setLoading(true);
     const handleRouteChangeComplete = () => setLoading(false);
