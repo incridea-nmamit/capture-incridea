@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import CaptureCard from "~/components/CapturePage/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
@@ -9,6 +9,7 @@ import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart"
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import Cookies from "js-cookie";
 import { generateUniqueId } from "~/utils/generateUniqueId";
+import { useRouter } from "next/router";
 
 
 const YourSnapsPage: React.FC = () => {
@@ -25,7 +26,15 @@ const YourSnapsPage: React.FC = () => {
   const cookieId = Cookies.get("cookieId") || generateUniqueId();
   Cookies.set("cookieId", cookieId, { expires: 365 });
   const filteredImages = images?.filter((image) => image.event_category === 'snaps') || [];
-
+  const router = useRouter();
+  const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
+    { cardName: "Your Snaps" }
+  );
+  useEffect(() => {
+    if (cardState === "inactive") {
+      router.push("/captures"); // Redirect to /capture if inactive
+    }
+  }, [cardState, router]);
   const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
   const handleClosePopup = () => setSelectedImage(null);
 

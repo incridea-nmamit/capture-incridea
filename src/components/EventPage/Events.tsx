@@ -1,8 +1,9 @@
-import { type FC, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import EventCard from "./EventCard";
 import { AiOutlineSearch } from "react-icons/ai";
 import { api } from "~/utils/api";
 import CameraLoading from "../LoadingAnimation/CameraLoading";
+import { useRouter } from "next/router";
 
 const Events: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -11,6 +12,15 @@ const Events: FC = () => {
   const { data: eventsData = [], isLoading } = api.events.getAllEvents.useQuery(undefined, {
     refetchInterval: 5000, // Refetch every 5 seconds to simulate real-time updates
   });
+  const router = useRouter();
+  const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
+    { cardName: "Events" }
+  );
+  useEffect(() => {
+    if (cardState === "inactive") {
+      router.push("/captures"); // Redirect to /capture if inactive
+    }
+  }, [cardState, router]);
   // Filter events based on search, type, day, and visibility set to "active"
   const filteredEvents = eventsData
     .filter((event) => {

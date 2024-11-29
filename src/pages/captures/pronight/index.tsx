@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import CaptureCard from "~/components/CapturePage/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
@@ -9,6 +9,7 @@ import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart"
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import Cookies from "js-cookie";
 import { generateUniqueId } from "~/utils/generateUniqueId";
+import { useRouter } from "next/router";
 
 
 
@@ -24,9 +25,17 @@ const Pronight = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
-
   const filteredImages = images?.filter((image) => image.event_category === 'pronight') || [];
-
+  const router = useRouter();
+  const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
+    { cardName: "Pronight" }
+  );
+  useEffect(() => {
+    if (cardState === "inactive") {
+      router.push("/captures"); // Redirect to /capture if inactive
+    }
+  }, [cardState, router]);
+  
   const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
   const handleClosePopup = () => setSelectedImage(null);
 

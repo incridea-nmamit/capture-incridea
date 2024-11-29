@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import CaptureCard from "~/components/CapturePage/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
@@ -9,6 +9,7 @@ import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart"
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import Cookies from "js-cookie";
 import { generateUniqueId } from "~/utils/generateUniqueId";
+import { useRouter } from "next/router";
 
 
 
@@ -16,7 +17,15 @@ const behindincridea = () => {
   const { data: images, isLoading, error } = api.gallery.getAllGallery.useQuery();
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
-
+  const router = useRouter();
+  const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
+    { cardName: "Your Snaps" }
+  );
+  useEffect(() => {
+    if (cardState === "inactive") {
+      router.push("/captures"); // Redirect to /capture if inactive
+    }
+  }, [cardState, router]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
   const [uploadUrl, setUploadUrl] = useState<string>(""); 

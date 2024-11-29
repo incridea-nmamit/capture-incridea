@@ -20,7 +20,14 @@ const EventCaptures = () => {
   const { data: images, isLoading, error } = api.gallery.getAllGallery.useQuery();
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
-
+  const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
+    { cardName: "Events" }
+  );
+  useEffect(() => {
+    if (cardState === "inactive") {
+      router.push("/captures"); // Redirect to /capture if inactive
+    }
+  }, [cardState, router]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
   const [uploadUrl, setUploadUrl] = useState<string>("");

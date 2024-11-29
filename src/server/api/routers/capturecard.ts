@@ -1,9 +1,33 @@
+import { CardState } from '@prisma/client';
 // src/server/trpc/router/captureCard.ts
-import {createTRPCRouter, publicProcedure } from "../trpc";
+import { z } from "zod";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const captureRouter = createTRPCRouter({
-    getCards: publicProcedure.query(async ({ ctx }) => {
-        const cards = await ctx.db.captureCard.findMany();
-        return cards;
-      }),
+  // Fetch all cards
+  getCards: publicProcedure.query(async ({ ctx }) => {
+    const cards = await ctx.db.captureCard.findMany();
+    return cards;
+  }),
+
+  // Fetch cardState by cardName
+  getCardStateByName: publicProcedure
+  .input(
+    z.object({
+      cardName: z.string().nonempty("Card name is required"),
+    })
+  )
+  .query(async ({ ctx, input }) => {
+    const card = await ctx.db.captureCard.findFirst({
+      where: {
+        cardName: input.cardName, // Matches based on cardName
+      },
+    });
+
+    if (!card) {
+      throw new Error("Card not found");
+    }
+
+    return card.cardState;
+  }),
 });
