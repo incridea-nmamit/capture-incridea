@@ -40,7 +40,6 @@ const seed = async () => {
     { key: "Day-2", value: "2024-11-13" },
     { key: "Day-3", value: "2024-11-14" },
     { key: "CountDown-Capture", value: "2024-11-09T14:13:00Z" },
-    { key: "reset-pass", value: "default" },
     { key: "capture-auto-request", value: "ON" },
   ];
 

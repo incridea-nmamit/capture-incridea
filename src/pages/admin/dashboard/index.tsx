@@ -11,8 +11,6 @@ import { api } from '~/utils/api';
 import ManageRoles from '~/components/ManageRoles/ManageRoles';
 import ExecuteEvents from '~/components/ExecuteTabAdmin/ExecuteEvents';
 import VariableComponent from '~/components/VariableComponent';
-import ResetDB from '~/components/ResetDB';
-import CheckResetPass from '~/components/change-pass-toast';
 
 const Dashboard = () => {
   const userRole = useUserRole();
@@ -58,12 +56,11 @@ const Dashboard = () => {
   }, [userRole]);
 
   const renderComponent = () => {
-    if (activeTab === 'analytics') return <div><CheckResetPass/><Analytics /></div>;
-    if (activeTab === 'manageroles') return <div><CheckResetPass/><ManageRoles /></div>;
-    if (activeTab === 'removalrequest') return <div><CheckResetPass/><RemovalRequest /></div>;
-    if (activeTab === 'executeevents') return <div><CheckResetPass/><ExecuteEvents /></div>;
-    if (activeTab === 'reset') return <div><CheckResetPass/><ResetDB/></div>;
-    if (activeTab === 'variables') return <div><CheckResetPass/><VariableComponent /></div>;
+    if (activeTab === 'analytics') return <div><Analytics /></div>;
+    if (activeTab === 'manageroles') return <div><ManageRoles /></div>;
+    if (activeTab === 'removalrequest') return <div><RemovalRequest /></div>;
+    if (activeTab === 'executeevents') return <div><ExecuteEvents /></div>;
+    if (activeTab === 'variables') return <div><VariableComponent /></div>;
 
     if (showMessageOnce) {
       return (
@@ -202,23 +199,6 @@ const Dashboard = () => {
           } transition duration-200`}  
       >
         Execute Events
-      </button>
-      
-      )}
-
-{(userRole === 'admin') && (
-        <button
-        onClick={() => {
-          setActiveTab('reset');
-          setShowMessageOnce(false);
-        }}
-        className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
-          activeTab === 'reset'
-              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
-          } transition duration-200`}  
-      >
-       Reset DB
       </button>
       
       )}
