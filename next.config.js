@@ -32,6 +32,16 @@ const config = {
       },
     ],
   },
+
+  webpack: (config) => {
+    config.resolve.fallback = {
+      fs: false,        // Disable the fs module on the client-side
+      path: false,      // Disable the path module on the client-side
+      stream: false,    // Disable stream module on the client-side
+      crypto: false,    // Disable crypto module on the client-side
+    };
+    return config;
+  },
 };
 
 export default config;

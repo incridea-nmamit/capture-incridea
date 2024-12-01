@@ -3,6 +3,7 @@ import { useSession } from 'next-auth/react';
 import { api } from '~/utils/api';
 import Image from 'next/image';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
+import toast from 'react-hot-toast';
 
 const RemovalRequest: React.FC = () => {
   const { data: session, status } = useSession();
@@ -11,7 +12,7 @@ const RemovalRequest: React.FC = () => {
   const [isActionPopupOpen, setIsActionPopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [actionType, setActionType] = useState<'approve' | 'decline' | null>(null);
-
+  const [isActionInProgress, setIsActionInProgress] = useState(false);
   const { data: removalRequests, isLoading: requestsLoading, isError: requestsError, refetch } = 
     api.request.getAll.useQuery();
 
@@ -38,11 +39,51 @@ const RemovalRequest: React.FC = () => {
   const { mutate: declineMutation } = api.request.decline.useMutation();
 
   const handleConfirmAction = async () => {
+    setIsActionInProgress(true);
     if (actionType === 'approve') {
       await approveMutation({ id: selectedRequest.id });
+      const email = selectedRequest.email;
+      try {
+        const response = await fetch('/api/sendApprovedMail', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email,
+          }),
+        });
+        if (!response.ok) {
+          toast.error('Failed to send OTP');
+        }
+          toast.error('Response Mail Sent Successfully');
+          setIsActionInProgress(false);
+      } catch (error) {
+        toast.error('An error occurred while sending the OTP.');
+      }
     } else if (actionType === 'decline') {
       await declineMutation({ id: selectedRequest.id });
+      const email = selectedRequest.email;
+      try {
+        const response = await fetch('/api/sendDeclineMail', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email,
+          }),
+        });
+        if (!response.ok) {
+          toast.error('Failed to send OTP');
+        }
+          toast.error('Response Mail Sent Successfully');
+          setIsActionInProgress(false);
+      } catch (error) {
+        toast.error('An error occurred while sending the OTP.');
+      }
     }
+    setIsActionInProgress(false);
     setIsActionPopupOpen(false);
     setIsConfirmPopupOpen(false);
     await refetch();
@@ -50,10 +91,11 @@ const RemovalRequest: React.FC = () => {
 
   const handleOpenConfirmPopup = () => {
     setIsConfirmPopupOpen(true);
+    setIsActionPopupOpen(false);
   };
 
   if (status === 'loading') {
-    return <CameraLoading/>;
+    return <CameraLoading />;
   }
 
   return (
@@ -165,16 +207,25 @@ const RemovalRequest: React.FC = () => {
             <h2 className="text-lg font-bold">Confirm {actionType === 'approve' ? 'Approval' : 'Decline'}</h2>
             <p>Are you sure you want to {actionType === 'approve' ? 'approve' : 'decline'} this request?</p>
             <div className="mt-4">
-              <button onClick={handleConfirmAction} className="bg-blue-500 text-white py-2 px-4 rounded mr-2">
+              <button
+                onClick={handleConfirmAction}
+                className="bg-blue-500 text-white py-2 px-4 rounded mr-2"
+                disabled={isActionInProgress} // Disable button when action is in progress
+              >
                 Yes
               </button>
-              <button onClick={() => setIsConfirmPopupOpen(false)} className="bg-gray-500 text-white py-2 px-4 rounded">
+              <button
+                onClick={() => setIsConfirmPopupOpen(false)}
+                className="bg-gray-500 text-white py-2 px-4 rounded"
+                disabled={isActionInProgress} // Disable button when action is in progress
+              >
                 No
               </button>
             </div>
           </div>
         </div>
       )}
+
     </div>
   );
 };
