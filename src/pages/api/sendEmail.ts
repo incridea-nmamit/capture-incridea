@@ -114,8 +114,7 @@ const sendEmail = async (req: NextApiRequest, res: NextApiResponse) => {
                 </div>
             </body>
             </html>
-
-`,
+            `,
       };
   
       try {
