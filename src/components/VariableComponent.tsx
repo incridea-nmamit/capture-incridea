@@ -35,11 +35,6 @@ const VariableComponent: React.FC = () => {
         return;
       }
       updatedValue = date.toISOString();
-    } else if (variable.key === 'capture-auto-request') {
-      if (!['ON', 'OFF'].includes(editValue)) {
-        alert('Value must be ON or OFF');
-        return;
-      }
     }
 
     // Update backend
@@ -90,26 +85,6 @@ const VariableComponent: React.FC = () => {
                         onChange={(e) => setEditValue(e.target.value)}
                         className="w-full border px-2 py-1 text-black"
                       />
-                    ) : variable.key === 'capture-auto-request' ? (
-                      // Editable slider toggle for capture-auto-request
-                      <label className="relative inline-flex items-center cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={editValue === 'ON'}
-                          onChange={async () => {
-                            const newValue = editValue === 'ON' ? 'OFF' : 'ON';
-                            setEditValue(newValue);
-                            await updateKeyMutation.mutateAsync({
-                              key: variable.key,
-                              value: newValue,
-                            });
-                            refetch();
-                          }}
-                          className="sr-only peer"
-                        />
-                        <div className="w-11 h-6 bg-red-500 peer-checked:bg-green-500 rounded-full peer-focus:ring-2 peer-focus:ring-green-300 transition"></div>
-                        <div className="absolute top-0.5 left-1 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
-                      </label>
                     ) : (
                       // Default input type for other keys
                       <input
@@ -144,21 +119,21 @@ const VariableComponent: React.FC = () => {
                 )}
               </td>
               <td className="py-2 px-4 border-b border-slate-700 text-center">
-                {editId === variable.id ? (
+                {editId === variable.id && variable.key !== 'capture-auto-request' ? (
                   <button
                     onClick={() => handleSave(variable)}
                     className="px-4 py-2 bg-green-500 text-white rounded"
                   >
                     Save
                   </button>
-                ) : (
+                ) : variable.key !== 'capture-auto-request' ? (
                   <button
                     onClick={() => handleEdit(variable)}
                     className="px-4 py-2 bg-blue-500 text-white rounded"
                   >
                     Edit
                   </button>
-                )}
+                ) : null}
               </td>
             </tr>
           ))}
