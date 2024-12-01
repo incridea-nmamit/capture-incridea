@@ -27,11 +27,11 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
   const [description, setDescription] = useState('');
   const [uploadUrl, setUploadUrl] = useState('');
   const [otp, setOtp] = useState('');
-  const [otpEntered, setOtpEntered] = useState<string[]>(['', '', '', '']); // Store OTP as array
-  const [emailVerified, setEmailVerified] = useState(false); // Track email verification status
-  const [otpStatus, setOtpStatus] = useState<string>(''); // Track OTP status message
-  const [otpSent, setOtpSent] = useState(false); // Track if OTP is sent successfully
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]); // Reference array for OTP input boxes
+  const [otpEntered, setOtpEntered] = useState<string[]>(['', '', '', '']); 
+  const [emailVerified, setEmailVerified] = useState(false); 
+  const [otpStatus, setOtpStatus] = useState<string>('');
+  const [otpSent, setOtpSent] = useState(false); 
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]); 
 
   const generateOtp = () => {
     return Math.floor(1000 + Math.random() * 9000).toString();
@@ -58,23 +58,24 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
       return;
     }
 
-    // Pass the form data to the parent component after email is verified
+
     onSubmit({ name, email, description, uploadUrl, imagePath });
 
-    // Reset the form and close the modal
     setName('');
     setEmail('');
     setDescription('');
     setUploadUrl('');
-    setOtpEntered(['', '', '', '']); // Reset OTP entered
-    setOtpStatus(''); // Reset OTP status message
-    setOtpSent(false); // Reset OTP sent status
+    setOtpEntered(['', '', '', '']); 
+    setOtpStatus('');
+    setOtpSent(false);
+    setEmailVerified(false); 
+
     onClose();
   };
 
   const handleEmailVerification = async () => {
     const generatedOtp = generateOtp();
-    setOtp(generatedOtp); // Store the OTP in the state for comparison
+    setOtp(generatedOtp); 
     try {
       const response = await fetch('/api/sendEmail', {
         method: 'POST',
@@ -82,35 +83,34 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email, // Send email to API
-          otp: generatedOtp, // Send OTP to API
+          email, 
+          otp: generatedOtp, 
         }),
       });
 
       const result = await response.json();
       if (response.status === 200 && result.message === 'OTP sent successfully!') {
         toast.success('OTP sent successfully!');
-        setOtpSent(true); // Mark OTP as sent successfully
-        setOtpStatus(''); // Reset OTP status when sending OTP
+        setOtpSent(true); 
+        setOtpStatus(''); 
       } else {
         toast.error('Failed to send OTP.');
-        setOtpSent(false); // Mark OTP as not sent
+        setOtpSent(false); 
       }
     } catch (error) {
-      console.error('Error sending OTP:', error);
       alert('An error occurred while sending the OTP.');
-      setOtpSent(false); // Mark OTP as not sent
+      setOtpSent(false); 
     }
   };
 
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const value = e.target.value;
-    if (/[^0-9]/.test(value)) return; // Allow only digits
+    if (/[^0-9]/.test(value)) return; 
     const updatedOtp = [...otpEntered];
     updatedOtp[index] = value;
     setOtpEntered(updatedOtp);
 
-    // Focus next input box if current box is filled
+    
     if (value && index < otpEntered.length - 1) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -118,7 +118,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
     if (e.key === 'Backspace' && otpEntered[index] === '') {
-      // If the current box is empty, focus the previous box
+      
       if (index > 0) {
         inputRefs.current[index - 1]?.focus();
       }
@@ -135,16 +135,16 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
     if (enteredOtp === otp) {
       setOtpStatus('OTP Verified!');
       toast.success('OTP Verified Successfully')
-      setEmailVerified(true); // Mark the email as verified
+      setEmailVerified(true); 
     } else {
       setOtpStatus('Incorrect OTP. Please try again.');
       toast.error('Invaild OTP, Please Enter again!')
-      setEmailVerified(false); // Keep the email as not verified
+      setEmailVerified(false); 
     }
   };
   const handleResendOtp = async () => {
-    setOtpStatus(''); // Reset OTP status message before resending OTP // Reset OTP sent status
-    await handleEmailVerification();// Trigger the OTP sending function again
+    setOtpStatus(''); 
+    await handleEmailVerification();
   };
 
 
@@ -153,11 +153,11 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
     setEmail('');
     setDescription('');
     setUploadUrl('');
-    setOtpEntered(['', '', '', '']); // Reset OTP entered
-    setOtpStatus(''); // Reset OTP status message
-    setOtpSent(false); // Reset OTP sent status
-    setEmailVerified(false); // Reset email verification status
-    onClose(); // Close the modal
+    setOtpEntered(['', '', '', '']); 
+    setOtpSent(false); 
+    setEmailVerified(false);
+    setEmailVerified(false); 
+    onClose();
   };
 
   if (!isOpen) return null;
