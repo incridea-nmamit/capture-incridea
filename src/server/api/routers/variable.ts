@@ -45,4 +45,9 @@ export const variableRouter = createTRPCRouter({
         },
       });
     }),
+
+    getAll: protectedProcedure.query(async ({ ctx }) => {
+      const variables = await ctx.db.variables.findMany();
+      return variables;
+    }),
 });
