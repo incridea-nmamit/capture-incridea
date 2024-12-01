@@ -72,48 +72,59 @@ const VariableComponent: React.FC = () => {
             <tr key={variable.id}>
               <td className="py-2 px-4 border-b border-slate-700 text-center">{variable.key}</td>
               <td className="py-2 px-4 border-b border-slate-700 text-center">
-                {editId === variable.id ? (
-                  <>
-                    {variable.key.startsWith('Day-') ? (
-                      // Use type="date" for Day-1, Day-2, Day-3
-                      <input
-                        type="date"
-                        value={editValue}
-                        onChange={(e) => setEditValue(e.target.value)}
-                        className="w-full border px-2 py-1 text-black"
-                      />
-                    ) : variable.key === 'CountDown-Capture' ? (
-                      // Use type="datetime-local" for CountDown-Capture
-                      <input
-                        type="datetime-local"
-                        value={editValue}
-                        onChange={(e) => setEditValue(e.target.value)}
-                        className="w-full border px-2 py-1 text-black"
-                      />
-                    ) : variable.key === 'capture-auto-request' ? (
-                      // Use a select dropdown for capture-auto-request
-                      <select
-                        value={editValue}
-                        onChange={(e) => setEditValue(e.target.value)}
-                        className="w-full border px-2 py-1 text-black"
-                      >
-                        <option value="ON">ON</option>
-                        <option value="OFF">OFF</option>
-                      </select>
-                    ) : (
-                      // Default input type for other keys
-                      <input
-                        type="text"
-                        value={editValue}
-                        onChange={(e) => setEditValue(e.target.value)}
-                        className="w-full border px-2 py-1"
-                      />
-                    )}
-                  </>
-                ) : (
-                  variable.value
-                )}
-              </td>
+  {editId === variable.id ? (
+    variable.key === 'capture-auto-request' ? (
+      // Editable slider toggle
+      <label className="relative inline-flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          checked={editValue === 'ON'}
+          onChange={async () => {
+            const newValue = editValue === 'ON' ? 'OFF' : 'ON';
+            setEditValue(newValue);
+            await updateKeyMutation.mutateAsync({
+              key: variable.key,
+              value: newValue,
+            });
+            refetch();
+          }}
+          className="sr-only peer"
+        />
+        <div className="w-11 h-6 rounded-full peer-checked:bg-green-500 bg-red-500 peer dark:bg-gray-700 peer-focus:ring-2 peer-focus:ring-green-300"></div>
+        <div className="absolute top-0.5 left-1 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
+      </label>
+    ) : (
+      <input
+        type="text"
+        value={editValue}
+        onChange={(e) => setEditValue(e.target.value)}
+        className="w-full border px-2 py-1"
+      />
+    )
+  ) : variable.key === 'capture-auto-request' ? (
+    // View mode slider toggle
+    <label className="relative inline-flex items-center cursor-pointer">
+      <input
+        type="checkbox"
+        checked={variable.value === 'ON'}
+        onChange={async () => {
+          const newValue = variable.value === 'ON' ? 'OFF' : 'ON';
+          await updateKeyMutation.mutateAsync({
+            key: variable.key,
+            value: newValue,
+          });
+          refetch();
+        }}
+        className="sr-only peer"
+      />
+      <div className="w-11 h-6 rounded-full peer-checked:bg-green-500 bg-red-500 peer dark:bg-red-500 peer-focus:ring-2 peer-focus:ring-green-300"></div>
+      <div className="absolute top-0.5 left-1 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
+    </label>
+  ) : (
+    variable.value
+  )}
+</td>
+
               <td className="py-2 px-4 border-b border-slate-700 text-center">
                 {editId === variable.id ? (
                   <button
