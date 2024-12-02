@@ -43,22 +43,11 @@ const Dashboard = () => {
     }
   }, [session, status, router]);
 
-  useEffect(() => {
-    if (userRole === 'admin') {
-      setOptions(['Events', 'Team', 'Captures']);
-      setSelectedOption('Captures');
-    } else if (userRole === 'manager') {
-      setOptions(['Events', 'Team']);
-      setSelectedOption('Events');
-    } else if (userRole === 'editor') {
-      setOptions(['Captures']);
-      setSelectedOption('Captures');
-    } else {
-      setOptions([]);
-    }
-  }, [userRole]);
 
   const renderComponent = () => {
+    if (activeTab === 'events') return <div><EventsAdmin /></div>;
+    if (activeTab === 'captures') return <div><CapturesAdmin /></div>;
+    if (activeTab === 'team') return <div><TeamAdmin /></div>;
     if (activeTab === 'analytics') return <div><Analytics /></div>;
     if (activeTab === 'manageroles') return <div><ManageRoles /></div>;
     if (activeTab === 'removalrequest') return <div><RemovalRequest /></div>;
@@ -94,16 +83,6 @@ const Dashboard = () => {
         </div>
       );
     }
-
-    switch (selectedOption) {
-      case 'Events':
-        return <EventsAdmin />;
-      case 'Team':
-        return <TeamAdmin />;
-      case 'Captures':
-      default:
-        return <CapturesAdmin />;
-    }
   };
 
   const renderTabNavigation = () => (
@@ -123,19 +102,51 @@ const Dashboard = () => {
           Manage Roles
         </button>
       )}
-      <button
-        onClick={() => {
-          setActiveTab('accessData');
-          setShowMessageOnce(false);
-        }}
-        className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
-          activeTab === 'accessData'
-          ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
-          : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
-        } transition duration-200`}  
-      >
-        Access Data
-      </button>
+      {userRole === 'admin' && (
+        <button
+          onClick={() => {
+            setActiveTab('events');
+            setShowMessageOnce(false);
+          }}
+          className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
+            activeTab === 'events'
+              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+          } transition duration-200`}  
+        >
+          Events
+        </button>
+      )}
+      {userRole === 'admin' && (
+        <button
+          onClick={() => {
+            setActiveTab('team');
+            setShowMessageOnce(false);
+          }}
+          className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
+            activeTab === 'team'
+              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+          } transition duration-200`}  
+        >
+          Teams
+        </button>
+      )}
+      {userRole === 'admin' && (
+        <button
+          onClick={() => {
+            setActiveTab('captures');
+            setShowMessageOnce(false);
+          }}
+          className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
+            activeTab === 'captures'
+              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+          } transition duration-200`}  
+        >
+          Captures
+        </button>
+      )}
 
       {userRole === 'admin' && (
         <button
@@ -271,32 +282,6 @@ const Dashboard = () => {
 
       {/* Content Area */}
       <div className="md:w-5/6 w-full min-h-screen p-4" style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBi0t1oCo8NtToBiULsc4C1KNaJSf9je8Rp2kXm')"}}>
-        <div>
-          {activeTab === 'accessData' && (
-            <div className="relative mt-2 flex justify-end">
-              <select
-                value={selectedOption}
-                onChange={(e) => {
-                  setSelectedOption(e.target.value);
-                  setShowMessageOnce(false); // Hide message when selecting an option
-                }}
-                className="block  font-BebasNeue max-w-xs sm:max-w-full bg-gray-700 border border-gray-600 text-white p-2 rounded shadow-md focus:outline-none focus:ring focus:ring-blue-500 transition duration-200 w-52"
-              >
-                {options.length > 0 ? (
-                  options.map((option) => (
-                    <option key={option} value={option} className="bg-gray-700">
-                      {option}
-                    </option>
-                  ))
-                ) : (
-                  <option value="" className="bg-gray-700">
-                    No Access
-                  </option>
-                )}
-              </select>
-            </div>
-          )}
-        </div>
         {renderComponent()}
       </div>
     </div>
