@@ -97,18 +97,16 @@ const ApproveCaptures: React.FC = () => {
           <div className="bg-black p-6 rounded-md text-center">
             <h2 className="text-lg text-white mb-4">Change Status</h2>
             <p className="text-white mb-4">Do you want to approve or decline this capture?</p>
-            <div className="flex justify-center gap-4">
-              <button onClick={handleApprove} className="bg-green-600 text-white px-4 py-2 rounded">
-                <FaCheck className="mr-2" />
+            <div className="flex justify-center gap-4 w-full">
+              <button onClick={handleApprove} className="bg-green-600 font-BebasNeue text-white px-4 py-2 rounded">
                 Approve
               </button>
-              <button onClick={handleDecline} className="bg-red-600 text-white px-4 py-2 rounded">
-                <FaTimes className="mr-2" />
+              <button onClick={handleDecline} className="bg-red-600 font-BebasNeue text-white px-4 py-2 rounded">
                 Decline
               </button>
             </div>
             <div className="mt-4">
-              <button onClick={() => setSelectedCapture(null)} className="bg-gray-600 text-white px-4 py-2 rounded">
+              <button onClick={() => setSelectedCapture(null)} className="bg-gray-600 font-BebasNeue text-white px-4 py-2 rounded">
                 Cancel
               </button>
             </div>

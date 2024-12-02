@@ -127,7 +127,7 @@ const TeamAdmin: React.FC = () => {
           <input
             type="text"
             placeholder="Search..."
-            className="text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black"
+            className="text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black font-BebasNeue"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
