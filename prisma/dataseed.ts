@@ -50,6 +50,7 @@ async function main() {
           image_path: randomImage,
           event_name: event.name,
           event_category: 'events',
+          state: "approved"
         },
       });
     })

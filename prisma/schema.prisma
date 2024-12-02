@@ -8,7 +8,7 @@ datasource db {
 }
 
 
-enum RemovalRequestStatus {
+enum Status {
   pending
   declined
   approved
@@ -21,7 +21,7 @@ model RemovalRequest {
   description String
   image_path  String
   email       String
-  status      RemovalRequestStatus  @default(pending)
+  status      Status  @default(pending)
 }
 
 model events {
@@ -126,8 +126,10 @@ model Gallery {
   image_path String
   event_name String
   event_category String
+  state  Status     @default(pending)
   date_time  DateTime @default(now())
 }
+
 
 model Smcuploads {
   id         Int      @id @default(sequence())
@@ -202,14 +204,8 @@ model VerificationToken {
 model CaptureCard {
   id        Int      @id @default(sequence())
   cardName  String
-  cardState CardState
+  cardState State
   cardRtime DateTime
-}
-
-
-enum CardState {
-active
-inactive
 }
 
 model Variables {

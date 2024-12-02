@@ -1,31 +1,31 @@
-import { PrismaClient, CardState } from "@prisma/client";
+import { PrismaClient, State } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const seed = async () => {
   const cards = [
     {
       cardName: "Events",
-      cardState: CardState.active, // Use the enum value here
+      cardState: State.active, // Use the enum value here
       cardRtime: new Date(),
     },
     {
       cardName: "Pronight",
-      cardState: CardState.active,
+      cardState: State.active,
       cardRtime: new Date(),
     },
     {
       cardName: "Your Snaps",
-      cardState: CardState.active,
+      cardState: State.active,
       cardRtime: new Date(),
     },
     {
       cardName: "Behind Incridea",
-      cardState: CardState.active,
+      cardState: State.active,
       cardRtime: new Date(),
     },
     {
       cardName: "Cultural",
-      cardState: CardState.active,
+      cardState: State.active,
       cardRtime: new Date(),
     },
   ];
