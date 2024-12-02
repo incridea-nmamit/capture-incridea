@@ -12,6 +12,7 @@ import ManageRoles from '~/components/ManageRoles/ManageRoles';
 import ExecuteEvents from '~/components/ExecuteTabAdmin/ExecuteEvents';
 import VariableComponent from '~/components/VariableComponent';
 import SMCUploads from '~/components/SMCUploads/SMCUploads';
+import Stories from '~/components/Stories/Stories';
 
 const Dashboard = () => {
   const userRole = useUserRole();
@@ -63,6 +64,7 @@ const Dashboard = () => {
     if (activeTab === 'executeevents') return <div><ExecuteEvents /></div>;
     if (activeTab === 'variables') return <div><VariableComponent /></div>;
     if (activeTab === 'smc') return <div><SMCUploads /></div>;
+    if (activeTab === 'stories') return <div><Stories /></div>;
 
     if (showMessageOnce) {
       return (
@@ -218,6 +220,23 @@ const Dashboard = () => {
           } transition duration-200`}  
       >
         SMC Uploads
+      </button>
+      
+      )}
+
+{(userRole === 'admin'|| userRole === 'editor') && (
+        <button
+        onClick={() => {
+          setActiveTab('stories');
+          setShowMessageOnce(false);
+        }}
+        className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
+          activeTab === 'stories'
+              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+          } transition duration-200`}  
+      >
+        Stories
       </button>
       
       )}

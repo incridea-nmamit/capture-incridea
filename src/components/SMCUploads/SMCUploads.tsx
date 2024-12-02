@@ -64,7 +64,7 @@ const SMCUploads: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Captures Management</h1>
+      <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Stories Uploads</h1>
 
       <div className="mb-4 flex gap-2">
         <button
@@ -105,7 +105,7 @@ const SMCUploads: React.FC = () => {
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative w-96">
-            <h2 className="text-2xl font-bold text-white mb-4">Add Capture</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">Add Story Upload</h2>
             <button
               onClick={handlePopupClose}
               className="absolute top-4 right-4 text-white bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"

@@ -142,9 +142,13 @@ model Smcuploads {
 model Stories {
   id         Int      @id @default(sequence())
   video_path String
-  video_name String
   category_name String
   date_time  DateTime @default(now())
+}
+
+model storycategories {
+  id                Int      @id @default(sequence())
+  name              String   @unique
 }
 
 enum Role {

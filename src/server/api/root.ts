@@ -9,6 +9,8 @@ import { captureRouter } from "./routers/capturecard";
 import { analyticsRouter } from "./routers/analytics";
 import { variableRouter } from "./routers/variable";
 import { smcRouter } from "./routers/smc";
+import { storycatRouter } from "./routers/storycat";
+import { storiesRouter } from "./routers/stories";
 
 export const appRouter = createTRPCRouter({
   team: teamRouter,
@@ -21,6 +23,8 @@ export const appRouter = createTRPCRouter({
   capturecard: captureRouter,
   variables: variableRouter,
   smc: smcRouter,
+  stories: storiesRouter,
+  storycat: storycatRouter,
 });
 
 export type AppRouter = typeof appRouter;
