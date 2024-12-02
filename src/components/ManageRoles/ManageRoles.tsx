@@ -5,7 +5,7 @@ import { User } from '@prisma/client';
 const ManageRoles = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-  const [newRole, setNewRole] = useState<'admin' | 'manager' | 'editor' | 'user'>('user');
+  const [newRole, setNewRole] = useState<'admin' | 'manager' | 'smc' | 'editor' | 'user'>('user');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const { data: usersData, refetch } = api.user.getAllUsers.useQuery();
@@ -75,6 +75,7 @@ const ManageRoles = () => {
               <option value="admin">Admin</option>
               <option value="manager">Manager</option>
               <option value="editor">Editor</option>
+              <option value="smc">SMC</option>
               <option value="user">User</option>
             </select>
             <div className="flex justify-end space-x-2">

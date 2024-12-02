@@ -129,11 +129,20 @@ model Gallery {
   date_time  DateTime @default(now())
 }
 
+model Smcuploads {
+  id         Int      @id @default(sequence())
+  video_path String
+  description String
+  author String
+  date_time  DateTime @default(now())
+}
+
 model Stories {
   id         Int      @id @default(sequence())
-  event_name String
+  video_path String
+  video_name String
+  category_name String
   date_time  DateTime @default(now())
-  file_path  String
 }
 
 enum Role {
@@ -141,6 +150,7 @@ enum Role {
   manager
   editor
   user
+  smc
 }
 
 model Account {

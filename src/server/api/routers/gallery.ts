@@ -23,7 +23,7 @@ export const galleryRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const imageUrl = `https://utfs.io/f/${input.uploadKey}`;
-      const newEvent = await ctx.db.gallery.create({
+      const newImage = await ctx.db.gallery.create({
         data: {
           event_name: input.event_name,
           event_category: input.event_category,
@@ -31,7 +31,7 @@ export const galleryRouter = createTRPCRouter({
         },
       });
 
-      return newEvent;
+      return newImage;
     }),
 
   deleteImage: protectedProcedure

@@ -6,7 +6,7 @@ const OurTeam = () => {
   return (
     <div className="min-h-[calc(100vh-60px)] bg-black text-white flex flex-col items-center py-12 px-6 z-20">
       {/* Page Title */}
-      <h1 className="text-8xl font-Hunters mb-8 z-20">Our Elite Teams</h1>
+      <h1 className="text-8xl text-center font-Hunters mb-8 z-20">Our Elite Teams</h1>
 
       {/* Small Description */}
       <p className="text-lg text-center max-w-3xl text-gray-400 mb-12 z-20">
