@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '~/utils/api';
-import CameraLoading from './LoadingAnimation/CameraLoading';
+import CameraLoading from '../LoadingAnimation/CameraLoading';
 
 interface Variable {
   id: number;
