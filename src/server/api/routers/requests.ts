@@ -1,9 +1,9 @@
+
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { RemovalRequestStatus } from "@prisma/client";
 
 export const removalRequestRouter = createTRPCRouter({
-  // Submit a new removal request
+
   submit: publicProcedure
     .input(
       z.object({
@@ -23,13 +23,12 @@ export const removalRequestRouter = createTRPCRouter({
           email: input.email,
           description: input.description,
           image_path: input.image_path,
-          status: RemovalRequestStatus.pending, // Default status
+          status: "pending" 
         },
       });
       return newRequest;
     }),
 
-  // Approve a removal request
   approve: protectedProcedure
     .input(
       z.object({
@@ -41,21 +40,20 @@ export const removalRequestRouter = createTRPCRouter({
         where: { id: input.id },
       });
 
-      // Check if the request exists
       if (!request) {
         throw new Error("Request not found");
       }
 
-      // Update the request status to approved
+
       const approvedRequest = await ctx.db.removalRequest.update({
         where: { id: input.id },
-        data: { status: RemovalRequestStatus.approved },
+        data: { status: "approved" },
       });
 
       return approvedRequest;
     }),
 
-  // Decline a removal request
+
   decline: protectedProcedure
     .input(
       z.object({
@@ -67,21 +65,18 @@ export const removalRequestRouter = createTRPCRouter({
         where: { id: input.id },
       });
 
-      // Check if the request exists
       if (!request) {
         throw new Error("Request not found");
       }
 
-      // Update the request status to declined
       const declinedRequest = await ctx.db.removalRequest.update({
         where: { id: input.id },
-        data: { status: RemovalRequestStatus.declined }, // Set status to declined
+        data: { status: "declined" }, 
       });
 
       return declinedRequest;
     }),
 
-  // Get all removal requests
   getAll: protectedProcedure.query(async ({ ctx }) => {
     const requests = await ctx.db.removalRequest.findMany();
     return requests;

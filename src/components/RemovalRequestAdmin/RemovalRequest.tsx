@@ -56,7 +56,7 @@ const RemovalRequest: React.FC = () => {
         if (!response.ok) {
           toast.error('Failed to send OTP');
         }
-          toast.error('Response Mail Sent Successfully');
+          toast.success('Response Mail Sent Successfully');
           setIsActionInProgress(false);
       } catch (error) {
         toast.error('An error occurred while sending the OTP.');
@@ -77,7 +77,7 @@ const RemovalRequest: React.FC = () => {
         if (!response.ok) {
           toast.error('Failed to send OTP');
         }
-          toast.error('Response Mail Sent Successfully');
+          toast.success('Response Mail Sent Successfully');
           setIsActionInProgress(false);
       } catch (error) {
         toast.error('An error occurred while sending the OTP.');
