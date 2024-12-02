@@ -4,16 +4,18 @@ import { api } from '~/utils/api';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
+import { FaTrash } from 'react-icons/fa';
 
 const CapturesAdmin: React.FC = () => {
   const addImage = api.gallery.addImage.useMutation();
   const { data: gallery, isLoading: galleryLoading, isError: galleryError, refetch } = api.gallery.getAllGallery.useQuery();
   const { data: events, isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
-
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newImage, setNewImage] = useState<{ event_name: string; event_category: string }>({ event_name: '', event_category: '' });
   const [uploadUrl, setUploadUrl] = useState<string>('');
-
+  const deleteImage = api.gallery.deleteImage.useMutation();
+  const [captureToDelete, setCaptureToDelete] = useState<{ id: number} | null>(null);
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -25,8 +27,11 @@ const CapturesAdmin: React.FC = () => {
   const handleUploadComplete = (url: string) => {
     setUploadUrl(url);
   };
-
-  const handleAddEventClick = () => {
+  const handleDeleteClick = (eventId: number) => {
+    setIsDeletePopupOpen(true);
+    setCaptureToDelete({ id: eventId});
+  };
+  const handleAddCaptureClick = () => {
     setIsPopupOpen(true);
     setNewImage({ event_name: '', event_category: 'events' });
   };
@@ -35,6 +40,28 @@ const CapturesAdmin: React.FC = () => {
     setIsPopupOpen(false);
     setNewImage({ event_name: '', event_category: 'events' });
   };
+
+  const confirmDelete = async () => {
+    if (captureToDelete) {
+      try {
+        await deleteImage.mutateAsync({ id: captureToDelete.id });
+        void refetch();
+        toast.success('Successfully deleted the capture');
+      } catch (error) {
+        toast.error('Error deleting capture');
+      } finally {
+        setIsDeletePopupOpen(false);
+        setCaptureToDelete(null);
+      }
+    }
+  };
+
+  const cancelDelete = () => {
+    toast.error('Event not deleted.');
+    setIsDeletePopupOpen(false);
+    setCaptureToDelete(null);
+  };
+  
 
   const handleFormChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -103,7 +130,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
 
       <div className="mb-4 flex gap-2 flex-wrap">
         <button
-          onClick={handleAddEventClick}
+          onClick={handleAddCaptureClick}
           className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
         >
           Add Capture
@@ -121,7 +148,9 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
               <tr>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center ">Event-Name</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Capture-Category</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Status</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Image</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -129,8 +158,31 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                 <tr key={item.id} className="hover:bg-gray-50 hover:text-black">
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_name}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_category.charAt(0).toUpperCase() + item.event_category.slice(1)}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                  {
+                    item.state === 'approved' ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <span className="w-5 h-5 rounded-full bg-green-500"></span>
+                      </span>
+                    ) : item.state === 'declined' ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <span className="w-5 h-5 rounded-full bg-red-500"></span>
+                      </span>
+                    ) : item.state === 'pending' ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <span className="w-5 h-5 rounded-full bg-yellow-500"></span>
+                      </span>
+                    ) : null
+                  }
+
+                  </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
                     <Image src={item.image_path} alt={item.event_name} width={32} height={32} className="h-32 w-32 object-cover" />
+                  </td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center" onClick={() => handleDeleteClick(item.id)}>
+                    <button onClick={() => handleDeleteClick(item.id)}>
+                      <FaTrash className="text-red-600 hover:text-red-800" />
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -200,6 +252,21 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
           </div>
         </div>
       )}
+
+      {/* Delete confirmation popup */}
+      {isDeletePopupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 backdrop-blur-sm">
+          <div className="bg-black p-6 rounded-md">
+            <h2 className="text-lg mb-4">Delete Confirmation</h2>
+            <p>Are you sure you want to delete  ?</p>
+            <div className="flex justify-end mt-4 space-x-4">
+              <button onClick={confirmDelete} className="bg-red-600 text-white px-4 py-2 rounded">Delete</button>
+              <button onClick={cancelDelete} className="bg-gray-300 px-4 py-2 rounded">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

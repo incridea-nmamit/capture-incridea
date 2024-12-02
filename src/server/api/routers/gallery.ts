@@ -47,5 +47,22 @@ export const galleryRouter = createTRPCRouter({
 
       return { message: "Image deleted successfully" };
     }),
+
+    updateState: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, "Capture ID is required"),
+        state: z.enum(['pending', 'declined', 'approved']), // Ensure the state is valid
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, state } = input; 
+      await ctx.db.gallery.updateMany({
+        where: { id },
+        data: {
+          state, 
+        },
+      });
+    })
     
 });

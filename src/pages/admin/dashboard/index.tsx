@@ -13,6 +13,7 @@ import ExecuteEvents from '~/components/ExecuteTabAdmin/ExecuteEvents';
 import VariableComponent from '~/components/VariableComponent';
 import SMCUploads from '~/components/SMCUploads/SMCUploads';
 import Stories from '~/components/Stories/Stories';
+import ApproveCaptures from '~/components/ApproveCapture/ApproveCapture';
 
 const Dashboard = () => {
   const userRole = useUserRole();
@@ -65,6 +66,7 @@ const Dashboard = () => {
     if (activeTab === 'variables') return <div><VariableComponent /></div>;
     if (activeTab === 'smc') return <div><SMCUploads /></div>;
     if (activeTab === 'stories') return <div><Stories /></div>;
+    if (activeTab === 'approvecap') return <div><ApproveCaptures /></div>;
 
     if (showMessageOnce) {
       return (
@@ -237,6 +239,23 @@ const Dashboard = () => {
           } transition duration-200`}  
       >
         Stories
+      </button>
+      
+      )}
+
+{(userRole === 'admin'|| userRole === 'manager') && (
+        <button
+        onClick={() => {
+          setActiveTab('approvecap');
+          setShowMessageOnce(false);
+        }}
+        className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
+          activeTab === 'approvecap'
+              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+          } transition duration-200`}  
+      >
+        Approve Captures
       </button>
       
       )}
