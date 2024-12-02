@@ -9,11 +9,11 @@ const Stories: React.FC = () => {
   const { data: stories, isLoading, isError, refetch } = api.stories.getAllStories.useQuery();
   const { data: categories, isLoading: categoriesLoading, refetch: refetchCategories } = api.storycat.getAllCategories.useQuery();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isCatPopupOpen, setIsCatPopupOpen] = useState(false); // New state for category popup
+  const [isCatPopupOpen, setIsCatPopupOpen] = useState(false); 
   const [description, setDescription] = useState('');
   const [uploadUrl, setUploadUrl] = useState<string>('');
   const [categoryName, setCategoryName] = useState('');
-  const [categoryInput, setCategoryInput] = useState(''); // New state for new category input
+  const [categoryInput, setCategoryInput] = useState('');
   const addCat = api.storycat.addCat.useMutation();
   const toastStyle = {
     style: {
@@ -23,7 +23,7 @@ const Stories: React.FC = () => {
     },
   };
 
-  // Form reset utility function
+  
   const resetForm = useCallback(() => {
     setDescription('');
     setUploadUrl('');
@@ -38,31 +38,31 @@ const Stories: React.FC = () => {
   };
 
   const handleAddCategoryClick = () => {
-    setIsCatPopupOpen(true); // Open category popup
+    setIsCatPopupOpen(true); 
   };
 
   const handlePopupClose = () => {
     setIsPopupOpen(false);
-    setIsCatPopupOpen(false); // Close category popup
+    setIsCatPopupOpen(false); 
   };
 
   const handleCategorySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   
-    if (!categoryInput.trim()) {  // Check if the category input is not empty
+    if (!categoryInput.trim()) {  
       toast.error('Please enter a category name', toastStyle);
       return;
     }
   
     try {
-      // Add category mutation
+     
       await addCat.mutateAsync({
-        name: categoryInput, // Send categoryInput instead of categoryName
+        name: categoryInput, 
       });
   
-      setCategoryInput(''); // Clear category input after successful submission
-      setIsCatPopupOpen(false); // Close category popup
-      void refetchCategories(); // Refetch categories to reflect the new one
+      setCategoryInput(''); 
+      setIsCatPopupOpen(false); 
+      void refetchCategories(); 
       toast.success('Category added successfully.', toastStyle);
   ;
       
@@ -90,7 +90,7 @@ const Stories: React.FC = () => {
     }
   
     try {
-      // Add story mutation
+      
       await addStories.mutateAsync({
         category_name: categoryName,
         uploadKey: uploadUrl,
@@ -98,7 +98,7 @@ const Stories: React.FC = () => {
   
       resetForm();
       setIsPopupOpen(false);
-      void refetch(); // Refetch stories after successful upload
+      void refetch();
       toast.success('Story added successfully.', toastStyle);
     } catch (error) {
       toast.error('Failed to upload story.', toastStyle);
