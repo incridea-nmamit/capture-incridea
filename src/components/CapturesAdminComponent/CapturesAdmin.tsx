@@ -12,6 +12,8 @@ const CapturesAdmin: React.FC = () => {
   const { data: events, isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [filteredGallery, setFilteredGallery] = useState(gallery || []);
+  const [filters, setFilters] = useState({ state: '', event_category: '', event_name: '' });
   const [newImage, setNewImage] = useState<{ event_name: string; event_category: string }>({ event_name: '', event_category: '' });
   const [uploadUrl, setUploadUrl] = useState<string>('');
   const deleteImage = api.gallery.deleteImage.useMutation();
@@ -61,8 +63,24 @@ const CapturesAdmin: React.FC = () => {
     setIsDeletePopupOpen(false);
     setCaptureToDelete(null);
   };
-  
 
+  
+  const applyFilters = () => {
+    const filtered = gallery?.filter((item) => {
+      return (
+        (!filters.state || item.state === filters.state) &&
+        (!filters.event_category || item.event_category === filters.event_category) &&
+        (!filters.event_name || item.event_name === filters.event_name)
+      );
+    });
+    setFilteredGallery(filtered || []);
+  };
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
+  
   const handleFormChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
   
@@ -122,6 +140,20 @@ const CapturesAdmin: React.FC = () => {
   }
 };
 
+React.useEffect(() => {
+  if (gallery) {
+    const filtered = gallery.filter((item) => {
+      return (
+        (!filters.state || item.state === filters.state) &&
+        (!filters.event_category || item.event_category === filters.event_category) &&
+        (!filters.event_name || item.event_name === filters.event_name)
+      );
+    });
+    setFilteredGallery(filtered);
+  }
+}, [filters, gallery]);
+
+
 if (eventsLoading || galleryLoading) return <CameraLoading/>;
 
   return (
@@ -135,6 +167,56 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
         >
           Add Capture
         </button>
+        {/* Filter Buttons */}
+        <select
+          name="state"
+          value={filters.state}
+          onChange={handleFilterChange}
+          className="p-2 border border-slate-700 rounded-xl bg-black text-white font-BebasNeue"
+        >
+          <option value="">Filter by State</option>
+          <option value="approved">Approved</option>
+          <option value="declined">Declined</option>
+          <option value="pending">Pending</option>
+        </select>
+
+        <select
+          name="event_category"
+          value={filters.event_category}
+          onChange={handleFilterChange}
+          className="p-2 border border-slate-700 rounded-xl bg-black text-white font-BebasNeue"
+        >
+          <option value="">Filter by Category</option>
+          <option value="events">Events</option>
+          <option value="pronight">Pronight</option>
+          <option value="snaps">Snaps</option>
+          <option value="behindincridea">Behind Incridea</option>
+          <option value="cultural">Cultural</option>
+        </select>
+
+
+        {eventsLoading ? (
+          <select className="w-full p-2 rounded" disabled>
+            <option>Loading events...</option>
+          </select>
+        ) : (
+          <select
+            name="event_name"
+            value={filters.event_name}
+            onChange={(e) => {
+              handleFilterChange(e);
+              applyFilters();
+            }}
+            className="p-2 border border-slate-700 rounded-xl bg-black text-white font-BebasNeue"
+          >
+            <option value="">Filter by Event</option>
+            {events?.map((event) => (
+              <option key={event.id} value={event.name}>
+                {event.name}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
 
       {galleryLoading ? (
@@ -154,7 +236,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
               </tr>
             </thead>
             <tbody>
-              {gallery?.map((item) => (
+              {filteredGallery?.map((item) => (
                 <tr key={item.id} className="hover:bg-gray-50 hover:text-black">
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_name}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_category.charAt(0).toUpperCase() + item.event_category.slice(1)}</td>
