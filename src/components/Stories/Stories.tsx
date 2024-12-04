@@ -15,6 +15,7 @@ const Stories: React.FC = () => {
   const [categoryName, setCategoryName] = useState('');
   const [categoryInput, setCategoryInput] = useState('');
   const addCat = api.storycat.addCat.useMutation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -53,7 +54,7 @@ const Stories: React.FC = () => {
       toast.error('Please enter a category name', toastStyle);
       return;
     }
-  
+    setIsSubmitting(true);
     try {
      
       await addCat.mutateAsync({
@@ -68,6 +69,8 @@ const Stories: React.FC = () => {
       
     } catch (error) {
       toast.error('Failed to add category.', toastStyle);
+    } finally { 
+      setIsSubmitting(false);
     }
   };
   
@@ -88,7 +91,7 @@ const Stories: React.FC = () => {
       toast.error('Please select a category', toastStyle);
       return;
     }
-  
+    setIsSubmitting(true);
     try {
       
       await addStories.mutateAsync({
@@ -102,6 +105,8 @@ const Stories: React.FC = () => {
       toast.success('Story added successfully.', toastStyle);
     } catch (error) {
       toast.error('Failed to upload story.', toastStyle);
+    } finally { 
+      setIsSubmitting(false);
     }
   };
   
@@ -228,8 +233,8 @@ const Stories: React.FC = () => {
                   className="p-2 w-full border border-slate-700 rounded-xl h-12 bg-black text-white"
                 />
               </div>
-              <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-5">
-                Submit
+              <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-5" disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : 'Submit'}
               </button>
             </form>
           </div>

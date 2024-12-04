@@ -18,6 +18,7 @@ const EventsAdmin: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState('all');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const deleteEvent = api.events.deleteEvent.useMutation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [visibilityPopup, setVisibilityPopup] = useState<{
     id: number;
     name: string;
@@ -72,7 +73,7 @@ const EventsAdmin: React.FC = () => {
       alert("Please fill in all required fields.");
       return;
     }
-  
+    setIsSubmitting(true);
     try {
       const result = await addEvent.mutateAsync({ ...newEvent, name: trimmedName, uploadKey: uploadUrl });
       console.log('Event added:', result);
@@ -82,6 +83,8 @@ const EventsAdmin: React.FC = () => {
       void refetch(); // Refetch events after adding
     } catch (error) {
       console.error('Error adding event:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
   interface EventData {
@@ -327,7 +330,11 @@ const EventsAdmin: React.FC = () => {
               </select>
             </div>
               
-              <button type="submit" className="mt-4 p-2 bg-white text-black rounded-xl w-full">Submit</button>
+              <button type="submit" 
+              className="mt-4 p-2 bg-white text-black rounded-xl w-full"
+              disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : 'Submit'}
+              </button>
             </form>
             
           </div>

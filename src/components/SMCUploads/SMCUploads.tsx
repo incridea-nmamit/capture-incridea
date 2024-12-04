@@ -12,7 +12,7 @@ const SMCUploads: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [description, setDescription] = useState('');
   const [uploadUrl, setUploadUrl] = useState<string>('');
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -43,7 +43,7 @@ const SMCUploads: React.FC = () => {
         toast.error('Please enter a description', toastStyle);
         return;
       }
-
+      setIsSubmitting(true);
     try {
       await addVideo.mutateAsync({ 
         author: userName, 
@@ -57,6 +57,8 @@ const SMCUploads: React.FC = () => {
       toast.success('Capture added successfully.', toastStyle);
     } catch (error) {
       toast.error('Failed to upload capture.', toastStyle);
+    } finally  {
+      setIsSubmitting(false);
     }
   };
 
@@ -121,8 +123,10 @@ const SMCUploads: React.FC = () => {
                 onChange={(e) => setDescription(e.target.value)}
                 className="p-2 w-full border border-slate-700 rounded-xl h-20 bg-black text-white"
               />
-              <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-5">
-                Submit
+              <button type="submit" 
+              className="p-2 bg-white text-black rounded-xl w-full mt-5"
+              disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : 'Submit'}
               </button>
             </form>
           </div>

@@ -18,6 +18,8 @@ const CapturesAdmin: React.FC = () => {
   const [uploadUrl, setUploadUrl] = useState<string>('');
   const deleteImage = api.gallery.deleteImage.useMutation();
   const [captureToDelete, setCaptureToDelete] = useState<{ id: number} | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -127,6 +129,8 @@ const CapturesAdmin: React.FC = () => {
     return;
   }
 
+  setIsSubmitting(true);
+
   try {
     const result = await addImage.mutateAsync({ ...newImage, uploadKey: uploadUrl });
     console.log('Image added:', result);
@@ -137,6 +141,8 @@ const CapturesAdmin: React.FC = () => {
     toast.success('Capture Added');
   } catch (error) {
     toast.error('Capture Not Uploaded', toastStyle);
+  } finally { 
+    setIsSubmitting(false);
   }
 };
 
@@ -327,8 +333,10 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                 </>
               )}
 
-              <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-10">
-                Submit
+              <button type="submit" 
+              className="p-2 bg-white text-black rounded-xl w-full mt-10"
+              disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : 'Submit'}
               </button>
             </form>
           </div>

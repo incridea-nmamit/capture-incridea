@@ -17,7 +17,7 @@ const TeamAdmin: React.FC = () => {
   const { data: teams, isLoading, isError, refetch } = api.team.getAllTeams.useQuery();
   const addTeam = api.team.addTeam.useMutation();
   const deleteTeam = api.team.deleteTeam.useMutation();
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -68,7 +68,7 @@ const TeamAdmin: React.FC = () => {
       alert('Please fill in all required fields.');
       return;
     }
-
+    setIsSubmitting(true);
     try {
       await addTeam.mutateAsync({ ...teamForm, uploadKey: uploadUrl }, {
         onSuccess: () => {
@@ -81,6 +81,8 @@ const TeamAdmin: React.FC = () => {
       });
     } catch (error) {
       console.error('Error adding team:', error);
+    } finally  {
+      setIsSubmitting(false);
     }
   };
 
@@ -291,8 +293,10 @@ const TeamAdmin: React.FC = () => {
               </select>
             </div>
 
-            <button className="mt-4 p-2 bg-white text-black rounded-xl w-full" onClick={handleSubmit}>
-              Submit
+            <button 
+            className="mt-4 p-2 bg-white text-black rounded-xl w-full" 
+            onClick={handleSubmit} disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : 'Submit'}
             </button>
           </div>
         </div>
