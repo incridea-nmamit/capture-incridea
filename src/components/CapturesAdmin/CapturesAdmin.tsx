@@ -88,9 +88,9 @@ const CapturesAdmin: React.FC = () => {
   
     if (name === 'event_category') {
       if (value === 'snaps' || value === 'behindincridea' || value === 'pronight') {
-        setNewImage(prev => ({ ...prev, [name]: value, event_name: 'capture' })); // Set default for these categories
+        setNewImage(prev => ({ ...prev, [name]: value, event_name: 'capture' })); 
       } else {
-        setNewImage(prev => ({ ...prev, [name]: value, event_name: '' })); // Reset event_name for other categories
+        setNewImage(prev => ({ ...prev, [name]: value, event_name: '' })); 
       }
     } else {
       setNewImage(prev => ({ ...prev, [name]: value }));
@@ -100,25 +100,21 @@ const CapturesAdmin: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
-  // If event_category is "events", ensure event_name is not empty
   if (newImage.event_category === 'events' && !newImage.event_name) {
     toast.error('Please select a valid event name.', toastStyle);
     return;
   }
 
-  // If event_category is "pronight", make sure event_name is set to "capture" or another valid value
   if (newImage.event_category === 'pronight' && newImage.event_name === '') {
     toast.error('Event name is required for Pronight category.', toastStyle);
     return;
   }
 
-  // Handle checks for image upload for categories like "snaps" or "behindincridea"
   if ((newImage.event_category === 'snaps' || newImage.event_category === 'behindincridea' || newImage.event_category === 'pronight') && !uploadUrl) {
     toast.error('Please upload an image.', toastStyle);
     return;
   }
 
-  // Ensure event_category is selected
   if (!newImage.event_category) {
     toast.error('Please select a category.', toastStyle);
     return;
