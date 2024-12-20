@@ -236,7 +236,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
       ) : galleryError ? (
         <div>Error loading gallery. Please try again later.</div>
       ) : (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
           <table className="min-w-full border border-gray-300 bg-black">
             <thead className="bg-white">
               <tr>

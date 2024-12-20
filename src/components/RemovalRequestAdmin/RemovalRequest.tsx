@@ -129,7 +129,7 @@ const RemovalRequest: React.FC = () => {
       ) : requestsError ? (
         <div>Error loading requests. Please try again later.</div>
       ) : (
-        <div className="overflow-x-auto py-5">
+        <div className="overflow-x-auto py-5" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
           <table className="min-w-full border border-gray-300 bg-black">
             <thead className="bg-white">
               <tr>

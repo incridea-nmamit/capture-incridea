@@ -167,8 +167,8 @@ const TeamAdmin: React.FC = () => {
 
 
       {/* Team data table */}
-      <div className="overflow-x-auto py-5">
-        <table className="min-w-full bg-black border border-slate-700">
+      <div className="overflow-x-auto py-5" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+        <table className="min-w-full bg-black border border-slate-700 scrollable-table">
           <thead>
             <tr className="text-black bg-gray-100">
               <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>

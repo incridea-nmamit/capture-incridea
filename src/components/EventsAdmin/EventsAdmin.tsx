@@ -212,7 +212,7 @@ const EventsAdmin: React.FC = () => {
       ) : isError ? (
         <div className=''>Error loading events. Please try again later.</div>
       ) : (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
           <table className="min-w-full bg-black border border-slate-700">
             <thead>
               <tr className='text-black bg-gray-100'>
