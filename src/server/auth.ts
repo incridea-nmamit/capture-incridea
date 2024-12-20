@@ -44,12 +44,9 @@ export const authOptions: NextAuthOptions = {
       // Retrieve the user's role from the database using Prisma
       const userData = await db.user.findUnique({
         where: { id: user.id },
-        select: { role: true ,
-                  name: true,
+        select: { role: true, name: true },
 
-        },
-
-          // Select the 'role' field from the database
+        // Select the 'role' field from the database
       });
 
       return {
@@ -58,7 +55,7 @@ export const authOptions: NextAuthOptions = {
           ...session.user,
           id: user.id,
           role: userData?.role ?? Role.user,
-          name: userData?.name ?? 'user',// Assign role to session; fallback to 'USER' if undefined
+          name: userData?.name ?? "user", // Assign role to session; fallback to 'USER' if undefined
         },
       };
     },
@@ -70,7 +67,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
     // Add more providers if needed
-  ],
+  ],
 };
 
 /**
