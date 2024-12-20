@@ -10,7 +10,6 @@ import { MdCamera } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi";
 
-
 const adminLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: <BiSolidDashboard /> },
   { href: "/", label: "MainWebPage", icon: <GoHomeFill /> },
@@ -39,83 +38,89 @@ const Header: FC = () => {
 
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
-    <header className="sticky-header backdrop-blur-sm shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start z-50 w-full bg-black">
-      <div className="flex justify-center items-center w-full md:w-auto px-10">
-        <a
-          href="https://incridea.in"
-          rel="noopener noreferrer"
-          className="mx-auto md:mx-0"
-        >
-          <Image
-            src="https://utfs.io/f/0yks13NtToBiMOM3L9fzWI7ScAKGqQtv4FT8wMPEHbihruCg"
-            alt="Logo"
-            width={120}
-            height={70}
-            className="w-auto h-auto max-w-24"
-          />
-        </a>
-      </div>
+      <header className="sticky-header z-50 flex w-full flex-wrap items-center justify-between bg-black p-4 shadow-md backdrop-blur-sm md:justify-start">
+        <div className="flex w-full items-center justify-center px-10 md:w-auto">
+          <a
+            href="https://incridea.in"
+            rel="noopener noreferrer"
+            className="mx-auto md:mx-0"
+          >
+            <Image
+              src="https://utfs.io/f/0yks13NtToBiMOM3L9fzWI7ScAKGqQtv4FT8wMPEHbihruCg"
+              alt="Logo"
+              width={120}
+              height={70}
+              className="h-auto w-auto max-w-24"
+            />
+          </a>
+        </div>
 
-        <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10 gap-5 z-40">
-          {session ? (
-            isAdminRoute && session.user?.role === "admin" ? (
-              adminLinks.map((link) => (
-                <div key={link.href} className="flex items-center gap-2">
-                  {link.icon}
-                  <NavLink
-                    href={link.href}
-                    label={link.label}
-                    active={pathname === link.href}
-                    className="text-xl font-BebasNeue relative top-1"
-                  />
-                </div>
-              ))
-            ) : (
-              userLinks.map((link) => (
+        <nav className="z-40 ml-auto hidden gap-5 space-x-8 px-10 text-lg text-white md:flex">
+          {session
+            ? isAdminRoute && session.user?.role === "admin"
+              ? adminLinks.map((link) => (
+                  <div key={link.href} className="flex items-center gap-2">
+                    {link.icon}
+                    <NavLink
+                      href={link.href}
+                      label={link.label}
+                      active={pathname === link.href}
+                      className="relative top-1 font-BebasNeue text-xl"
+                    />
+                  </div>
+                ))
+              : userLinks.map((link) => (
+                  <div key={link.href} className="flex items-center gap-1">
+                    {link.icon}
+                    <NavLink
+                      href={link.href}
+                      label={link.label}
+                      active={
+                        link.href === "/"
+                          ? pathname === link.href
+                          : pathname.startsWith(link.href)
+                      }
+                      className="relative top-1 font-BebasNeue text-xl"
+                    />
+                  </div>
+                ))
+            : userLinks.map((link) => (
                 <div key={link.href} className="flex items-center gap-1">
                   {link.icon}
                   <NavLink
                     href={link.href}
                     label={link.label}
-                    active={link.href === "/" ? pathname === link.href : pathname.startsWith(link.href)}
-                    className="text-xl font-BebasNeue relative top-1"
+                    active={
+                      link.href === "/"
+                        ? pathname === link.href
+                        : pathname.startsWith(link.href)
+                    }
+                    className="relative top-1 font-BebasNeue text-xl"
                   />
                 </div>
-              ))
-            )
-          ) : (
-            userLinks.map((link) => (
-              <div key={link.href} className="flex items-center gap-1">
-                {link.icon}
-                <NavLink
-                  href={link.href}
-                  label={link.label}
-                  active={link.href === "/" ? pathname === link.href : pathname.startsWith(link.href)}
-                  className="text-xl font-BebasNeue relative top-1"
-                />
-              </div>
-            ))
-          )}
+              ))}
           {!session && isAdminRoute && (
             <button
               onClick={() => signIn()}
-              className="text-white text-xl flex"
+              className="flex text-xl text-white"
             >
-              <HiOutlineLogout /> <span className="font-BebasNeue relative top-0.5">SignIn</span>
+              <HiOutlineLogout />{" "}
+              <span className="relative top-0.5 font-BebasNeue">SignIn</span>
             </button>
           )}
           {session && isAdminRoute && session.user?.role === "admin" && (
             <button
               onClick={() => signOut()}
-              className="text-white text-xl flex items-center gap-3"
+              className="flex items-center gap-3 text-xl text-white"
             >
-              <HiOutlineLogout /> <span className="font-BebasNeue relative top-0.5">Logout</span>
+              <HiOutlineLogout />{" "}
+              <span className="relative top-0.5 font-BebasNeue">Logout</span>
             </button>
           )}
         </nav>
         <button
           aria-label="Open Menu"
-          className="md:hidden text-white text-2xl focus:outline-none absolute right-4"
+          className="absolute right-4 text-2xl text-white focus:outline-none md:hidden"
           onClick={() => setIsOpen(true)}
         >
           &#9776;
@@ -123,79 +128,84 @@ const Header: FC = () => {
       </header>
 
       <div
-        className={`fixed inset-y-0 right-0 w-64 max-w-full bg-black opacity-100 p-6 space-y-6 
-          transform transition-transform duration-300 z-50 
-          ${isOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed inset-y-0 right-0 z-50 w-64 max-w-full transform space-y-6 bg-black p-6 opacity-100 transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         role="dialog"
         aria-modal="true"
       >
         <button
           aria-label="Close Menu"
-          className="text-white text-3xl mb-4"
+          className="mb-4 text-3xl text-white"
           onClick={() => setIsOpen(false)}
         >
           &times;
         </button>
         {/* Mobile Menu */}
-        <div className="flex flex-col space-y-4 text-white gap-2">
-          {session ? (
-            isAdminRoute && session.user?.role === "admin" ? (
-              adminLinks.map((link) => (
-                <div key={link.href} className="flex items-center gap-3">
-                  {link.icon}
-                  <NavLink
-                    href={link.href}
-                    label={link.label}
-                    active={pathname === link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="text-xl w-fit  font-BebasNeue"
-                  />
-                </div>
-              ))
-            ) : (
-              userLinks.map((link) => (
+        <div className="flex flex-col gap-2 space-y-4 text-white">
+          {session
+            ? isAdminRoute && session.user?.role === "admin"
+              ? adminLinks.map((link) => (
+                  <div key={link.href} className="flex items-center gap-3">
+                    {link.icon}
+                    <NavLink
+                      href={link.href}
+                      label={link.label}
+                      active={pathname === link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="w-fit font-BebasNeue text-xl"
+                    />
+                  </div>
+                ))
+              : userLinks.map((link) => (
+                  <div key={link.href} className="flex items-center gap-1">
+                    {link.icon}
+                    <NavLink
+                      href={link.href}
+                      label={link.label}
+                      active={
+                        link.href === "/"
+                          ? pathname === link.href
+                          : pathname.startsWith(link.href)
+                      }
+                      onClick={() => setIsOpen(false)}
+                      className="w-fit font-BebasNeue text-xl"
+                    />
+                  </div>
+                ))
+            : userLinks.map((link) => (
                 <div key={link.href} className="flex items-center gap-1">
                   {link.icon}
                   <NavLink
                     href={link.href}
                     label={link.label}
-                    active={link.href === "/" ? pathname === link.href : pathname.startsWith(link.href)}
+                    active={
+                      link.href === "/"
+                        ? pathname === link.href
+                        : pathname.startsWith(link.href)
+                    }
                     onClick={() => setIsOpen(false)}
-                    className="text-xl w-fit font-BebasNeue"
+                    className="w-fit font-BebasNeue text-xl"
                   />
                 </div>
-              ))
-            )
-          ) : (
-            userLinks.map((link) => (
-              <div key={link.href} className="flex items-center gap-1">
-                {link.icon}
-                <NavLink
-                  href={link.href}
-                  label={link.label}
-                  active={link.href === "/" ? pathname === link.href : pathname.startsWith(link.href)}
-                  onClick={() => setIsOpen(false)}
-                  className="text-xl w-fit font-BebasNeue"
-                />
-              </div>
-            ))
-          )}
+              ))}
 
           {!session && isAdminRoute && (
             <button
               onClick={() => signIn()}
-              className="text-white text-xl flex"
+              className="flex text-xl text-white"
             >
-              <HiOutlineLogout /> <span className="font-BebasNeue relative top-0.5">SignIn</span>
+              <HiOutlineLogout />{" "}
+              <span className="relative top-0.5 font-BebasNeue">SignIn</span>
             </button>
           )}
           {session && isAdminRoute && session.user?.role === "admin" && (
             <button
               onClick={() => signOut()}
-              className="text-white text-xl flex items-center gap-3"
+              className="flex items-center gap-3 text-xl text-white"
             >
-              <HiOutlineLogout />Logout
+              <HiOutlineLogout />
+              Logout
             </button>
           )}
         </div>
@@ -203,7 +213,7 @@ const Header: FC = () => {
 
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40"
+          className="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm"
           onClick={() => setIsOpen(false)}
           aria-hidden="true"
         />
