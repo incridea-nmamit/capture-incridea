@@ -6,6 +6,7 @@ import type { Day, EventType } from '@prisma/client';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
+import { useSession } from 'next-auth/react';
 
 const EventsAdmin: React.FC = () => {
   const addEvent = api.events.addEvent.useMutation();
@@ -19,6 +20,8 @@ const EventsAdmin: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const deleteEvent = api.events.deleteEvent.useMutation();
   const [isSubmitting, setIsSubmitting] = useState(false);
+    const auditLogMutation = api.audit.log.useMutation();
+    const { data: session } = useSession();
   const [visibilityPopup, setVisibilityPopup] = useState<{
     id: number;
     name: string;
@@ -61,11 +64,10 @@ const EventsAdmin: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   
-    // Trim spaces from the name field
     const trimmedName = newEvent.name.trim();
   
     if (!uploadUrl) {
-      console.log('No URL to submit');
+      alert('No URL to submit');
       return;
     }
   
@@ -76,13 +78,17 @@ const EventsAdmin: React.FC = () => {
     setIsSubmitting(true);
     try {
       const result = await addEvent.mutateAsync({ ...newEvent, name: trimmedName, uploadKey: uploadUrl });
-      console.log('Event added:', result);
       setIsPopupOpen(false);
       setNewEvent({ name: '', description: '', shortDescription: '', type: 'core', day: 'day1' });
       setUploadUrl('');
+      await auditLogMutation.mutateAsync({
+        sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+        description: `EventManagementAudit - Added a new event ${trimmedName} having uploadKey ${uploadUrl}`,
+      });
+      toast.success(`Added a new event ${trimmedName} having uploadKey ${uploadUrl}`);
       void refetch(); // Refetch events after adding
     } catch (error) {
-      console.error('Error adding event:', error);
+      toast.error(`Error adding event ${trimmedName}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -108,6 +114,11 @@ const EventsAdmin: React.FC = () => {
         await deleteEvent.mutateAsync({ id: eventToDelete.id });
         toast.success(`${eventToDelete.name} deleted successfully.`);
         void refetch();
+        await auditLogMutation.mutateAsync({
+          sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+          description: `EventManagementAudit - Deleted a event ${eventToDelete.name} having eventId ${eventToDelete.id}`,
+        });
+        toast.success(`Deleted a event ${eventToDelete.name} having eventId ${eventToDelete.id}`);
       } catch (error) {
         toast.error('Error deleting event');
       } finally {
@@ -128,11 +139,15 @@ const EventsAdmin: React.FC = () => {
     const newState = currentState === "active" ? "inactive" : "active";    
       try {
         await updateVisibility.mutateAsync({ id });
-        console.log(`Visibility updated to ${newState}`);
+        await auditLogMutation.mutateAsync({
+          sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+          description: `EventManagementAudit - Changed event visibility of ${name} to ${newState}`,
+        });
+        toast.success(`Changed event visibility of ${name} to ${newState}`);
         setVisibilityPopup(null)
         void refetch();
       } catch (error) {
-        console.error('Error updating visibility:', error);
+        toast.error(`Error updating visibility for ${name}`);
       }
   };
   const filteredEvents = events?.filter(event => {

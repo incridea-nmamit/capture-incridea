@@ -63,7 +63,6 @@ const Cultural = () => {
         idcard: data.uploadUrl,
         image_path: data.imagePath,
       });
-      console.log("Request submitted successfully");
     } catch (error) {
       console.error("Error submitting removal request:", error);
     }

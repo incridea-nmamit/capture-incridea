@@ -62,8 +62,7 @@ const ExecuteEvents = () => {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Execute Events</h1>
+    <div className="py-4">
       <table className="min-w-full border border-gray-300 bg-black">
         <thead>
           <tr className="bg-gray-200">

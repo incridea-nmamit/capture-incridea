@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react';
+import { IoCloudUploadSharp, IoNotifications, IoSettings } from "react-icons/io5";
 import TeamAdmin from '~/components/TeamAdmin/TeamAdmin';
 import useUserRole from '~/hooks/useUserRole';
 import EventsAdmin from '~/components/EventsAdmin/EventsAdmin';
 import CapturesAdmin from '~/components/CapturesAdmin/CapturesAdmin';
 import Analytics from '../analytics';
+import { IoMdAnalytics } from "react-icons/io";
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import RemovalRequest from '~/components/RemovalRequestAdmin/RemovalRequest';
 import { api } from '~/utils/api';
 import ManageRoles from '~/components/ManageRoles/ManageRoles';
-import ExecuteEvents from '~/components/ExecuteTabAdmin/ExecuteEvents';
-import VariableComponent from '~/components/VariableAdmin/VariableComponent';
 import SMCUploads from '~/components/SMCUploads/SMCUploads';
 import Stories from '~/components/Stories/Stories';
 import ApproveCaptures from '~/components/ApproveCapture/ApproveCapture';
+import { FcCameraIdentification } from "react-icons/fc";
+import { FaUserGroup } from "react-icons/fa6";
+import { BsCalendar2EventFill } from "react-icons/bs";
+import { MdAmpStories } from 'react-icons/md';
+import { FaUserCog } from "react-icons/fa";
+import ControlComponent from '~/components/ControlAdmin/ControlComponent';
 
 const Dashboard = () => {
   const userRole = useUserRole();
-  const [selectedOption, setSelectedOption] = useState('');
-  const [options, setOptions] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<string>(''); 
   const [showMessageOnce, setShowMessageOnce] = useState(true); 
   const [pendingCount, setPendingCount] = useState<number>(0); 
@@ -49,10 +53,9 @@ const Dashboard = () => {
     if (activeTab === 'captures') return <div><CapturesAdmin /></div>;
     if (activeTab === 'team') return <div><TeamAdmin /></div>;
     if (activeTab === 'analytics') return <div><Analytics /></div>;
-    if (activeTab === 'manageroles') return <div><ManageRoles /></div>;
+    if (activeTab === 'roles') return <div><ManageRoles /></div>;
     if (activeTab === 'removalrequest') return <div><RemovalRequest /></div>;
-    if (activeTab === 'executeevents') return <div><ExecuteEvents /></div>;
-    if (activeTab === 'variables') return <div><VariableComponent /></div>;
+    if (activeTab === 'controls') return <div><ControlComponent /></div>;
     if (activeTab === 'smc') return <div><SMCUploads /></div>;
     if (activeTab === 'stories') return <div><Stories /></div>;
     if (activeTab === 'approvecap') return <div><ApproveCaptures /></div>;
@@ -90,16 +93,16 @@ const Dashboard = () => {
       {userRole === 'admin' && (
         <button
           onClick={() => {
-            setActiveTab('manageroles');
+            setActiveTab('roles');
             setShowMessageOnce(false);
           }}
-          className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
-            activeTab === 'manageroles'
+          className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
+            activeTab === 'roles'
               ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
           } transition duration-200`}  
         >
-          Manage Roles
+          User Roles <FaUserCog />
         </button>
       )}
       {userRole === 'admin' && (
@@ -108,13 +111,13 @@ const Dashboard = () => {
             setActiveTab('events');
             setShowMessageOnce(false);
           }}
-          className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
+          className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
             activeTab === 'events'
               ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
           } transition duration-200`}  
         >
-          Events
+          Events <BsCalendar2EventFill />
         </button>
       )}
       {userRole === 'admin' && (
@@ -123,13 +126,13 @@ const Dashboard = () => {
             setActiveTab('team');
             setShowMessageOnce(false);
           }}
-          className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
+          className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
             activeTab === 'team'
               ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
           } transition duration-200`}  
         >
-          Teams
+          Teams <FaUserGroup />
         </button>
       )}
       {userRole === 'admin' && (
@@ -138,13 +141,13 @@ const Dashboard = () => {
             setActiveTab('captures');
             setShowMessageOnce(false);
           }}
-          className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
+          className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
             activeTab === 'captures'
               ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
           } transition duration-200`}  
         >
-          Captures
+          Captures <FcCameraIdentification />
         </button>
       )}
 
@@ -154,13 +157,13 @@ const Dashboard = () => {
             setActiveTab('analytics');
             setShowMessageOnce(false);
           }}
-          className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
+          className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
             activeTab === 'analytics'
               ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
           } transition duration-200`}                
         >
-          Analytics
+          Analytics <IoMdAnalytics />
         </button>
       )}
 
@@ -176,7 +179,7 @@ const Dashboard = () => {
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
           } transition duration-200`}  
       >
-        Request
+        Request <IoNotifications />
         {pendingCount > 0 && (
           <span className="bg-white text-black text-xs rounded-full px-2 py-1">
             {pendingCount}
@@ -189,33 +192,16 @@ const Dashboard = () => {
 {(userRole === 'admin') && (
         <button
         onClick={() => {
-          setActiveTab('variables');
+          setActiveTab('controls');
           setShowMessageOnce(false);
         }}
         className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
-          activeTab === 'variables'
+          activeTab === 'controls'
               ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
           } transition duration-200`}  
       >
-        Variables
-      </button>
-      
-      )}
-
-{(userRole === 'admin') && (
-        <button
-        onClick={() => {
-          setActiveTab('executeevents');
-          setShowMessageOnce(false);
-        }}
-        className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
-          activeTab === 'executeevents'
-              ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
-          } transition duration-200`}  
-      >
-        Execute Events
+        Settings <IoSettings />
       </button>
       
       )}
@@ -232,7 +218,7 @@ const Dashboard = () => {
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
           } transition duration-200`}  
       >
-        SMC Uploads
+        SMC Uploads <IoCloudUploadSharp />
       </button>
       
       )}
@@ -249,7 +235,7 @@ const Dashboard = () => {
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
           } transition duration-200`}  
       >
-        Stories
+        Capture Stories <MdAmpStories />
       </button>
       
       )}
@@ -266,7 +252,7 @@ const Dashboard = () => {
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
           } transition duration-200`}  
       >
-        Approve Captures
+        Approve Captures <FcCameraIdentification />
       </button>
       
       )}

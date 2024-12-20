@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { api } from '~/utils/api';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
+import { useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
+import ExecuteEvents from '../ExecuteTabAdmin/ExecuteEvents';
 
 interface Variable {
   id: number;
@@ -8,12 +11,13 @@ interface Variable {
   value: string;
 }
 
-const VariableComponent: React.FC = () => {
+const ControlComponent: React.FC = () => {
   const { data: variables, isLoading, refetch } = api.variables.getAll.useQuery<Variable[]>();
   const updateKeyMutation = api.variables.updateKey.useMutation();
   const [editId, setEditId] = useState<number | null>(null);
   const [editValue, setEditValue] = useState<string>('');
-
+  const auditLogMutation = api.audit.log.useMutation();
+  const { data: session, status } = useSession();
   const handleEdit = (variable: Variable) => {
     setEditId(variable.id);
     setEditValue(variable.value);
@@ -36,15 +40,23 @@ const VariableComponent: React.FC = () => {
       }
       updatedValue = date.toISOString();
     }
-
+    try{
     // Update backend
     await updateKeyMutation.mutateAsync({
       key: variable.key,
       value: updatedValue,
     });
+    await auditLogMutation.mutateAsync({
+      sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+      description: `ControlManagementAudit - ${variable.key} set to ${variable.value}`,
+    });
+    toast.success(`${variable.key} set to ${variable.value}`)
     setEditId(null);
     setEditValue('');
     refetch();
+  } catch(error){
+    toast.error("Couldnt change the value");
+  }
   };
 
   if (isLoading) {
@@ -53,7 +65,7 @@ const VariableComponent: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Variables</h1>
+      <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Control Center</h1>
       <table className="min-w-full border border-gray-300 bg-black">
         <thead>
           <tr className="bg-gray-200">
@@ -71,20 +83,36 @@ const VariableComponent: React.FC = () => {
                   <>
                     {variable.key.startsWith('Day-') ? (
                       // Use type="date" for Day-1, Day-2, Day-3
+                      <div className="relative">
                       <input
                         type="date"
                         value={editValue}
                         onChange={(e) => setEditValue(e.target.value)}
-                        className="w-full border px-2 py-1 text-black"
+                        className="w-full border px-2 py-1 text-white bg-black custom-date"
                       />
+                      <style jsx>{`
+                        .custom-date::-webkit-calendar-picker-indicator {
+                          filter: invert(100%) brightness(150%);
+                          cursor: pointer;
+                        }
+                      `}</style>
+                    </div>
                     ) : variable.key === 'CountDown-Capture' ? (
                       // Use type="datetime-local" for CountDown-Capture
+                      <div className="relative">
                       <input
                         type="datetime-local"
                         value={editValue}
                         onChange={(e) => setEditValue(e.target.value)}
-                        className="w-full border px-2 py-1 text-black"
+                        className="w-full border px-2 py-1 text-white bg-black custom-datetime"
                       />
+                      <style jsx>{`
+                        .custom-datetime::-webkit-calendar-picker-indicator {
+                          filter: invert(100%) brightness(150%);
+                          cursor: pointer;
+                        }
+                      `}</style>
+                    </div>
                     ) : (
                       // Default input type for other keys
                       <input
@@ -107,6 +135,11 @@ const VariableComponent: React.FC = () => {
                           key: variable.key,
                           value: newValue,
                         });
+                        await auditLogMutation.mutateAsync({
+                          sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+                          description: `ControlManagementAudit - Capture Auto-Request set to ${newValue}`,
+                        });
+                        toast.success(`Capture Auto-Request set to ${newValue}`);
                         refetch();
                       }}
                       className="sr-only peer"
@@ -139,8 +172,9 @@ const VariableComponent: React.FC = () => {
           ))}
         </tbody>
       </table>
+      <ExecuteEvents/>
     </div>
   );
 };
 
-export default VariableComponent;
+export default ControlComponent;

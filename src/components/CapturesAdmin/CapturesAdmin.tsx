@@ -5,6 +5,7 @@ import Image from 'next/image';
 import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import { FaTrash } from 'react-icons/fa';
+import { useSession } from 'next-auth/react';
 
 const CapturesAdmin: React.FC = () => {
   const addImage = api.gallery.addImage.useMutation();
@@ -19,6 +20,8 @@ const CapturesAdmin: React.FC = () => {
   const deleteImage = api.gallery.deleteImage.useMutation();
   const [captureToDelete, setCaptureToDelete] = useState<{ id: number} | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const auditLogMutation = api.audit.log.useMutation();
+  const { data: session } = useSession();
 
   const toastStyle = {
     style: {
@@ -50,6 +53,10 @@ const CapturesAdmin: React.FC = () => {
       try {
         await deleteImage.mutateAsync({ id: captureToDelete.id });
         void refetch();
+        await auditLogMutation.mutateAsync({
+          sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+          description: `CaptureManagementAudit - Deleted a capture with id ${captureToDelete.id} as disagreement`,
+        });
         toast.success('Successfully deleted the capture');
       } catch (error) {
         toast.error('Error deleting capture');
@@ -128,13 +135,16 @@ const CapturesAdmin: React.FC = () => {
   setIsSubmitting(true);
 
   try {
-    const result = await addImage.mutateAsync({ ...newImage, uploadKey: uploadUrl });
-    console.log('Image added:', result);
+    await addImage.mutateAsync({ ...newImage, uploadKey: uploadUrl });
     setIsPopupOpen(false);
     setNewImage({ event_name: 'capture', event_category: 'events' });
     setUploadUrl('');
     void refetch();
     toast.success('Capture Added');
+    await auditLogMutation.mutateAsync({
+      sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+      description: `CaptureManagementAudit - Added a capture to ${newImage.event_name} in ${newImage.event_category} category with uploadUrl ${uploadUrl}`,
+    });
   } catch (error) {
     toast.error('Capture Not Uploaded', toastStyle);
   } finally { 

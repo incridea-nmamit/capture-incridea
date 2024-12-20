@@ -5,6 +5,7 @@ import UploadComponent from '../UploadComponent';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
+import { useSession } from 'next-auth/react';
 
 type Committee = 'media' | 'digital' | 'socialmedia' | 'developer';
 type MediaDesignation = 'mediahead' | 'mediacohead' | 'leadvideographer' | 'leadphotographer' | 'photographer' | 'videographer' | 'aerialvideographer';
@@ -22,6 +23,8 @@ const TeamAdmin: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [uploadUrl, setUploadUrl] = useState<string>('');
+  const auditLogMutation = api.audit.log.useMutation();
+  const { data: session } = useSession();
   const [teamForm, setTeamForm] = useState({
     name: '',
     committee: 'media' as Committee,
@@ -73,14 +76,18 @@ const TeamAdmin: React.FC = () => {
       await addTeam.mutateAsync({ ...teamForm, uploadKey: uploadUrl }, {
         onSuccess: () => {
           void refetch();
-          console.log('Team added successfully.');
           setIsPopupOpen(false);
           setTeamForm({ name: '', committee: 'media', designation: 'mediahead', say: '' });
           setUploadUrl('');
         },
       });
+      await auditLogMutation.mutateAsync({
+        sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+        description: `TeamManagementAudit - Added a team member ${teamForm.name} for ${teamForm.committee} as ${teamForm.designation} with say ${teamForm.say}`,
+      });
+      toast.success(`Added a team member ${teamForm.name} as ${teamForm.designation} for ${teamForm.committee}`)
     } catch (error) {
-      console.error('Error adding team:', error);
+      toast.error(`Error adding team : ${teamForm.name}`);
     } finally  {
       setIsSubmitting(false);
     }
@@ -97,17 +104,19 @@ const TeamAdmin: React.FC = () => {
         await deleteTeam.mutateAsync({ id: teamToDelete.id });
         toast.success(`${teamToDelete.name} deleted successfully.`);
         void refetch();
+        await auditLogMutation.mutateAsync({
+          sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+          description: `TeamManagementAudit - Deleted a team member ${teamToDelete.name}`,
+        });
       } catch (error) {
-        toast.error('Error deleting team');
+        toast.error(`Error deleting team member ${teamToDelete.name}`);
       } finally {
         setIsDeletePopupOpen(false);
         setTeamToDelete(null);
       }
     }
   };
-
   const cancelDelete = () => {
-    toast.error('Member not deleted.');
     setIsDeletePopupOpen(false);
     setTeamToDelete(null);
   };

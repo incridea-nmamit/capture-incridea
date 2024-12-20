@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { api } from '~/utils/api';
 import { User } from '@prisma/client';
 import { useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
 
 const ManageRoles = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -31,8 +32,9 @@ const ManageRoles = () => {
         await changeRoleMutation.mutateAsync({ userId: selectedUserId, role: newRole });
         await auditLogMutation.mutateAsync({
           sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
-          description: `RoleManagementAudit - ${session?.user.name} has changed the role of ${selectedUserName} to ${newRole}`,
+          description: `RoleManagementAudit - Changed the role of ${selectedUserName} to ${newRole}`,
         });
+        toast.success(`Changed the role of ${selectedUserName} to ${newRole}`)
       } catch (error) {
         console.error("Error changing role", error);
       }
