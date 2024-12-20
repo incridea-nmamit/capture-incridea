@@ -56,49 +56,24 @@ const Header: FC = () => {
         </div>
 
         <nav className="z-40 ml-auto hidden gap-5 space-x-8 px-10 text-lg text-white md:flex">
-          {session
-            ? isAdminRoute && session.user?.role === "admin"
-              ? adminLinks.map((link) => (
-                  <div key={link.href} className="flex items-center gap-2">
-                    {link.icon}
-                    <NavLink
-                      href={link.href}
-                      label={link.label}
-                      active={pathname === link.href}
-                      className="relative top-1 font-BebasNeue text-xl"
-                    />
-                  </div>
-                ))
-              : userLinks.map((link) => (
-                  <div key={link.href} className="flex items-center gap-1">
-                    {link.icon}
-                    <NavLink
-                      href={link.href}
-                      label={link.label}
-                      active={
-                        link.href === "/"
-                          ? pathname === link.href
-                          : pathname.startsWith(link.href)
-                      }
-                      className="relative top-1 font-BebasNeue text-xl"
-                    />
-                  </div>
-                ))
-            : userLinks.map((link) => (
-                <div key={link.href} className="flex items-center gap-1">
-                  {link.icon}
-                  <NavLink
-                    href={link.href}
-                    label={link.label}
-                    active={
-                      link.href === "/"
-                        ? pathname === link.href
-                        : pathname.startsWith(link.href)
-                    }
-                    className="relative top-1 font-BebasNeue text-xl"
-                  />
-                </div>
-              ))}
+          {
+            ((session && isAdminRoute && session.user?.role === "admin")?adminLinks:userLinks).map((link) => (
+              <div key={link.href} className="flex items-center gap-2 justify-center">
+                <span>{link.icon}</span>
+                <NavLink
+                  href={link.href}
+                  label={link.label}
+                  active={
+                    link.href === "/"
+                      ? pathname === link.href
+                      : pathname.startsWith(link.href)
+                  }
+                  className="font-BebasNeue text-xl"
+                />
+              </div>
+            ))
+          }
+
           {!session && isAdminRoute && (
             <button
               onClick={() => signIn()}
@@ -128,9 +103,8 @@ const Header: FC = () => {
       </header>
 
       <div
-        className={`fixed inset-y-0 right-0 z-50 w-64 max-w-full transform space-y-6 bg-black p-6 opacity-100 transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed inset-y-0 right-0 z-50 w-64 max-w-full transform space-y-6 bg-black p-6 opacity-100 transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         role="dialog"
         aria-modal="true"
       >
@@ -146,34 +120,18 @@ const Header: FC = () => {
           {session
             ? isAdminRoute && session.user?.role === "admin"
               ? adminLinks.map((link) => (
-                  <div key={link.href} className="flex items-center gap-3">
-                    {link.icon}
-                    <NavLink
-                      href={link.href}
-                      label={link.label}
-                      active={pathname === link.href}
-                      onClick={() => setIsOpen(false)}
-                      className="w-fit font-BebasNeue text-xl"
-                    />
-                  </div>
-                ))
+                <div key={link.href} className="flex items-center gap-3">
+                  {link.icon}
+                  <NavLink
+                    href={link.href}
+                    label={link.label}
+                    active={pathname === link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="w-fit font-BebasNeue text-xl"
+                  />
+                </div>
+              ))
               : userLinks.map((link) => (
-                  <div key={link.href} className="flex items-center gap-1">
-                    {link.icon}
-                    <NavLink
-                      href={link.href}
-                      label={link.label}
-                      active={
-                        link.href === "/"
-                          ? pathname === link.href
-                          : pathname.startsWith(link.href)
-                      }
-                      onClick={() => setIsOpen(false)}
-                      className="w-fit font-BebasNeue text-xl"
-                    />
-                  </div>
-                ))
-            : userLinks.map((link) => (
                 <div key={link.href} className="flex items-center gap-1">
                   {link.icon}
                   <NavLink
@@ -188,7 +146,23 @@ const Header: FC = () => {
                     className="w-fit font-BebasNeue text-xl"
                   />
                 </div>
-              ))}
+              ))
+            : userLinks.map((link) => (
+              <div key={link.href} className="flex items-center gap-1">
+                {link.icon}
+                <NavLink
+                  href={link.href}
+                  label={link.label}
+                  active={
+                    link.href === "/"
+                      ? pathname === link.href
+                      : pathname.startsWith(link.href)
+                  }
+                  onClick={() => setIsOpen(false)}
+                  className="w-fit font-BebasNeue text-xl"
+                />
+              </div>
+            ))}
 
           {!session && isAdminRoute && (
             <button
