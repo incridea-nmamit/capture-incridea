@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import { FaTrash } from 'react-icons/fa';
 import { useSession } from 'next-auth/react';
+import useUserRole from '~/hooks/useUserRole';
 
 const CapturesAdmin: React.FC = () => {
   const addImage = api.gallery.addImage.useMutation();
@@ -22,7 +23,7 @@ const CapturesAdmin: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const auditLogMutation = api.audit.log.useMutation();
   const { data: session } = useSession();
-
+  const userRole = useUserRole();
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -173,12 +174,14 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
       <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Captures Management</h1>
 
       <div className="mb-4 flex gap-2 flex-wrap">
+      {(userRole === 'admin' || userRole === 'editor') && (
         <button
           onClick={handleAddCaptureClick}
           className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
         >
           Add Capture
         </button>
+        )}
         {/* Filter Buttons */}
         <select
           name="state"
@@ -278,6 +281,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                       <FaTrash className="text-red-600 hover:text-red-800" />
                     </button>
                   </td>
+
                 </tr>
               ))}
             </tbody>
