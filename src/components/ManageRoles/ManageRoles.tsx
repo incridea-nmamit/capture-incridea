@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '~/utils/api';
 import { User } from '@prisma/client';
+import { useSession } from 'next-auth/react';
 
 const ManageRoles = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [selectedUserName, setSelectedUserName] = useState<string | null>(null);
   const [newRole, setNewRole] = useState<'admin' | 'manager' | 'smc' | 'editor' | 'user'>('user');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+  const auditLogMutation = api.audit.log.useMutation();
+  const { data: session } = useSession();
   const { data: usersData, refetch } = api.user.getAllUsers.useQuery();
   const changeRoleMutation = api.user.changeUserRole.useMutation({
     onSuccess: () => {
@@ -24,9 +27,18 @@ const ManageRoles = () => {
 
   const handleChangeRole = async () => {
     if (selectedUserId) {
-      await changeRoleMutation.mutateAsync({ userId: selectedUserId, role: newRole });
+      try {
+        await changeRoleMutation.mutateAsync({ userId: selectedUserId, role: newRole });
+        await auditLogMutation.mutateAsync({
+          sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+          description: `RoleManagementAudit - ${session?.user.name} has changed the role of ${selectedUserName} to ${newRole}`,
+        });
+      } catch (error) {
+        console.error("Error changing role", error);
+      }
     }
   };
+  
 
   return (
     <div className="p-4">
@@ -51,8 +63,9 @@ const ManageRoles = () => {
                   className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
                   onClick={() => {
                     setSelectedUserId(user.id);
+                    setSelectedUserName(user.name);
                     setNewRole(user.role);  // Set the default role to the user's current role
-                    setIsPopupOpen(true);
+                    setIsPopupOpen(true);                    
                   }}
                 >
                   Change Role
