@@ -114,12 +114,6 @@ model downloadLog {
   file_path  String
 }
 
-model auditLog {
-  id                Int      @id @default(sequence())
-  user              String
-  audit_description String
-  date_time         DateTime @default(now())
-}
 
 model Gallery {
   id         Int      @id @default(sequence())
@@ -205,6 +199,14 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
+model AuditLog {
+  id              Int      @id @default(sequence())
+  sessionUserName String
+  dateTime        DateTime @default(now())
+  description     String
+}
+
+
 model CaptureCard {
   id        Int      @id @default(sequence())
   cardName  String
@@ -223,11 +225,4 @@ model CaptureLike {
   capturePath String
   cookieId  String
   like      Boolean
-}
-
-model AuditLog {
-  id           Int      @id @default(sequence())
-  sessionUser  String
-  dateTime     DateTime @default(now())
-  description  String 
 }
