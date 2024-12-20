@@ -47,7 +47,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
           name="description"
           content="Capture Incridea: Get your event photos and story-worthy moments."
         />
-        <link rel="icon" href="https://utfs.io/f/0yks13NtToBia9tXha8GMCjeJVFKURvyq263Lgw98YaAfWdx" />
+        <link
+          rel="icon"
+          href="https://utfs.io/f/0yks13NtToBia9tXha8GMCjeJVFKURvyq263Lgw98YaAfWdx"
+        />
         <meta property="og:title" content="Capture Incridea" />
         <meta
           property="og:description"
@@ -55,14 +58,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
         <meta property="og:url" content="https://captures.incridea.in" />
       </Head>
-      <div className="font-roboto">
+      <div className="font-roboto flex min-h-screen flex-col">
         <Header />
         <main className="mt-20">
           <Toaster position="top-right" reverseOrder={false} />
           <TrackPageVisits />
           {loading ? <CameraLoading /> : <Component {...pageProps} />}
         </main>
-        <Footer />
       </div>
     </SessionProvider>
   );
