@@ -105,7 +105,7 @@ const Dashboard = () => {
           User Roles <FaUserCog />
         </button>
       )}
-      {userRole === 'admin' && (
+      {(userRole === 'admin' || userRole === 'manager') && (
         <button
           onClick={() => {
             setActiveTab('events');
@@ -120,7 +120,7 @@ const Dashboard = () => {
           Events <BsCalendar2EventFill />
         </button>
       )}
-      {userRole === 'admin' && (
+      {(userRole === 'admin' || userRole === 'manager') && (
         <button
           onClick={() => {
             setActiveTab('team');
@@ -135,7 +135,7 @@ const Dashboard = () => {
           Teams <FaUserGroup />
         </button>
       )}
-      {userRole === 'admin' && (
+      {(userRole === 'admin' || userRole === 'manager' || userRole === 'editor') && (
         <button
           onClick={() => {
             setActiveTab('captures');
@@ -167,7 +167,7 @@ const Dashboard = () => {
         </button>
       )}
 
-        {(userRole === 'admin' || userRole === 'editor') && (
+        {(userRole === 'admin' || userRole === 'editor' || userRole === 'manager') && (
         <button
         onClick={() => {
           setActiveTab('removalrequest');
@@ -223,7 +223,7 @@ const Dashboard = () => {
       
       )}
 
-{(userRole === 'admin'|| userRole === 'editor') && (
+{(userRole === 'admin'|| userRole === 'editor' || userRole === 'manager') && (
         <button
         onClick={() => {
           setActiveTab('stories');
