@@ -224,3 +224,10 @@ model CaptureLike {
   cookieId  String
   like      Boolean
 }
+
+model AuditLog {
+  id           Int      @id @default(sequence())
+  sessionUser  String
+  dateTime     DateTime @default(now())
+  description  String 
+}
