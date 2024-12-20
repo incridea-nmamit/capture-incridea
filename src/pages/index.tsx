@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import Hero from "~/components/Landing/Hero";
 
 const Reel = dynamic(() => import("~/components/reel"), { ssr: false });
 
@@ -32,33 +33,8 @@ export default function Home() {
       <Head>
         <title>Capture Incridea</title>
       </Head>
-
-      <section className="relative mx-auto flex h-[calc(100vh-4rem)] w-full max-w-[1600px] items-center justify-center overflow-hidden rounded-2xl bg-black px-4 pb-16 sm:px-8">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 h-full w-full object-cover"
-        >
-          <source src="/videos/VidCom.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="relative z-10 w-full max-w-5xl px-6 text-center text-white">
-          <h1 className="font-serif text-3xl leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
-            Your Memories, Our Passion
-          </h1>
-          <p className="mt-4 text-sm sm:text-base md:text-lg">
-            Get your event photos and story-worthy moments.
-            <br />
-            Experience them the same day! <strong>
-              captures.incridea.in
-            </strong>{" "}
-            has it all!
-          </p>
-        </div>
-      </section>
-
+      
+      <Hero/>
       {/* Section 2: Experience Animation Section */}
       {/* <section
           className="relative h-screen snap-start bg-cover bg-center"

@@ -156,3 +156,15 @@
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
 }
+
+body{
+  @apply bg-primary-950 text-white;
+  /* background: radial-gradient(ellipse 70% 90% at 40%,#e6646588 0%, transparent 40%),
+              radial-gradient(ellipse 70% 90% at 60%, #007dff88 0%, transparent 40%),
+              linear-gradient(to bottom, #1c1b2e, #0b0a13); */
+  background-blend-mode: multiply;
+}
+
+.container-size{
+  @apply mx-auto max-w-screen-lg;
+}

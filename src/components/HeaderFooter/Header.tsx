@@ -38,7 +38,7 @@ const Header: FC = () => {
 
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
-      <header className="sticky-header z-50 flex w-full flex-wrap items-center justify-between bg-black p-4 shadow-md backdrop-blur-sm md:justify-start">
+      <header className="fixed top-0 left-0 z-50 flex w-full flex-wrap items-center justify-between bg-primary-950/50 p-4 shadow-md backdrop-blur-sm md:justify-start">
         <div className="flex w-full items-center justify-center px-10 md:w-auto">
           <a
             href="https://incridea.in"

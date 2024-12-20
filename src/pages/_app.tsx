@@ -55,9 +55,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
         <meta property="og:url" content="https://captures.incridea.in" />
       </Head>
-      <div className="flex flex-col min-h-screen font-roboto">
+      <div className="font-roboto">
         <Header />
-        <main className="flex-grow bg-black text-white">
+        <main className="mt-20">
           <Toaster position="top-right" reverseOrder={false} />
           <TrackPageVisits />
           {loading ? <CameraLoading /> : <Component {...pageProps} />}
