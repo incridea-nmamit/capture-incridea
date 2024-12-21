@@ -27,7 +27,7 @@ export const galleryRouter = createTRPCRouter({
       const imageUrl = `https://utfs.io/f/${input.uploadKey}`;
       const newImage = await ctx.db.gallery.create({
         data: {
-          event_name: input.event_name,
+          event_name: input.event_category === "events" ? input.event_name : null,
           event_category: input.event_category,
           image_path: imageUrl,
           state: input.state,

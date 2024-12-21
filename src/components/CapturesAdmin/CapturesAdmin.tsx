@@ -8,7 +8,7 @@ import { FaTrash } from 'react-icons/fa';
 import { useSession } from 'next-auth/react';
 import useUserRole from '~/hooks/useUserRole';
 import GalleryBatchUpload from './BatchUpload';
-
+import { BsDashCircleFill } from "react-icons/bs";
 const CapturesAdmin: React.FC = () => {
   const addImage = api.gallery.addImage.useMutation();
   const { data: gallery, isLoading: galleryLoading, isError: galleryError, refetch } = api.gallery.getAllGallery.useQuery();
@@ -260,7 +260,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
             <tbody>
               {filteredGallery?.map((item) => (
                 <tr key={item.id} className="hover:bg-gray-50 hover:text-black">
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_name}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_name || <BsDashCircleFill />}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_category.charAt(0).toUpperCase() + item.event_category.slice(1)}</td>
 
                   <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
