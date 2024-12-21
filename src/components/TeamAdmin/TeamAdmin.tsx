@@ -150,7 +150,7 @@ const TeamAdmin: React.FC = () => {
           value={selectedFilter}
           onChange={(e) => setSelectedFilter(e.target.value)}
         >
-          <option value="all">All Positions</option>
+          <option value="all">All Committees</option>
           {Object.keys(designationOptions).map((option) => (
             <option key={option} value={option}>
               {option.charAt(0).toUpperCase() + option.slice(1)}
