@@ -134,7 +134,7 @@ const EventsAdmin: React.FC = () => {
           <input
             type="text"
             placeholder="Search..."
-            className="font-BebasNeue text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black"
+            className="font-BebasNeue text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-primary-950/50"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -146,7 +146,7 @@ const EventsAdmin: React.FC = () => {
         <select
           value={selectedEventType}
           onChange={(e) => setSelectedEventType(e.target.value)}
-          className="p-2 border-slate-700 rounded-xl bg-black h-12 font-BebasNeue"
+          className="p-2 border-slate-700 rounded-xl bg-primary-950/50 h-12 font-BebasNeue border"
         >
           <option className='' value="all">All Category</option>
           <option className='' value="core">Core</option>
@@ -158,7 +158,7 @@ const EventsAdmin: React.FC = () => {
         <select
           value={selectedDay}
           onChange={(e) => setSelectedDay(e.target.value)}
-          className="p-2 border-slate-700 rounded-xl bg-black h-12 font-BebasNeue"
+          className="p-2 border-slate-700 rounded-xl bg-primary-950/50 h-12 font-BebasNeue border"
         >
           <option className='' value="all">All Days</option>
           <option className='' value="day1">Day 1</option>
@@ -168,7 +168,7 @@ const EventsAdmin: React.FC = () => {
 
         <button
           onClick={handleAddEventClick}
-          className="p-2 border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue" 
+          className="p-2 border-slate-700 rounded-xl w-32 text-white h-12 bg-primary-950/50 font-BebasNeue border" 
         >
           Add Event
         </button>
@@ -181,7 +181,7 @@ const EventsAdmin: React.FC = () => {
         <div className=''>Error loading events. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
-          <table className="min-w-full bg-black border border-slate-700">
+          <table className="min-w-full bg-primary-950/50 border border-slate-700">
             <thead>
               <tr className='text-black bg-gray-100'>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>

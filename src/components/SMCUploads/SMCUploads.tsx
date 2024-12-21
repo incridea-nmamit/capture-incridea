@@ -71,7 +71,7 @@ const SMCUploads: React.FC = () => {
       <div className="mb-4 flex gap-2">
         <button
           onClick={handleAddEventClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
+          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-primary-950/50 font-BebasNeue"
         >
           Add Video
         </button>

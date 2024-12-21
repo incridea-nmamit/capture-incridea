@@ -136,7 +136,7 @@ const TeamAdmin: React.FC = () => {
           <input
             type="text"
             placeholder="Search..."
-            className="text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-black font-BebasNeue"
+            className="text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-primary-950/50 font-BebasNeue"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -146,7 +146,7 @@ const TeamAdmin: React.FC = () => {
         </div>
 
         <select
-          className="font-BebasNeue ml-2 p-2 border border-slate-700 rounded-xl text-white h-full bg-black"
+          className="font-BebasNeue ml-2 p-2 border border-slate-700 rounded-xl text-white h-full bg-primary-950/50"
           value={selectedFilter}
           onChange={(e) => setSelectedFilter(e.target.value)}
         >
@@ -158,7 +158,7 @@ const TeamAdmin: React.FC = () => {
           ))}
         </select>
 
-        <button className="font-BebasNeue ml-2 p-2 border border-slate-700 rounded-xl w-32 text-white h-full bg-black" onClick={() => setIsPopupOpen(true)}>
+        <button className="font-BebasNeue ml-2 p-2 border border-slate-700 rounded-xl w-32 text-white h-full bg-primary-950/50" onClick={() => setIsPopupOpen(true)}>
           Add Member
         </button>     
       </div>
@@ -166,7 +166,7 @@ const TeamAdmin: React.FC = () => {
 
       {/* Team data table */}
       <div className="overflow-x-auto py-5" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
-        <table className="min-w-full bg-black border border-slate-700 scrollable-table">
+        <table className="min-w-full bg-primary-950/50 border border-slate-700 scrollable-table">
           <thead>
             <tr className="text-black bg-gray-100">
               <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>

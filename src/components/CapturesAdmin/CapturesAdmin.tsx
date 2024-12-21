@@ -196,7 +196,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
         {(userRole === 'admin' || userRole === 'editor') && (
           <button
             onClick={handleAddCaptureClick}
-            className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
+            className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-primary-950/50 font-BebasNeue"
           >
             Add Capture
           </button>
@@ -209,7 +209,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
             handleFilterChange(e);
             applyFilters(); // Apply filters dynamically
           }}
-          className="p-2 border border-slate-700 rounded-xl bg-black text-white font-BebasNeue"
+          className="p-2 border border-slate-700 rounded-xl bg-primary-950/50 text-white font-BebasNeue"
         >
           <option value="">Filter by Category</option>
           <option value="events">Events</option>
@@ -234,7 +234,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                   handleFilterChange(e);
                   applyFilters();
                 }}
-                className="p-2 border border-slate-700 rounded-xl bg-black text-white font-BebasNeue"
+                className="p-2 border border-slate-700 rounded-xl bg-primary-950/50 text-white font-BebasNeue"
               >
                 <option value="">Filter by Event</option>
                 {events?.map((event) => (
@@ -253,7 +253,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
         <div>Error loading gallery. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
-          <table className="min-w-full border border-gray-300 bg-black">
+          <table className="min-w-full border border-gray-300 bg-primary-950/50">
             <thead className="bg-white">
               <tr>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center ">Event-Name</th>

@@ -120,13 +120,13 @@ const Stories: React.FC = () => {
       <div className="mb-4 flex gap-2">
         <button
           onClick={handleAddEventClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
+          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-primary-950/50 font-BebasNeue"
         >
           Add Video
         </button>
         <button
           onClick={handleAddCategoryClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
+          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-primary-950/50 font-BebasNeue"
         >
           Add Category
         </button>
@@ -136,7 +136,7 @@ const Stories: React.FC = () => {
         <div>Error loading uploads. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto flex flex-col gap-10">
-          <table className="min-w-full border border-gray-300 bg-black">
+          <table className="min-w-full border border-gray-300 bg-primary-950/50">
             <thead className="bg-white">
               <tr>
                 <th className="text-black py-2 px-4 border-b text-center">Category</th>
@@ -150,7 +150,7 @@ const Stories: React.FC = () => {
               ))}
             </tbody>
           </table>
-          <table className="min-w-full border border-gray-300 bg-black">
+          <table className="min-w-full border border-gray-300 bg-primary-950/50">
             <thead className="bg-white">
               <tr>
                 <th className="text-black py-2 px-4 border-b text-center">Category</th>

@@ -70,7 +70,7 @@ const GalleryBatchUpload = () => {
   const eventNames = Array.from(new Set(gallery?.map((item: GalleryItem) => item.event_name) || []));
 
   return (
-    <div className="p-4 bg-black rounded-lg shadow-md">
+    <div className="p-4 bg-primary-950/50 rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-4 text-white">Gallery Batch Upload</h1>
       <label htmlFor="batch" className="block mb-2 text-lg font-semibold text-white">
         Batch Name:
@@ -81,7 +81,7 @@ const GalleryBatchUpload = () => {
             id="batch"
             value={selectedBatch}
             onChange={(e) => setSelectedBatch(e.target.value)}
-            className="block w-full p-2 border rounded-md bg-black text-white"
+            className="block w-full p-2 border rounded-md bg-primary-950/50 text-white"
           >
             <option value="" disabled>
               Select a batch

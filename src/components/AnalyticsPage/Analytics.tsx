@@ -309,7 +309,7 @@ const Analytics = () => {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="ml-2 border font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-black text-white"
+            className="ml-2 border font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-primary-950/50 text-white"
           >
             <option value="all">All Days</option>
             <option value="1">Day 1</option>
@@ -373,7 +373,7 @@ const Analytics = () => {
                 <select
                   value={captureFilter}
                   onChange={(e) => setCaptureFilter(e.target.value)}
-                  className="border  font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-black text-white"
+                  className="border  font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-primary-950/50 text-white"
                 >
                   <option value="all">All Routes</option>
                   <option value="/">Home</option>
@@ -410,7 +410,7 @@ const Analytics = () => {
                 <select
                   value={eventFilter}
                   onChange={(e) => setEventFilter(e.target.value)}
-                  className="border  font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-black text-white"
+                  className="border  font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-primary-950/50 text-white"
                 >
                   <option value="all">All Events</option>
                   {events.map((event) => {
@@ -429,27 +429,27 @@ const Analytics = () => {
           </tbody>
         </table>
         </div>
-      <div className="mt-20 w-full h-56 mx-auto bg-black p-4 rounded-2xl">
+      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl">
         <h3 className="text-center text-2xl text-white mb-4">Visits Growth Rate</h3>
         <Line data={growthGraphData} options={chartOptions} />
       </div>
 
-      <div className="mt-20 w-full h-56 mx-auto bg-black p-4 rounded-2xl">
+      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl">
         <h3 className="text-center text-2xl text-white mb-4">Average Time Spent per Visit</h3>
         <Line data={avgTimeSpentGraphData} options={chartOptions} />
       </div>
 
-      <div className="mt-20 w-full h-56 mx-auto bg-black p-4 rounded-2xl">
+      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl">
         <h3 className="text-center text-2xl text-white mb-4">Total Visits Over Time</h3>
         <Line data={visitGraphData} options={chartOptions} />
       </div>
 
-      <div className="mt-20 w-full h-56 mx-auto bg-black p-4 rounded-2xl">
+      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl">
         <h3 className="text-center text-2xl text-white mb-4">Unique Visitors Over Time</h3>
         <Line data={uniqueGraphData} options={chartOptions} />
       </div>
 
-      <div className="mt-20 w-full h-56 mx-auto bg-black p-4 rounded-2xl">
+      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl">
         <h3 className="text-center text-2xl text-white mb-4">Views per Unique Visitor Over Time</h3>
         <Line data={viewsPerUniqueGraphData} options={chartOptions} />
       </div>

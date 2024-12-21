@@ -3,6 +3,7 @@ import { api } from '~/utils/api';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
+import { BsDashCircleFill } from 'react-icons/bs';
 
 const ApproveCaptures: React.FC = () => {
   // Fetch only pending gallery items
@@ -63,7 +64,7 @@ const ApproveCaptures: React.FC = () => {
       <h1 className="text-6xl font-Hunters mb-8 py-5 text-center">Approve Captures</h1>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-300 bg-black">
+        <table className="min-w-full border border-gray-300 bg-primary-950/50">
           <thead className="bg-white">
             <tr>
               <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Event Name</th>
@@ -75,7 +76,7 @@ const ApproveCaptures: React.FC = () => {
           <tbody>
             {pendingCaptures?.map(item => (
               <tr key={item.id} onDoubleClick={() => handleDoubleClick(item.id)} className="hover:bg-gray-50 hover:text-black">
-                <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_name}</td>
+                <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_name|| <BsDashCircleFill />}</td>
                 <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_category.charAt(0).toUpperCase() + item.event_category.slice(1)}</td>
                 <td className="py-2 px-4 border-b border-slate-700 text-center">
                   <span className="flex items-center justify-center gap-2">
