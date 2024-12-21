@@ -56,7 +56,6 @@ enum State {
 
 enum Teamgroup {
   media
-  digital
   socialmedia
   developer
   none
@@ -79,9 +78,6 @@ enum position {
   teamleadfrontenddev
   teamleadbackenddev
   teamleadfullstackdev
-  digitalhead
-  digitalcohead
-  digitalteam
   none
 }
 

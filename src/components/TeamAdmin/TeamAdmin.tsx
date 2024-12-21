@@ -7,12 +7,11 @@ import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import { useSession } from 'next-auth/react';
 
-type Committee = 'media' | 'digital' | 'socialmedia' | 'developer';
+type Committee = 'media' | 'socialmedia' | 'developer';
 type MediaDesignation = 'mediahead' | 'mediacohead' | 'leadvideographer' | 'leadphotographer' | 'photographer' | 'videographer' | 'aerialvideographer';
 type SocialMediaDesignation = 'socialmediahead' | 'socialmediacohead' | 'socialmediateam';
 type DeveloperDesignation = 'frontenddev' | 'backenddev' | 'fullstackdev';
-type DigitalDesignation = 'digitalhead' | 'digitalcohead' | 'digitalteam';
-type Designation = MediaDesignation | SocialMediaDesignation | DeveloperDesignation | DigitalDesignation;
+type Designation = MediaDesignation | SocialMediaDesignation | DeveloperDesignation;
 
 const TeamAdmin: React.FC = () => {
   const { data: teams, isLoading, isError, refetch } = api.team.getAllTeams.useQuery();
@@ -37,7 +36,6 @@ const TeamAdmin: React.FC = () => {
   const designationOptions: Record<Committee, Designation[]> = {
     media: ['mediahead', 'mediacohead', 'leadvideographer', 'leadphotographer', 'photographer', 'videographer', 'aerialvideographer'],
     socialmedia: ['socialmediahead', 'socialmediacohead', 'socialmediateam'],
-    digital: ['digitalhead', 'digitalcohead', 'digitalteam'],
     developer: ['frontenddev', 'backenddev', 'fullstackdev'],
   };
   const [filteredDesignations, setFilteredDesignations] = useState<Designation[]>(designationOptions[teamForm.committee]);
@@ -202,9 +200,6 @@ const TeamAdmin: React.FC = () => {
                     frontenddev: "Front End Developer",
                     backenddev: "Back End Developer",
                     fullstackdev: "Full Stack Developer",
-                    digitalhead: "Digital Head",
-                    digitalcohead: "Digital Co-Head",
-                    digitalteam: "Digital Team",
                     none: ""
                   }[team.designation] || team.designation}
                 </td>

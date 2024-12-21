@@ -34,23 +34,6 @@ const OurTeam = () => {
             </div>
           </div>
         </Link>
-
-                {/* Digital Committee Card */}
-                <Link href="/our-team/digital" passHref>
-          <div
-            className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-            style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBiAnPYNkyysDlBgTvxSE49eUkcFGPA1Yjh5wIK')" }} 
-          >
-            <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
-            <div className="relative flex flex-col items-center justify-center h-full text-white text-2xl font-bold">
-              Digital Team
-              <p className="mt-2 text-center text-base text-gray-300">
-                Innovating digital experiences and managing online presence.
-              </p>
-            </div>
-          </div>
-        </Link>
-
         {/* Media Committee Card */}
         <Link href="/our-team/media" passHref>
           <div

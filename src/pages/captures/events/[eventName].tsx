@@ -120,7 +120,7 @@ const EventCaptures = () => {
               <ImageListItem key={image.id}>
                 <Image
                   src={`${image.image_path}?w=248&fit=crop&auto=format`}
-                  alt={image.event_name}
+                  alt={image.event_name || ""}
                   loading="lazy"
                   width={248}
                   height={0}

@@ -62,16 +62,15 @@ async function main() {
   // Create Team Entries
   const teamNames = Array.from({ length: 50 }, (_, i) => `Team Member ${i + 1}`);
   const teamPromises = teamNames.map(async (name) => {
-    const committee = ['media', 'digital', 'socialmedia', 'developer'][
+    const committee = ['media', 'socialmedia', 'developer'][
       Math.floor(Math.random() * 4)
-    ] as 'media' | 'digital' | 'socialmedia' | 'developer';
+    ] as 'media' | 'socialmedia' | 'developer';
 
     const designationOptions: Record<typeof committee, string[]> = {
       media: [
         'mediahead', 'mediacohead', 'leadvideographer', 'leadphotographer',
         'photographer', 'videographer', 'aerialvideographer'
       ],
-      digital: ['digitalhead', 'digitalcohead', 'digitalteam'],
       socialmedia: ['socialmediahead', 'socialmediacohead', 'socialmediateam'],
       developer: ['frontenddev', 'backenddev', 'fullstackdev']
     };
@@ -87,9 +86,6 @@ async function main() {
         | 'photographer'
         | 'videographer'
         | 'aerialvideographer'
-        | 'digitalhead'
-        | 'digitalcohead'
-        | 'digitalteam'
         | 'socialmediahead'
         | 'socialmediacohead'
         | 'socialmediateam'

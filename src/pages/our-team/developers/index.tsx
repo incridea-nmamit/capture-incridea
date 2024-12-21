@@ -1,5 +1,4 @@
 import { api } from '~/utils/api';
-import React, { useEffect, useRef, useCallback } from 'react';
 import TeamCard from '~/components/TeamPage/TeamCard'; // Adjust path if needed
 import TitleSection from '~/components/TeamPage/TeamTitle';
 import FallingClipart from '~/components/BackgroundFallAnimation/FallingClipart';
@@ -35,19 +34,14 @@ const MediaCommittee: React.FC = () => {
     frontenddev: "Front End Developer",
     backenddev: "Back End Developer",
     fullstackdev: "Full Stack Developer",
-    digitalhead: "Digital Head",
-    digitalcohead: "Digital Co-Head",
-    digitalteam: "Digital Team",
     none: ""
   };
 
   const designationPriority = [
     'mediahead',
     'socialmediahead',
-    'digitalhead',
     'mediacohead',
     'socialmediacohead',
-    'digitalcohead',
     'leadvideographer',
     'leadphotographer',
     'aerialvideographer',
@@ -60,7 +54,6 @@ const MediaCommittee: React.FC = () => {
     'fullstackdev',
     'frontenddev',
     'backenddev',
-    'digitalteam',
     'none'
   ];
 
