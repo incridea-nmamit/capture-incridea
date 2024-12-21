@@ -56,11 +56,6 @@ const FallingClipart: React.FC = () => {
     <div 
       className="fixed inset-0 pointer-events-none z-10"
       ref={containerRef}
-      style={{
-        backgroundImage: "url('https://utfs.io/f/0yks13NtToBi0kW8LTNtToBiULsc4C1KNaJSf9je8Rp2kXmI')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
     ></div>
   );
 };

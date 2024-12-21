@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import CapturesComponent from '~/components/CapturePage/CapturePageComponent';
 import CameraLoading from '~/components/LoadingAnimation/CameraLoading';
 import ReleaseOverlay from '~/components/ReleasingOverlay/ReleaseOverlay';
+import { useSession } from 'next-auth/react';
 import { api } from '~/utils/api';
-
+import LoginComponent from './LoginComponent';
 
 const Captures: React.FC = () => {
+  const { data: session, status } = useSession();
   const [isReleased, setIsReleased] = useState<boolean>(false);
   const { data, isLoading, error } = api.variables.getVariable.useQuery({
     key: 'CountDown-Capture',
@@ -22,8 +24,12 @@ const Captures: React.FC = () => {
     return releaseDateTime > currentTime;
   };
 
+  if (!session) {
+    return <LoginComponent />;
+  }
+
   if (isLoading) {
-    return <CameraLoading/>; // Show a loading state while fetching data
+    return <CameraLoading />; // Show a loading state while fetching data
   }
 
   if (error || !data?.value) {

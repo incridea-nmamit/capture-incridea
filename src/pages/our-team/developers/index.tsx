@@ -70,7 +70,7 @@ const MediaCommittee: React.FC = () => {
     .sort((a, b) => designationPriority.indexOf(a.designation) - designationPriority.indexOf(b.designation));
 
   return (
-    <div className="flex flex-col items-center bg-black z-20">
+    <div className="flex flex-col items-center bg-primary-950/50 z-20">
       <FallingClipart />
       {/* Title Section */}
       <TitleSection 
