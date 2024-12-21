@@ -120,9 +120,12 @@ model Gallery {
   image_path String
   event_name String
   event_category String
-  state  Status     @default(pending)
+  upload_type  String
+  state  Status  
   date_time  DateTime @default(now())
 }
+
+
 
 
 model Smcuploads {

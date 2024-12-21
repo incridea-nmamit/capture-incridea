@@ -18,7 +18,9 @@ export const galleryRouter = createTRPCRouter({
       z.object({
         event_name: z.string().min(1, "Event name is required"),   
         event_category: z.string().min(1, "Event name is required"),        
-        uploadKey: z.string().min(1, "Upload key is required"),       
+        uploadKey: z.string().min(1, "Upload key is required"), 
+        upload_type: z.string().min(1, "Type is required"), 
+        state: z.enum(['pending', 'declined', 'approved'])      
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -28,6 +30,8 @@ export const galleryRouter = createTRPCRouter({
           event_name: input.event_name,
           event_category: input.event_category,
           image_path: imageUrl,
+          state: input.state,
+          upload_type: input.upload_type
         },
       });
 
@@ -61,6 +65,25 @@ export const galleryRouter = createTRPCRouter({
         where: { id },
         data: {
           state, 
+        },
+      });
+    }),
+
+    batchUpload: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, "Capture ID is required"),
+        upload_type: z.string().min(1, "Type is required"), 
+        state: z.enum(['pending', 'declined', 'approved']), // Ensure the state is valid
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, state, upload_type } = input; 
+      await ctx.db.gallery.updateMany({
+        where: { id },
+        data: {
+          state, 
+          upload_type
         },
       });
     })

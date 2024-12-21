@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IoCloudUploadSharp, IoNotifications, IoSettings } from "react-icons/io5";
 import TeamAdmin from '~/components/TeamAdmin/TeamAdmin';
-import useUserRole from '~/hooks/useUserRole';
 import EventsAdmin from '~/components/EventsAdmin/EventsAdmin';
 import CapturesAdmin from '~/components/CapturesAdmin/CapturesAdmin';
 import Analytics from '../analytics';
@@ -22,7 +21,6 @@ import { FaUserCog } from "react-icons/fa";
 import ControlComponent from '~/components/ControlAdmin/ControlComponent';
 
 const Dashboard = () => {
-  const userRole = useUserRole();
   const [activeTab, setActiveTab] = useState<string>(''); 
   const [showMessageOnce, setShowMessageOnce] = useState(true); 
   const [pendingCount, setPendingCount] = useState<number>(0); 
@@ -77,11 +75,10 @@ const Dashboard = () => {
             {session?.user.role === 'admin'
               ? ' and you have access to everything✌!'
               : session?.user.role === 'editor'
-              ? 'and you can manage all media captures on this website✌!'
+              ? 'and you can manage all media captures, story management and remove requests on this website✌!'
               : session?.user.role === 'manager'
               ? 'and you can manage & update events and teams on this website✌!'
               : 'keep up the great work!'}
-            🚀
           </p>
         </div>
       );
@@ -90,7 +87,7 @@ const Dashboard = () => {
 
   const renderTabNavigation = () => (
     <div className="flex flex-col mb-4 gap-5">
-      {userRole === 'admin' && (
+      {session?.user.role === 'admin' && (
         <button
           onClick={() => {
             setActiveTab('roles');
@@ -105,7 +102,7 @@ const Dashboard = () => {
           User Roles <FaUserCog />
         </button>
       )}
-      {(userRole === 'admin' || userRole === 'manager') && (
+      {(session?.user.role === 'admin' || session?.user.role === 'manager') && (
         <button
           onClick={() => {
             setActiveTab('events');
@@ -120,7 +117,7 @@ const Dashboard = () => {
           Events <BsCalendar2EventFill />
         </button>
       )}
-      {(userRole === 'admin' || userRole === 'manager') && (
+      {(session?.user.role === 'admin' || session?.user.role === 'manager') && (
         <button
           onClick={() => {
             setActiveTab('team');
@@ -135,7 +132,7 @@ const Dashboard = () => {
           Teams <FaUserGroup />
         </button>
       )}
-      {(userRole === 'admin' || userRole === 'manager' || userRole === 'editor') && (
+      {(session?.user.role === 'admin' || session?.user.role === 'manager' || session?.user.role === 'editor') && (
         <button
           onClick={() => {
             setActiveTab('captures');
@@ -151,7 +148,7 @@ const Dashboard = () => {
         </button>
       )}
 
-      {userRole === 'admin' && (
+      {session?.user.role === 'admin' && (
         <button
           onClick={() => {
             setActiveTab('analytics');
@@ -167,7 +164,7 @@ const Dashboard = () => {
         </button>
       )}
 
-        {(userRole === 'admin' || userRole === 'editor' || userRole === 'manager') && (
+        {(session?.user.role === 'admin' || session?.user.role === 'editor' || session?.user.role === 'manager') && (
         <button
         onClick={() => {
           setActiveTab('removalrequest');
@@ -189,7 +186,7 @@ const Dashboard = () => {
       
       )}
 
-{(userRole === 'admin') && (
+{(session?.user.role === 'admin') && (
         <button
         onClick={() => {
           setActiveTab('controls');
@@ -206,7 +203,7 @@ const Dashboard = () => {
       
       )}
 
-{(userRole === 'admin'|| userRole === 'editor' || userRole === 'smc' ) && (
+{(session?.user.role === 'admin'|| session?.user.role === 'editor' || session?.user.role === 'smc' ) && (
         <button
         onClick={() => {
           setActiveTab('smc');
@@ -223,7 +220,7 @@ const Dashboard = () => {
       
       )}
 
-{(userRole === 'admin'|| userRole === 'editor' || userRole === 'manager') && (
+{(session?.user.role === 'admin'|| session?.user.role === 'editor' || session?.user.role === 'manager') && (
         <button
         onClick={() => {
           setActiveTab('stories');
@@ -240,7 +237,7 @@ const Dashboard = () => {
       
       )}
 
-{(userRole === 'admin'|| userRole === 'manager') && (
+{(session?.user.role === 'admin'|| session?.user.role === 'manager') && (
         <button
         onClick={() => {
           setActiveTab('approvecap');
@@ -260,14 +257,14 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="flex flex-col md:flex-row bg-zinc-800 text-white min-h-screen ">
+    <div className="flex flex-col md:flex-row bg-primary-950/50 text-white min-h-screen ">
       {/* Sidebar */}
       <div className="md:w-48 w-full p-4 bg-zinc-900 bg-cover bg-opacity-100">
         {renderTabNavigation()}
       </div>
 
       {/* Content Area */}
-      <div className="md:w-5/6 w-full min-h-screen p-4" style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBi0t1oCo8NtToBiULsc4C1KNaJSf9je8Rp2kXm')"}}>
+      <div className="md:w-5/6 w-full min-h-screen p-4">
         {renderComponent()}
       </div>
     </div>
