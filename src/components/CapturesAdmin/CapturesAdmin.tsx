@@ -192,21 +192,23 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
   return (
     <div className="p-4">
       <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Captures Management</h1>
-
       <div className="mb-4 flex gap-2 flex-wrap">
-      {(userRole === 'admin' || userRole === 'editor') && (
-        <button
-          onClick={handleAddCaptureClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
-        >
-          Add Capture
-        </button>
+        {(userRole === 'admin' || userRole === 'editor') && (
+          <button
+            onClick={handleAddCaptureClick}
+            className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
+          >
+            Add Capture
+          </button>
         )}
 
         <select
           name="event_category"
           value={filters.event_category}
-          onChange={handleFilterChange}
+          onChange={(e) => {
+            handleFilterChange(e);
+            applyFilters(); // Apply filters dynamically
+          }}
           className="p-2 border border-slate-700 rounded-xl bg-black text-white font-BebasNeue"
         >
           <option value="">Filter by Category</option>
@@ -217,31 +219,34 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
           <option value="cultural">Cultural</option>
         </select>
 
-
-        {eventsLoading ? (
-          <select className="w-full p-2 rounded" disabled>
-            <option>Loading events...</option>
-          </select>
-        ) : (
-          <select
-            name="event_name"
-            value={filters.event_name}
-            onChange={(e) => {
-              handleFilterChange(e);
-              applyFilters();
-            }}
-            className="p-2 border border-slate-700 rounded-xl bg-black text-white font-BebasNeue"
-          >
-            <option value="">Filter by Event</option>
-            {events?.map((event) => (
-              <option key={event.id} value={event.name}>
-                {event.name}
-              </option>
-            ))}
-          </select>
+        {/* Show Event Name filter if Event Category is "events" or default */}
+        {(filters.event_category === "events" || filters.event_category === "") && (
+          <>
+            {eventsLoading ? (
+              <select className="w-full p-2 rounded" disabled>
+                <option>Loading events...</option>
+              </select>
+            ) : (
+              <select
+                name="event_name"
+                value={filters.event_name}
+                onChange={(e) => {
+                  handleFilterChange(e);
+                  applyFilters();
+                }}
+                className="p-2 border border-slate-700 rounded-xl bg-black text-white font-BebasNeue"
+              >
+                <option value="">Filter by Event</option>
+                {events?.map((event) => (
+                  <option key={event.id} value={event.name}>
+                    {event.name}
+                  </option>
+                ))}
+              </select>
+            )}
+          </>
         )}
       </div>
-
       {galleryLoading ? (
         <div>Loading...</div>
       ) : galleryError ? (
