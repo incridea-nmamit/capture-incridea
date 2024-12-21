@@ -93,21 +93,6 @@ const EventsAdmin: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-  interface EventData {
-    id: number; 
-    name: string;
-    visibility: 'active' | 'inactive';
-  }
-  
-  const handleDoubleClickVisibility = (event: EventData) => {
-    setVisibilityPopup({
-      id: event.id,
-      name: event.name,
-      currentVisibility: event.visibility,
-      newVisibility: event.visibility === 'active' ? 'inactive' : 'active',
-    });
-  };
-
   const confirmDelete = async () => {
     if (eventToDelete) {
       try {
@@ -133,24 +118,7 @@ const EventsAdmin: React.FC = () => {
     setIsDeletePopupOpen(false);
     setEventToDelete(null);
   };
-  
-
-  const handleVisibilityChange = async (id: number, name: string, currentState: string) => {
-    const newState = currentState === "active" ? "inactive" : "active";    
-      try {
-        await updateVisibility.mutateAsync({ id });
-        await auditLogMutation.mutateAsync({
-          sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
-          description: `EventManagementAudit - Changed event visibility of ${name} to ${newState}`,
-        });
-        toast.success(`Changed event visibility of ${name} to ${newState}`);
-        setVisibilityPopup(null)
-        void refetch();
-      } catch (error) {
-        toast.error(`Error updating visibility for ${name}`);
-      }
-  };
-  const filteredEvents = events?.filter(event => {
+    const filteredEvents = events?.filter(event => {
     const matchesSearchTerm = event.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesEventType = selectedEventType === 'all' || event.type === selectedEventType;
     const matchesDay = selectedDay === 'all' || event.day === selectedDay;
@@ -246,17 +214,28 @@ const EventsAdmin: React.FC = () => {
                 </td>
                 <td
                     className="py-2 px-4 border-b border-slate-700 text-center cursor-pointer"
-                    onDoubleClick={() => handleDoubleClickVisibility(event)}
                   >
-                    {event.visibility === 'active' ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <span className="w-4 h-4 rounded-full bg-green-500"></span>
-                      </span>
-                    ) : (
-                      <span className="flex items-center justify-center gap-2">
-                        <span className="w-4 h-4 rounded-full bg-red-500"></span>
-                      </span>
-                    )}
+                    <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={event.visibility === 'active'}
+                      onChange={async () => {
+                        const newValue = event.visibility === 'active' ? 'inactive' : 'active';
+                        const id = event.id;
+                        const name = event.name;
+                        await updateVisibility.mutateAsync({id });
+                        await auditLogMutation.mutateAsync({
+                          sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+                          description: `EventManagementAudit - ${name} visibility set to ${newValue}`,
+                        });
+                        toast.success(`${name} visibility set to ${newValue}`);
+                        refetch();
+                      }}
+                      className="sr-only peer"
+                    />
+                    <div className="w-11 h-6 bg-red-500 peer-checked:bg-green-500 rounded-full peer-focus:ring-2 peer-focus:ring-green-300 transition"></div>
+                    <div className="absolute top-0.5 left-1 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
+                  </label>
                   </td>
 
                   <td className="py-2 px-4 border-b border-slate-700 text-center w-16">
@@ -365,23 +344,6 @@ const EventsAdmin: React.FC = () => {
             <div className="flex justify-end mt-4 space-x-4">
               <button onClick={confirmDelete} className="bg-red-600 text-white px-4 py-2 rounded">Delete</button>
               <button onClick={cancelDelete} className="bg-gray-300 px-4 py-2 rounded">Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Popup for Visibility Change */}
-      {visibilityPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
-          <div className="flex-col justify-center bg-black p-14 rounded-3xl shadow-lg w-[40vw] h-auto ">
-            <h2 className="text-lg font-bold mb-2 text-center">Change Visibility</h2>
-            <div>
-              <p className='text-center'>CURRENT : {visibilityPopup.currentVisibility.toUpperCase()}</p>
-              <p className='text-center'>ARE YOU SURE YO WANT TO CHANGE IT TO {visibilityPopup.newVisibility.toUpperCase()} ?</p>
-              <div className='flex justify-center gap-5 p-5'>
-                <button onClick={() => handleVisibilityChange(visibilityPopup.id, visibilityPopup.name, visibilityPopup.currentVisibility)} className="  bg-white text-black p-2 rounded mt-2">Confirm ✓</button>
-                <button onClick={() => setVisibilityPopup(null)} className="  bg-white text-black p-2 rounded mt-2">Cancel ✕</button>
-              </div>
             </div>
           </div>
         </div>
