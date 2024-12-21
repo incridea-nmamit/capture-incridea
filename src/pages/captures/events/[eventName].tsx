@@ -95,7 +95,7 @@ const EventCaptures = () => {
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
-    <div className="p-6 bg-black min-h-screen">
+    <div className="p-6 bg-primary-950/50v min-h-screen">
       <h1 className="text-3xl md:text-7xl font-Hunters text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
         {formattedEventName} Captures
       </h1>

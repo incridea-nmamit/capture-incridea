@@ -78,7 +78,6 @@ const CapturesComponent = () => {
       <FallingClipart />
       <div
         className="min-h-screen bg-cover bg-center flex flex-col items-center justify-start p-8 z-30"
-        style={{ backgroundImage: "url('')" }}
       >
         <h1 className="text-6xl md:text-8xl text-white font-Hunters mb-5 z-30">Captures</h1>
         <p className="text-lg text-center max-w-3xl text-gray-400 mb-12 z-20">

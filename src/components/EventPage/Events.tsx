@@ -35,7 +35,7 @@ const Events: FC = () => {
   if (isLoading) return <CameraLoading/>;
 
   return (
-    <div className="p-6 bg-black min-h-screen">
+    <div className="p-6 bg-primary-950/50 min-h-screen">
       <div className="flex flex-row md:flex-row items-center gap-4 mb-8 z-30">
         <div className="relative flex-grow z-30">
           <input
