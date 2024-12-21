@@ -4,12 +4,15 @@ import { User } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 
+// Define a type for roles
+type Role = 'admin' | 'manager' | 'smc' | 'editor' | 'user';
+
 const ManageRoles = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [selectedUserName, setSelectedUserName] = useState<string | null>(null);
-  const [newRole, setNewRole] = useState<'admin' | 'manager' | 'smc' | 'editor' | 'user'>('user');
+  const [newRole, setNewRole] = useState<Role>('user');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const auditLogMutation = api.audit.log.useMutation();
@@ -59,19 +62,37 @@ const ManageRoles = () => {
     }
   };
 
+  // Define the type of roleCounts to make sure it is structured correctly
+  const roleCounts: { [key in Role]: number } = users.reduce((counts, user) => {
+    if (user.role) {
+      counts[user.role] = (counts[user.role] || 0) + 1;
+    }
+    return counts;
+  }, {} as { [key in Role]: number });
+
   return (
     <div className="p-4">
       <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Manage Roles</h1>
 
-      {/* Search Bar */}
-      <div className="mb-4 flex justify-center">
-        <input
-          type="text"
-          placeholder="Search by Name or Email"
-          className="p-2 w-1/2 border rounded-3xl text-center bg-primary-950/50 text-white"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      {/* Search Bar and Role Count Buttons */}
+      <div className="mb-4 flex flex-col gap-10 justify-between items-center">
+        <div className="flex justify-center">
+          <input
+            type="text"
+            placeholder="Search by Name or Email"
+            className="p-2 w-full border rounded-3xl text-center bg-primary-950/50 text-white"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        <div className="flex space-x-4">
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28"> Admin-{roleCounts['admin']||0}</div>
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Manager-{roleCounts['manager']||0} </div>
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Editor-{roleCounts['editor']||0} </div>
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">SMC-{roleCounts['smc']||0} </div>
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Users-{roleCounts['user'] ||0} </div>
+        </div>
       </div>
 
       <table className="min-w-full border border-gray-300 bg-primary-950/50">
@@ -114,7 +135,7 @@ const ManageRoles = () => {
             <select
               className="w-full p-2 border rounded mb-4 bg-black text-white"
               value={newRole}
-              onChange={(e) => setNewRole(e.target.value as 'admin' | 'manager' | 'editor' | 'user')}
+              onChange={(e) => setNewRole(e.target.value as Role)}
             >
               <option value="admin">Admin</option>
               <option value="manager">Manager</option>
