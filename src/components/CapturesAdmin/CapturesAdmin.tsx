@@ -7,6 +7,7 @@ import CameraLoading from '../LoadingAnimation/CameraLoading';
 import { FaTrash } from 'react-icons/fa';
 import { useSession } from 'next-auth/react';
 import useUserRole from '~/hooks/useUserRole';
+import GalleryBatchUpload from './BatchUpload';
 
 const CapturesAdmin: React.FC = () => {
   const addImage = api.gallery.addImage.useMutation();
@@ -382,7 +383,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
           </div>
         </div>
       )}
-
+      <GalleryBatchUpload/>
     </div>
   );
 };
