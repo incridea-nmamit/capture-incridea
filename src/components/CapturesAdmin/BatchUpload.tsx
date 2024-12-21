@@ -4,7 +4,7 @@ import { api } from '~/utils/api';
 
 interface GalleryItem {
   id: number;
-  event_name: string;
+  event_name: string | null;  // Updated to string | null
   event_category: string;
   upload_type: string;
   state: 'pending' | 'declined' | 'approved';
@@ -63,24 +63,30 @@ const GalleryBatchUpload = () => {
   const eventNames = Array.from(new Set(gallery?.map((item: GalleryItem) => item.event_name) || []));
 
   return (
-    <div className="p-4 bg-blackrounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-4">Gallery Batch Upload</h1>
+    <div className="p-4 bg-black rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold mb-4 text-white">Gallery Batch Upload</h1>
 
-      <label htmlFor="batch" className="block mb-2 text-lg font-semibold">Batch Name:</label>
+      <label htmlFor="batch" className="block mb-2 text-lg font-semibold text-white">Batch Name:</label>
       <select
         id="batch"
         value={selectedBatch}
         onChange={(e) => setSelectedBatch(e.target.value)}
-        className="block w-full p-2 border rounded-md bg-black"
+        className="block w-full p-2 border rounded-md bg-black text-white"
       >
         <option value="">Select a batch</option>
-        {eventNames.map((name) => (
-          <option key={name} value={name}>
-            {name}
-          </option>
-        ))}
+        {eventNames
+          .filter((name) => name !== null)
+          .map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        {/* Static options */}
+        <option value="pronight">Pronight</option>
+        <option value="snaps">Snaps</option>
+        <option value="behindincridea">Behind Incridea</option>
+        <option value="cultural">Cultural</option>
       </select>
-
       <button
         onClick={handleBatchUpload}
         className="mt-4 px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700"
@@ -88,7 +94,7 @@ const GalleryBatchUpload = () => {
         Upload Batch
       </button>
 
-      <table className="mt-6 w-full table-auto border-collapse border border-gray-300">
+      <table className="mt-6 w-full table-auto border-collapse border border-gray-300 text-white">
         <thead>
           <tr>
             <th className="border border-gray-300 px-4 py-2">Event Name</th>
@@ -107,7 +113,7 @@ const GalleryBatchUpload = () => {
               <td className="border border-gray-300 px-4 py-2">
                 <img
                   src={item.image_path}
-                  alt={item.event_name}
+                  alt={item.event_name || "Image"}
                   className="w-16 h-16 object-cover"
                 />
               </td>

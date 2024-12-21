@@ -16,7 +16,7 @@ export const galleryRouter = createTRPCRouter({
   addImage: protectedProcedure
     .input(
       z.object({
-        event_name: z.string().min(1, "Event name is required"),   
+        event_name: z.string().optional(),
         event_category: z.string().min(1, "Event name is required"),        
         uploadKey: z.string().min(1, "Upload key is required"), 
         upload_type: z.string().min(1, "Type is required"), 

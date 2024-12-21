@@ -118,15 +118,12 @@ model downloadLog {
 model Gallery {
   id         Int      @id @default(sequence())
   image_path String
-  event_name String
+  event_name String?
   event_category String
   upload_type  String
   state  Status  
   date_time  DateTime @default(now())
 }
-
-
-
 
 model Smcuploads {
   id         Int      @id @default(sequence())
