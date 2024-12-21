@@ -269,7 +269,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_category.charAt(0).toUpperCase() + item.event_category.slice(1)}</td>
 
                   <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
-                    <Image src={item.image_path} alt={item.event_name||""} width={32} height={32} className="h-32 w-32 object-cover" />
+                    <Image src={item.image_path} alt={item.event_name||""} width={20} height={20} className="h-20 w-20 object-cover" />
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center" onClick={() => handleDeleteClick(item.id)}>
                     <button onClick={() => handleDeleteClick(item.id)}>

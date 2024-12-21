@@ -71,8 +71,8 @@ const ExecuteEvents = () => {
         <thead>
           <tr className="bg-gray-200">
             <th className="text-black border py-2 px-4 text-center">Card Name</th>
-            <th className="text-black border py-2 px-4 text-center">Card State</th>
             <th className="text-black border py-2 px-4 text-center">Card Expiry</th>
+            <th className="text-black border py-2 px-4 text-center">Card State</th>
           </tr>
         </thead>
         <tbody>
@@ -83,6 +83,9 @@ const ExecuteEvents = () => {
               onDoubleClick={() => handleRowDoubleClick(card)}
             >
               <td className="py-2 px-4 border text-center">{card.cardName}</td>
+              <td className="py-2 px-4 border text-center">
+                {new Date(card.cardRtime).toLocaleString()}
+              </td>
               <td className="py-2 px-4 border text-center">
               <label className="relative inline-flex items-center cursor-pointer">
                     <input
@@ -105,9 +108,6 @@ const ExecuteEvents = () => {
                     <div className="w-11 h-6 bg-red-500 peer-checked:bg-green-500 rounded-full peer-focus:ring-2 peer-focus:ring-green-300 transition"></div>
                     <div className="absolute top-0.5 left-1 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
                   </label>
-              </td>
-              <td className="py-2 px-4 border text-center">
-                {new Date(card.cardRtime).toLocaleString()}
               </td>
             </tr>
           ))}

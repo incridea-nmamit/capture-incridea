@@ -21,7 +21,8 @@ const EventsAdmin: React.FC = () => {
   const deleteEvent = api.events.deleteEvent.useMutation();
   const [isSubmitting, setIsSubmitting] = useState(false);
     const auditLogMutation = api.audit.log.useMutation();
-    const { data: session } = useSession();  
+    const { data: session } = useSession();
+  
   const [newEvent, setNewEvent] = useState<{
     name: string;
     description: string;
@@ -181,9 +182,9 @@ const EventsAdmin: React.FC = () => {
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Description</th>                
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Category</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Day</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Visibility</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">BG Image</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Delete</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Visibility</th>
               </tr>
             </thead>
             <tbody>
@@ -204,6 +205,15 @@ const EventsAdmin: React.FC = () => {
                         day2: "Day-2",
                         day3: "Day-3",
                       }[event.day] || event.day}
+                </td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center w-16">
+                  <Image src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
+
+                </td>
+                <td className="py-2 px-4 border-b border-slate-700 text-center" onClick={() => handleDeleteClick(event.id, event.name)}>
+                <button onClick={() => handleDeleteClick(event.id, event.name)}>
+                    <FaTrash className="text-red-600 hover:text-red-800" />
+                  </button>
                 </td>
                 <td
                     className="py-2 px-4 border-b border-slate-700 text-center cursor-pointer"
@@ -230,16 +240,6 @@ const EventsAdmin: React.FC = () => {
                     <div className="absolute top-0.5 left-1 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
                   </label>
                   </td>
-
-                  <td className="py-2 px-4 border-b border-slate-700 text-center w-16">
-                  <Image src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
-
-                </td>
-                <td className="py-2 px-4 border-b border-slate-700 text-center" onClick={() => handleDeleteClick(event.id, event.name)}>
-                <button onClick={() => handleDeleteClick(event.id, event.name)}>
-                    <FaTrash className="text-red-600 hover:text-red-800" />
-                  </button>
-                </td>
                 </tr>
               ))}
             </tbody>
