@@ -21,14 +21,7 @@ const EventsAdmin: React.FC = () => {
   const deleteEvent = api.events.deleteEvent.useMutation();
   const [isSubmitting, setIsSubmitting] = useState(false);
     const auditLogMutation = api.audit.log.useMutation();
-    const { data: session } = useSession();
-  const [visibilityPopup, setVisibilityPopup] = useState<{
-    id: number;
-    name: string;
-    currentVisibility: string;
-    newVisibility: string;
-  } | null>(null);
-  
+    const { data: session } = useSession();  
   const [newEvent, setNewEvent] = useState<{
     name: string;
     description: string;

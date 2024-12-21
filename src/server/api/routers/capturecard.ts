@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const captureRouter = createTRPCRouter({
 
@@ -29,6 +29,30 @@ export const captureRouter = createTRPCRouter({
     return card.cardState;
   }),
 
+    updateEventVisibility: protectedProcedure
+      .input(
+        z.object({
+          id: z.number().min(1, "Card ID is required"),
+          newValue: z.enum(['active', 'inactive'])  
+        })
+      )
+      .mutation(async ({ ctx, input }) => {
+        const event = await ctx.db.events.findUnique({
+          where: { id: input.id },
+        });
+  
+        if (!event) throw new Error("Card not found");
+  
+        const updatedEvent = await ctx.db.captureCard.update({
+          where: { id: input.id },
+          data: {
+            cardState: input.newValue,
+          },
+        });
+  
+        return updatedEvent;
+      }),
+  
   updateCardExpiry: publicProcedure
     .input(
       z.object({
