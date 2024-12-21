@@ -24,9 +24,6 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
     >
       <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full z-30">
         <div className="flex">
-          <h2 className="text-2xl w-full text-center font-bold text-white">
-            Add Capture
-          </h2>
           <button
             onClick={handleClosePopup}
             className="absolute top-0 right-5 text-white text-4xl p-5"
