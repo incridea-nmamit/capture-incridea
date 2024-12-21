@@ -28,7 +28,7 @@ const behindincridea = () => {
   }, [cardState, router]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
-  const filteredImages = images?.filter((image) => image.event_category === 'behindincridea') || [];
+  const filteredImages = images?.filter((image) => image.event_category === 'behindincridea' && image.upload_type === "direct" && image.state === "approved") || [];
 
   const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
   const handleClosePopup = () => setSelectedImage(null);

@@ -21,7 +21,7 @@ const YourSnapsPage: React.FC = () => {
   const [removalImage, setRemovalImage] = useState<string | null>(null);
   const cookieId = Cookies.get("cookieId") || generateUniqueId();
   Cookies.set("cookieId", cookieId, { expires: 365 });
-  const filteredImages = images?.filter((image) => image.event_category === 'snaps') || [];
+  const filteredImages = images?.filter((image) => image.event_category === 'snaps' && image.upload_type === "direct" && image.state === "approved") || [];
   const router = useRouter();
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Your Snaps" }

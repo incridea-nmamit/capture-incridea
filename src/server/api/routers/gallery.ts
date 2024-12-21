@@ -45,8 +45,11 @@ export const galleryRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.gallery.delete({
+      await ctx.db.gallery.updateMany({
         where: { id: input.id },
+        data:{
+          upload_type: "deleted",
+        }
       });
 
       return { message: "Image deleted successfully" };

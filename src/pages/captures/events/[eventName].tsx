@@ -32,7 +32,7 @@ const EventCaptures = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
 
-  const filteredImages = images?.filter((image) => image.event_name === formattedEventName) || [];
+  const filteredImages = images?.filter((image) => image.event_name === formattedEventName && image.upload_type === "direct" && image.state === "approved") || [];
   const cookieId = Cookies.get("cookieId") || generateUniqueId();
   Cookies.set("cookieId", cookieId, { expires: 365 });
 

@@ -21,7 +21,7 @@ const Pronight = () => {
   Cookies.set("cookieId", cookieId, { expires: 365 });
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
-  const filteredImages = images?.filter((image) => image.event_category === 'pronight') || [];
+  const filteredImages = images?.filter((image) => image.event_category === 'pronight' && image.upload_type === "direct" && image.state === "approved") || [];
   const router = useRouter();
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Pronight" }
