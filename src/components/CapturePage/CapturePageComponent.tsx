@@ -43,6 +43,13 @@ const CapturesComponent = () => {
       link: "/captures/cultural",
       priority: 5,
     },
+    {
+      title: "Stories",
+      description: "Stories captured for you",
+      imagePath: "https://utfs.io/f/0yks13NtToBiNNw4AKjzD2wWm5AylYHcVfipk40e8O9RubFS",
+      link: "/captures/stories",
+      priority: 5,
+    },
   ];
 
   // Set up a useEffect to refetch data when the component mounts

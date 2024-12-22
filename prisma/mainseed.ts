@@ -28,6 +28,11 @@ const seed = async () => {
       cardState: State.active,
       cardRtime: new Date(),
     },
+    {
+      cardName: "Stories",
+      cardState: State.active,
+      cardRtime: new Date(),
+    },
   ];
 
   for (const card of cards) {
