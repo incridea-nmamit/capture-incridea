@@ -14,7 +14,7 @@ const TrackPageVisits = () => {
   const uniqueIdRef = useRef<string | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const syncIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const session_user = session?.user.email || ""; //Not reachable code
   useEffect(() => {
     const handlePageVisit = () => {

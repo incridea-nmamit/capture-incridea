@@ -13,14 +13,12 @@ import Footer from "~/components/HeaderFooter/Footer";
 import TrackPageVisits from "~/components/TrackPageVisits";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { Toaster } from "react-hot-toast";
+import LoginComponent from "./LoginComponent";
 
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}) => {
+const useRouteLoading = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const session_user = session?.user.email || "";
+
   useEffect(() => {
     const handleRouteChangeStart = () => setLoading(true);
     const handleRouteChangeComplete = () => setLoading(false);
@@ -36,6 +34,33 @@ const MyApp: AppType<{ session: Session | null }> = ({
     };
   }, [router]);
 
+  return loading;
+};
+
+const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps: any }) => {
+  const loading = useRouteLoading();
+  const { data: sessionData, status } = useSession();
+
+  if (status === "loading") return <CameraLoading />;
+  if (!sessionData) return <LoginComponent />;
+
+  return (
+    <div className="font-roboto flex min-h-screen flex-col">
+      <Header />
+      <main className="mt-20 flex-grow">
+        <Toaster position="top-right" reverseOrder={false} />
+        <TrackPageVisits />
+        {loading ? <CameraLoading /> : <Component {...pageProps} />}
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+const MyApp: AppType<{ session: Session | null }> = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
   return (
     <SessionProvider session={session}>
       <Head>
@@ -55,15 +80,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
         <meta property="og:url" content="https://captures.incridea.in" />
       </Head>
-      <div className="font-roboto flex min-h-screen flex-col">
-        <Header />
-        <main className="mt-20">
-          <Toaster position="top-right" reverseOrder={false} />
-          <TrackPageVisits />
-          {loading ? <CameraLoading /> : <Component {...pageProps} />}
-        </main>
-      </div>
-      <Footer />
+
+      <AuthenticatedApp Component={Component} pageProps={pageProps} />
     </SessionProvider>
   );
 };
