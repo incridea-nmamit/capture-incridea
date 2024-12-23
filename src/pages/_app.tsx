@@ -49,9 +49,8 @@ const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps:
   if (!sessionData) return <LoginComponent />;
 
   const isEmailVerified = verifiedEmailData?.some(
-    (emailEntry) => emailEntry.email === sessionData?.user?.email
-  ) || sessionData?.user?.email?.endsWith("nitte.edu.in");
-  
+    (emailEntry: { email: string }) => emailEntry.email === sessionData?.user?.email
+  ) || sessionData?.user?.email?.endsWith("nitte.edu.in");  
 
   if (!isEmailVerified) return <NotRegistered />;
 
