@@ -20,8 +20,6 @@ const userLinks = [
   { href: "/about", label: "About", icon: <HiInformationCircle /> },
   { href: "/our-team", label: "Our Team", icon: <RiTeamFill /> },
   // { href: "/gallery", label: "Gallery", icon: <GrGallery /> },
-
-  { href: "/stories", label: "Stories", icon: <MdCamera /> },
   { href: "/captures", label: "Captures", icon: <MdCamera /> },
 ];
 
