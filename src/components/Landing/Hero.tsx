@@ -14,16 +14,16 @@ function Hero() {
           <source src="/videos/VidCom.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="relative z-10 flex h-full flex-col items-center justify-end pb-40">
+        <div className="relative z-10 flex h-full flex-col items-center justify-end pb-24 sm:pb-28 md:pb-32">
           <div className="flex w-full flex-col gap-2 px-6 text-center text-white">
-            <h1 className="mb-4 w-full font-ClubHouse text-6xl md:text-7xl">
+            <h1 className="mb-4 w-full font-ClubHouse text-5xl md:text-6xl lg:text-7xl">
               Your Memories, Our Passion
             </h1>
-            <p className="px-10 text-sm md:text-base">
+            <p className="px-4 text-xs sm:text-sm md:text-base">
               Get your event photos and story-worthy moments.
               <br />
-              Experience them the same day!{" "}
-              <strong>captures.incridea.in</strong> has it all!
+              See them the same day!
+              <strong>captures.incridea.in</strong> is where it’s at!
             </p>
           </div>
         </div>

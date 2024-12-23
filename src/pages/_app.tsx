@@ -66,6 +66,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           {loading ? <CameraLoading /> : <Component {...pageProps} />}
         </main>
       </div>
+      <Footer />
     </SessionProvider>
   );
 };

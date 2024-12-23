@@ -14,25 +14,26 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans], // Extending the default sans font family
-        allura: ['Allura', 'cursive'],
-        islandmoments: ['IslandMoments', 'cursive'],
-        silkscreen: ['Silkscreen', 'cursive'],
-        velocista: ['Velocista', 'cursive'],
-        brigends: ['brigends', 'cursive'],
-        Hunters: ['Hunters', 'cursive'],
-        Trends: ['Trends', 'cursive'],
-        Azonix: ['Azonix', 'cursive'],
-        Radwave: ['Radwave', 'cursive'],
-        Finish: ['Finish', 'cursive'],
-        Cyberion: ['Cyberion', 'cursive'],
-        BebasNeue: ['BebasNeue', 'cursive'],
-        CreamCake: ['CreamCake', 'cursive'],
-        ClubHouse: ['ClubHouse', 'cursive'],
-        Romance: ['Romance', 'cursive'],
-        Garet: ['Garet', 'cursive'],
+        allura: ["Allura", "cursive"],
+        islandmoments: ["IslandMoments", "cursive"],
+        silkscreen: ["Silkscreen", "cursive"],
+        velocista: ["Velocista", "cursive"],
+        brigends: ["brigends", "cursive"],
+        Hunters: ["Hunters", "cursive"],
+        Trends: ["Trends", "cursive"],
+        Azonix: ["Azonix", "cursive"],
+        Radwave: ["Radwave", "cursive"],
+        Finish: ["Finish", "cursive"],
+        Cyberion: ["Cyberion", "cursive"],
+        BebasNeue: ["BebasNeue", "cursive"],
+        CreamCake: ["CreamCake", "cursive"],
+        ClubHouse: ["ClubHouse", "cursive"],
+        Romance: ["Romance", "cursive"],
+        Garet: ["Garet", "cursive"],
       },
-      "colors": {
-        "primary": {
+      colors: {
+        gold: "#FFD700",
+        primary: {
           50: "#E0EEFF",
           100: "#C2DCFF",
           200: "#85BAFF",
@@ -43,9 +44,9 @@ const config: Config = {
           700: "#00357A",
           800: "#002352",
           900: "#001229",
-          950: "#000914"
+          950: "#000914",
         },
-        "secondary": {
+        secondary: {
           50: "#FBEEEA",
           100: "#F7E0D9",
           200: "#F0C1B2",
@@ -56,9 +57,9 @@ const config: Config = {
           700: "#8D361C",
           800: "#5E2412",
           900: "#2F1209",
-          950: "#150804"
-        }
-      }
+          950: "#150804",
+        },
+      },
     },
   },
   plugins: [], // No additional plugins specified
