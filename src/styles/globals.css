@@ -3,117 +3,118 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Allura';
-    src: url('/fonts/Allura.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: "Allura";
+  src: url("/fonts/Allura.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'IslandMoments';
-    src: url('/fonts/IslandMoments.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Silkscreen';
-    src: url('/fonts/Silkscreen.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'BebasNeue';
-    src: url('/fonts/BebasNeue.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "IslandMoments";
+  src: url("/fonts/IslandMoments.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Silkscreen";
+  src: url("/fonts/Silkscreen.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "BebasNeue";
+  src: url("/fonts/BebasNeue.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Garet';
-    src: url('/fonts/Garet.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Finish';
-    src: url('/fonts/Finish.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Garet";
+  src: url("/fonts/Garet.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Finish";
+  src: url("/fonts/Finish.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'ClubHouse';
-    src: url('/fonts/ClubHouse.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Velocista';
-    src: url('/fonts/Velocista.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "ClubHouse";
+  src: url("/fonts/ClubHouse.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Velocista";
+  src: url("/fonts/Velocista.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Romance';
-    src: url('/fonts/Romance.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Romance";
+  src: url("/fonts/Romance.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Brigends';
-    src: url('/fonts/Brigends.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Cyberion';
-    src: url('/fonts/Cyberion.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Brigends";
+  src: url("/fonts/Brigends.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Cyberion";
+  src: url("/fonts/Cyberion.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Hunters';
-    src: url('/fonts/Hunters.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Hunters";
+  src: url("/fonts/Hunters.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'CreamCake';
-    src: url('/fonts/CreamCake.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "CreamCake";
+  src: url("/fonts/CreamCake.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Radwave';
-    src: url('/fonts/Radwave.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Radwave";
+  src: url("/fonts/Radwave.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Trends';
-    src: url('/fonts/Trends.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Trends";
+  src: url("/fonts/Trends.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Azonix';
-    src: url('/fonts/Azonix.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Azonix";
+  src: url("/fonts/Azonix.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  html, body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-  }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 .sticky-header {
   position: sticky;
   top: 0;
@@ -144,7 +145,9 @@
   position: absolute;
   top: 0;
   opacity: 0.7; /* Slight opacity for the whole animation */
-  animation: fallAndRotate 10s linear infinite, scale 5s alternate infinite;
+  animation:
+    fallAndRotate 10s linear infinite,
+    scale 5s alternate infinite;
   pointer-events: none; /* Disable mouse interaction */
 }
 
@@ -157,7 +160,7 @@
   scrollbar-width: none; /* for Firefox */
 }
 
-body{
+body {
   @apply bg-primary-950 text-white;
   /* background: radial-gradient(ellipse 70% 90% at 40%,#e6646588 0%, transparent 40%),
               radial-gradient(ellipse 70% 90% at 60%, #007dff88 0%, transparent 40%),
@@ -165,6 +168,21 @@ body{
   background-blend-mode: multiply;
 }
 
-.container-size{
-  @apply mx-auto max-w-screen-2xl px-6;
+/* Golden Fade Animation Inside Text */
+@keyframes goldenFade {
+  0% {
+    color: inherit;
+    text-shadow: none;
+  }
+  100% {
+    color: gold;
+    text-shadow:
+      0 0 10px gold,
+      0 0 20px gold,
+      0 0 30px gold;
+  }
+}
+
+.text-golden-fade:hover {
+  animation: goldenFade 0.5s forwards;
 }

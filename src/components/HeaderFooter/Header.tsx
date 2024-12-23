@@ -17,10 +17,12 @@ const adminLinks = [
 
 const userLinks = [
   { href: "/", label: "Home", icon: <GoHomeFill /> },
-  { href: "/captures", label: "Captures", icon: <MdCamera /> },
+  { href: "/about", label: "About", icon: <HiInformationCircle /> },
   { href: "/our-team", label: "Our Team", icon: <RiTeamFill /> },
   // { href: "/gallery", label: "Gallery", icon: <GrGallery /> },
-  { href: "/about", label: "About", icon: <HiInformationCircle /> },
+
+  { href: "/stories", label: "Stories", icon: <MdCamera /> },
+  { href: "/captures", label: "Captures", icon: <MdCamera /> },
 ];
 
 const Header: FC = () => {
@@ -38,7 +40,7 @@ const Header: FC = () => {
 
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
-      <header className="fixed top-0 left-0 z-50 flex w-full flex-wrap items-center justify-between bg-primary-950/50 p-4 shadow-md backdrop-blur-sm md:justify-start">
+      <header className="fixed left-0 top-0 z-50 flex w-full flex-wrap items-center justify-between bg-black/30 p-4 shadow-md backdrop-blur-md md:justify-start">
         <div className="flex w-full items-center justify-center px-10 md:w-auto">
           <a
             href="https://incridea.in"
@@ -56,23 +58,27 @@ const Header: FC = () => {
         </div>
 
         <nav className="z-40 ml-auto hidden gap-5 space-x-8 px-10 text-lg text-white md:flex">
-          {
-            ((session && isAdminRoute && session.user?.role === "admin")?adminLinks:userLinks).map((link) => (
-              <div key={link.href} className="flex items-center gap-2 justify-center">
-                <span>{link.icon}</span>
-                <NavLink
-                  href={link.href}
-                  label={link.label}
-                  active={
-                    link.href === "/"
-                      ? pathname === link.href
-                      : pathname.startsWith(link.href)
-                  }
-                  className="font-BebasNeue text-xl"
-                />
-              </div>
-            ))
-          }
+          {(session && isAdminRoute && session.user?.role === "admin"
+            ? adminLinks
+            : userLinks
+          ).map((link) => (
+            <div
+              key={link.href}
+              className="flex items-center justify-center gap-2"
+            >
+              <span>{link.icon}</span>
+              <NavLink
+                href={link.href}
+                label={link.label}
+                active={
+                  link.href === "/"
+                    ? pathname === link.href
+                    : pathname.startsWith(link.href)
+                }
+                className="text-golden-fade font-BebasNeue text-xl"
+              />
+            </div>
+          ))}
 
           {!session && isAdminRoute && (
             <button
@@ -103,8 +109,9 @@ const Header: FC = () => {
       </header>
 
       <div
-        className={`fixed inset-y-0 right-0 z-50 w-64 max-w-full transform space-y-6 bg-black p-6 opacity-100 transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed inset-y-0 right-0 z-50 w-64 max-w-full transform space-y-6 bg-black p-6 opacity-100 transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
         role="dialog"
         aria-modal="true"
       >
@@ -120,18 +127,34 @@ const Header: FC = () => {
           {session
             ? isAdminRoute && session.user?.role === "admin"
               ? adminLinks.map((link) => (
-                <div key={link.href} className="flex items-center gap-3">
-                  {link.icon}
-                  <NavLink
-                    href={link.href}
-                    label={link.label}
-                    active={pathname === link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="w-fit font-BebasNeue text-xl"
-                  />
-                </div>
-              ))
+                  <div key={link.href} className="flex items-center gap-3">
+                    {link.icon}
+                    <NavLink
+                      href={link.href}
+                      label={link.label}
+                      active={pathname === link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="text-golden-fade w-fit font-BebasNeue text-xl"
+                    />
+                  </div>
+                ))
               : userLinks.map((link) => (
+                  <div key={link.href} className="flex items-center gap-1">
+                    {link.icon}
+                    <NavLink
+                      href={link.href}
+                      label={link.label}
+                      active={
+                        link.href === "/"
+                          ? pathname === link.href
+                          : pathname.startsWith(link.href)
+                      }
+                      onClick={() => setIsOpen(false)}
+                      className="text-golden-fade w-fit font-BebasNeue text-xl"
+                    />
+                  </div>
+                ))
+            : userLinks.map((link) => (
                 <div key={link.href} className="flex items-center gap-1">
                   {link.icon}
                   <NavLink
@@ -143,26 +166,10 @@ const Header: FC = () => {
                         : pathname.startsWith(link.href)
                     }
                     onClick={() => setIsOpen(false)}
-                    className="w-fit font-BebasNeue text-xl"
+                    className="text-golden-fade w-fit font-BebasNeue text-xl"
                   />
                 </div>
-              ))
-            : userLinks.map((link) => (
-              <div key={link.href} className="flex items-center gap-1">
-                {link.icon}
-                <NavLink
-                  href={link.href}
-                  label={link.label}
-                  active={
-                    link.href === "/"
-                      ? pathname === link.href
-                      : pathname.startsWith(link.href)
-                  }
-                  onClick={() => setIsOpen(false)}
-                  className="w-fit font-BebasNeue text-xl"
-                />
-              </div>
-            ))}
+              ))}
 
           {!session && isAdminRoute && (
             <button
