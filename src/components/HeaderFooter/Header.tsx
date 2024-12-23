@@ -58,27 +58,23 @@ const Header: FC = () => {
         </div>
 
         <nav className="z-40 ml-auto hidden gap-5 space-x-8 px-10 text-lg text-white md:flex">
-          {(session && isAdminRoute && session.user?.role === "admin"
-            ? adminLinks
-            : userLinks
-          ).map((link) => (
-            <div
-              key={link.href}
-              className="flex items-center justify-center gap-2"
-            >
-              <span>{link.icon}</span>
-              <NavLink
-                href={link.href}
-                label={link.label}
-                active={
-                  link.href === "/"
-                    ? pathname === link.href
-                    : pathname.startsWith(link.href)
-                }
-                className="text-golden-fade font-BebasNeue text-xl"
-              />
-            </div>
-          ))}
+          {
+            ((session && isAdminRoute && session.user?.role === "admin") ? adminLinks : userLinks).map((link) => (
+              <div key={link.href} className="flex items-center gap-2 justify-center">
+                <span>{link.icon}</span>
+                <NavLink
+                  href={link.href}
+                  label={link.label}
+                  active={
+                    link.href === "/"
+                      ? pathname === link.href
+                      : pathname.startsWith(link.href)
+                  }
+                  className="font-BebasNeue text-xl"
+                />
+              </div>
+            ))
+          }
 
           {!session && isAdminRoute && (
             <button
@@ -124,52 +120,24 @@ const Header: FC = () => {
         </button>
         {/* Mobile Menu */}
         <div className="flex flex-col gap-2 space-y-4 text-white">
-          {session
-            ? isAdminRoute && session.user?.role === "admin"
-              ? adminLinks.map((link) => (
-                  <div key={link.href} className="flex items-center gap-3">
-                    {link.icon}
-                    <NavLink
-                      href={link.href}
-                      label={link.label}
-                      active={pathname === link.href}
-                      onClick={() => setIsOpen(false)}
-                      className="text-golden-fade w-fit font-BebasNeue text-xl"
-                    />
-                  </div>
-                ))
-              : userLinks.map((link) => (
-                  <div key={link.href} className="flex items-center gap-1">
-                    {link.icon}
-                    <NavLink
-                      href={link.href}
-                      label={link.label}
-                      active={
-                        link.href === "/"
-                          ? pathname === link.href
-                          : pathname.startsWith(link.href)
-                      }
-                      onClick={() => setIsOpen(false)}
-                      className="text-golden-fade w-fit font-BebasNeue text-xl"
-                    />
-                  </div>
-                ))
-            : userLinks.map((link) => (
-                <div key={link.href} className="flex items-center gap-1">
-                  {link.icon}
-                  <NavLink
-                    href={link.href}
-                    label={link.label}
-                    active={
-                      link.href === "/"
-                        ? pathname === link.href
-                        : pathname.startsWith(link.href)
-                    }
-                    onClick={() => setIsOpen(false)}
-                    className="text-golden-fade w-fit font-BebasNeue text-xl"
-                  />
-                </div>
-              ))}
+          {
+            ((session && isAdminRoute && session.user?.role === "admin") ? adminLinks : userLinks).map((link) => (
+              <div key={link.href} className="flex items-center gap-2 justify-center">
+                <span>{link.icon}</span>
+                <NavLink
+                  href={link.href}
+                  label={link.label}
+                  active={
+                    link.href === "/"
+                      ? pathname === link.href
+                      : pathname.startsWith(link.href)
+                  }
+                  onClick={() => setIsOpen(false)}
+                  className="w-fit font-BebasNeue text-xl"
+                />
+              </div>
+            ))
+          }
 
           {!session && isAdminRoute && (
             <button
