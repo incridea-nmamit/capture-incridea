@@ -1,6 +1,6 @@
 // pages/_app.tsx
 import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import { type AppType } from "next/app";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
@@ -13,8 +13,6 @@ import Footer from "~/components/HeaderFooter/Footer";
 import TrackPageVisits from "~/components/TrackPageVisits";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { Toaster } from "react-hot-toast";
-import { generateUniqueId } from "~/utils/generateUniqueId";
-import Cookies from "js-cookie";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -22,8 +20,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const cookieId = Cookies.get("cookieId") || generateUniqueId();
-  Cookies.set("cookieId", cookieId, { expires: 365 });
+  const {data: session_this}= useSession();
+  const session_user = session_this?.user.email || "";
   useEffect(() => {
     const handleRouteChangeStart = () => setLoading(true);
     const handleRouteChangeComplete = () => setLoading(false);

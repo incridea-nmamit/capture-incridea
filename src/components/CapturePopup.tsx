@@ -5,7 +5,7 @@ interface CapturePopupProps {
   handleClosePopup: () => void;
   handleDownload: (imageUrl: string) => void;
   openRemovalPopup: (imageUrl: string) => void;
-  cookieId: string;
+  session_user: string;
 }
 
 const CapturePopup: React.FC<CapturePopupProps> = ({

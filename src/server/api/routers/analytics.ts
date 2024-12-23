@@ -2,21 +2,20 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { db } from "~/server/db";
 export const analyticsRouter = createTRPCRouter({
-  // Log a new visit
   logVisit: publicProcedure
     .input(
       z.object({
-        cookieId: z.string(),
+        session_user: z.string(),
         uniqueId: z.string(),
         routePath: z.string(),
       })
     )
     .mutation(async ({ input }) => {
-      const { cookieId, uniqueId, routePath } = input;
+      const { session_user, uniqueId, routePath } = input;
       const currentDateAndTime = new Date();
       await db.webAnalytics.create({
         data: {
-          cookie_id: cookieId,
+          session_user: session_user,
           uniqueId: uniqueId,
           routePath: routePath,
           isChecked: "no",
@@ -58,14 +57,14 @@ export const analyticsRouter = createTRPCRouter({
   updateNullEntries: publicProcedure
     .input(
       z.object({
-        cookieId: z.string(),
+        session_user: z.string(),
       })
     )
     .mutation(async ({ input }) => {
-      const { cookieId } = input;
+      const { session_user } = input;
       await db.webAnalytics.updateMany({
         where: {
-          cookie_id: cookieId,
+          session_user: session_user,
           isChecked: "no",
         },
         data: {

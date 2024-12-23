@@ -1,14 +1,13 @@
-import Cookies from 'js-cookie';
+import { useSession } from 'next-auth/react';
 import { api } from '~/utils/api';
-import { generateUniqueId } from '~/utils/generateUniqueId';
 
 const useDownloadLogger = () => {
-  const logDownload = api.download.logDownload.useMutation();
-  const cookieId = Cookies.get("cookieId") || generateUniqueId();
-  Cookies.set("cookieId", cookieId, { expires: 365 });
+  const logDownload = api.download.logDownload.useMutation()
+  const{data: session} = useSession();
+  const session_user = session?.user.email || "";
   const logDownloadToServer = async (file_path: string) => {
     try {
-      await logDownload.mutateAsync({cookieId, file_path });
+      await logDownload.mutateAsync({session_user, file_path });
     } catch (error) {
       console.error("Failed to log download:", error);
     }

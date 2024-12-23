@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import Cookies from "js-cookie";
 import { generateUniqueId } from "~/utils/generateUniqueId";
+import { useSession } from "next-auth/react";
 
 const TrackPageVisits = () => {
   const logVisitMutation = api.analytics.logVisit.useMutation();
@@ -17,21 +17,19 @@ const TrackPageVisits = () => {
 
   useEffect(() => {
     const handlePageVisit = () => {
-      const cookieId = Cookies.get("cookieId") || generateUniqueId();
-      Cookies.set("cookieId", cookieId, { expires: 365 });
-
+    const { data: session, status } = useSession();
       const uniqueId = generateUniqueId();
       uniqueIdRef.current = uniqueId;
-
+      const session_user = session?.user.email || ""; //Not reachable code
       const routePath = router.asPath;
       if (routePath.startsWith("/admin") || routePath.startsWith("/unauthorised")) return;
 
       updateNullEntriesMutation.mutate(
-        { cookieId },
+        { session_user },
         {
           onSuccess: () => {
             logVisitMutation.mutate(
-              { cookieId, uniqueId, routePath },
+              { session_user, uniqueId, routePath },
               {
                 onError: (error) => {
                   console.error("Error logging visit:", error);
