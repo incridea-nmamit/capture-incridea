@@ -48,11 +48,11 @@ const Header: FC = () => {
             className="mx-auto md:mx-0"
           >
             <Image
-              src="https://utfs.io/f/0yks13NtToBiMOM3L9fzWI7ScAKGqQtv4FT8wMPEHbihruCg"
+              src="/images/Logo/capture-main.png"
               alt="Logo"
-              width={120}
-              height={70}
-              className="h-auto w-auto max-w-24"
+              width={150}
+              height={80}
+              className="h-auto w-auto max-w-32"
             />
           </a>
         </div>
