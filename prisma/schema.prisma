@@ -94,7 +94,7 @@ model team {
 
 model webAnalytics {
   id        Int      @id @default(sequence())
-  cookie_id String  
+  session_user String  
   uniqueId  String 
   routePath String  
   isChecked String
@@ -105,7 +105,7 @@ model webAnalytics {
 
 model downloadLog {
   id         Int      @id @default(sequence())
-  cookieId String
+  session_user String
   date_time  DateTime @default(now())
   file_path  String
 }
@@ -219,6 +219,6 @@ model Variables {
 model CaptureLike {
   id        Int      @id @default(sequence())
   capturePath String
-  cookieId  String
+  session_user  String
   like      Boolean
 }

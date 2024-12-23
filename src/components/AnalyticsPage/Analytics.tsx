@@ -144,7 +144,7 @@ const Analytics = () => {
 
   
   const routeVisits = filteredCaptures.length;
-  const uniqueRouteIDs = new Set(filteredCaptures.filter(log => log.isChecked==="yes").map((entry) => entry.cookie_id)).size;
+  const uniqueRouteIDs = new Set(filteredCaptures.filter(log => log.isChecked==="yes").map((entry) => entry.session_user)).size;
   
 
   // Filter event data based on eventFilter and selected day
@@ -170,7 +170,7 @@ const Analytics = () => {
 
 
   const eventVisits = filteredEvents.length;
-  const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.cookie_id)).size;
+  const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.session_user)).size;
 
   useEffect(() => {
     const visitData = filteredLogs.reduce<{ [key: string]: { visits: number; uniqueIPs: Set<string>; totalTime: number } }>(
@@ -185,7 +185,7 @@ const Analytics = () => {
         } 
 
         acc[combinedKey].visits += 1;
-        acc[combinedKey].uniqueIPs.add(log.cookie_id);
+        acc[combinedKey].uniqueIPs.add(log.session_user);
         acc[combinedKey].totalTime += log.timer ?? 0;
 
         return acc;
@@ -337,7 +337,7 @@ const Analytics = () => {
             <tr>
               <td className="py-2 px-4 border-b">Total Unique Visitors</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{new Set(filteredLogs.map((entry) => entry.cookie_id)).size}</td>
+              <td className="py-2 px-4 border-b">{new Set(filteredLogs.map((entry) => entry.session_user)).size}</td>
             </tr>
             <tr>
               <td className="py-2 px-4 border-b">Total Time Spent</td>
