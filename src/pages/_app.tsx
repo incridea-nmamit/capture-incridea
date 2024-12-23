@@ -20,8 +20,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const {data: session_this}= useSession();
-  const session_user = session_this?.user.email || "";
+  const session_user = session?.user.email || "";
   useEffect(() => {
     const handleRouteChangeStart = () => setLoading(true);
     const handleRouteChangeComplete = () => setLoading(false);

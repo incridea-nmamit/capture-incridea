@@ -14,13 +14,14 @@ const TrackPageVisits = () => {
   const uniqueIdRef = useRef<string | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const syncIntervalRef = useRef<NodeJS.Timeout | null>(null);
-
+  const { data: session, status } = useSession();
+  const session_user = session?.user.email || ""; //Not reachable code
   useEffect(() => {
     const handlePageVisit = () => {
-    const { data: session, status } = useSession();
+
       const uniqueId = generateUniqueId();
       uniqueIdRef.current = uniqueId;
-      const session_user = session?.user.email || ""; //Not reachable code
+
       const routePath = router.asPath;
       if (routePath.startsWith("/admin") || routePath.startsWith("/unauthorised")) return;
 
