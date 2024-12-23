@@ -109,12 +109,12 @@
   font-style: normal;
 }
 
-html,
-body {
+html, body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
+
 .sticky-header {
   position: sticky;
   top: 0;
@@ -185,4 +185,8 @@ body {
 
 .text-golden-fade:hover {
   animation: goldenFade 0.5s forwards;
+}
+
+.container-size{
+  @apply max-w-screen-xl mx-auto px-4;
 }
