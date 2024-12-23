@@ -222,3 +222,8 @@ model CaptureLike {
   session_user  String
   like      Boolean
 }
+
+model VerifiedEmail {
+  id        Int      @id @default(sequence())
+  email String
+}

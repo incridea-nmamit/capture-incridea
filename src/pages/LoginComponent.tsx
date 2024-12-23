@@ -12,19 +12,20 @@ const LoginComponent: React.FC = () => {
 
       <div className="text-lg leading-relaxed space-y-4 opacity-90 text-center max-w-lg mx-auto">
         <p className="mb-4 text-xl">
-          We’re delighted to have you here!<br/> Experience the magic of Incridea through stunning moments captured by our talented team.
+          <strong>We’re delighted to have you here ! </strong><br/> Experience the magic of Incridea through stunning moments captured by our amazing team
         </p>
         
         <p className="mb-4">
-          Log in using the email ID you registered with during Incridea.
+        &#x2022; Log in using the Email Id you registered for Incridea
         </p>
         
         <p className="mb-4">
-          If you havent registered yet head over to <strong> <a href="https://incridea.in" className="text-white  hover:text-blue-700">incridea.in</a> </strong>to sign up and join the experience.
+        &#x2022; If you haven't registered yet head over to <strong> <a href="https://incridea.in" className="text-white  hover:text-blue-700">incridea.in</a> </strong>to register <br/> and join the experience.
         </p>
         
         <p className="font-semibold text-white text-sm ">
-        This platform is exclusively for registered students & faculty only.
+        This platform is exclusively for Registered Students & Faculty only <br/>
+        
         </p>
       </div>
 
@@ -34,6 +35,7 @@ const LoginComponent: React.FC = () => {
       >
         Log In
       </button>
+      <p className='font-normal text-xs'>If you encounter any issues, <br/> Please feel free to reach out to us at capture.incridea@nmamit.in</p>
     </div>
   );
 };

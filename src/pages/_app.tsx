@@ -14,6 +14,7 @@ import TrackPageVisits from "~/components/TrackPageVisits";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { Toaster } from "react-hot-toast";
 import LoginComponent from "./LoginComponent";
+import NotRegistered from "./NotRegistered";
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -39,10 +40,19 @@ const useRouteLoading = () => {
 
 const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps: any }) => {
   const loading = useRouteLoading();
-  const { data: sessionData, status } = useSession();
+  const { data: sessionData, status: sessionStatus } = useSession();
+  const { data: verifiedEmailData, isLoading: isVerifiedEmailLoading } =
+    api.verifiedEmail.getEmail.useQuery();
 
-  if (status === "loading") return <CameraLoading />;
+  if (sessionStatus === "loading" || isVerifiedEmailLoading) return <CameraLoading />;
+
   if (!sessionData) return <LoginComponent />;
+
+  const isEmailVerified = verifiedEmailData?.some(
+    (emailEntry) => emailEntry.email === sessionData?.user?.email
+  );
+
+  if (!isEmailVerified) return <NotRegistered />;
 
   return (
     <div className="font-roboto flex min-h-screen flex-col">
@@ -56,6 +66,7 @@ const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps:
     </div>
   );
 };
+
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
