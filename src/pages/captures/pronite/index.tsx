@@ -76,7 +76,7 @@ const pronite = () => {
   return (
     <div>
     <TitleDescription 
-        title="pronite Captures" 
+        title="Pronite Captures" 
         description="Engaging our audience and building community through strategic social media initiatives"
         imagePath="https://utfs.io/f/0yks13NtToBitJchJ4NSCB2X9TSlbJxWYgG6rpN3n8swf4Fz"
       />
