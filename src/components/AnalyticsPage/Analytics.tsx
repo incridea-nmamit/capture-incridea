@@ -30,56 +30,86 @@ const Analytics = () => {
   const [eventFilter, setEventFilter] = useState<string>("all");
   const { data: events = [], isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
   const { data: logs = [], isLoading } = api.analytics.getAnalytics.useQuery();
-  const { data: gallery = [], isLoading:galleryLoading } = api.gallery.getAllGallery.useQuery();
+  const { data: dlogs = [] } = api.download.getAllLogs.useQuery();
+  const { data: gallery = [], isLoading: galleryLoading } = api.gallery.getAllGallery.useQuery();
   const [graphData, setGraphData] = useState<{ time: string; visits: number; unique: number; viewsPerUnique: number; avgTimeSpent: number }[]>([]);
   const [growthData, setGrowthData] = useState<{ time: string; cumulativeVisits: number }[]>([]);
+  
+  // Hardcoded dates for Day 1, Day 2, and Day 3
+  const dateReferences: Record<string, Date> = {
+    day1: new Date('2024-12-22'),
+    day2: new Date('2024-12-23'),
+    day3: new Date('2024-12-24'),
+  };
 
-  const analyticsDatesEnv = process.env.NEXT_PUBLIC_ANALYTICS_DATES;
-  const dateReferences: Record<string, Date> = analyticsDatesEnv
-    ? analyticsDatesEnv.split(",").reduce((acc, date, index) => {
-        const dayKey = `day${index + 1}`;
-        acc[dayKey] = new Date(date.trim());
-        return acc;
-      }, {} as Record<string, Date>)
-    : {};
-
-    const queries = useQueries({
-      queries: Array.from({ length: 3 }, (_, i) => ({
-        queryKey: ['variable', `Day-${i + 1}`],
-        queryFn: () => api.variables.getVariable.useQuery({ key: `Day-${i + 1}` }),
-      })),
-    });
+  // Change to this during production
+  // const dateReferences: Record<string, Date> = { 
+  //   day1: new Date('2025-02-27'),
+  //   day2: new Date('2025-02-28'),
+  //   day3: new Date('2025-03-01'),
+  // };
 
   const filteredLogs =
+  filter === "all"
+    ? logs.filter(
+        (log) =>
+          log.routePath.includes("/") &&
+          log.isChecked === "yes" &&
+          log.session_user !== "" &&
+          log.session_user !== null
+      )
+    : logs.filter((log) => {
+        const logDate = new Date(log.startPing);
+        const dateReferenceKey = `day${filter}`;
+        const dateReference = dateReferences[dateReferenceKey];
+        return (
+          dateReference &&
+          logDate.toDateString() === dateReference.toDateString() &&
+          log.routePath.includes("/") &&
+          log.session_user !== "" &&
+          log.session_user !== null
+        );
+      });
+      const filtereddLogs =
+      filter === "all"
+        ? dlogs.filter(
+            (log) =>
+              log.session_user !== "" &&
+              log.session_user !== null
+          )
+        : dlogs.filter((log) => {
+            const logDate = new Date(log.date_time);
+            const dateReferenceKey = `day${filter}`;
+            const dateReference = dateReferences[dateReferenceKey];
+            return (
+              dateReference &&
+              logDate.toDateString() === dateReference.toDateString() &&
+              log.session_user !== "" &&
+              log.session_user !== null
+            );
+          });
+
+
+  const totalTimeSpent = filteredLogs.reduce((total, log) => total + (log.timer || 0), 0);
+  const averageTimeSpent = filteredLogs.length > 0 ? totalTimeSpent / filteredLogs.length : 0;
+  const hours = Math.floor(averageTimeSpent / 3600);
+  const minutes = Math.floor((averageTimeSpent % 3600) / 60);
+  const seconds = Math.floor(averageTimeSpent % 60);
+  const thours = Math.floor(totalTimeSpent / 3600);
+  const tminutes = Math.floor((totalTimeSpent % 3600) / 60);
+  const tseconds = Math.floor(totalTimeSpent % 60);
+
+  const filteredGallery =
     filter === "all"
-    
-      ? logs.filter((log) => log.routePath.includes("/") && log.isChecked==="yes")
-      : logs.filter((log) => {
-          const logDate = new Date(log.startPing);
-          const time = log.timer;
-          const dateReferenceKey = `day${filter}`;
-          const dateReference = dateReferences[dateReferenceKey];
-          return dateReference && logDate.toDateString() === dateReference.toDateString() && log.routePath.includes("/");
-        });
-      const totalTimeSpent = filteredLogs.reduce((total, log) => total + (log.timer || 0), 0);
-      const averageTimeSpent = filteredLogs.length > 0 ? totalTimeSpent / filteredLogs.length : 0;
-      const hours = Math.floor(averageTimeSpent / 3600);
-      const minutes = Math.floor((averageTimeSpent % 3600) / 60);
-      const seconds = Math.floor(averageTimeSpent % 60);
-      const thours = Math.floor(totalTimeSpent / 3600);
-      const tminutes = Math.floor((totalTimeSpent % 3600) / 60);
-      const tseconds = Math.floor(totalTimeSpent % 60);
-    const filteredGallery =
-    filter === "all"
-      ? gallery // If no filter is selected, fetch all gallery entries
+      ? gallery
       : gallery.filter((galleryItem) => {
-          const galleryItemDate = new Date(galleryItem.date_time); // Assuming each gallery item has a `date_time` field
+          const galleryItemDate = new Date(galleryItem.date_time);
           const dateReferenceKey = `day${filter}`;
           const dateReference = dateReferences[dateReferenceKey];
           return dateReference && galleryItemDate.toDateString() === dateReference.toDateString();
         });
 
-    const filteredCaptures = captureFilter === "all"
+  const filteredCaptures = captureFilter === "all"
     ? logs.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
@@ -95,79 +125,72 @@ const Analytics = () => {
           "behindincridea",
           "captures"
         ];
-  
-        // Check if the routePath matches any of the valid routes
+
         const isValidRoute = validRoutes.some((route) => log.routePath.includes(route));
-  
+
         return (
-          isValidRoute && // Ensure the routePath matches
-          (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) && // Check date filter
-          log.isChecked==="yes" // Ensure the log is checked
+          isValidRoute && 
+          (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
+          log.isChecked === "yes"
         );
       })
     : logs.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
-  
 
         if (captureFilter === "/") {
           return (
-            log.routePath === "/" && // Only matches "/" route
+            log.routePath === "/" && 
             (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
-            log.isChecked==="yes"
+            log.isChecked === "yes"
           );
         }
         if (captureFilter === "captures") {
           return (
-            log.routePath === "/captures" && // Only matches "/" route
+            log.routePath === "/captures" &&
             (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
-            log.isChecked==="yes"
+            log.isChecked === "yes"
           );
         }
-  
+
         if (captureFilter === "events") {
           return (
-            log.routePath === "/captures/events" && // Only matches "/events" route
+            log.routePath === "/captures/events" &&
             (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
-            log.isChecked==="yes"
+            log.isChecked === "yes"
           );
         }
-  
-        // General filter for other routes
+
         return (
-          log.routePath.includes(captureFilter) && // Ensure the routePath includes captureFilter
-          (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) && // Check date filter
-          log.isChecked==="yes" // Ensure the log is checked
+          log.routePath.includes(captureFilter) &&
+          (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
+          log.isChecked === "yes"
         );
-    }); 
-
-  
-  const routeVisits = filteredCaptures.length;
-  const uniqueRouteIDs = new Set(filteredCaptures.filter(log => log.isChecked==="yes").map((entry) => entry.session_user)).size;
-  
-
-  // Filter event data based on eventFilter and selected day
-  const filteredEvents = eventFilter === "all"
-  ? logs.filter((log) => {
-      const logDate = new Date(log.startPing);
-      const dateReferenceKey = `day${filter}`;
-      const dateReference = dateReferences[dateReferenceKey];
-      return (
-        log.routePath.startsWith("/captures/events") && // Ensure route starts with "/events/"
-        (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
-      );
-    })
-  : logs.filter((log) => {
-      const logDate = new Date(log.startPing);
-      const dateReferenceKey = `day${filter}`;
-      const dateReference = dateReferences[dateReferenceKey];
-      return (
-        log.routePath===`/captures/events/${eventFilter}` && // Match exact route for the selected event
-        (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
-      );
     });
 
+  const routeVisits = filteredCaptures.length;
+  const uniqueRouteIDs = new Set(filteredCaptures.filter(log => log.isChecked === "yes").map((entry) => entry.session_user)).size;
+
+  const filteredEvents = eventFilter === "all"
+    ? logs.filter((log) => {
+        const logDate = new Date(log.startPing);
+        const dateReferenceKey = `day${filter}`;
+        const dateReference = dateReferences[dateReferenceKey];
+        return (
+          log.routePath.startsWith("/captures/events") && 
+          (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
+        );
+      })
+    : logs.filter((log) => {
+        const logDate = new Date(log.startPing);
+        const dateReferenceKey = `day${filter}`;
+        const dateReference = dateReferences[dateReferenceKey];
+        return (
+          log.routePath === `/captures/events/${eventFilter}` && 
+          (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
+        );
+      });
 
   const eventVisits = filteredEvents.length;
   const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.session_user)).size;
@@ -182,7 +205,7 @@ const Analytics = () => {
 
         if (!acc[combinedKey]) {
           acc[combinedKey] = { visits: 0, uniqueIPs: new Set(), totalTime: 0 };
-        } 
+        }
 
         acc[combinedKey].visits += 1;
         acc[combinedKey].uniqueIPs.add(log.session_user);
@@ -203,7 +226,6 @@ const Analytics = () => {
 
     setGraphData(timeSeriesData);
 
-    // Calculate cumulative visits for growth rate chart
     let cumulativeVisits = 0;
     const growthSeriesData = timeSeriesData.map((data) => {
       cumulativeVisits += data.visits;
@@ -219,7 +241,7 @@ const Analytics = () => {
       {
         label: "Average Time Spent per Visit (s)",
         data: graphData.map((data) => data.avgTimeSpent),
-        borderColor: "rgba(255, 159, 64, 1)", // Orange color
+        borderColor: "rgba(255, 159, 64, 1)",
         backgroundColor: "rgba(255, 159, 64, 0.2)",
         fill: true,
       },
@@ -271,7 +293,7 @@ const Analytics = () => {
       {
         label: "Cumulative Visits Growth",
         data: growthData.map((data) => data.cumulativeVisits),
-        borderColor: "rgba(54, 162, 235, 1)", // Blue color
+        borderColor: "rgba(54, 162, 235, 1)",
         backgroundColor: "rgba(54, 162, 235, 0.2)",
         fill: true,
       },
@@ -283,23 +305,18 @@ const Analytics = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: { display: true, labels: { color: "white" } },
-      tooltip: { backgroundColor: "rgba(0, 0, 0, 0.8)", titleColor: "white", bodyColor: "white" },
+      tooltip: { backgroundColor: "rgba(0, 0, 0, 0.7)", titleColor: "#fff", bodyColor: "#fff" },
     },
     scales: {
-      x: {
-        ticks: { 
-          color: "white",
-          autoSkip: true, 
-          maxRotation: 90, 
-          minRotation: 45,
-        },
-        grid: { display: false }
-      },
-      y: { ticks: { color: "white" }, grid: { color: "rgba(255, 255, 255, 0.1)" } },
+      x: { ticks: { color: "white" } },
+      y: { ticks: { color: "white" } },
     },
   };
 
-  if (isLoading || eventsLoading || galleryLoading) return <CameraLoading/>;
+  if (isLoading || galleryLoading || eventsLoading) {
+    return <CameraLoading />;
+  }
+
 
   return (
     <div className="p-6 mb-20">
@@ -353,6 +370,16 @@ const Analytics = () => {
               <td className="py-2 px-4 border-b">Total Captures</td>
               <td className="py-2 px-4 border-b"></td>
               <td className="py-2 px-4 border-b">{filteredGallery.length}</td> 
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Downloads</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{filtereddLogs.length}</td> 
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Unique Download ID's</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{new Set(filtereddLogs.map((entry) => entry.session_user)).size}</td> 
             </tr>
           </tbody>
         </table>
