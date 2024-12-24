@@ -116,7 +116,7 @@ const Analytics = () => {
         const dateReference = dateReferences[dateReferenceKey];
 
         const validRoutes = [
-          "pronight", 
+          "pronite", 
           "your-snaps", 
           "our-team", 
           "about", 
@@ -406,7 +406,7 @@ const Analytics = () => {
                   <option value="/">Home</option>
                   <option value="captures">Captures</option>
                   <option value="events">Events</option>
-                  <option value="pronight">Pronight</option>
+                  <option value="pronite">Pronite</option>
                   <option value="your-snaps">Your Snaps</option>
                   <option value="behindincridea">Behind Incridea</option>
                   <option value="our-team">Our Team</option>

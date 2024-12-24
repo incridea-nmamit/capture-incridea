@@ -12,7 +12,7 @@ import { useSession } from "next-auth/react";
 
 
 
-const Pronight = () => {
+const pronite = () => {
   const { data: images, isLoading, error } = api.gallery.getAllGallery.useQuery();
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
@@ -20,10 +20,10 @@ const Pronight = () => {
   const session_user = session?.user.email || "";
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
-  const filteredImages = images?.filter((image) => image.event_category === 'pronight' && image.upload_type === "direct" && image.state === "approved") || [];
+  const filteredImages = images?.filter((image) => image.event_category === 'pronite' && image.upload_type === "direct" && image.state === "approved") || [];
   const router = useRouter();
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
-    { cardName: "Pronight" }
+    { cardName: "pronite" }
   );
   useEffect(() => {
     if (cardState === "inactive") {
@@ -76,7 +76,7 @@ const Pronight = () => {
   return (
     <div>
     <TitleDescription 
-        title="Pronight Captures" 
+        title="pronite Captures" 
         description="Engaging our audience and building community through strategic social media initiatives"
         imagePath="https://utfs.io/f/0yks13NtToBitJchJ4NSCB2X9TSlbJxWYgG6rpN3n8swf4Fz"
       />
@@ -119,4 +119,4 @@ const Pronight = () => {
   )
 }
 
-export default Pronight
+export default pronite

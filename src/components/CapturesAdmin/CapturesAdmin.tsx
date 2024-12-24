@@ -213,7 +213,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
         >
           <option value="">Filter by Category</option>
           <option value="events">Events</option>
-          <option value="pronight">Pronight</option>
+          <option value="pronite">pronite</option>
           <option value="snaps">Snaps</option>
           <option value="behindincridea">Behind Incridea</option>
           <option value="cultural">Cultural</option>
@@ -305,7 +305,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                   Select a category
                 </option>
                 <option value="events">Events</option>
-                <option value="pronight">Pronight</option>
+                <option value="pronite">pronite</option>
                 <option value="snaps">Snaps</option>
                 <option value="behindincridea">Behind Incridea</option>
               </select>

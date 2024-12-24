@@ -9,7 +9,7 @@ const seed = async () => {
       cardRtime: new Date(),
     },
     {
-      cardName: "Pronight",
+      cardName: "Pronite",
       cardState: State.active,
       cardRtime: new Date(),
     },
