@@ -43,7 +43,7 @@ async function main() {
 
   // Create 100 Random Gallery Entries Per Event
   const galleryPromises = createdEvents.flatMap((event) =>
-    Array.from({ length: 100 }, () => {
+    Array.from({ length: 30 }, () => {
       const randomImage = galleryImages[Math.floor(Math.random() * galleryImages.length)] || 'default-image-url';
       return prisma.gallery.create({
         data: {
