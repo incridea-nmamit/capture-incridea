@@ -41,23 +41,28 @@ async function main() {
 
   const createdEvents = await Promise.all(eventPromises);
 
-  // Create 100 Random Gallery Entries Per Event
-  const galleryPromises = createdEvents.flatMap((event) =>
-    Array.from({ length: 30 }, () => {
-      const randomImage = galleryImages[Math.floor(Math.random() * galleryImages.length)] || 'default-image-url';
-      return prisma.gallery.create({
-        data: {
-          image_path: randomImage,
-          event_name: event.name,
-          event_category: 'events',
-          state: "approved",
-          upload_type: "direct"
-        }, 
-      });
-    })
-  );
+  const eventCategories = ['events', 'pronite', 'cultural', 'snaps', 'behindincridea'];
 
-  await Promise.all(galleryPromises);
+const galleryPromises = createdEvents.flatMap((event) =>
+  Array.from({ length: 30 }, () => {
+    // Randomly select an event name from the predefined list
+    const randomEventName = eventCategories[Math.floor(Math.random() * eventCategories.length)];
+
+    const randomImage = galleryImages[Math.floor(Math.random() * galleryImages.length)] || 'default-image-url';
+
+    return prisma.gallery.create({
+      data: {
+        image_path: randomImage,
+        event_name: randomEventName, // Use the random event name here
+        event_category: 'events',
+        state: "approved",
+        upload_type: "direct"
+      },
+    });
+  })
+);
+
+await Promise.all(galleryPromises);
 
   // Create Team Entries
   const teamNames = Array.from({ length: 50 }, (_, i) => `Team Member ${i + 1}`);
