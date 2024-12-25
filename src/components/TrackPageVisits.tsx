@@ -16,14 +16,17 @@ const TrackPageVisits = () => {
   const syncIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const { data: session } = useSession();
   const session_user = session?.user.email || ""; //Not reachable code
+
   useEffect(() => {
     const handlePageVisit = () => {
+      const routePath = router.asPath;
+      const allowedPaths = ["/captures", "/about", "/our-team"];
+      const isAllowedPath = routePath === "/" || allowedPaths.some((path) => routePath.startsWith(path));
+
+      if (!isAllowedPath) return;
 
       const uniqueId = generateUniqueId();
       uniqueIdRef.current = uniqueId;
-
-      const routePath = router.asPath;
-      if (routePath.startsWith("/admin") || routePath.startsWith("/unauthorised")) return;
 
       updateNullEntriesMutation.mutate(
         { session_user },
