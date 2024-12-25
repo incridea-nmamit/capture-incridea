@@ -18,50 +18,40 @@ const MediaCommittee: React.FC = () => {
     return <div className="text-white">No media team members found.</div>;
   }
 
-  const designationMapping : Record<string, string> = {
-    mediahead: "Media Head",
-    mediacohead: "Media Co-Head",
-    leadvideographer: "Lead Videographer",
-    leadphotographer: "Lead Photographer",
-    photographer: "Photographer",
-    videographer: "Videographer",
-    aerialvideographer: "Aerial Videographer",
-    socialmediahead: "Social Media Head",
-    socialmediacohead: "Social Media Co-Head",
-    socialmediateam: "SMC Team",
-    frontenddev: "Front End Developer",
-    backenddev: "Back End Developer",
-    fullstackdev: "Full Stack Developer",
-    teamleadfrontenddev: "Team Lead | Front End Developer",
-    teamleadbackenddev: "Team Lead | Back End Developer",
-    teamleadfullstackdev: "Team Lead | Full Stack Developer",
-    none: ""
-  };
-
-  const designationPriority = [
-    'mediahead',
-    'socialmediahead',
-    'mediacohead',
-    'socialmediacohead',
-    'leadvideographer',
-    'leadphotographer',
-    'aerialvideographer',
-    'photographer',
-    'videographer',
-    'socialmediateam',
-    'teamleadfullstackdev',
-    'teamleadfrontenddev',
-    'teamleadbackenddev',
-    'fullstackdev',
-    'frontenddev',
-    'backenddev',
-    'none'
-  ];
-
   // Sort team members by designation priority
   const sortedTeamMembers = teamMembers
-    .filter(member => member.committee === 'media') 
-    .sort((a, b) => designationPriority.indexOf(a.designation) - designationPriority.indexOf(b.designation));
+  .filter(member => member.committee === 'media')
+  .sort((a, b) => {
+    const aDesignation = a.designation.toLowerCase();
+    const bDesignation = b.designation.toLowerCase();
+
+
+    const designationPriority = (designation: string) => {
+      if (designation.includes('co-head')) {
+        return 2; 
+      }
+      if (designation.includes('head')) {
+        return 1; 
+      }
+      if (designation.includes('video') || designation.includes('videography')) {
+        return 3; 
+      }
+      if (designation.includes('photo') || designation.includes('photography')) {
+        return 4; 
+      }
+      return 5; 
+    };
+
+    const priorityA = designationPriority(aDesignation);
+    const priorityB = designationPriority(bDesignation);
+
+
+    if (priorityA === priorityB) {
+      return a.id - b.id; 
+    }
+
+    return priorityA - priorityB;
+  });
 
   return (
     <div className="flex flex-col items-center bg-primary-950/50 z-20">
@@ -79,7 +69,7 @@ const MediaCommittee: React.FC = () => {
             key={index}
             imageSrc={member.image} 
             name={member.name}
-            designation={designationMapping[member.designation] || member.designation}
+            designation={member.designation}
             say={member.say}
           />
         ))}

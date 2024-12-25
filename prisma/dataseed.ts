@@ -66,35 +66,32 @@ async function main() {
   const teamNames = Array.from({ length: 50 }, (_, i) => `Team Member ${i + 1}`);
   const teamPromises = teamNames.map(async (name) => {
     const committee = ['media', 'socialmedia', 'developer'][
-      Math.floor(Math.random() * 3) // Fix: Changed 4 to 3 since there are only 3 committees
+      Math.floor(Math.random() * 3)
     ] as 'media' | 'socialmedia' | 'developer';
   
     const designationOptions: Record<typeof committee, string[]> = {
       media: [
-        'mediahead', 'mediacohead', 'leadvideographer', 'leadphotographer',
-        'photographer', 'videographer', 'aerialvideographer',
-      ],
-      socialmedia: ['socialmediahead', 'socialmediacohead', 'socialmediateam'],
-      developer: ['frontenddev', 'backenddev', 'fullstackdev'], // Ensure 'developer' is a valid key
+        'Media Head', 'Media Co-Head', 'Videography', 'Photographer', 'Aerial Videographer'],
+      socialmedia: ['Social Media Head', 'Social Media Co-Head', 'Social Media Team'],
+      developer: ['Front End Dev', 'Back End Dev', 'Full Stack Dev', 'Team Lead | Full Stack Dev'], 
     };
   
     const designation =
       designationOptions[committee][
         Math.floor(Math.random() * designationOptions[committee].length)
       ] as
-        | 'mediahead'
-        | 'mediacohead'
-        | 'leadvideographer'
-        | 'leadphotographer'
-        | 'photographer'
-        | 'videographer'
-        | 'aerialvideographer'
-        | 'socialmediahead'
-        | 'socialmediacohead'
-        | 'socialmediateam'
-        | 'frontenddev'
-        | 'backenddev'
-        | 'fullstackdev';
+        | 'Media Head'
+        | 'Media Co-Head'
+        | 'Videography'
+        | 'Photographer'
+        | 'Aerial Videographer'
+        | 'Social Media Head'
+        | 'Social Media Co-Head'
+        | 'Social Media Team'
+        | 'Front End Dev'
+        | 'Back End Dev'
+        | 'Full Stack Dev'
+        | 'Team Lead | Full Stack Dev';
   
     return prisma.team.create({
       data: {
