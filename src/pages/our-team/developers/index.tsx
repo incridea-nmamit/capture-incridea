@@ -17,7 +17,7 @@ const MediaCommittee: React.FC = () => {
     return <div className="text-white">No developers found.</div>;
   }
 
-  const designationMapping = {
+  const designationMapping : Record<string, string> = {
     mediahead: "Media Head",
     mediacohead: "Media Co-Head",
     leadvideographer: "Lead Videographer",
