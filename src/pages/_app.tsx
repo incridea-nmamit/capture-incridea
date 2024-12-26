@@ -13,6 +13,7 @@ import Footer from "~/components/HeaderFooter/Footer";
 import TrackPageVisits from "~/components/TrackPageVisits";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { Toaster } from "react-hot-toast";
+import { ScrollArea } from "~/components/ui/scroll-area";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -55,15 +56,15 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
         <meta property="og:url" content="https://captures.incridea.in" />
       </Head>
-      <div className="font-roboto flex min-h-screen flex-col">
+      <ScrollArea className=" w-full h-screen flex-1 font-roboto flex min-h-screen flex-col">
         <Header />
-        <main className="mt-20">
+        <main className="mt-16 font-BebasNeue">
           <Toaster position="top-right" reverseOrder={false} />
           <TrackPageVisits />
           {loading ? <CameraLoading /> : <Component {...pageProps} />}
         </main>
-      </div>
-      <Footer />
+        <Footer />
+      </ScrollArea>
     </SessionProvider>
   );
 };

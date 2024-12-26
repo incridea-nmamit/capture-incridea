@@ -44,7 +44,6 @@ export const removalRequestRouter = createTRPCRouter({
         throw new Error("Request not found");
       }
 
-
       const approvedRequest = await ctx.db.removalRequest.update({
         where: { id: input.id },
         data: { status: "approved" },
@@ -52,7 +51,6 @@ export const removalRequestRouter = createTRPCRouter({
 
       return approvedRequest;
     }),
-
 
   decline: protectedProcedure
     .input(
@@ -80,5 +78,12 @@ export const removalRequestRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     const requests = await ctx.db.removalRequest.findMany();
     return requests;
+  }),
+
+  getPendingCount: protectedProcedure.query(async ({ ctx }) => {
+    const pendingCount = await ctx.db.removalRequest.count({
+      where: { status: "pending" },
+    });
+    return pendingCount;
   }),
 });
