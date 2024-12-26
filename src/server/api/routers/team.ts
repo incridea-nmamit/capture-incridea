@@ -1,32 +1,33 @@
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { Teamgroup, position } from "@prisma/client";
+import { Teamgroup } from "@prisma/client";
 
 export const teamRouter = createTRPCRouter({
   // Add Team Mutation
   addTeam: protectedProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        committee: z.nativeEnum(Teamgroup),
-        designation: z.nativeEnum(position),
-        uploadKey: z.string().min(1, "Upload key is required"),
-        say: z.string().optional(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      const imageUrl = `https://utfs.io/f/${input.uploadKey}`;
-      const newTeam = await ctx.db.team.create({
-        data: {
-          name: input.name,
-          committee: input.committee,
-          designation: input.designation,
-          image: imageUrl,
-          say: input.say ?? "",
-        },
-      });
-      return newTeam;
-    }),
+  .input(
+    z.object({
+      name: z.string(),
+      committee: z.nativeEnum(Teamgroup),
+      designation: z.string(), 
+      uploadKey: z.string().min(1, "Upload key is required"),
+      say: z.string().optional(),
+    })
+  )
+  .mutation(async ({ ctx, input }) => {
+    const imageUrl = `https://utfs.io/f/${input.uploadKey}`;
+    const newTeam = await ctx.db.team.create({
+      data: {
+        name: input.name,
+        committee: input.committee,
+        designation: input.designation,
+        image: imageUrl,
+        say: input.say || "", // Handle optional fields correctly
+      },
+    });
+    return newTeam;
+  }),
+
 
   // Update Team Mutation
   updateTeam: protectedProcedure
@@ -35,7 +36,7 @@ export const teamRouter = createTRPCRouter({
         id: z.number().min(1, "Team ID is required"),
         name: z.string().optional(),
         committee: z.nativeEnum(Teamgroup).optional(),
-        designation: z.nativeEnum(position).optional(),
+        designation: z.string().optional(),
         uploadKey: z.string().optional(),
         say: z.string().optional(),
       })
@@ -44,7 +45,7 @@ export const teamRouter = createTRPCRouter({
       const updates: Partial<{
         name: string;
         committee: Teamgroup;
-        designation: position;
+        designation: string;
         image: string;
         say: string;
       }> = {};

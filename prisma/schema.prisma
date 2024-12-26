@@ -61,31 +61,12 @@ enum Teamgroup {
   none
 }
 
-enum position {
-  mediahead
-  mediacohead
-  leadvideographer
-  leadphotographer
-  photographer
-  videographer
-  aerialvideographer
-  socialmediahead
-  socialmediacohead
-  socialmediateam
-  frontenddev
-  backenddev
-  fullstackdev
-  teamleadfrontenddev
-  teamleadbackenddev
-  teamleadfullstackdev
-  none
-}
 
 model team {
   id            Int     @id @default(sequence())
   name          String
   committee    Teamgroup
-  designation  position
+  designation  String
   image         String
   say           String
 }
@@ -221,4 +202,9 @@ model CaptureLike {
   capturePath String
   session_user  String
   like      Boolean
+}
+
+model VerifiedEmail {
+  id        Int      @id @default(sequence())
+  email String
 }

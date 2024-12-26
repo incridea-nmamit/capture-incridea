@@ -16,10 +16,10 @@ const CapturesComponent = () => {
       priority: 1,
     },
     {
-      title: "Pronight",
-      description: "Explore wonderful Captures from pronight",
+      title: "Pronite",
+      description: "Explore wonderful Captures from pronite",
       imagePath: "https://utfs.io/f/0yks13NtToBitJchJ4NSCB2X9TSlbJxWYgG6rpN3n8swf4Fz",
-      link: "/captures/pronight",
+      link: "/captures/pronite",
       priority: 2,
     },
     {

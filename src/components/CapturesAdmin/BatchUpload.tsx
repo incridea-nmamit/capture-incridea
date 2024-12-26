@@ -94,7 +94,7 @@ const GalleryBatchUpload = () => {
                 </option>
               ))}
             {/* Static options */}
-            <option value="pronight">Pronight</option>
+            <option value="pronite">pronite</option>
             <option value="snaps">Snaps</option>
             <option value="behindincridea">Behind Incridea</option>
             <option value="cultural">Cultural</option>

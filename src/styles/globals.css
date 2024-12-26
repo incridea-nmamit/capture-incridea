@@ -257,3 +257,23 @@ body {
     @apply bg-background text-foreground;
   }
 }
+.shining-text {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(90deg, #6B7280, #ffffff, #6B7280); 
+  background-size: 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shine 10s linear infinite;
+  text-decoration: none; /* To avoid underline from links */
+}
+
+@keyframes shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

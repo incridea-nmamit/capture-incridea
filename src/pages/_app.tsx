@@ -14,14 +14,13 @@ import TrackPageVisits from "~/components/TrackPageVisits";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { Toaster } from "react-hot-toast";
 import { ScrollArea } from "~/components/ui/scroll-area";
+import LoginComponent from "./LoginComponent";
+import NotRegistered from "./NotRegistered";
 
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}) => {
+const useRouteLoading = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const session_user = session?.user.email || "";
+
   useEffect(() => {
     const handleRouteChangeStart = () => setLoading(true);
     const handleRouteChangeComplete = () => setLoading(false);
@@ -37,6 +36,45 @@ const MyApp: AppType<{ session: Session | null }> = ({
     };
   }, [router]);
 
+  return loading;
+};
+
+const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps: any }) => {
+  const loading = useRouteLoading();
+  const { data: sessionData, status: sessionStatus } = useSession();
+  const { data: verifiedEmailData, isLoading: isVerifiedEmailLoading } =
+    api.verifiedEmail.getEmail.useQuery();
+
+  if (sessionStatus === "loading" || isVerifiedEmailLoading) return <CameraLoading />;
+
+  if (!sessionData) return <LoginComponent />;
+
+  const isEmailVerified = verifiedEmailData?.some(
+    (emailEntry: { email: string }) => emailEntry.email === sessionData?.user?.email
+  ) || sessionData?.user?.email?.endsWith("nitte.edu.in") || sessionData?.user?.role === "admin";
+
+  if (!isEmailVerified) return <NotRegistered />;
+
+  return (
+    <ScrollArea className=" w-full h-screen flex-1 font-roboto flex min-h-screen flex-col">
+      <div className="font-roboto flex min-h-screen flex-col">
+        <Header />
+        <main className="mt-20 flex-grow">
+          <Toaster position="top-right" reverseOrder={false} />
+          <TrackPageVisits />
+          {loading ? <CameraLoading /> : <Component {...pageProps} />}
+        </main>
+        <Footer />
+      </div>
+    </ScrollArea>
+  );
+};
+
+
+const MyApp: AppType<{ session: Session | null }> = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
   return (
     <SessionProvider session={session}>
       <Head>
@@ -56,15 +94,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
         <meta property="og:url" content="https://captures.incridea.in" />
       </Head>
-      <ScrollArea className=" w-full h-screen flex-1 font-roboto flex min-h-screen flex-col">
-        <Header />
-        <main className="mt-16 font-BebasNeue">
-          <Toaster position="top-right" reverseOrder={false} />
-          <TrackPageVisits />
-          {loading ? <CameraLoading /> : <Component {...pageProps} />}
-        </main>
-        <Footer />
-      </ScrollArea>
+      <AuthenticatedApp Component={Component} pageProps={pageProps} />
     </SessionProvider>
   );
 };

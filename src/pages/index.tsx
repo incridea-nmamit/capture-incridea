@@ -1,9 +1,10 @@
 // pages/index.tsx
 import Head from "next/head";
+import About from "~/components/Landing/About";
 import Hero from "~/components/Landing/Hero";
 import Images from "~/components/Landing/Images";
-import About from "~/components/Landing/About";
 import TimeLine from "~/components/Landing/TimeLine";
+
 
 export default function Home() {
   return (

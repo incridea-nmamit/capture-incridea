@@ -10,10 +10,10 @@ export const TimeLine = () => {
         title: 2022,
         content: "Started working on Capture Incridea"
     }, {
-        title: 2022,
+        title: 2023,
         content: "Started working on Capture Incridea"
     }, {
-        title: 2022,
+        title: 2024,
         content: "Started working on Capture Incridea"
     }]
 

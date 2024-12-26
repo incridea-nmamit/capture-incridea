@@ -9,7 +9,7 @@ const seed = async () => {
       cardRtime: new Date(),
     },
     {
-      cardName: "Pronight",
+      cardName: "Pronite",
       cardState: State.active,
       cardRtime: new Date(),
     },
@@ -41,9 +41,6 @@ const seed = async () => {
     });
   }
   const variables = [
-    { key: "Day-1", value: "2024-11-12" },
-    { key: "Day-2", value: "2024-11-13" },
-    { key: "Day-3", value: "2024-11-14" },
     { key: "CountDown-Capture", value: "2024-11-09T14:13:00Z" },
     { key: "capture-auto-request", value: "ON" },
   ];

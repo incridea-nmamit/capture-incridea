@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { api } from '~/utils/api';
 import { FaSearch, FaTrash } from 'react-icons/fa';
 import UploadComponent from '../UploadComponent';
@@ -8,10 +8,6 @@ import CameraLoading from '../LoadingAnimation/CameraLoading';
 import { useSession } from 'next-auth/react';
 
 type Committee = 'media' | 'socialmedia' | 'developer';
-type MediaDesignation = 'mediahead' | 'mediacohead' | 'leadvideographer' | 'leadphotographer' | 'photographer' | 'videographer' | 'aerialvideographer';
-type SocialMediaDesignation = 'socialmediahead' | 'socialmediacohead' | 'socialmediateam';
-type DeveloperDesignation = 'frontenddev' | 'backenddev' | 'fullstackdev';
-type Designation = MediaDesignation | SocialMediaDesignation | DeveloperDesignation;
 
 const TeamAdmin: React.FC = () => {
   const { data: teams, isLoading, isError, refetch } = api.team.getAllTeams.useQuery();
@@ -27,37 +23,29 @@ const TeamAdmin: React.FC = () => {
   const [teamForm, setTeamForm] = useState({
     name: '',
     committee: 'media' as Committee,
-    designation: 'mediahead' as Designation,
+    designation: '',  // This will be a text input field
     say: '',
   });
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [teamToDelete, setTeamToDelete] = useState<{ id: number; name: string } | null>(null);
   const resetUpload = () => setUploadUrl(''); 
-  const designationOptions: Record<Committee, Designation[]> = {
-    media: ['mediahead', 'mediacohead', 'leadvideographer', 'leadphotographer', 'photographer', 'videographer', 'aerialvideographer'],
-    socialmedia: ['socialmediahead', 'socialmediacohead', 'socialmediateam'],
-    developer: ['frontenddev', 'backenddev', 'fullstackdev'],
-  };
-  const [filteredDesignations, setFilteredDesignations] = useState<Designation[]>(designationOptions[teamForm.committee]);
 
   useEffect(() => {
-    const newDesignations = designationOptions[teamForm.committee];
-    setFilteredDesignations(newDesignations);
     setTeamForm((prev) => ({
       ...prev,
-      designation: newDesignations[0] as Designation,
+      designation: '',  // Reset designation field when committee changes
     }));
-  }, [teamForm.committee, designationOptions]);
-  
+  }, [teamForm.committee]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setTeamForm((prev) => ({ ...prev, [name]: value }));
   };
+  
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setTeamForm((prev) => ({ ...prev, [name]: value as Committee | Designation }));
+    setTeamForm((prev) => ({ ...prev, [name]: value as Committee }));
   };
 
   const handleUploadComplete = (url: string) => {
@@ -75,7 +63,7 @@ const TeamAdmin: React.FC = () => {
         onSuccess: () => {
           void refetch();
           setIsPopupOpen(false);
-          setTeamForm({ name: '', committee: 'media', designation: 'mediahead', say: '' });
+          setTeamForm({ name: '', committee: 'media', designation: '', say: '' });
           setUploadUrl('');
         },
       });
@@ -83,9 +71,9 @@ const TeamAdmin: React.FC = () => {
         sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
         description: `TeamManagementAudit - Added a team member ${teamForm.name} for ${teamForm.committee} as ${teamForm.designation} with say ${teamForm.say}`,
       });
-      toast.success(`Added a team member ${teamForm.name} as ${teamForm.designation} for ${teamForm.committee}`)
+      toast.success(`Added a team member ${teamForm.name} as ${teamForm.designation} for ${teamForm.committee}`);
     } catch (error) {
-      toast.error(`Error adding team : ${teamForm.name}`);
+      toast.error(`Error adding team: ${teamForm.name}`);
     } finally  {
       setIsSubmitting(false);
     }
@@ -125,12 +113,12 @@ const TeamAdmin: React.FC = () => {
     return matchesFilter && matchesSearch;
   });
 
-  if (isLoading) return <CameraLoading/>;
+  if (isLoading) return <CameraLoading />;
   if (isError) return <div>Error loading teams. Please try again later.</div>;
 
   return (
     <div className="relative">
-      <h1 className='flex justify-center text-center text-6xl font-Hunters mb-8 py-5'>Team Data and Management</h1>
+      <h1 className="flex justify-center text-center text-6xl font-Hunters mb-8 py-5">Team Data and Management</h1>
       <div className="flex items-center mb-4 space-x-2 h-12">
         <div className="relative w-1/2">
           <input
@@ -151,18 +139,20 @@ const TeamAdmin: React.FC = () => {
           onChange={(e) => setSelectedFilter(e.target.value)}
         >
           <option value="all">All Committees</option>
-          {Object.keys(designationOptions).map((option) => (
+          {['media', 'socialmedia', 'developer'].map((option) => (
             <option key={option} value={option}>
               {option.charAt(0).toUpperCase() + option.slice(1)}
             </option>
           ))}
         </select>
 
-        <button className="font-BebasNeue ml-2 p-2 border border-slate-700 rounded-xl w-32 text-white h-full bg-primary-950/50" onClick={() => setIsPopupOpen(true)}>
+        <button
+          className="font-BebasNeue ml-2 p-2 border border-slate-700 rounded-xl w-32 text-white h-full bg-primary-950/50"
+          onClick={() => setIsPopupOpen(true)}
+        >
           Add Member
-        </button>     
+        </button>
       </div>
-
 
       {/* Team data table */}
       <div className="overflow-x-auto py-5" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
@@ -182,30 +172,16 @@ const TeamAdmin: React.FC = () => {
               <tr key={team.id} className="hover:bg-gray-50 hover:text-black">
                 <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.name}</td>
                 <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.committee}</td>
-                <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">
-                  {{
-                    mediahead: "Media Head",
-                    mediacohead: "Media Co-Head",
-                    leadvideographer: "Lead Videographer",
-                    leadphotographer: "Lead Photographer",
-                    photographer: "Photographer",
-                    videographer: "Videographer",
-                    aerialvideographer: "Aerial Videographer",
-                    socialmediahead: "Social Media Head",
-                    socialmediacohead: "Social Media Co-Head",
-                    socialmediateam: "SMC Team",
-                    teamleadfullstackdev: "Team Lead | Full Stack Developer",
-                    teamleadfrontenddev: "Team Lead | Front End Developer",
-                    teamleadbackenddev: "Team Lead | Back End Developer",
-                    frontenddev: "Front End Developer",
-                    backenddev: "Back End Developer",
-                    fullstackdev: "Full Stack Developer",
-                    none: ""
-                  }[team.designation] || team.designation}
-                </td>
+                <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.designation}</td>
                 <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.say}</td>
                 <td className="py-2 px-4 border-b border-slate-700 text-center">
-                  <Image src={team.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
+                  <Image
+                    src={team.image}
+                    alt="Team Member"
+                    width={16}
+                    height={16}
+                    className="w-16 h-16 object-cover"
+                  />
                 </td>
                 <td className="py-2 px-4 border-b border-slate-700 text-center" onClick={() => handleDeleteClick(team.id, team.name)}>
                   <button onClick={() => handleDeleteClick(team.id, team.name)}>
@@ -213,7 +189,8 @@ const TeamAdmin: React.FC = () => {
                   </button>
                 </td>
               </tr>
-            )) ?? (
+            ))}
+            {!filteredTeams?.length && (
               <tr>
                 <td colSpan={6} className="py-2 px-4 border-b border-slate-700 text-center">No teams found.</td>
               </tr>
@@ -240,7 +217,7 @@ const TeamAdmin: React.FC = () => {
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-cen w-96">
-          <button onClick={() => setIsPopupOpen(false)} className="absolute top-6 right-6 text-white p-5">&times;</button>
+            <button onClick={() => setIsPopupOpen(false)} className="absolute top-6 right-6 text-white p-5">&times;</button>
             <h2 className="text-2xl font-bold text-white mb-4">Add Team Member</h2>
 
             <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
@@ -273,7 +250,7 @@ const TeamAdmin: React.FC = () => {
                 onChange={handleSelectChange}
                 className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
               >
-                {Object.keys(designationOptions).map((option) => (
+                {['media', 'socialmedia', 'developer'].map((option) => (
                   <option key={option} value={option}>
                     {option.charAt(0).toUpperCase() + option.slice(1)}
                   </option>
@@ -283,23 +260,20 @@ const TeamAdmin: React.FC = () => {
 
             <div className="mt-4">
               <label className="text-white block mb-1">Designation</label>
-              <select
+              <input
+                type="text"
                 name="designation"
                 value={teamForm.designation}
-                onChange={handleSelectChange}
+                onChange={handleInputChange}
                 className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
-              >
-                {filteredDesignations.map((option) => (
-                  <option key={option} value={option}>
-                    {option.charAt(0).toUpperCase() + option.slice(1)}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
 
-            <button 
-            className="mt-4 p-2 bg-white text-black rounded-xl w-full" 
-            onClick={handleSubmit} disabled={isSubmitting}>
+            <button
+              className="mt-4 p-2 bg-white text-black rounded-xl w-full"
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+            >
               {isSubmitting ? 'Submitting...' : 'Submit'}
             </button>
           </div>

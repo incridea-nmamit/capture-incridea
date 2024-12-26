@@ -12,6 +12,7 @@ import { smcRouter } from "./routers/smc";
 import { storycatRouter } from "./routers/storycat";
 import { storiesRouter } from "./routers/stories";
 import { auditLog } from "./routers/auditlog";
+import { verifiedEmail } from "./routers/verifiedemail";
 
 export const appRouter = createTRPCRouter({
   team: teamRouter,
@@ -26,7 +27,8 @@ export const appRouter = createTRPCRouter({
   smc: smcRouter,
   stories: storiesRouter,
   storycat: storycatRouter,
-  audit: auditLog
+  audit: auditLog,
+  verifiedEmail: verifiedEmail
 });
 
 export type AppRouter = typeof appRouter;

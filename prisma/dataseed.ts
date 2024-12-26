@@ -40,59 +40,59 @@ async function main() {
   );
 
   const createdEvents = await Promise.all(eventPromises);
-
+  const eventCategories = ['events', 'pronite', 'cultural', 'snaps', 'behindincridea'];
+  
   // Create 100 Random Gallery Entries Per Event
   const galleryPromises = createdEvents.flatMap((event) =>
-    Array.from({ length: 100 }, () => {
+    Array.from({ length: 100 }, () => { // Create 100 items instead of 0
+      const randomEventCategory = eventCategories[Math.floor(Math.random() * eventCategories.length)];
       const randomImage = galleryImages[Math.floor(Math.random() * galleryImages.length)] || 'default-image-url';
+  
       return prisma.gallery.create({
         data: {
           image_path: randomImage,
-          event_name: event.name,
-          event_category: 'events',
+          event_name: randomEventCategory !== "events" ? null : event.name, // Conditional assignment of event_name
+          event_category: randomEventCategory || "", // Fixed typo
           state: "approved",
           upload_type: "direct"
-        }, 
+        },
       });
     })
-  );
-
+  );  
   await Promise.all(galleryPromises);
+  
 
   // Create Team Entries
   const teamNames = Array.from({ length: 50 }, (_, i) => `Team Member ${i + 1}`);
   const teamPromises = teamNames.map(async (name) => {
     const committee = ['media', 'socialmedia', 'developer'][
-      Math.floor(Math.random() * 4)
+      Math.floor(Math.random() * 3)
     ] as 'media' | 'socialmedia' | 'developer';
-
+  
     const designationOptions: Record<typeof committee, string[]> = {
       media: [
-        'mediahead', 'mediacohead', 'leadvideographer', 'leadphotographer',
-        'photographer', 'videographer', 'aerialvideographer'
-      ],
-      socialmedia: ['socialmediahead', 'socialmediacohead', 'socialmediateam'],
-      developer: ['frontenddev', 'backenddev', 'fullstackdev']
+        'Media Head', 'Media Co-Head', 'Videography', 'Photographer', 'Aerial Videographer'],
+      socialmedia: ['Social Media Head', 'Social Media Co-Head', 'Social Media Team'],
+      developer: ['Front End Dev', 'Back End Dev', 'Full Stack Dev', 'Team Lead | Full Stack Dev'], 
     };
-
+  
     const designation =
       designationOptions[committee][
         Math.floor(Math.random() * designationOptions[committee].length)
       ] as
-        | 'mediahead'
-        | 'mediacohead'
-        | 'leadvideographer'
-        | 'leadphotographer'
-        | 'photographer'
-        | 'videographer'
-        | 'aerialvideographer'
-        | 'socialmediahead'
-        | 'socialmediacohead'
-        | 'socialmediateam'
-        | 'frontenddev'
-        | 'backenddev'
-        | 'fullstackdev';
-
+        | 'Media Head'
+        | 'Media Co-Head'
+        | 'Videography'
+        | 'Photographer'
+        | 'Aerial Videographer'
+        | 'Social Media Head'
+        | 'Social Media Co-Head'
+        | 'Social Media Team'
+        | 'Front End Dev'
+        | 'Back End Dev'
+        | 'Full Stack Dev'
+        | 'Team Lead | Full Stack Dev';
+  
     return prisma.team.create({
       data: {
         name,
@@ -103,6 +103,7 @@ async function main() {
       },
     });
   });
+  
 
   await Promise.all(teamPromises);
 
