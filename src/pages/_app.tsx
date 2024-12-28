@@ -16,6 +16,7 @@ import { Toaster } from "react-hot-toast";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import LoginComponent from "./LoginComponent";
 import NotRegistered from "./NotRegistered";
+import KeyboardShortcut from "~/components/Shortcuts";
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -94,6 +95,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
         <meta property="og:url" content="https://captures.incridea.in" />
       </Head>
+      <KeyboardShortcut />
       <AuthenticatedApp Component={Component} pageProps={pageProps} />
     </SessionProvider>
   );

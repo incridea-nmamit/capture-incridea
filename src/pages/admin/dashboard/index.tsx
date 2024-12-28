@@ -11,7 +11,6 @@ import SMCUploads from '~/components/SMCUploads/SMCUploads';
 import Stories from '~/components/Stories/Stories';
 import ApproveCaptures from '~/components/ApproveCapture/ApproveCapture';
 import ControlComponent from '~/components/ControlAdmin/ControlComponent';
-import Analytics from '~/components/AnalyticsPage/Analytics';
 import { Role } from '@prisma/client';
 import { Aperture, Bell, BookCheck, CalendarCog, ChartNoAxesCombined, GalleryHorizontalEnd, ImageUp, Settings, UserCog, Users } from 'lucide-react';
 
@@ -34,12 +33,6 @@ const tabs = [
     content: ()=><TeamAdmin />,
     permittedRoles: [Role.admin, Role.manager]
   },
-  {
-    name: "analytics",
-    sideBarContent: ({} : any) => <>Analytics <ChartNoAxesCombined size={18}/></>,
-    content: ()=><Analytics />,
-    permittedRoles: [Role.admin]
-  }, 
   {
     name: "roles",
     sideBarContent: ({} : any) => <>User Roles <UserCog size={18}/></>,
