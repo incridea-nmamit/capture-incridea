@@ -7,7 +7,7 @@ import { UTApi } from "uploadthing/server";
 export const utapi = new UTApi();
 
 export const ourFileRouter = { 
-  imageUploader: f({ image: { maxFileSize: "8MB" ,maxFileCount: 1} }) 
+  imageUploader: f({ image: { maxFileSize: "8MB" ,maxFileCount: 2} }) 
     .middleware(async ({ req, res }) => { 
       const user = auth(req, res);
       if (!user) throw new Error("Unauthorized");
