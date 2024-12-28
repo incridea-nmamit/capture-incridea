@@ -29,6 +29,7 @@ ChartJS.register(
 const Analytics = () => {
   const [filter, setFilter] = useState<string>("all");
   const [captureFilter, setCaptureFilter] = useState<string>("all");
+  const [customDate, setCustomDate] = useState<string | null>(null);
   const [eventFilter, setEventFilter] = useState<string>("all");
   const { data: events = [], isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
   const { data: logs = [], isLoading } = api.analytics.getAnalytics.useQuery();
@@ -74,6 +75,11 @@ const Analytics = () => {
           log.session_user !== "" &&
           log.session_user !== null
       )
+    : filter === "custom" && customDate
+    ? logs.filter((log) => {
+        const logDate = new Date(log.startPing).toISOString().split("T")[0];
+        return logDate === customDate;
+      })
     : logs.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
@@ -86,6 +92,7 @@ const Analytics = () => {
           log.session_user !== null
         );
       });
+
       const filtereddLogs =
       filter === "all"
         ? dlogs.filter(
@@ -93,6 +100,11 @@ const Analytics = () => {
               log.session_user !== "" &&
               log.session_user !== null
           )
+          : filter === "custom" && customDate
+          ? dlogs.filter((log) => {
+              const logDate = new Date(log.date_time).toISOString().split("T")[0];
+              return logDate === customDate;
+            })
         : dlogs.filter((log) => {
             const logDate = new Date(log.date_time);
             const dateReferenceKey = `day${filter}`;
@@ -328,6 +340,11 @@ const Analytics = () => {
       y: { ticks: { color: "white" } },
     },
   };
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = e.target.value;
+    setCustomDate(selectedDate);
+    setFilter("custom");
+  };
 
   if (isLoading || galleryLoading || eventsLoading) {
     return <CameraLoading />;
@@ -348,10 +365,22 @@ const Analytics = () => {
             <option value="1">Day 1</option>
             <option value="2">Day 2</option>
             <option value="3">Day 3</option>
+            <option value="custom">Custom</option>
           </select>
         </div>
       </div>
-
+      <div className="flex justify-center gap-2">
+        <div className="flex justify-center mb-4">
+          {filter === "custom" && (
+            <input
+              type="date"
+              value={customDate || ""}
+              onChange={handleDateChange}
+              className="mt-4 border font-BebasNeue border-gray-700 rounded-lg py-2 px-4 bg-primary-950/50 text-white"
+            />
+          )}
+        </div>
+      </div>
       <div className="overflow-x-auto">
         <table className="min-w-full text-white">
           <tbody>
