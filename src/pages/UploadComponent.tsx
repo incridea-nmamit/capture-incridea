@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
 import { UploadDropzone } from 'tailwind.config';
+import { api } from '~/utils/api';
 
 const UploadPage: React.FC = () => {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [compressedImage, setCompressedImage] = useState<string | null>(null);
+
+  const mutation = api.gallery.addImage.useMutation({
+    onSuccess: (data) => {
+      alert('Image added successfully!');
+    },
+    onError: (error) => {
+      alert('Failed to add image!');
+    },
+  });
 
   const compressImage = (file: File, quality: number = 0.7): Promise<Blob> => {
     return new Promise((resolve, reject) => {
@@ -21,14 +31,10 @@ const UploadPage: React.FC = () => {
             return;
           }
 
-          // Set canvas dimensions to match the image
           canvas.width = img.width;
           canvas.height = img.height;
-
-          // Draw the image onto the canvas
           ctx.drawImage(img, 0, 0);
 
-          // Compress the image
           canvas.toBlob(
             (blob) => {
               if (blob) {
@@ -48,8 +54,28 @@ const UploadPage: React.FC = () => {
   };
 
   const handleUploadComplete = (res: any) => {
-    console.log('Upload completed. Response:', res);
-    alert('Upload completed successfully!');
+    if (!res || res.length < 2) {
+      alert('Upload incomplete. Please try again.');
+      return;
+    }
+
+    // TODO : check the order 
+    const originalKey = res[0]?.key || null;
+    const compressedKey = res[1]?.key || null;
+
+    if (originalKey && compressedKey) {
+      setOriginalImage(originalKey);
+      setCompressedImage(compressedKey);
+
+      mutation.mutate({
+        event_name: 'Sample Event',
+        event_category: 'Sample Category', 
+        uploadKeyOg: originalKey,
+        uploadKeyCompressed: compressedKey,
+      });
+    } else {
+      alert('Could not retrieve upload keys.');
+    }
   };
 
   const handleUploadError = (error: Error) => {
@@ -59,10 +85,8 @@ const UploadPage: React.FC = () => {
   const handleBeforeUploadBegin = async (files: File[]) => {
     const uploads: File[] = [];
     for (const file of files) {
-      // Add original file to uploads
       uploads.push(file);
 
-      // Compress the image and add it to uploads
       try {
         const compressedBlob = await compressImage(file);
         const compressedFile = new File(

@@ -58,10 +58,11 @@ model downloadLog {
 model Gallery {
   id             Int      @id @default(autoincrement())
   image_path     String
+  compressed_path String
   event_name     String?
   event_category String
   upload_type    String
-  state          Status
+  state          Status  @default(pending)
   date_time      DateTime @default(now())
 }
 

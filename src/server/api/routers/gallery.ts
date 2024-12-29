@@ -13,21 +13,26 @@ export const galleryRouter = createTRPCRouter({
   }),
 
   // Add a new event
-  addImage: protectedProcedure
+  addImage: publicProcedure
     .input(
       z.object({
         event_name: z.string().min(1, "Event name is required"),   
         event_category: z.string().min(1, "Event name is required"),        
-        uploadKey: z.string().min(1, "Upload key is required"),       
+        uploadKeyOg: z.string().min(1, "Upload key is required"),       
+        uploadKeyCompressed: z.string().min(1, "Upload key is required"),       
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const imageUrl = `https://utfs.io/f/${input.uploadKey}`;
+      const imageUrl = `https://utfs.io/f/${input.uploadKeyOg}`;
+      const compressedUrl = `https://utfs.io/f/${input.uploadKeyCompressed}`;
       const newImage = await ctx.db.gallery.create({
         data: {
           event_name: input.event_name,
           event_category: input.event_category,
           image_path: imageUrl,
+          compressed_path: compressedUrl,
+          upload_type:"image",
+
         },
       });
 
