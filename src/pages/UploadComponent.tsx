@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { UploadDropzone } from 'tailwind.config';
 import { api } from '~/utils/api';
+import { UploadButton } from '~/utils/uploadthing';
 
 const UploadPage: React.FC = () => {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
@@ -59,9 +60,21 @@ const UploadPage: React.FC = () => {
       return;
     }
 
-    // TODO : check the order 
-    const originalKey = res[0]?.key || null;
-    const compressedKey = res[1]?.key || null;
+    // Done : check the order 
+    let originalKey 
+    let compressedKey 
+
+    if (res[0]?.size > res[1]?.size){
+       originalKey =  res[0]?.key 
+       compressedKey = res[1]?.key;
+    }
+    else{
+      originalKey =  res[1]?.key 
+      compressedKey = res[0]?.key;
+    }
+
+    console.log(originalKey,compressedKey)
+    console.log(res)
 
     if (originalKey && compressedKey) {
       setOriginalImage(originalKey);
@@ -106,7 +119,7 @@ const UploadPage: React.FC = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <h1 className="text-2xl font-bold mb-4">Upload Your File</h1>
 
-      <UploadDropzone
+      <UploadButton
         className="bg-black p-[20px] h-50 ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300"
         endpoint="imageUploader"
         onBeforeUploadBegin={handleBeforeUploadBegin}
