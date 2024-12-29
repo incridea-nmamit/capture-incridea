@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { UploadDropzone } from 'tailwind.config';
 import { api } from '~/utils/api';
 import { UploadButton } from '~/utils/uploadthing';
 
 const UploadPage: React.FC = () => {
-  const [originalImage, setOriginalImage] = useState<string | null>(null);
-  const [compressedImage, setCompressedImage] = useState<string | null>(null);
+  const [uploadedImages, setUploadedImages] = useState<
+    { original: string; compressed: string }[]
+  >([]);
 
   const mutation = api.gallery.addImage.useMutation({
-    onSuccess: (data) => {
+    onSuccess: () => {
       alert('Image added successfully!');
     },
-    onError: (error) => {
+    onError: () => {
       alert('Failed to add image!');
     },
   });
@@ -60,34 +60,27 @@ const UploadPage: React.FC = () => {
       return;
     }
 
-    // Done : check the order 
-    let originalKey 
-    let compressedKey 
+    let originalUrl = res[0]?.url;
+    let compressedUrl = res[1]?.url;
 
-    if (res[0]?.size > res[1]?.size){
-       originalKey =  res[0]?.key 
-       compressedKey = res[1]?.key;
-    }
-    else{
-      originalKey =  res[1]?.key 
-      compressedKey = res[0]?.key;
+    if (res[0]?.size < res[1]?.size) {
+      [originalUrl, compressedUrl] = [compressedUrl, originalUrl];
     }
 
-    console.log(originalKey,compressedKey)
-    console.log(res)
-
-    if (originalKey && compressedKey) {
-      setOriginalImage(originalKey);
-      setCompressedImage(compressedKey);
+    if (originalUrl && compressedUrl) {
+      setUploadedImages((prev) => [
+        ...prev,
+        { original: originalUrl, compressed: compressedUrl },
+      ]);
 
       mutation.mutate({
         event_name: 'Sample Event',
-        event_category: 'Sample Category', 
-        uploadKeyOg: originalKey,
-        uploadKeyCompressed: compressedKey,
+        event_category: 'Sample Category',
+        uploadKeyOg: originalUrl,
+        uploadKeyCompressed: compressedUrl,
       });
     } else {
-      alert('Could not retrieve upload keys.');
+      alert('Could not retrieve upload URLs.');
     }
   };
 
@@ -114,11 +107,17 @@ const UploadPage: React.FC = () => {
     }
     return uploads;
   };
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('URL copied to clipboard!');
+    });
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-bold mb-4">Upload Your File</h1>
-
+    <div className="flex h-screen bg-gray-100">
+    {/* Left side - Upload section */}
+    <div className="w-1/2 p-8 flex flex-col items-center justify-center">
+      <h1 className="text-3xl font-bold mb-8 text-gray-800">Upload Your Images</h1>
       <UploadButton
         className="bg-black p-[20px] h-50 ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300"
         endpoint="imageUploader"
@@ -127,6 +126,51 @@ const UploadPage: React.FC = () => {
         onUploadError={handleUploadError}
       />
     </div>
+
+    {/* Right side - Image viewing section */}
+    <div className="w-1/2 bg-white p-8 overflow-y-auto">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">Uploaded Images</h2>
+      {uploadedImages.length > 0 ? (
+        <div className="space-y-8">
+          {uploadedImages.map((image, index) => (
+            <div key={index} className="bg-gray-50 p-4 rounded-lg shadow-md">
+              <p className="text-lg font-semibold mb-3 text-gray-700">Image {index + 1}</p>
+              <div className="flex gap-4 mb-4">
+                <div className="w-1/2">
+                  <img
+                    src={image.original}
+                    alt={`Original ${index + 1}`}
+                    className="w-full h-48 object-cover rounded-md"
+                  />
+                  <button
+                    onClick={() => copyToClipboard(image.original)}
+                    className="mt-2 w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded transition duration-300 ease-in-out"
+                  >
+                    Copy Original URL
+                  </button>
+                </div>
+                <div className="w-1/2">
+                  <img
+                    src={image.compressed}
+                    alt={`Compressed ${index + 1}`}
+                    className="w-full h-48 object-cover rounded-md"
+                  />
+                  <button
+                    onClick={() => copyToClipboard(image.compressed)}
+                    className="mt-2 w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded transition duration-300 ease-in-out"
+                  >
+                    Copy Compressed URL
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-500 text-center text-lg">No images uploaded yet.</p>
+      )}
+    </div>
+  </div>
   );
 };
 
