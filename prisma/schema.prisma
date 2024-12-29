@@ -188,7 +188,6 @@ model CaptureCard {
   id        Int      @id @default(sequence())
   cardName  String
   cardState State
-  cardRtime DateTime
 }
 
 model Variables {

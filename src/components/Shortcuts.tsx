@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const KeyboardShortcut = () => {
   const router = useRouter();
@@ -19,8 +19,16 @@ const KeyboardShortcut = () => {
       setPressedKeys(newPressedKeys);
 
       // Check for Shift + A
-      if (newPressedKeys.has("shift") && newPressedKeys.has("a") && !newPressedKeys.has("s") && !newPressedKeys.has("n")) {
+      if (newPressedKeys.has("shift") && newPressedKeys.has("a") && newPressedKeys.has("s")) {
         router.push("/admin/dashboard");
+      }
+      // Check for Shift + L (Logout)
+      if (newPressedKeys.has("shift") && newPressedKeys.has("l")) {
+        signOut();
+      }
+       // Check for Shift + LI (Login)
+       if (newPressedKeys.has("shift") && newPressedKeys.has("i") && newPressedKeys.has("n")) {
+        signIn();
       }
       // Check for Shift + A + N
     if (status === 'authenticated' && session?.user?.role === 'admin') {
