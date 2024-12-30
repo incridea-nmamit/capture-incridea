@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { api } from '~/utils/api';
 import { UploadButton } from '~/utils/uploadthing';
+import CameraLoading from '~/components/LoadingAnimation/CameraLoading';
 
 const UploadPage: React.FC = () => {
   const [uploadedImages, setUploadedImages] = useState<
     { original: string; compressed: string }[]
   >([]);
-
+  const [isLoading,setIsloading]=useState<Boolean>(false)
   const mutation = api.gallery.addImage.useMutation({
     onSuccess: () => {
       alert('Image added successfully!');
@@ -79,8 +80,12 @@ const UploadPage: React.FC = () => {
         uploadKeyOg: originalUrl,
         uploadKeyCompressed: compressedUrl,
       });
+      setIsloading(false)
+      
     } else {
+      setIsloading(false)
       alert('Could not retrieve upload URLs.');
+      
     }
   };
 
@@ -122,10 +127,15 @@ const UploadPage: React.FC = () => {
         className="bg-black p-[20px] h-50 ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300"
         endpoint="imageUploader"
         onBeforeUploadBegin={handleBeforeUploadBegin}
+        onUploadProgress={()=>{
+               setIsloading(true)
+        }}
         onClientUploadComplete={handleUploadComplete}
         onUploadError={handleUploadError}
       />
     </div>
+
+    {isLoading && <CameraLoading></CameraLoading>}
 
     {/* Right side - Image viewing section */}
     <div className="w-1/2 bg-white p-8 overflow-y-auto">
