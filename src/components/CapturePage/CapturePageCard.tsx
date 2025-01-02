@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Countdown from "react-countdown";
 import toast from "react-hot-toast";
 
 interface CapturePageCardProps {
@@ -9,7 +8,6 @@ interface CapturePageCardProps {
   imagePath: string;
   link: string;
   cardState?: string;
-  cardRtime?: Date;
 }
 
 const CapturePageCard: React.FC<CapturePageCardProps> = ({
@@ -18,7 +16,6 @@ const CapturePageCard: React.FC<CapturePageCardProps> = ({
   imagePath,
   link,
   cardState,
-  cardRtime,
 }) => {
   const isActive = cardState === "active";
 
@@ -39,12 +36,12 @@ const CapturePageCard: React.FC<CapturePageCardProps> = ({
       >
         {/* Background Image with Larger Scale on Hover */}
         <div
-          className={`absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out ${
+          className={`absolute inset-0 bg-cover bg-center  transition-transform duration-700 ease-out ${
             isActive ? "" : "filter grayscale"
           } group-hover:scale-125`} 
           style={{
             backgroundImage: `url('${imagePath}')`,
-            opacity: 0.6, 
+            opacity: 0.5, 
           }}
         ></div>
 
@@ -58,12 +55,7 @@ const CapturePageCard: React.FC<CapturePageCardProps> = ({
         {/* Card Content */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full p-4 text-center text-white">
           <h2 className="text-3xl font-bold mb-2">{title}</h2>
-          <p className="text-sm mb-4 max-w-[90%] mx-auto">{description}</p>
-          {!isActive && cardRtime && (
-            <div className="text-lg font-semibold mt-4">
-              <Countdown date={new Date(cardRtime)} />
-            </div>
-          )}
+          <p className="text-sm mb-4 max-w-[90%] mx-auto font-Trap-Regular">{description}</p>
         </div>
 
         {/* Glow on Hover */}

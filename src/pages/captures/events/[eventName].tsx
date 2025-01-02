@@ -26,7 +26,7 @@ const EventCaptures = () => {
   );
   useEffect(() => {
     if (cardState === "inactive") {
-      router.push("/captures"); // Redirect to /capture if inactive
+      router.push("/captures"); 
     }
   }, [cardState, router]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -98,8 +98,7 @@ const EventCaptures = () => {
       <h1 className="text-3xl md:text-7xl font-Hunters text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
         {formattedEventName} Captures
       </h1>
-      {/* Display event description if it exists */}
-      <div className="flex justify-center z-20">
+      <div className="flex justify-center z-20 font-Trap-Regular">
         {event?.description && <p className="text-center text-gray-400 mb-16 w-3/4">{event.description}</p>}
       </div>
       <main className="flex justify-center items-center">

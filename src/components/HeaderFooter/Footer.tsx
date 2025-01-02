@@ -7,6 +7,8 @@ const Footer = () => {
     <footer className="bg-black text-white py-8">
       <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 px-4 gap-8">
         {/* Left Section */}
+        <a href='https://incridea.in'
+           rel="noopener noreferrer">
         <div className="text-left">
           <Image
             src="/images/Logo/capture-footer.png"
@@ -16,9 +18,9 @@ const Footer = () => {
             className="h-auto w-auto max-w-36"
           />
         </div>
-
+        </a>
         {/* Center Section */}
-        <div className="text-center flex justify-center items-center">
+        <div className="text-center flex justify-center items-center font-Trap-Regular">
           <div className="space-y-2 md:space-y-0 md:space-x-4">
             <a href="#" className="text-gray-400 hover:text-white block md:inline">
               Privacy Policy
@@ -35,7 +37,7 @@ const Footer = () => {
         </div>
 
         {/* Right Section */}
-        <div className="text-right md:text-right">
+        <div className="text-right md:text-right font-Trap-Regular">
           {/* Links */}
           <div>
             <p className="text-gray-400"><a href='https://incridea.in'>incredia.in</a></p>
@@ -58,7 +60,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Section */}
-      <div className="border-t border-gray-700 mt-8 pt-4 text-center">
+      <div className="border-t border-gray-700 mt-8 pt-4 text-center font-Trap-Regular">
         <p className="text-sm text-gray-500 shining-text">
           © Capture Incridea 2025  &nbsp; | &nbsp;  <a href='/our-team/developers'>Made with ❤️ by Capture Incridea Developers</a>
         </p>

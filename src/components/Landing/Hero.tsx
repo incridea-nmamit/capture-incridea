@@ -19,7 +19,7 @@ function Hero() {
             <h1 className="mb-4 w-full font-ClubHouse text-5xl md:text-6xl lg:text-7xl">
               Your Memories, Our Passion
             </h1>
-            <p className="px-4 text-xs sm:text-sm md:text-base">
+            <p className="px-4 text-xs sm:text-sm md:text-base font-Trap-Regular">
               Get your event photos and story-worthy moments.
               <br />
               See them the same day!

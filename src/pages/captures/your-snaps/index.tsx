@@ -23,7 +23,7 @@ const YourSnapsPage: React.FC = () => {
   const filteredImages = images?.filter((image) => image.event_category === 'snaps' && image.upload_type === "direct" && image.state === "approved") || [];
   const router = useRouter();
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
-    { cardName: "Your Snaps" }
+    { cardName: "Abode of Memories" }
   );
   useEffect(() => {
     if (cardState === "inactive") {

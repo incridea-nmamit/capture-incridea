@@ -41,8 +41,7 @@ const Header: FC = () => {
       <header className="fixed left-0 top-0 z-50 flex w-full flex-wrap items-center justify-between bg-black/30 p-4 shadow-md backdrop-blur-md md:justify-start">
         <div className="flex w-full items-center justify-center px-10 md:w-auto">
           <a
-            href="https://incridea.in"
-            rel="noopener noreferrer"
+            href="/"
             className="mx-auto md:mx-0"
           >
             <Image

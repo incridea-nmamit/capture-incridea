@@ -6,32 +6,42 @@ const seed = async () => {
     {
       cardName: "Events",
       cardState: State.active, // Use the enum value here
-      cardRtime: new Date(),
+
     },
     {
       cardName: "Pronite",
       cardState: State.active,
-      cardRtime: new Date(),
+
     },
     {
-      cardName: "Your Snaps",
+      cardName: "Abode of Memories",
       cardState: State.active,
-      cardRtime: new Date(),
+
     },
     {
       cardName: "Behind Incridea",
       cardState: State.active,
-      cardRtime: new Date(),
+
     },
     {
       cardName: "Cultural",
       cardState: State.active,
-      cardRtime: new Date(),
+
     },
     {
       cardName: "Stories",
       cardState: State.active,
-      cardRtime: new Date(),
+
+    },
+    {
+      cardName: "Flashmobs",
+      cardState: State.active,
+
+    },
+    {
+      cardName: "Cultural ",
+      cardState: State.active,
+
     },
   ];
 

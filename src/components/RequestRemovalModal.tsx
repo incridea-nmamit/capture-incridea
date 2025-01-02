@@ -168,8 +168,8 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
       role="dialog"
       aria-modal="true"
     >
-      <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full z-50">
-        <h2 className="text-2xl text-white font-bold text-center mb-4">Request Removal</h2>
+      <div className="relative bg-black p-6 rounded-3xl shadow-lg max-w-xs sm:max-w-md w-full z-50 font-Trap-Regular">
+        <h2 className="text-2xl text-white text-center mb-4">Request Removal</h2>
         <button onClick={handleModalClose} className="absolute top-1 right-6 text-2xl text-white p-5">
           &times;
         </button>
@@ -212,7 +212,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
               <button
                 type="button"
                 onClick={handleEmailVerification}
-                className="w-full bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded"
+                className="w-full bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-full"
               >
                 Send OTP
               </button>

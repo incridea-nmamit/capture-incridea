@@ -10,12 +10,6 @@
 }
 
 @font-face {
-  font-family: "IslandMoments";
-  src: url("/fonts/IslandMoments.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
   font-family: "Silkscreen";
   src: url("/fonts/Silkscreen.ttf") format("truetype");
   font-weight: normal;
@@ -28,18 +22,6 @@
   font-style: normal;
 }
 
-@font-face {
-  font-family: "Garet";
-  src: url("/fonts/Garet.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Finish";
-  src: url("/fonts/Finish.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
 
 @font-face {
   font-family: "ClubHouse";
@@ -55,21 +37,14 @@
 }
 
 @font-face {
-  font-family: "Romance";
-  src: url("/fonts/Romance.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Brigends";
-  src: url("/fonts/Brigends.otf") format("opentype");
+  font-family: "Trap-Regular";
+  src: url("/fonts/Trap-Regular.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
-  font-family: "Cyberion";
-  src: url("/fonts/Cyberion.otf") format("opentype");
+  font-family: "Trap-Black";
+  src: url("/fonts/Trap-Black.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
@@ -81,33 +56,6 @@
   font-style: normal;
 }
 
-@font-face {
-  font-family: "CreamCake";
-  src: url("/fonts/CreamCake.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Radwave";
-  src: url("/fonts/Radwave.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Trends";
-  src: url("/fonts/Trends.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Azonix";
-  src: url("/fonts/Azonix.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
 
 html, body {
   margin: 0;
