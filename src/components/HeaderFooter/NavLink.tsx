@@ -24,7 +24,7 @@ const NavLink: FC<NavLinkProps> = ({
     <Link
       href={href}
       onClick={onClick}
-      className={`group relative ${className} ${activeClass} text-white`}
+      className={`group relative font-Teknaf ${className} ${activeClass} text-white`}
     >
       {label}
       <span

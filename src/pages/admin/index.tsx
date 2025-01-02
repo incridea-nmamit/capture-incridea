@@ -55,20 +55,20 @@ function Admin() {
     return (
       <div className="flex items-center justify-center min-h-screen  bg-primary-950/50 text-white bg-cover">
         <div className="text-center ">
-          <h1 className="text-5xl font-velocista mb-4 ">
-            Welcome to the {session.user.role.toUpperCase()} PANEL <br/>
+          <h1 className="text-5xl font-Teknaf mb-4 ">
+            Welcome to the {session.user.role.toUpperCase()} Panel <br/>
             {welcomeText}
           </h1>
-          <p className="font-silkscreen text-lg mb-2">
+          <p className="font-Trap-Regular text-lg mb-2">
             You are logged in with {session.user.email}
           </p>
-          <button className="font-velocista mt-4 px-6 py-2 text-blue-500 font-bold rounded shadow-lg transition hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+          <button className="font-Trap-Black mt-4 px-6 py-2 text-blue-500 font-bold rounded shadow-lg transition hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
             You have the {session.user.role} access
           </button>
           <div className="mt-4">
             <button
               onClick={() => router.push('/admin/dashboard')}
-              className="font-velocista px-6 py-2 bg-blue-500 text-white font-bold rounded shadow-lg transition hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              className="font-Trap-Black px-6 py-2 bg-blue-800 text-white font-bold rounded shadow-lg transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             >
               Enter Dashboard
             </button>

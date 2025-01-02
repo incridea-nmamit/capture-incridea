@@ -72,7 +72,7 @@ const ManageRoles = () => {
 
   return (
     <div className="p-4">
-      <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Manage Roles</h1>
+      <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center">Manage Roles</h1>
 
       {/* Search Bar and Role Count Buttons */}
       <div className="mb-4 flex flex-col gap-10 justify-between items-center">

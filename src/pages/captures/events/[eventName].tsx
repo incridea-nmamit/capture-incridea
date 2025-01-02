@@ -95,10 +95,10 @@ const EventCaptures = () => {
 
   return (
     <div className="p-6 bg-primary-950/50 min-h-screen">
-      <h1 className="text-3xl md:text-7xl font-Hunters text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
+      <h1 className="text-3xl md:text-6xl font-Teknaf text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
         {formattedEventName} Captures
       </h1>
-      <div className="flex justify-center z-20 font-Trap-Regular">
+      <div className="flex justify-center z-20 mb-10 font-Trap-Regular">
         {event?.description && <p className="text-center text-gray-400 mb-16 w-3/4">{event.description}</p>}
       </div>
       <main className="flex justify-center items-center">

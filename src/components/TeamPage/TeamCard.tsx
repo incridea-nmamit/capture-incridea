@@ -110,10 +110,10 @@ return (
         className="rounded-md transition-transform duration-300 ease-in-out transform hover:scale-110" 
       />
     </div>
-    <h3 className="text-2xl font-bold text-white text-center mb-1">{name}</h3>
-    <p className="text-gray-400 text-center text-sm">{designation}</p>
+    <h3 className="text-2xl font-Trap-Black text-white text-center mb-1">{name}</h3>
+    <p className="text-gray-400 text-center font-Trap-Regular text-sm">{designation}</p>
     <div className="flex flex-wrap justify-center py-2">     
-      <p className="text-gray-300 text-center text-sm py-2"> {say} </p>
+      <p className="text-gray-300 text-center font-Trap-Regular text-sm py-2"> {say} </p>
     </div>
   </div>
 );

@@ -21,7 +21,7 @@ const config: Config = {
         ClubHouse: ['ClubHouse', 'cursive'],
         "Trap-Regular": ['Trap-Regular', 'cursive'], 
 		    "Trap-Black": ['Trap-Black', 'cursive'], 
-		
+        "Teknaf": ['Teknaf', 'cursive'], 
       },
       colors: {
         gold: '#FFD700',

@@ -111,7 +111,7 @@ const RemovalRequest: React.FC = () => {
   return (
     <div className="p-4">
       <div className="flex flex-col justify-between items-center mb-8 gap-6">
-        <h1 className="text-6xl font-Hunters text-center">Removal Requests</h1>
+        <h1 className="text-4xl font-Teknaf text-center">Removal Requests</h1>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}

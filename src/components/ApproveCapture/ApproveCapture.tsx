@@ -54,7 +54,7 @@ const ApproveCaptures: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-6xl font-Hunters mb-8 py-5 text-center">Approve Captures</h1>
+      <h1 className="text-4xl font-Teknaf mb-8 py-5 text-center">Approve Captures</h1>
 
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300 bg-primary-950/50">

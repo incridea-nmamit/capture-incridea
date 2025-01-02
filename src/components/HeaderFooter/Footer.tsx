@@ -5,7 +5,7 @@ import Image from 'next/image';
 const Footer = () => {
   return (
     <footer className="bg-black text-white py-8">
-      <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 px-4 gap-8">
+      <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 px-4 gap-8 w-11/12">
         {/* Left Section */}
         <a href='https://incridea.in'
            rel="noopener noreferrer">
@@ -20,7 +20,7 @@ const Footer = () => {
         </div>
         </a>
         {/* Center Section */}
-        <div className="text-center flex justify-center items-center font-Trap-Regular">
+        <div className="text-center flex justify-center items-center font-Trap-Regular text-sm">
           <div className="space-y-2 md:space-y-0 md:space-x-4">
             <a href="#" className="text-gray-400 hover:text-white block md:inline">
               Privacy Policy
@@ -37,7 +37,7 @@ const Footer = () => {
         </div>
 
         {/* Right Section */}
-        <div className="text-right md:text-right font-Trap-Regular">
+        <div className="text-right text-sm md:text-right font-Trap-Regular">
           {/* Links */}
           <div>
             <p className="text-gray-400"><a href='https://incridea.in'>incredia.in</a></p>

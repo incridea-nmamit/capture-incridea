@@ -12,7 +12,7 @@ import { HiInformationCircle } from "react-icons/hi";
 
 const adminLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: <BiSolidDashboard /> },
-  { href: "/", label: "MainWebPage", icon: <GoHomeFill /> },
+  { href: "/", label: "MainPage", icon: <GoHomeFill /> },
 ];
 
 const userLinks = [
@@ -67,7 +67,7 @@ const Header: FC = () => {
                       ? pathname === link.href
                       : pathname.startsWith(link.href)
                   }
-                  className="font-BebasNeue text-xl"
+                  className="font-Trap-Regular text-xl"
                 />
               </div>
             ))
@@ -79,16 +79,16 @@ const Header: FC = () => {
               className="flex text-xl text-white"
             >
               <HiOutlineLogout />{" "}
-              <span className="relative top-0.5 font-BebasNeue">SignIn</span>
+              <span className="relative top-0.5 font-Trap-Regular">SignIn</span>
             </button>
           )}
           {session && isAdminRoute && session.user?.role === "admin" && (
             <button
               onClick={() => signOut()}
-              className="flex items-center gap-3 text-xl text-white"
+              className="flex items-center gap-3 text-xl text-white font-Trap-Regular"
             >
               <HiOutlineLogout />{" "}
-              <span className="relative top-0.5 font-BebasNeue">Logout</span>
+              <span className="relative top-0.5">Logout</span>
             </button>
           )}
         </nav>
@@ -148,7 +148,7 @@ const Header: FC = () => {
           {session && isAdminRoute && session.user?.role === "admin" && (
             <button
               onClick={() => signOut()}
-              className="flex items-center gap-3 text-xl text-white"
+              className="flex items-center gap-3 text-xl text-white font-Trap-Regular"
             >
               <HiOutlineLogout />
               Logout

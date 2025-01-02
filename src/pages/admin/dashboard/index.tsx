@@ -17,47 +17,47 @@ import { Aperture, Bell, BookCheck, CalendarCog, ChartNoAxesCombined, GalleryHor
 const tabs = [
   {
     name: "events",
-    sideBarContent: ({} : any) => <>Events <CalendarCog size={18}/></>,
+    sideBarContent: ({} : any) => <><div className='w-full'>Events </div><CalendarCog size={18}/></>,
     content: ()=><EventsAdmin />,
     permittedRoles: [Role.admin, Role.manager]
   },
   {
     name: "captures",
-    sideBarContent: ({} : any) => <>Captures <Aperture size={18}/></>,
+    sideBarContent: ({} : any) => <> <div className='w-full'>Captures </div><Aperture size={18}/></>,
     content: ()=><CapturesAdmin />,
     permittedRoles: [Role.admin, Role.manager, Role.editor]
   },
   {
     name: "team",
-    sideBarContent: ({} : any) => <>Teams <Users size={18}/></>,
+    sideBarContent: ({} : any) => <><div className='w-full'>Teams </div><Users size={18}/></>,
     content: ()=><TeamAdmin />,
     permittedRoles: [Role.admin, Role.manager]
   },
   {
     name: "roles",
-    sideBarContent: ({} : any) => <>User Roles <UserCog size={18}/></>,
+    sideBarContent: ({} : any) => <><div className='w-full'>User Roles </div><UserCog size={18}/></>,
     content: ()=><ManageRoles />,
     permittedRoles: [Role.admin]
   },
   {
     name: "removalrequest",
-    sideBarContent: ({ pendingCount = 0 } = {}) => <>Request <Bell size={18}/> {pendingCount > 0 && (
+    sideBarContent: ({ pendingCount = 0 } = {}) => <><div className='w-full'>Request </div>{pendingCount > 0 && (
       <span className="bg-yellow-300 text-black text-xs rounded-full aspect-square w-5 grid place-content-center">
         {pendingCount}
       </span>
-    )}</>,
+    )}<Bell size={18}/> </>,
     content: ()=><RemovalRequest />,
     permittedRoles: [Role.admin, Role.manager, Role.editor]
   },
   {
     name: "controls",
-    sideBarContent: ({} : any) => <>Settings <Settings size={18}/></>,
+    sideBarContent: ({} : any) => <><div className='w-full'>Settings</div> <Settings size={18}/></>,
     content: ()=><ControlComponent />,
     permittedRoles: [Role.admin]
   },
   {
     name: "smc",
-    sideBarContent: ({} : any) => <>SMC Uploads <ImageUp size={18}/></>,
+    sideBarContent: ({} : any) => <>Stories Uploads <ImageUp size={18}/></>,
     content: ()=><SMCUploads />,
     permittedRoles: [Role.admin, Role.editor, Role.smc]
   },
@@ -103,16 +103,16 @@ const Dashboard = () => {
     } else {
       return (
         <div className="text-center mt-20 text-lg">
-          <h1 className="text-center text-4xl font-bold mb-8 text-white">
+          <h1 className="text-center text-4xl font-Teknaf mb-8 text-white">
             Hey {session?.user.name}
           </h1>
-          <p className="text-blue-400">
+          <p className="text-blue-400 font-Trap-Regular">
             Use <span className="text-yellow-500">Tabs</span> to switch to your destination! 🚀
           </p>
-          <p className="text-gray-300 mt-2">
+          <p className="text-gray-300 mt-2 font-Trap-Regular">
             Don’t worry, we’ve got all your needs covered!
           </p>
-          <p className="text-blue-400 mt-10">
+          <p className="text-blue-400 mt-10 font-Trap-Regular">
             You are the <span className="text-yellow-500">&nbsp;{session?.user.role}&nbsp;</span>
             {session?.user.role === 'admin'
               ? ' and you have access to everything✌!'
@@ -140,7 +140,7 @@ const Dashboard = () => {
                 onClick={() => {
                   setActiveTab(tab.name);
                 }}
-                className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg text-lg ${activeTab === tab.name
+                className={`relative flex items-center font-Trap-Regular text-md h-16 justify-center gap-2 text-center p-2 rounded-lg ${activeTab === tab.name
                   ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
                   : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
                   } transition duration-200`}

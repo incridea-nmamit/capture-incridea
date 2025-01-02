@@ -38,8 +38,8 @@ export const TimeLine = () => {
     })
 
     return (
-        <section className='container-size mx-auto mt-20'>
-            <h3 className="mb-16 w-full font-ClubHouse text-5xl md:text-6xl lg:text-7xl text-center">Explore the past memory</h3>
+        <section className='container-size mx-auto mt-20 my-20'>
+            <h3 className="mb-16 w-full font-Teknaf text-5xl md:text-6xl lg:text-6xl text-center">Explore the past memory</h3>
             <div className='grid gap-8 relative'
                 style={{
                     gridTemplateColumns: "20% auto"

@@ -48,6 +48,12 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "Teknaf";
+  src: url("/fonts/Teknaf.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 
 @font-face {
   font-family: "Hunters";
@@ -108,6 +114,15 @@ html, body {
 .no-scrollbar {
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
+}
+/* Hide scrollbar in WebKit browsers (Chrome, Safari, Edge) */
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+
+/* Firefox: hide scrollbar */
+.overflow-x-auto {
+  scrollbar-width: none;
 }
 
 body {

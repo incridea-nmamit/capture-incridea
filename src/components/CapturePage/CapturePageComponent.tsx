@@ -99,7 +99,7 @@ const CapturesComponent = () => {
       <div
         className="min-h-screen bg-cover bg-center flex flex-col items-center justify-start p-8 z-30"
       >
-        <h1 className="text-6xl md:text-6xl text-white font-GoldleafBold mb-5 z-30">Captures</h1>
+        <h1 className="text-6xl md:text-6xl text-white font-Teknaf mb-5 z-30">Captures</h1>
         <p className="text-lg text-center max-w-3xl text-gray-400 mb-12 z-20 font-Trap-Regular">
         A picture is worth a thousand words, that’s why we let our captures do the talking. 
         Explore the moments showcasing the best of our techno-cultural fest.

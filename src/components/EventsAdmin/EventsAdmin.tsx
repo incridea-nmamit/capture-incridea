@@ -347,10 +347,8 @@
 
 // export default EventsAdmin;
 
-
-
 "use client"
-
+import styled from 'styled-components';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -436,7 +434,18 @@ const EventsAdmin: React.FC = () => {
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState<{ id: number; name: string } | null>(null);
 
+  const ScrollableDiv = styled.div`
+  max-height: 60vh;
+  overflow-y: scroll;
 
+  /* Hide scrollbar in WebKit browsers (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Firefox: hide scrollbar */
+  scrollbar-width: none;
+`;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -513,13 +522,13 @@ const EventsAdmin: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className='flex justify-center text-6xl font-Hunters mb-8 py-5 text-center'>Event Data and Management</h1>
+      <h1 className='flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center'>Event Data and Management</h1>
       <div className="mb-4 flex gap-2 flex-wrap">
         <div className="relative w-1/2">
           <input
             type="text"
             placeholder="Search..."
-            className="font-BebasNeue text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-primary-950/50"
+            className="font-Trap-Regular text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-primary-950/50"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -704,22 +713,22 @@ const EventsAdmin: React.FC = () => {
       ) : isError ? (
         <div className=''>Error loading events. Please try again later.</div>
       ) : (
-        <div className="overflow-x-auto" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
-          <table className="min-w-full bg-primary-950/50 border border-slate-700">
+          <ScrollableDiv>
+          <table className="min-w-full bg-primary-950/50 border border-slate-700 my-5">
             <thead>
-              <tr className='text-black bg-gray-100'>
+              <tr className='text-black bg-gray-100 font-Trap-Regular'>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Description</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Category</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Day</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">BG Image</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Background</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Delete</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Visibility</th>
               </tr>
             </thead>
             <tbody>
               {filteredEvents?.map((event) => (
-                <tr key={event.id} className='hover:bg-gray-50 hover:text-black'>
+                <tr key={event.id} className='hover:bg-gray-50 hover:text-black font-Trap-Regular'>
                   <td className=" py-2 px-4 border-b border-slate-700 text-center  text-xs">{event.name}</td>
                   <td className=" py-2 px-4 w-56 border-b border-slate-700 text-center text-xs">{event.description}</td>
                   <td className=" py-2 px-4 border-b border-slate-700 text-center text-xs">{eventTypes[event.type]}
@@ -765,7 +774,7 @@ const EventsAdmin: React.FC = () => {
               ))}
             </tbody>
           </table>
-        </div>
+          </ScrollableDiv>
       )}
 
       <Dialog open={isDeletePopupOpen} onOpenChange={setIsDeletePopupOpen}>

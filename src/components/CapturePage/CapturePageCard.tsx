@@ -54,7 +54,7 @@ const CapturePageCard: React.FC<CapturePageCardProps> = ({
 
         {/* Card Content */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full p-4 text-center text-white">
-          <h2 className="text-3xl font-bold mb-2">{title}</h2>
+          <h2 className="text-3xl font-Teknaf mb-2">{title}</h2>
           <p className="text-sm mb-4 max-w-[90%] mx-auto font-Trap-Regular">{description}</p>
         </div>
 
