@@ -353,13 +353,13 @@ const Analytics = () => {
 
   return (
     <div className="p-6 mb-20">
-      <h1 className="text-center text-6xl font-Hunters mb-8 text-white">Detailed Admin Analytics</h1>
+      <h1 className="text-center text-4xl font-Teknaf mb-8 text-white">Detailed Admin Analytics</h1>
       <div className="flex justify-center gap-2">
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-4 ">
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="ml-2 border font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-primary-950/50 text-white"
+            className="ml-2 border font-Trap-Regular border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-primary-950/50 text-white"
           >
             <option value="all">All Days</option>
             <option value="1">Day 1</option>
@@ -376,13 +376,13 @@ const Analytics = () => {
               type="date"
               value={customDate || ""}
               onChange={handleDateChange}
-              className="mt-4 border font-BebasNeue border-gray-700 rounded-lg py-2 px-4 bg-primary-950/50 text-white"
+              className="mt-4 border font-Trap-Regular border-gray-700 rounded-lg py-2 px-4 bg-primary-950/50 text-white"
             />
           )}
         </div>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full text-white">
+        <table className="min-w-full text-white font-Trap-Regular">
           <tbody>
             <tr>
               <td className="py-2 px-4 border-b">Total Web Visits</td>
@@ -423,7 +423,7 @@ const Analytics = () => {
         </table>
       </div>
       
-      <div className="overflow-x-auto mt-5">
+      <div className="overflow-x-auto mt-5 font-Trap-Regular">
         <table className="min-w-full text-white">
           <thead className="bg-gray-700">
             <tr>
@@ -438,7 +438,7 @@ const Analytics = () => {
                 <select
                   value={captureFilter}
                   onChange={(e) => setCaptureFilter(e.target.value)}
-                  className="border  font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-primary-950/50 text-white"
+                  className="border font-Trap-Regular border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-primary-950/50 text-white"
                 >
                   <option value="all">All Routes</option>
                   <option value="/">Home</option>
@@ -461,7 +461,7 @@ const Analytics = () => {
         </div>
 
         <div className="overflow-x-auto mt-5">
-        <table className="min-w-full text-white">
+        <table className="min-w-full text-white font-Trap-Regular">
           <thead className="bg-gray-700">
             <tr>
               <th className="p-2 w-1/3">Events</th>
@@ -475,7 +475,7 @@ const Analytics = () => {
                 <select
                   value={eventFilter}
                   onChange={(e) => setEventFilter(e.target.value)}
-                  className="border  font-BebasNeue border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-primary-950/50 text-white"
+                  className="border font-Trap-Regular border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-primary-950/50 text-white"
                 >
                   <option value="all">All Events</option>
                   {events.map((event) => {
@@ -494,27 +494,27 @@ const Analytics = () => {
           </tbody>
         </table>
         </div>
-      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl">
+      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl font-Trap-Regular">
         <h3 className="text-center text-2xl text-white mb-4">Visits Growth Rate</h3>
         <Line data={growthGraphData} options={chartOptions} />
       </div>
 
-      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl">
+      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl font-Trap-Regular">
         <h3 className="text-center text-2xl text-white mb-4">Average Time Spent per Visit</h3>
         <Line data={avgTimeSpentGraphData} options={chartOptions} />
       </div>
 
-      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl">
+      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl font-Trap-Regular">
         <h3 className="text-center text-2xl text-white mb-4">Total Visits Over Time</h3>
         <Line data={visitGraphData} options={chartOptions} />
       </div>
 
-      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl">
+      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl font-Trap-Regular">
         <h3 className="text-center text-2xl text-white mb-4">Unique Visitors Over Time</h3>
         <Line data={uniqueGraphData} options={chartOptions} />
       </div>
 
-      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl">
+      <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl font-Trap-Regular">
         <h3 className="text-center text-2xl text-white mb-4">Views per Unique Visitor Over Time</h3>
         <Line data={viewsPerUniqueGraphData} options={chartOptions} />
       </div>
