@@ -6,7 +6,7 @@ import CameraLoading from '../LoadingAnimation/CameraLoading';
 import toast from 'react-hot-toast';
 
 const RemovalRequest: React.FC = () => {
-  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<string>('pending');
   const [selectedRequest, setSelectedRequest] = useState<any>(null);
   const [isActionPopupOpen, setIsActionPopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
@@ -16,13 +16,6 @@ const RemovalRequest: React.FC = () => {
     api.request.getAll.useQuery();
   const auditLogMutation = api.audit.log.useMutation();
   const { data: session, status } = useSession();
-  useEffect(() => {
-    if (session?.user?.role === 'editor') {
-      setStatusFilter('pending');
-    } else {
-      setStatusFilter('all');
-    }
-  }, [session]);
 
   const filteredRequests = removalRequests?.filter((request) => {
     if (statusFilter === 'all') return true;
