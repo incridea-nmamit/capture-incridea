@@ -1,7 +1,9 @@
+// UploadComponent.tsx
 import React, { useState } from 'react';
 import { api } from '~/utils/api';
 import { UploadButton } from '~/utils/uploadthing';
 import CameraLoading from '~/components/LoadingAnimation/CameraLoading';
+import toast from 'react-hot-toast';
 
 interface UploadedImage {
   original: string;
@@ -9,10 +11,13 @@ interface UploadedImage {
 }
 
 interface UploadComponentProps {
-  onUploadComplete: (images: UploadedImage[]) => void;
+  name: string; 
+  category: string;
+  type: string; 
+  handleClosePopup: () => void;
 }
 
-const UploadComponent: React.FC<UploadComponentProps> = ({ onUploadComplete }) => {
+const UploadComponent: React.FC<UploadComponentProps> = ({ name, category ,type, handleClosePopup }) => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const mutation = api.gallery.addImage.useMutation({
     onSuccess: () => {
@@ -23,7 +28,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ onUploadComplete }) =
     },
   });
 
-  const compressImage = (file: File, quality: number = 0.85): Promise<Blob> => {
+  const compressImage = (file: File, quality: number = 0.25): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -83,7 +88,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ onUploadComplete }) =
 
   const handleUploadComplete = (res: any) => {
     if (!res || res.length < 2) {
-      alert('Upload incomplete. Please try again.');
+      toast.error('Upload incomplete. Please try again.');
       setIsLoading(false);
       return;
     }
@@ -96,26 +101,23 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ onUploadComplete }) =
     }
 
     if (originalUrl && compressedUrl) {
-      const uploadedImages = [{ original: originalUrl, compressed: compressedUrl }];
-      onUploadComplete(uploadedImages);
-
       mutation.mutate({
-          event_name: 'Sample Event',
-          event_category: 'Sample Category',
-          uploadKeyOg: originalUrl,
-          uploadKeyCompressed: compressedUrl,
-          upload_type: 'direct',
-          state: 'pending'
+        event_name: name,  
+        event_category: category, 
+        uploadKeyOg: originalUrl,
+        uploadKeyCompressed: compressedUrl,
+        upload_type: type,
       });
       setIsLoading(false);
+      handleClosePopup();
     } else {
       setIsLoading(false);
-      alert('Could not retrieve upload URLs.');
+      toast.error('Could not retrieve upload URLs.');
     }
   };
 
   const handleUploadError = (error: Error) => {
-    alert(`ERROR! ${error.message}`);
+    toast.error(`ERROR! ${error.message}`);
   };
 
   return (

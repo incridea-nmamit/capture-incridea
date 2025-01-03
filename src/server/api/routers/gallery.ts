@@ -1,6 +1,8 @@
 import {  createTRPCRouter, protectedProcedure, publicProcedure} from "~/server/api/trpc";
 import { z } from "zod";
-import { Name } from "node_modules/@simplewebauthn/server/esm/deps";
+
+
+
 export const galleryRouter = createTRPCRouter({
   // Get all events
   getAllGallery: publicProcedure.query(async ({ ctx }) => {
@@ -22,12 +24,11 @@ export const galleryRouter = createTRPCRouter({
         uploadKeyOg: z.string().min(1, "Upload key is required"), 
         uploadKeyCompressed: z.string().min(1, "Upload key is required").optional(),       
         upload_type: z.string().min(1, "Type is required"), 
-        state: z.enum(['pending', 'declined', 'approved'])      
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const imageUrl = `https://utfs.io/f/${input.uploadKeyOg}`;
-      const compressedUrl = `https://utfs.io/f/${input.uploadKeyCompressed}`;
+      const imageUrl = input.uploadKeyOg;
+      const compressedUrl = input.uploadKeyCompressed;
       const auto_button = (await ctx.db.variables.findUnique({where:{key:"capture-auto-request"}}))?.value
       const newImage = await ctx.db.gallery.create({
         data: {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import UploadComponent from '../UploadComponent';
 import { api } from '~/utils/api';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
@@ -9,23 +8,22 @@ import { useSession } from 'next-auth/react';
 import useUserRole from '~/hooks/useUserRole';
 import GalleryBatchUpload from './BatchUpload';
 import { BsDashCircleFill } from "react-icons/bs";
+import UploadComponent from '../uploadCompressed';
 const CapturesAdmin: React.FC = () => {
-  const addImage = api.gallery.addImage.useMutation();
   const { data: gallery, isLoading: galleryLoading, isError: galleryError, refetch } = api.gallery.getAllGallery.useQuery();
   const { data: events, isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [filteredGallery, setFilteredGallery] = useState(gallery || []);
   const [filters, setFilters] = useState({ state: '', event_category: '', event_name: '' });
-  const [newImage, setNewImage] = useState<{ event_name: string; event_category: string }>({ event_name: '', event_category: '' });
-  const [uploadUrl, setUploadUrl] = useState<string>('');
+  const [newImage, setNewImage] = useState({ event_name: '', event_category: '', upload_type: '' });
   const [state, setState] = useState<string>('');
   const deleteImage = api.gallery.deleteImage.useMutation();
   const [captureToDelete, setCaptureToDelete] = useState<{ id: number} | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const auditLogMutation = api.audit.log.useMutation();
   const { data: session } = useSession();
   const userRole = useUserRole();
+  const [step, setStep] = useState(1); 
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -34,21 +32,23 @@ const CapturesAdmin: React.FC = () => {
     },
   };
 
-  const handleUploadComplete = (url: string) => {
-    setUploadUrl(url);
-  };
   const handleDeleteClick = (eventId: number) => {
     setIsDeletePopupOpen(true);
     setCaptureToDelete({ id: eventId});
   };
   const handleAddCaptureClick = () => {
     setIsPopupOpen(true);
-    setNewImage({ event_name: '', event_category: 'events' });
+    setNewImage({ event_name: '', event_category: 'events' , upload_type: 'direct'});
   };
 
   const handlePopupClose = () => {
+    setStep(1);
+    newImage.event_category="";
+    newImage.event_name="";
+    newImage.upload_type="direct";
     setIsPopupOpen(false);
-    setNewImage({ event_name: '', event_category: 'events' });
+    setNewImage({ event_name: '', event_category: 'events',upload_type: 'direct' });
+    refetch();
   };
 
   const confirmDelete = async () => {
@@ -60,9 +60,9 @@ const CapturesAdmin: React.FC = () => {
           sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
           description: `CaptureManagementAudit - Deleted a capture with id ${captureToDelete.id} as disagreement`,
         });
-        toast.success('Successfully deleted the capture');
+        toast.success('Successfully deleted the capture',toastStyle);
       } catch (error) {
-        toast.error('Error deleting capture');
+        toast.error('Error deleting capture',toastStyle);
       } finally {
         setIsDeletePopupOpen(false);
         setCaptureToDelete(null);
@@ -71,7 +71,7 @@ const CapturesAdmin: React.FC = () => {
   };
 
   const cancelDelete = () => {
-    toast.error('Event not deleted.');
+    toast.error('Event not deleted.',toastStyle);
     setIsDeletePopupOpen(false);
     setCaptureToDelete(null);
   };
@@ -107,71 +107,29 @@ const CapturesAdmin: React.FC = () => {
     }
   };
   
+  const handleNextStep = () => {
+    if (!newImage.event_category || !newImage.upload_type || (newImage.event_category === 'events' && !newImage.event_name)) {
+      toast.error('Please fill in all required fields.', toastStyle);
+      return;
+    }
+    setStep(2);
+  };
   const handleUploadTypeChange = (selectedCategory: string, selectedUploadType: string) => {
-    let newState = "pending"; // Default state
-  
     if (selectedCategory === "events") {
       if (selectedUploadType === "direct") {
         setState("direct");
       } else if (selectedUploadType === "batch") {
-        setState(newImage.event_name || ""); // Use event name for batch upload under events
+        setState(newImage.event_name || "");
       }
     } else {
       if (selectedUploadType === "direct") {
         setState("direct");
       } else if (selectedUploadType === "batch") {
-        setState(selectedCategory); // Use event category for batch upload
+        setState(selectedCategory); 
       }
     }
   };
-  
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-  
-    // Validation
-    if (newImage.event_category === "events" && !newImage.event_name) {
-      toast.error("Please select a valid event name.", toastStyle);
-      return;
-    }
-  
-    if (!newImage.event_category || !uploadUrl) {
-      toast.error("Please complete all required fields.", toastStyle);
-      return;
-    }
-  
-    setIsSubmitting(true);
-  
-    try {
-      const uploadType = state; // Already dynamically set
-      const submissionState = "pending"; // Always pending for submissions
-  
-      await addImage.mutateAsync({
-        ...newImage,
-        uploadKey: uploadUrl,
-        upload_type: uploadType,
-        state: submissionState,
-      });
-  
-      setIsPopupOpen(false);
-      setNewImage({ event_name: "", event_category: "events" });
-      setUploadUrl("");
-      void refetch();
-  
-      toast.success("Capture Added");
-  
-      await auditLogMutation.mutateAsync({
-        sessionUser: session?.user.name || "Invalid User",
-        description: `CaptureManagementAudit - Added a capture to ${newImage.event_name} in ${newImage.event_category} category with uploadUrl ${uploadUrl}`,
-      });
-    } catch (error) {
-      toast.error("Capture Not Uploaded", toastStyle);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-  
-  
+
 
 React.useEffect(() => {
   if (gallery) {
@@ -283,37 +241,32 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
         </div>
       )}
 
-      {isPopupOpen && (
+{isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
             <h2 className="text-2xl font-bold text-white mb-4">Add Capture</h2>
-            <button onClick={handlePopupClose} className="absolute top-6 right-6 text-white p-5">
-              &times;
-            </button>
-            <form onSubmit={handleSubmit}>
-              <label className="block mt-5 mb-2 text-white text-left">Capture:</label>
-              <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
+            <button onClick={handlePopupClose} className="absolute top-6 right-6 text-white p-5">&times;</button>
 
-              <label className="block mt-5 mb-2 text-left text-white">Capture Category:</label>
-              <select
-                name="event_category"
-                value={newImage.event_category}
-                onChange={handleFormChange}
-                className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
-              >
-                <option value="" disabled>
-                  Select a category
-                </option>
-                <option value="events">Events</option>
-                <option value="pronite">pronite</option>
-                <option value="snaps">Snaps</option>
-                <option value="behindincridea">Behind Incridea</option>
-              </select>
+            {step === 1 && (
+              <form>
+                <label className="block mt-5 mb-2 text-left text-white">Capture Category:</label>
+                <select
+                  name="event_category"
+                  value={newImage.event_category}
+                  onChange={handleFormChange}
+                  className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
+                >
+                  <option value="" disabled>Select a category</option>
+                  <option value="events">Events</option>
+                  <option value="pronite">Pronite</option>
+                  <option value="snaps">Snaps</option>
+                  <option value="behindincridea">Behind Incridea</option>
+                </select>
 
-              {newImage.event_category === 'events' && (
-                <>
-                  <label className="block mt-5 mb-2 text-left text-white">Event Name:</label>
-                  {eventsLoading ? (
+                {newImage.event_category === 'events' && (
+                  <>
+                    <label className="block mt-5 mb-2 text-left text-white">Event Name:</label>
+                    {eventsLoading ? (
                     <select className="w-full p-2 rounded" disabled>
                       <option>Loading events...</option>
                     </select>
@@ -324,51 +277,59 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                       onChange={handleFormChange}
                       className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
                     >
-                      <option value="" disabled>
-                        Select an event
-                      </option>
-                      {events?.map(event => (
-                        <option key={event.id} value={event.name}>
-                          {event.name}
-                        </option>
+                      <option value="" disabled>Select an event</option>
+                      {events?.map((event) => (
+                        <option key={event.id} value={event.name}>{event.name}</option>
                       ))}
                     </select>
-                  )}
-                </>
-              )}
-              <label className="block mt-5 mb-2 text-left text-white">Upload Type:</label>
-              <div className="flex items-center gap-4">
-                <label className="flex items-center text-white">
-                  <input
-                    type="checkbox"
-                    name="upload_type"
-                    checked={state === "direct"}
-                    onChange={() => handleUploadTypeChange(newImage.event_category, "direct")}
-                    className="mr-2"
-                  />
-                  Direct
-                </label>
-                <label className="flex items-center text-white">
-                  <input
-                    type="checkbox"
-                    name="upload_type"
-                    checked={state === (newImage.event_category === "events" ? newImage.event_name : newImage.event_category)}
-                    onChange={() => handleUploadTypeChange(newImage.event_category, "batch")}
-                    className="mr-2"
-                  />
-                  Batch
-                </label>
-              </div>
+                    )}
+                  </>
+                )}
 
+                <label className="block mt-5 mb-2 text-left text-white">Upload Type:</label>
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center text-white">
+                    <input
+                      type="checkbox"
+                      name="upload_type"
+                      checked={state === "direct"}
+                      onChange={() => handleUploadTypeChange(newImage.event_category, "direct")}
+                      className="mr-2"
+                    />
+                    Direct
+                  </label>
+                  <label className="flex items-center text-white">
+                    <input
+                      type="checkbox"
+                      name="upload_type"
+                      checked={state === (newImage.event_category === "events" ? newImage.event_name : newImage.event_category)}
+                      onChange={() => handleUploadTypeChange(newImage.event_category, "batch")}
+                      className="mr-2"
+                    />
+                    Batch
+                  </label>
+                </div>
 
-              <button
-                type="submit"
-                className="p-2 bg-white text-black rounded-xl w-full mt-10"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Submitting...' : 'Submit'}
-              </button>
-            </form>
+                <button
+                  type="button"
+                  onClick={handleNextStep}
+                  className="p-2 bg-white text-black rounded-xl w-full mt-10"
+                >
+                  Submit and Upload
+                </button>
+              </form>
+            )}
+
+            {step === 2 && (
+              <>
+                <UploadComponent
+                  name={newImage.event_name}
+                  category={newImage.event_category}
+                  type={newImage.upload_type}
+                  handleClosePopup={handlePopupClose}
+                />
+              </>
+            )}
           </div>
         </div>
       )}

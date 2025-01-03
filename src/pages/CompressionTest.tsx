@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import UploadComponent from '~/components/uploadCompressed';
 
-
 const UploadPage: React.FC = () => {
   const [uploadedImages, setUploadedImages] = useState<
     { original: string; compressed: string }[]
   >([]);
 
-  const handleUploadComplete = (images: { original: string; compressed: string }[]) => {
-    setUploadedImages((prev) => [...prev, ...images]);
-  };
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -17,11 +13,20 @@ const UploadPage: React.FC = () => {
     });
   };
 
+  const name = "Test_Name";
+  const category = "Test_Category"; 
+  const type = "Test_Type"; 
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Left side - Upload section */}
       <div className="w-1/2 p-8">
-        <UploadComponent onUploadComplete={handleUploadComplete} />
+        <UploadComponent
+          name={name} 
+          category={category} 
+          type ={type}
+          handleClosePopup={() => console.log("Popup closed!")}
+        />
       </div>
 
       {/* Right side - Image viewing section */}
