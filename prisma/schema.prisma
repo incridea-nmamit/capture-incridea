@@ -95,6 +95,7 @@ model downloadLog {
 model Gallery {
   id         Int      @id @default(sequence())
   image_path String
+  compressed_path String?
   event_name String?
   event_category String
   upload_type  String
@@ -206,4 +207,4 @@ model CaptureLike {
 model VerifiedEmail {
   id        Int      @id @default(sequence())
   email String
-}
+} 
