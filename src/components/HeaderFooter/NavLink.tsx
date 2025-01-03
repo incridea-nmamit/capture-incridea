@@ -1,4 +1,4 @@
-import {type  FC } from "react";
+import { type FC } from "react";
 import Link from "next/link";
 
 interface NavLinkProps {
@@ -9,11 +9,28 @@ interface NavLinkProps {
   className?: string;
 }
 
-const NavLink: FC<NavLinkProps> = ({ href, label, active, onClick, className = "" }) => {
-  const activeClass = active ? "bg-gradient-to-r from-blue-500 to-green-500 text-transparent bg-clip-text" : "";
+const NavLink: FC<NavLinkProps> = ({
+  href,
+  label,
+  active,
+  onClick,
+  className = "",
+}) => {
+  const activeClass = active
+    ? "bg-gradient-to-r from-blue-500 to-green-500 text-transparent bg-clip-text"
+    : "";
+
   return (
-    <Link href={href} className={`${activeClass} ${className}`} onClick={onClick}>
+    <Link
+      href={href}
+      onClick={onClick}
+      className={`group relative font-Teknaf ${className} ${activeClass} text-white`}
+    >
       {label}
+      <span
+        className="bg-gold absolute bottom-0 left-0 h-[2px] w-0 transition-all duration-300 group-hover:w-full"
+        aria-hidden="true"
+      ></span>
     </Link>
   );
 };

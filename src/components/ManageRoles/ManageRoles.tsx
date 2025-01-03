@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '~/utils/api';
 import { User } from '@prisma/client';
+import { useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
+
+// Define a type for roles
+type Role = 'admin' | 'manager' | 'smc' | 'editor' | 'user';
 
 const ManageRoles = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-  const [newRole, setNewRole] = useState<'admin' | 'manager' | 'smc' | 'editor' | 'user'>('user');
+  const [selectedUserName, setSelectedUserName] = useState<string | null>(null);
+  const [newRole, setNewRole] = useState<Role>('user');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+  const [searchTerm, setSearchTerm] = useState('');
+  const auditLogMutation = api.audit.log.useMutation();
+  const { data: session } = useSession();
   const { data: usersData, refetch } = api.user.getAllUsers.useQuery();
   const changeRoleMutation = api.user.changeUserRole.useMutation({
     onSuccess: () => {
@@ -19,19 +28,74 @@ const ManageRoles = () => {
   useEffect(() => {
     if (usersData) {
       setUsers(usersData);
+      setFilteredUsers(usersData); 
     }
   }, [usersData]);
 
+  useEffect(() => {
+    if (searchTerm) {
+      setFilteredUsers(
+        users.filter((user) => {
+          return (
+            (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            (user.email && user.email.toLowerCase().includes(searchTerm.toLowerCase()))
+          );
+        })
+      );
+    } else {
+      setFilteredUsers(users); 
+    }
+  }, [searchTerm, users]);
+
   const handleChangeRole = async () => {
     if (selectedUserId) {
-      await changeRoleMutation.mutateAsync({ userId: selectedUserId, role: newRole });
+      try {
+        await changeRoleMutation.mutateAsync({ userId: selectedUserId, role: newRole });
+        await auditLogMutation.mutateAsync({
+          sessionUser: session?.user.name || 'Invalid User', // Invalid user is not reachable
+          description: `RoleManagementAudit - Changed the role of ${selectedUserName} to ${newRole}`,
+        });
+        toast.success(`Changed the role of ${selectedUserName} to ${newRole}`);
+      } catch (error) {
+        console.error('Error changing role', error);
+      }
     }
   };
 
+  // Define the type of roleCounts to make sure it is structured correctly
+  const roleCounts: { [key in Role]: number } = users.reduce((counts, user) => {
+    if (user.role) {
+      counts[user.role] = (counts[user.role] || 0) + 1;
+    }
+    return counts;
+  }, {} as { [key in Role]: number });
+
   return (
     <div className="p-4">
-      <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Manage Roles</h1>
-      <table className="min-w-full border border-gray-300 bg-black">
+      <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center">Manage Roles</h1>
+
+      {/* Search Bar and Role Count Buttons */}
+      <div className="mb-4 flex flex-col gap-10 justify-between items-center">
+        <div className="flex justify-center">
+          <input
+            type="text"
+            placeholder="Search by Name or Email"
+            className="p-2 w-full border rounded-3xl text-center bg-primary-950/50 text-white"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        <div className="flex space-x-4">
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28"> Admin-{roleCounts['admin']||0}</div>
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Manager-{roleCounts['manager']||0} </div>
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Editor-{roleCounts['editor']||0} </div>
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">SMC-{roleCounts['smc']||0} </div>
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Users-{roleCounts['user'] ||0} </div>
+        </div>
+      </div>
+
+      <table className="min-w-full border border-gray-300 bg-primary-950/50">
         <thead>
           <tr className="bg-gray-200">
             <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
@@ -41,17 +105,18 @@ const ManageRoles = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <tr key={user.id} className="text-center">
               <td className="py-2 px-4 border-b border-slate-700 text-center">{user.name}</td>
               <td className="py-2 px-4 border-b border-slate-700 text-center">{user.email}</td>
               <td className="py-2 px-4 border-b border-slate-700 text-center">{user.role}</td>
               <td className="py-2 px-4 border-b border-slate-700 text-center">
-                <button 
+                <button
                   className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
                   onClick={() => {
                     setSelectedUserId(user.id);
-                    setNewRole(user.role);  // Set the default role to the user's current role
+                    setSelectedUserName(user.name);
+                    setNewRole(user.role);
                     setIsPopupOpen(true);
                   }}
                 >
@@ -67,10 +132,10 @@ const ManageRoles = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
             <h2 className="text-2xl font-bold text-white mb-4">Select New Role</h2>
-            <select 
+            <select
               className="w-full p-2 border rounded mb-4 bg-black text-white"
               value={newRole}
-              onChange={(e) => setNewRole(e.target.value as 'admin' | 'manager' | 'editor' | 'user')}
+              onChange={(e) => setNewRole(e.target.value as Role)}
             >
               <option value="admin">Admin</option>
               <option value="manager">Manager</option>
@@ -79,13 +144,13 @@ const ManageRoles = () => {
               <option value="user">User</option>
             </select>
             <div className="flex justify-end space-x-2">
-              <button 
+              <button
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 onClick={handleChangeRole}
               >
                 Submit
               </button>
-              <button 
+              <button
                 className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
                 onClick={() => setIsPopupOpen(false)}
               >

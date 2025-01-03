@@ -101,7 +101,6 @@ model Gallery {
   upload_type  String
   state  Status  
   date_time  DateTime @default(now())
-
 }
 
 model Smcuploads {
@@ -208,4 +207,4 @@ model CaptureLike {
 model VerifiedEmail {
   id        Int      @id @default(sequence())
   email String
-}
+} 

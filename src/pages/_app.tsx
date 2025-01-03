@@ -1,6 +1,6 @@
 // pages/_app.tsx
 import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import { type AppType } from "next/app";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
@@ -13,17 +13,15 @@ import Footer from "~/components/HeaderFooter/Footer";
 import TrackPageVisits from "~/components/TrackPageVisits";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { Toaster } from "react-hot-toast";
-import { generateUniqueId } from "~/utils/generateUniqueId";
-import Cookies from "js-cookie";
+import { ScrollArea } from "~/components/ui/scroll-area";
+import LoginComponent from "./LoginComponent";
+import NotRegistered from "./NotRegistered";
+import KeyboardShortcut from "~/components/Shortcuts";
 
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}) => {
+const useRouteLoading = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const cookieId = Cookies.get("cookieId") || generateUniqueId();
-  Cookies.set("cookieId", cookieId, { expires: 365 });
+
   useEffect(() => {
     const handleRouteChangeStart = () => setLoading(true);
     const handleRouteChangeComplete = () => setLoading(false);
@@ -39,6 +37,45 @@ const MyApp: AppType<{ session: Session | null }> = ({
     };
   }, [router]);
 
+  return loading;
+};
+
+const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps: any }) => {
+  const loading = useRouteLoading();
+  const { data: sessionData, status: sessionStatus } = useSession();
+  const { data: verifiedEmailData, isLoading: isVerifiedEmailLoading } =
+    api.verifiedEmail.getEmail.useQuery();
+
+  if (sessionStatus === "loading" || isVerifiedEmailLoading) return <CameraLoading />;
+
+  if (!sessionData) return <LoginComponent />;
+
+  const isEmailVerified = verifiedEmailData?.some(
+    (emailEntry: { email: string }) => emailEntry.email === sessionData?.user?.email
+  ) || sessionData?.user?.email?.endsWith("nitte.edu.in") || sessionData?.user?.role === "admin";
+
+  if (!isEmailVerified) return <NotRegistered />;
+
+  return (
+    <ScrollArea className=" w-full h-screen flex-1 font-roboto flex min-h-screen flex-col">
+      <div className="font-roboto flex min-h-screen flex-col">
+        <Header />
+        <main className="mt-20 flex-grow">
+          <Toaster position="top-right" reverseOrder={false} />
+          <TrackPageVisits />
+          {loading ? <CameraLoading /> : <Component {...pageProps} />}
+        </main>
+        <Footer />
+      </div>
+    </ScrollArea>
+  );
+};
+
+
+const MyApp: AppType<{ session: Session | null }> = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
   return (
     <SessionProvider session={session}>
       <Head>
@@ -47,7 +84,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
           name="description"
           content="Capture Incridea: Get your event photos and story-worthy moments."
         />
-        <link rel="icon" href="https://utfs.io/f/0yks13NtToBia9tXha8GMCjeJVFKURvyq263Lgw98YaAfWdx" />
+        <link
+          rel="icon"
+          href="https://utfs.io/f/0yks13NtToBia9tXha8GMCjeJVFKURvyq263Lgw98YaAfWdx"
+        />
         <meta property="og:title" content="Capture Incridea" />
         <meta
           property="og:description"
@@ -55,15 +95,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
         <meta property="og:url" content="https://captures.incridea.in" />
       </Head>
-      <div className="flex flex-col min-h-screen font-roboto">
-        <Header />
-        <main className="flex-grow bg-black text-white">
-          <Toaster position="top-right" reverseOrder={false} />
-          <TrackPageVisits />
-          {loading ? <CameraLoading /> : <Component {...pageProps} />}
-        </main>
-        <Footer />
-      </div>
+      <KeyboardShortcut />
+      <AuthenticatedApp Component={Component} pageProps={pageProps} />
     </SessionProvider>
   );
 };

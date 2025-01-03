@@ -4,7 +4,6 @@ import CameraLoading from '~/components/LoadingAnimation/CameraLoading';
 import ReleaseOverlay from '~/components/ReleasingOverlay/ReleaseOverlay';
 import { api } from '~/utils/api';
 
-
 const Captures: React.FC = () => {
   const [isReleased, setIsReleased] = useState<boolean>(false);
   const { data, isLoading, error } = api.variables.getVariable.useQuery({
@@ -23,7 +22,7 @@ const Captures: React.FC = () => {
   };
 
   if (isLoading) {
-    return <CameraLoading/>; // Show a loading state while fetching data
+    return <CameraLoading />; // Show a loading state while fetching data
   }
 
   if (error || !data?.value) {

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const captureRouter = createTRPCRouter({
 
@@ -29,25 +29,31 @@ export const captureRouter = createTRPCRouter({
     return card.cardState;
   }),
 
-  updateCardExpiry: publicProcedure
-    .input(
-      z.object({
-        id: z.number().min(1, "Event ID is required"),
-        CardState: z.enum(['active', 'inactive']),
-        cardExpiry: z.date(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      const updatedCard = await ctx.db.captureCard.update({
-        where: { id: input.id },
-        data: { cardRtime: input.cardExpiry ,
-          cardState: input.CardState 
-        },
-      });
+  updateCardVisibility: protectedProcedure
+  .input(
+    z.object({
+      cardName: z.string().nonempty("Card name is required"),
+      newValue: z.enum(['active', 'inactive']),  
+    })
+  )
+  .mutation(async ({ ctx, input }) => {
+    const card = await ctx.db.captureCard.findFirst({
+      where: { cardName: input.cardName },
+    });
 
-      return {
-        message: "Card expiry updated successfully",
-        card: updatedCard,
-      };
-    }),
+    if (!card) {
+      throw new Error("Card not found");
+    }
+
+    // Update the card state
+    const updatedCard = await ctx.db.captureCard.update({
+      where: { id: card.id }, // Use the card's ID to update
+      data: {
+        cardState: input.newValue,
+      },
+    });
+
+    return updatedCard;
+  }),
+
 });

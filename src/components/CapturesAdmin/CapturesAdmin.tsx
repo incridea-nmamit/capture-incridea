@@ -5,7 +5,10 @@ import Image from 'next/image';
 import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import { FaTrash } from 'react-icons/fa';
-
+import { useSession } from 'next-auth/react';
+import useUserRole from '~/hooks/useUserRole';
+import GalleryBatchUpload from './BatchUpload';
+import { BsDashCircleFill } from "react-icons/bs";
 const CapturesAdmin: React.FC = () => {
   const addImage = api.gallery.addImage.useMutation();
   const { data: gallery, isLoading: galleryLoading, isError: galleryError, refetch } = api.gallery.getAllGallery.useQuery();
@@ -16,10 +19,13 @@ const CapturesAdmin: React.FC = () => {
   const [filters, setFilters] = useState({ state: '', event_category: '', event_name: '' });
   const [newImage, setNewImage] = useState<{ event_name: string; event_category: string }>({ event_name: '', event_category: '' });
   const [uploadUrl, setUploadUrl] = useState<string>('');
+  const [state, setState] = useState<string>('');
   const deleteImage = api.gallery.deleteImage.useMutation();
   const [captureToDelete, setCaptureToDelete] = useState<{ id: number} | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const auditLogMutation = api.audit.log.useMutation();
+  const { data: session } = useSession();
+  const userRole = useUserRole();
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -50,6 +56,10 @@ const CapturesAdmin: React.FC = () => {
       try {
         await deleteImage.mutateAsync({ id: captureToDelete.id });
         void refetch();
+        await auditLogMutation.mutateAsync({
+          sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+          description: `CaptureManagementAudit - Deleted a capture with id ${captureToDelete.id} as disagreement`,
+        });
         toast.success('Successfully deleted the capture');
       } catch (error) {
         toast.error('Error deleting capture');
@@ -87,64 +97,81 @@ const CapturesAdmin: React.FC = () => {
     const { name, value } = e.target;
   
     if (name === 'event_category') {
-      if (value === 'snaps' || value === 'behindincridea' || value === 'pronight') {
-        setNewImage(prev => ({ ...prev, [name]: value, event_name: 'capture' })); // Set default for these categories
-      } else {
-        setNewImage(prev => ({ ...prev, [name]: value, event_name: '' })); // Reset event_name for other categories
-      }
-    } else {
-      setNewImage(prev => ({ ...prev, [name]: value }));
+      const newState = value === 'events' ? newImage.event_name : value;
+      setState(newState);
+      setNewImage((prev) => ({ ...prev, [name]: value, event_name: value === 'events' ? '' : '' }));
+    } else if (name === 'event_name') {
+      const newState = newImage.event_category === 'events' ? value : state;
+      setState(newState);
+      setNewImage((prev) => ({ ...prev, [name]: value }));
     }
   };
   
+  const handleUploadTypeChange = (selectedCategory: string, selectedUploadType: string) => {
+    let newState = "pending"; // Default state
+  
+    if (selectedCategory === "events") {
+      if (selectedUploadType === "direct") {
+        setState("direct");
+      } else if (selectedUploadType === "batch") {
+        setState(newImage.event_name || ""); // Use event name for batch upload under events
+      }
+    } else {
+      if (selectedUploadType === "direct") {
+        setState("direct");
+      } else if (selectedUploadType === "batch") {
+        setState(selectedCategory); // Use event category for batch upload
+      }
+    }
+  };
+  
+  
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  // If event_category is "events", ensure event_name is not empty
-  if (newImage.event_category === 'events' && !newImage.event_name) {
-    toast.error('Please select a valid event name.', toastStyle);
-    return;
-  }
-
-  // If event_category is "pronight", make sure event_name is set to "capture" or another valid value
-  if (newImage.event_category === 'pronight' && newImage.event_name === '') {
-    toast.error('Event name is required for Pronight category.', toastStyle);
-    return;
-  }
-
-  // Handle checks for image upload for categories like "snaps" or "behindincridea"
-  if ((newImage.event_category === 'snaps' || newImage.event_category === 'behindincridea' || newImage.event_category === 'pronight') && !uploadUrl) {
-    toast.error('Please upload an image.', toastStyle);
-    return;
-  }
-
-  // Ensure event_category is selected
-  if (!newImage.event_category) {
-    toast.error('Please select a category.', toastStyle);
-    return;
-  }
-
-  if (!uploadUrl) {
-    toast.error('Select and Upload the Image', toastStyle);
-    return;
-  }
-
-  setIsSubmitting(true);
-
-  try {
-    const result = await addImage.mutateAsync({ ...newImage, uploadKey: uploadUrl });
-    console.log('Image added:', result);
-    setIsPopupOpen(false);
-    setNewImage({ event_name: 'capture', event_category: 'events' });
-    setUploadUrl('');
-    void refetch();
-    toast.success('Capture Added');
-  } catch (error) {
-    toast.error('Capture Not Uploaded', toastStyle);
-  } finally { 
-    setIsSubmitting(false);
-  }
-};
+    e.preventDefault();
+  
+    // Validation
+    if (newImage.event_category === "events" && !newImage.event_name) {
+      toast.error("Please select a valid event name.", toastStyle);
+      return;
+    }
+  
+    if (!newImage.event_category || !uploadUrl) {
+      toast.error("Please complete all required fields.", toastStyle);
+      return;
+    }
+  
+    setIsSubmitting(true);
+  
+    try {
+      const uploadType = state; // Already dynamically set
+      const submissionState = "pending"; // Always pending for submissions
+  
+      await addImage.mutateAsync({
+        ...newImage,
+        uploadKey: uploadUrl,
+        upload_type: uploadType,
+        state: submissionState,
+      });
+  
+      setIsPopupOpen(false);
+      setNewImage({ event_name: "", event_category: "events" });
+      setUploadUrl("");
+      void refetch();
+  
+      toast.success("Capture Added");
+  
+      await auditLogMutation.mutateAsync({
+        sessionUser: session?.user.name || "Invalid User",
+        description: `CaptureManagementAudit - Added a capture to ${newImage.event_name} in ${newImage.event_category} category with uploadUrl ${uploadUrl}`,
+      });
+    } catch (error) {
+      toast.error("Capture Not Uploaded", toastStyle);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  
 
 React.useEffect(() => {
   if (gallery) {
@@ -164,79 +191,73 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
 
   return (
     <div className="p-4">
-      <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Captures Management</h1>
-
+      <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center">Captures Management</h1>
       <div className="mb-4 flex gap-2 flex-wrap">
-        <button
-          onClick={handleAddCaptureClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
-        >
-          Add Capture
-        </button>
-        {/* Filter Buttons */}
-        <select
-          name="state"
-          value={filters.state}
-          onChange={handleFilterChange}
-          className="p-2 border border-slate-700 rounded-xl bg-black text-white font-BebasNeue"
-        >
-          <option value="">Filter by State</option>
-          <option value="approved">Approved</option>
-          <option value="declined">Declined</option>
-          <option value="pending">Pending</option>
-        </select>
+        {(userRole === 'admin' || userRole === 'editor') && (
+          <button
+            onClick={handleAddCaptureClick}
+            className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-primary-950/50 font-BebasNeue"
+          >
+            Add Capture
+          </button>
+        )}
 
         <select
           name="event_category"
           value={filters.event_category}
-          onChange={handleFilterChange}
-          className="p-2 border border-slate-700 rounded-xl bg-black text-white font-BebasNeue"
+          onChange={(e) => {
+            handleFilterChange(e);
+            applyFilters(); // Apply filters dynamically
+          }}
+          className="p-2 border border-slate-700 rounded-xl bg-primary-950/50 text-white font-BebasNeue"
         >
           <option value="">Filter by Category</option>
           <option value="events">Events</option>
-          <option value="pronight">Pronight</option>
+          <option value="pronite">pronite</option>
           <option value="snaps">Snaps</option>
           <option value="behindincridea">Behind Incridea</option>
           <option value="cultural">Cultural</option>
         </select>
 
-
-        {eventsLoading ? (
-          <select className="w-full p-2 rounded" disabled>
-            <option>Loading events...</option>
-          </select>
-        ) : (
-          <select
-            name="event_name"
-            value={filters.event_name}
-            onChange={(e) => {
-              handleFilterChange(e);
-              applyFilters();
-            }}
-            className="p-2 border border-slate-700 rounded-xl bg-black text-white font-BebasNeue"
-          >
-            <option value="">Filter by Event</option>
-            {events?.map((event) => (
-              <option key={event.id} value={event.name}>
-                {event.name}
-              </option>
-            ))}
-          </select>
+        {/* Show Event Name filter if Event Category is "events" or default */}
+        {(filters.event_category === "events" || filters.event_category === "") && (
+          <>
+            {eventsLoading ? (
+              <select className="w-full p-2 rounded" disabled>
+                <option>Loading events...</option>
+              </select>
+            ) : (
+              <select
+                name="event_name"
+                value={filters.event_name}
+                onChange={(e) => {
+                  handleFilterChange(e);
+                  applyFilters();
+                }}
+                className="p-2 border border-slate-700 rounded-xl bg-primary-950/50 text-white font-BebasNeue"
+              >
+                <option value="">Filter by Event</option>
+                {events?.map((event) => (
+                  <option key={event.id} value={event.name}>
+                    {event.name}
+                  </option>
+                ))}
+              </select>
+            )}
+          </>
         )}
       </div>
-
       {galleryLoading ? (
         <div>Loading...</div>
       ) : galleryError ? (
         <div>Error loading gallery. Please try again later.</div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 bg-black">
+        <div className="overflow-x-auto" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+          <table className="min-w-full border border-gray-300 bg-primary-950/50">
             <thead className="bg-white">
               <tr>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center ">Event-Name</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Capture-Category</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Status</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Image</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Delete</th>
               </tr>
@@ -244,28 +265,11 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
             <tbody>
               {filteredGallery?.map((item) => (
                 <tr key={item.id} className="hover:bg-gray-50 hover:text-black">
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_name}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_name || <BsDashCircleFill />}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_category.charAt(0).toUpperCase() + item.event_category.slice(1)}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">
-                  {
-                    item.state === 'approved' ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <span className="w-5 h-5 rounded-full bg-green-500"></span>
-                      </span>
-                    ) : item.state === 'declined' ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <span className="w-5 h-5 rounded-full bg-red-500"></span>
-                      </span>
-                    ) : item.state === 'pending' ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <span className="w-5 h-5 rounded-full bg-yellow-500"></span>
-                      </span>
-                    ) : null
-                  }
 
-                  </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
-                    <Image src={item.image_path} alt={item.event_name} width={32} height={32} className="h-32 w-32 object-cover" />
+                    <Image src={item.image_path} alt={item.event_name||""} width={20} height={20} className="h-20 w-20 object-cover" />
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center" onClick={() => handleDeleteClick(item.id)}>
                     <button onClick={() => handleDeleteClick(item.id)}>
@@ -301,7 +305,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                   Select a category
                 </option>
                 <option value="events">Events</option>
-                <option value="pronight">Pronight</option>
+                <option value="pronite">pronite</option>
                 <option value="snaps">Snaps</option>
                 <option value="behindincridea">Behind Incridea</option>
               </select>
@@ -332,16 +336,43 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                   )}
                 </>
               )}
+              <label className="block mt-5 mb-2 text-left text-white">Upload Type:</label>
+              <div className="flex items-center gap-4">
+                <label className="flex items-center text-white">
+                  <input
+                    type="checkbox"
+                    name="upload_type"
+                    checked={state === "direct"}
+                    onChange={() => handleUploadTypeChange(newImage.event_category, "direct")}
+                    className="mr-2"
+                  />
+                  Direct
+                </label>
+                <label className="flex items-center text-white">
+                  <input
+                    type="checkbox"
+                    name="upload_type"
+                    checked={state === (newImage.event_category === "events" ? newImage.event_name : newImage.event_category)}
+                    onChange={() => handleUploadTypeChange(newImage.event_category, "batch")}
+                    className="mr-2"
+                  />
+                  Batch
+                </label>
+              </div>
 
-              <button type="submit" 
-              className="p-2 bg-white text-black rounded-xl w-full mt-10"
-              disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting...' : 'Submit'}
+
+              <button
+                type="submit"
+                className="p-2 bg-white text-black rounded-xl w-full mt-10"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit'}
               </button>
             </form>
           </div>
         </div>
       )}
+
 
       {/* Delete confirmation popup */}
       {isDeletePopupOpen && (
@@ -356,7 +387,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
           </div>
         </div>
       )}
-
+      <GalleryBatchUpload/>
     </div>
   );
 };

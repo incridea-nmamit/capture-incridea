@@ -1,15 +1,40 @@
 "use client";
 
-import Link from "next/link";
+import TeamCommitteeCard from "./TeamCommitteeCard";
+
 
 const OurTeam = () => {
+  const teams = [
+    {
+      title: "Capture Incridea Developers & Team",
+      description: "Developing for your convenience.",
+      imageUrl:
+        "https://utfs.io/f/0yks13NtToBiNX5DnCjzD2wWm5AylYHcVfipk40e8O9RubFS",
+      href: "/our-team/developers",
+    },
+    {
+      title: "Media Team",
+      description: "Capturing the spirit of our fest through stunning visuals.",
+      imageUrl:
+        "https://utfs.io/f/0yks13NtToBi9i0lf2ogikwWxTSynjh8EY7rbsRV6vKmQGft",
+      href: "/our-team/media",
+    },
+    {
+      title: "Social Media Team",
+      description: "Engaging audiences and sharing updates with creativity.",
+      imageUrl:
+        "https://utfs.io/f/0yks13NtToBiNScub3pjzD2wWm5AylYHcVfipk40e8O9RubF",
+      href: "/our-team/socialmedia",
+    },
+  ];
+
   return (
-    <div className="min-h-[calc(100vh-60px)] bg-black text-white flex flex-col items-center py-12 px-6 z-20">
+    <div className="min-h-[calc(100vh-60px)] bg-primary-950/50 text-white flex flex-col items-center py-12 px-6 z-20">
       {/* Page Title */}
-      <h1 className="text-8xl text-center font-Hunters mb-8 z-20">Our Elite Teams</h1>
+      <h1 className="text-6xl text-center font-Teknaf mb-8 z-20">Our Elite Teams</h1>
 
       {/* Small Description */}
-      <p className="text-lg text-center max-w-3xl text-gray-400 mb-12 z-20">
+      <p className="text-lg text-center font-Trap-Regular max-w-3xl text-gray-400 mb-12 z-20">
         Our committees have been the backbone of Incridea, working tirelessly 
         to ensure a seamless and creative experience. From capturing the essence of the 
         event to engaging with audiences online and managing digital platforms, each committee 
@@ -18,70 +43,15 @@ const OurTeam = () => {
 
       {/* Cards Container */}
       <div className="flex flex-col md:flex-row gap-8 flex-wrap justify-center z-20">
-
-        {/* Developers Card */}
-        <Link href="/our-team/developers" passHref>
-          <div
-            className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-            style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBiNX5DnCjzD2wWm5AylYHcVfipk40e8O9RubFS')" }} 
-          >
-            <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
-            <div className="relative flex text-center flex-col items-center justify-center h-full text-white text-2xl font-bold">
-              Capture Incridea Developers
-              <p className="mt-2 text-center text-base text-gray-300">
-                Developing for your convinience.
-              </p>
-            </div>
-          </div>
-        </Link>
-
-                {/* Digital Committee Card */}
-                <Link href="/our-team/digital" passHref>
-          <div
-            className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-            style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBiAnPYNkyysDlBgTvxSE49eUkcFGPA1Yjh5wIK')" }} 
-          >
-            <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
-            <div className="relative flex flex-col items-center justify-center h-full text-white text-2xl font-bold">
-              Digital Team
-              <p className="mt-2 text-center text-base text-gray-300">
-                Innovating digital experiences and managing online presence.
-              </p>
-            </div>
-          </div>
-        </Link>
-
-        {/* Media Committee Card */}
-        <Link href="/our-team/media" passHref>
-          <div
-            className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-            style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBi9i0lf2ogikwWxTSynjh8EY7rbsRV6vKmQGft')" }}
-          >
-            <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
-            <div className="relative flex flex-col items-center justify-center h-full text-white text-2xl font-bold">
-              Media Team
-              <p className="mt-2 text-center text-base text-gray-300">
-                Capturing the spirit of our fest through stunning visuals.
-              </p>
-            </div>
-          </div>
-        </Link>
-
-        {/* Social Media Committee Card */}
-        <Link href="/our-team/socialmedia" passHref>
-          <div
-            className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-            style={{ backgroundImage: "url('https://utfs.io/f/0yks13NtToBiNScub3pjzD2wWm5AylYHcVfipk40e8O9RubF')" }}
-          >
-            <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
-            <div className="relative flex flex-col items-center justify-center h-full text-center text-white text-2xl font-bold">
-              Social Media Team
-              <p className="mt-2 text-center text-base text-gray-300">
-                Engaging audiences and sharing updates with creativity.
-              </p>
-            </div>
-          </div>
-        </Link>        
+        {teams.map((team, index) => (
+          <TeamCommitteeCard
+            key={index}
+            title={team.title}
+            description={team.description}
+            imageUrl={team.imageUrl}
+            href={team.href}
+          />
+        ))}
       </div>
     </div>
   );

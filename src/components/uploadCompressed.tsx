@@ -23,7 +23,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ onUploadComplete }) =
     },
   });
 
-  const compressImage = (file: File, quality: number = 0.8): Promise<Blob> => {
+  const compressImage = (file: File, quality: number = 0.85): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -100,10 +100,12 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ onUploadComplete }) =
       onUploadComplete(uploadedImages);
 
       mutation.mutate({
-        event_name: 'Sample Event',
-        event_category: 'Sample Category',
-        uploadKeyOg: originalUrl,
-        uploadKeyCompressed: compressedUrl,
+          event_name: 'Sample Event',
+          event_category: 'Sample Category',
+          uploadKeyOg: originalUrl,
+          uploadKeyCompressed: compressedUrl,
+          upload_type: 'direct',
+          state: 'pending'
       });
       setIsLoading(false);
     } else {

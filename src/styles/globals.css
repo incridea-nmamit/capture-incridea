@@ -3,117 +3,74 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Allura';
-    src: url('/fonts/Allura.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: "Allura";
+  src: url("/fonts/Allura.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'IslandMoments';
-    src: url('/fonts/IslandMoments.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Silkscreen';
-    src: url('/fonts/Silkscreen.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'BebasNeue';
-    src: url('/fonts/BebasNeue.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Silkscreen";
+  src: url("/fonts/Silkscreen.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "BebasNeue";
+  src: url("/fonts/BebasNeue.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Garet';
-    src: url('/fonts/Garet.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Finish';
-    src: url('/fonts/Finish.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
 
-  @font-face {
-    font-family: 'ClubHouse';
-    src: url('/fonts/ClubHouse.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Velocista';
-    src: url('/fonts/Velocista.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "ClubHouse";
+  src: url("/fonts/ClubHouse.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Velocista";
+  src: url("/fonts/Velocista.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Romance';
-    src: url('/fonts/Romance.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Trap-Regular";
+  src: url("/fonts/Trap-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Trap-Black";
+  src: url("/fonts/Trap-Black.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Teknaf";
+  src: url("/fonts/Teknaf.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Brigends';
-    src: url('/fonts/Brigends.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Cyberion';
-    src: url('/fonts/Cyberion.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Hunters";
+  src: url("/fonts/Hunters.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Hunters';
-    src: url('/fonts/Hunters.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
 
-  @font-face {
-    font-family: 'CreamCake';
-    src: url('/fonts/CreamCake.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
+html, body {
+  margin: 0;
+  padding: 0;
+  /* overflow-x: hidden; */
+  color-scheme: dark;
+  @apply dark;
+}
 
-  @font-face {
-    font-family: 'Radwave';
-    src: url('/fonts/Radwave.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'Trends';
-    src: url('/fonts/Trends.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'Azonix';
-    src: url('/fonts/Azonix.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-  }
 .sticky-header {
   position: sticky;
   top: 0;
@@ -144,7 +101,9 @@
   position: absolute;
   top: 0;
   opacity: 0.7; /* Slight opacity for the whole animation */
-  animation: fallAndRotate 10s linear infinite, scale 5s alternate infinite;
+  animation:
+    fallAndRotate 10s linear infinite,
+    scale 5s alternate infinite;
   pointer-events: none; /* Disable mouse interaction */
 }
 
@@ -155,4 +114,129 @@
 .no-scrollbar {
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
+}
+/* Hide scrollbar in WebKit browsers (Chrome, Safari, Edge) */
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+
+/* Firefox: hide scrollbar */
+.overflow-x-auto {
+  scrollbar-width: none;
+}
+
+body {
+  @apply bg-primary-950 text-white;
+  /* background: radial-gradient(ellipse 70% 90% at 40%,#e6646588 0%, transparent 40%),
+              radial-gradient(ellipse 70% 90% at 60%, #007dff88 0%, transparent 40%),
+              linear-gradient(to bottom, #1c1b2e, #0b0a13); */
+  background-blend-mode: multiply;
+}
+
+/* Golden Fade Animation Inside Text */
+@keyframes goldenFade {
+  0% {
+    color: inherit;
+    text-shadow: none;
+  }
+  100% {
+    color: gold;
+    text-shadow:
+      0 0 10px gold,
+      0 0 20px gold,
+      0 0 30px gold;
+  }
+}
+
+.text-golden-fade:hover {
+  animation: goldenFade 0.5s forwards;
+}
+
+.container-size{
+  @apply max-w-screen-xl mx-auto px-4;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+.shining-text {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(90deg, #6B7280, #ffffff, #6B7280); 
+  background-size: 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shine 10s linear infinite;
+  text-decoration: none; /* To avoid underline from links */
+}
+
+@keyframes shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }

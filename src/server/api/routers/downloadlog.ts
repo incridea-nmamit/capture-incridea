@@ -11,14 +11,14 @@ export const downloadLogRouter = createTRPCRouter({
     .input(
       z.object({
         file_path: z.string().min(1, "File path is required"),
-        cookieId: z.string().min(1, "Cookie is required"),
+        session_user: z.string().min(1, "Session is required"),
       })
     )
     .mutation(async ({ ctx, input }) => {
       // Log the download
       const newLog = await ctx.db.downloadLog.create({
         data: {
-          cookieId: input.cookieId,
+          session_user: input.session_user,
           file_path: input.file_path,
         },
       });

@@ -35,8 +35,8 @@ const Events: FC = () => {
   if (isLoading) return <CameraLoading/>;
 
   return (
-    <div className="p-6 bg-black min-h-screen">
-      <div className="flex flex-row md:flex-row items-center gap-4 mb-8 z-30">
+    <div className="p-6 bg-primary-950/50 min-h-screen">
+      <div className="flex flex-row md:flex-row items-center gap-4 mb-8 z-30 font-Trap-Regular">
         <div className="relative flex-grow z-30">
           <input
             type="text"
@@ -52,21 +52,21 @@ const Events: FC = () => {
           onChange={(e) => setSelectedEventType(e.target.value.toLowerCase())}
           className="p-2 z-30 border-slate-700 rounded-xl bg-transparent h-12 text-white"
         >
-          <option value="all">All Categories</option>
-          <option value="core">Core</option>
-          <option value="technical">Technical</option>
-          <option value="nontechnical">Non Technical</option>
-          <option value="special">Special</option>
+          <option className="text-white bg-primary-950/50" value="all">All Categories</option>
+          <option className="text-white bg-primary-950/50" value="core">Core</option>
+          <option className="text-white bg-primary-950/50" value="technical">Technical</option>
+          <option className="text-white bg-primary-950/50" value="nontechnical">Non Technical</option>
+          <option className="text-white bg-primary-950/50" value="special">Special</option>
         </select>
         <select
           value={selectedDay}
           onChange={(e) => setSelectedDay(e.target.value)}
           className="p-2 z-30 border-slate-700 rounded-xl bg-transparent h-12 text-white"
         >
-          <option value="all">All Days</option>
-          <option value="day1">Day 1</option>
-          <option value="day2">Day 2</option>
-          <option value="day3">Day 3</option>
+          <option className="text-white bg-primary-950/50" value="all">All Days</option>
+          <option className="text-white bg-primary-950/50" value="day1">Day 1</option>
+          <option className="text-white bg-primary-950/50" value="day2">Day 2</option>
+          <option className="text-white bg-primary-950/50" value="day3">Day 3</option>
         </select>
       </div>
       <div className="z-30 flex flex-wrap justify-center gap-6 mt-6">

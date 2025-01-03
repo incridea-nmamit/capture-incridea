@@ -5,20 +5,19 @@ import downloadImage from "~/utils/downloadUtils";
 import TitleDescription from "~/components/TitleDescription";
 import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
-import Cookies from "js-cookie";
-import { generateUniqueId } from "~/utils/generateUniqueId";
 import { useRouter } from "next/router";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
 import CapturePopup from "~/components/CapturePopup";
+import { useSession } from "next-auth/react";
 const Cultural = () => {
   const { data: images, isLoading, error } = api.gallery.getAllGallery.useQuery();
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
-  const cookieId = Cookies.get("cookieId") || generateUniqueId();
-  Cookies.set("cookieId", cookieId, { expires: 365 });
+  const {data: session} = useSession();
+  const session_user = session?.user.email || "";
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
-  const filteredImages = images?.filter((image) => image.event_category === 'cultural') || [];
+  const filteredImages = images?.filter((image) => image.event_category === 'cultural' && image.upload_type === "direct" && image.state === "approved") || [];
   const router = useRouter();
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Cultural" }
@@ -28,13 +27,13 @@ const Cultural = () => {
       router.push("/captures"); // Redirect to /capture if inactive
     }
   }, [cardState, router]);
-  
+
   const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
   const handleClosePopup = () => setSelectedImage(null);
 
   const handleDownload = async (imagePath: string) => {
     await downloadImage(imagePath, "capture-incridea.png");
-    await logDownload.mutateAsync({ file_path: imagePath , cookieId});
+    await logDownload.mutateAsync({ file_path: imagePath , session_user});
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,7 +62,6 @@ const Cultural = () => {
         idcard: data.uploadUrl,
         image_path: data.imagePath,
       });
-      console.log("Request submitted successfully");
     } catch (error) {
       console.error("Error submitting removal request:", error);
     }
@@ -105,7 +103,7 @@ const Cultural = () => {
         handleClosePopup={handleClosePopup}
         handleDownload={handleDownload}
         openRemovalPopup={openRemovalPopup}
-        cookieId = {cookieId}
+        session_user = {session_user}
       />
 
       <RequestRemovalModal

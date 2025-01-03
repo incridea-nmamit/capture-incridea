@@ -29,8 +29,8 @@ const EventCard: FC<EventCardProps> = ({ name, description, background }) => {
         className="object-cover w-72 h-72"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent p-4 flex flex-col justify-end">
-        <h2 className="text-lg font-bold text-yellow-400 text-center">{name}</h2>
-        <p className="text-sm text-white line-clamp-4 text-center">{description}</p>
+        <h2 className="text-lg font-bold text-yellow-400 text-center font-Trap-Black">{name}</h2>
+        <p className="text-sm text-white line-clamp-4 text-center font-Trap-Regular">{description}</p>
       </div>
     </div>
   );

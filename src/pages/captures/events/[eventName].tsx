@@ -4,12 +4,12 @@ import { api } from "~/utils/api";
 import { isMobile, isTablet, isDesktop } from 'react-device-detect';
 import downloadImage from "~/utils/downloadUtils";
 import Image from "next/image";
-import Cookies from "js-cookie";
-import { generateUniqueId } from "~/utils/generateUniqueId";
+
 import { Box, ImageList, ImageListItem } from "@mui/material";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
 import CapturePopup from "~/components/CapturePopup";
+import { useSession } from "next-auth/react";
 
 const EventCaptures = () => {
   const router = useRouter();
@@ -26,22 +26,21 @@ const EventCaptures = () => {
   );
   useEffect(() => {
     if (cardState === "inactive") {
-      router.push("/captures"); // Redirect to /capture if inactive
+      router.push("/captures"); 
     }
   }, [cardState, router]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
 
-  const filteredImages = images?.filter((image) => image.event_name === formattedEventName) || [];
-  const cookieId = Cookies.get("cookieId") || generateUniqueId();
-  Cookies.set("cookieId", cookieId, { expires: 365 });
-
+  const filteredImages = images?.filter((image) => image.event_name === formattedEventName && image.upload_type === "direct" && image.state === "approved") || [];
+  const {data: session} = useSession();
+  const session_user = session?.user.email || "";
   const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
   const handleClosePopup = () => setSelectedImage(null);
 
   const handleDownload = async (imagePath: string) => {
     await downloadImage(imagePath, "capture-incridea.png");
-    await logDownload.mutateAsync({ file_path: imagePath, cookieId });
+    await logDownload.mutateAsync({ file_path: imagePath, session_user });
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openRemovalPopup = (imagePath: string) => {
@@ -69,7 +68,6 @@ const EventCaptures = () => {
         idcard: data.uploadUrl,
         image_path: data.imagePath,
       });
-      console.log("Request submitted successfully");
     } catch (error) {
       console.error("Error submitting removal request:", error);
     }
@@ -96,12 +94,11 @@ const EventCaptures = () => {
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
-    <div className="p-6 bg-black min-h-screen">
-      <h1 className="text-3xl md:text-7xl font-Hunters text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
+    <div className="p-6 bg-primary-950/50 min-h-screen">
+      <h1 className="text-3xl md:text-6xl font-Teknaf text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
         {formattedEventName} Captures
       </h1>
-      {/* Display event description if it exists */}
-      <div className="flex justify-center z-20">
+      <div className="flex justify-center z-20 mb-10 font-Trap-Regular">
         {event?.description && <p className="text-center text-gray-400 mb-16 w-3/4">{event.description}</p>}
       </div>
       <main className="flex justify-center items-center">
@@ -121,7 +118,7 @@ const EventCaptures = () => {
               <ImageListItem key={image.id}>
                 <Image
                   src={`${image.image_path}?w=248&fit=crop&auto=format`}
-                  alt={image.event_name}
+                  alt={image.event_name || ""}
                   loading="lazy"
                   width={248}
                   height={0}
@@ -139,7 +136,7 @@ const EventCaptures = () => {
         handleClosePopup={handleClosePopup}
         handleDownload={handleDownload}
         openRemovalPopup={openRemovalPopup}
-        cookieId={cookieId}
+        session_user={session_user}
       />
 
       <RequestRemovalModal

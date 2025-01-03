@@ -5,7 +5,7 @@ interface CapturePopupProps {
   handleClosePopup: () => void;
   handleDownload: (imageUrl: string) => void;
   openRemovalPopup: (imageUrl: string) => void;
-  cookieId: string;
+  session_user: string;
 }
 
 const CapturePopup: React.FC<CapturePopupProps> = ({
@@ -21,19 +21,9 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
       className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-30"
       role="dialog"
       aria-modal="true"
+      onClick={handleClosePopup}
     >
-      <div className="relative bg-black p-6 rounded-lg shadow-lg max-w-xs sm:max-w-md w-full z-30">
-        <div className="flex">
-          <h2 className="text-2xl w-full text-center font-bold text-white">
-            Add Capture
-          </h2>
-          <button
-            onClick={handleClosePopup}
-            className="absolute top-0 right-5 text-white text-4xl p-5"
-          >
-            &times;
-          </button>
-        </div>
+      <div className="relative bg-black p-6 rounded-3xl shadow-lg font-Trap-Regular max-w-xs sm:max-w-md w-full z-30">
         <div className="flex justify-center py-8">
           <Image
             src={selectedImage || "/images/fallback.jpg"}
@@ -46,7 +36,7 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
         </div>
         <div className="flex justify-center items-center space-x-4 py-5">
           <button
-            className="bg-white hover:bg-black hover:text-white text-black px-2 py-2 rounded flex items-center transition-all"
+            className="bg-white hover:bg-black hover:text-white w-52 justify-center text-black px-2 py-2 rounded-full flex items-center transition-all"
             onClick={() => handleDownload(selectedImage)}
           >
             <svg

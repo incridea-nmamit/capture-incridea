@@ -5,11 +5,10 @@ import downloadImage from "~/utils/downloadUtils";
 import TitleDescription from "~/components/TitleDescription";
 import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
-import Cookies from "js-cookie";
-import { generateUniqueId } from "~/utils/generateUniqueId";
 import { useRouter } from "next/router";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
 import CapturePopup from "~/components/CapturePopup";
+import { useSession } from "next-auth/react";
 
 
 
@@ -21,6 +20,8 @@ const behindincridea = () => {
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Your Snaps" }
   );
+  const {data: session} = useSession();
+  const session_user = session?.user.email || "";
   useEffect(() => {
     if (cardState === "inactive") {
       router.push("/captures"); 
@@ -28,14 +29,14 @@ const behindincridea = () => {
   }, [cardState, router]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
-  const filteredImages = images?.filter((image) => image.event_category === 'behindincridea') || [];
+  const filteredImages = images?.filter((image) => image.event_category === 'behindincridea' && image.upload_type === "direct" && image.state === "approved") || [];
 
   const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
   const handleClosePopup = () => setSelectedImage(null);
 
   const handleDownload = async (imagePath: string) => {
     await downloadImage(imagePath, "capture-incridea.png");
-    await logDownload.mutateAsync({ file_path: imagePath , cookieId});
+    await logDownload.mutateAsync({ file_path: imagePath , session_user});
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openRemovalPopup = (imagePath: string) => {
@@ -63,14 +64,10 @@ const behindincridea = () => {
         idcard: data.uploadUrl,
         image_path: data.imagePath,
       });
-      console.log("Request submitted successfully");
     } catch (error) {
       console.error("Error submitting removal request:", error);
     }
   };
-  const cookieId = Cookies.get("cookieId") || generateUniqueId();
-  Cookies.set("cookieId", cookieId, { expires: 365 });
-
   if (isLoading) return <CameraLoading/>;
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
@@ -107,7 +104,7 @@ const behindincridea = () => {
         handleClosePopup={handleClosePopup}
         handleDownload={handleDownload}
         openRemovalPopup={openRemovalPopup}
-        cookieId = {cookieId}
+        session_user = {session_user}
       />
 
       <RequestRemovalModal

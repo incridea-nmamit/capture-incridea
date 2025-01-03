@@ -6,8 +6,7 @@ import CameraLoading from '../LoadingAnimation/CameraLoading';
 import toast from 'react-hot-toast';
 
 const RemovalRequest: React.FC = () => {
-  const { data: session, status } = useSession();
-  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<string>('pending');
   const [selectedRequest, setSelectedRequest] = useState<any>(null);
   const [isActionPopupOpen, setIsActionPopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
@@ -15,14 +14,8 @@ const RemovalRequest: React.FC = () => {
   const [isActionInProgress, setIsActionInProgress] = useState(false);
   const { data: removalRequests, isLoading: requestsLoading, isError: requestsError, refetch } = 
     api.request.getAll.useQuery();
-
-  useEffect(() => {
-    if (session?.user?.role === 'editor') {
-      setStatusFilter('pending');
-    } else {
-      setStatusFilter('all');
-    }
-  }, [session]);
+  const auditLogMutation = api.audit.log.useMutation();
+  const { data: session, status } = useSession();
 
   const filteredRequests = removalRequests?.filter((request) => {
     if (statusFilter === 'all') return true;
@@ -43,6 +36,7 @@ const RemovalRequest: React.FC = () => {
     if (actionType === 'approve') {
       await approveMutation({ id: selectedRequest.id });
       const email = selectedRequest.email;
+      const id = selectedRequest.id;
       try {
         const response = await fetch('/api/sendApprovedMail', {
           method: 'POST',
@@ -54,16 +48,21 @@ const RemovalRequest: React.FC = () => {
           }),
         });
         if (!response.ok) {
-          toast.error('Failed to send OTP');
+          toast.error('Failed to send Mail');
         }
           toast.success('Response Mail Sent Successfully');
           setIsActionInProgress(false);
+          await auditLogMutation.mutateAsync({
+            sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+            description: `RemovalManagementAudit - Approved mail sent to ${email} for capture ID#${id}`,
+          });
       } catch (error) {
-        toast.error('An error occurred while sending the OTP.');
+        toast.error('An error occurred while sending the Mail.');
       }
     } else if (actionType === 'decline') {
       await declineMutation({ id: selectedRequest.id });
       const email = selectedRequest.email;
+      const id =selectedRequest.id;
       try {
         const response = await fetch('/api/sendDeclineMail', {
           method: 'POST',
@@ -75,12 +74,16 @@ const RemovalRequest: React.FC = () => {
           }),
         });
         if (!response.ok) {
-          toast.error('Failed to send OTP');
+          toast.error('Failed to send Mail');
         }
           toast.success('Response Mail Sent Successfully');
           setIsActionInProgress(false);
+          await auditLogMutation.mutateAsync({
+            sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+            description: `RemovalManagementAudit - Declined mail sent to ${email} for capture ${id}`,
+          });
       } catch (error) {
-        toast.error('An error occurred while sending the OTP.');
+        toast.error('An error occurred while sending the Mail.');
       }
     }
     setIsActionInProgress(false);
@@ -101,7 +104,7 @@ const RemovalRequest: React.FC = () => {
   return (
     <div className="p-4">
       <div className="flex flex-col justify-between items-center mb-8 gap-6">
-        <h1 className="text-6xl font-Hunters text-center">Removal Requests</h1>
+        <h1 className="text-4xl font-Teknaf text-center">Removal Requests</h1>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
@@ -119,8 +122,8 @@ const RemovalRequest: React.FC = () => {
       ) : requestsError ? (
         <div>Error loading requests. Please try again later.</div>
       ) : (
-        <div className="overflow-x-auto py-5">
-          <table className="min-w-full border border-gray-300 bg-black">
+        <div className="overflow-x-auto py-5" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+          <table className="min-w-full border border-gray-300 bg-primary-950/50">
             <thead className="bg-white">
               <tr>
                 <th className="text-black border border-gray-300 p-2">Name</th>
