@@ -136,7 +136,7 @@ const Stories: React.FC = () => {
         <div>Error loading uploads. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto flex flex-col gap-10">
-          <table className="min-w-full border border-gray-300 bg-primary-950/50">
+          <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
             <thead className="bg-white">
               <tr>
                 <th className="text-black py-2 px-4 border-b text-center">Category</th>
@@ -150,7 +150,7 @@ const Stories: React.FC = () => {
               ))}
             </tbody>
           </table>
-          <table className="min-w-full border border-gray-300 bg-primary-950/50">
+          <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
             <thead className="bg-white">
               <tr>
                 <th className="text-black py-2 px-4 border-b text-center">Category</th>

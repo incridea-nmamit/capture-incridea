@@ -57,7 +57,7 @@ const ApproveCaptures: React.FC = () => {
       <h1 className="text-4xl font-Teknaf mb-8 py-5 text-center">Approve Captures</h1>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-300 bg-primary-950/50">
+        <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
           <thead className="bg-white">
             <tr>
               <th className="text-black py-2 px-4 border-b border-slate-700 text-center">Event Name</th>

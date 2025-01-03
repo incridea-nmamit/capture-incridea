@@ -75,7 +75,7 @@ const ManageRoles = () => {
       <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center">Manage Roles</h1>
 
       {/* Search Bar and Role Count Buttons */}
-      <div className="mb-4 flex flex-col gap-10 justify-between items-center">
+      <div className="mb-4 flex flex-col gap-10 justify-between items-center font-Trap-Regular text-sm">
         <div className="flex justify-center">
           <input
             type="text"
@@ -95,7 +95,7 @@ const ManageRoles = () => {
         </div>
       </div>
 
-      <table className="min-w-full border border-gray-300 bg-primary-950/50">
+      <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
         <thead>
           <tr className="bg-gray-200">
             <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>

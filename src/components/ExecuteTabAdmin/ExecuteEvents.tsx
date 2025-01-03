@@ -22,7 +22,7 @@ const ExecuteEvents = () => {
 
   return (
     <div className="py-4">
-      <table className="min-w-full border border-gray-300 bg-primary-950/50">
+      <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
         <thead>
           <tr className="bg-gray-200">
             <th className="text-black border py-2 px-4 text-center">Card Name</th>

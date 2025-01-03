@@ -71,7 +71,7 @@ const SMCUploads: React.FC = () => {
       <div className="mb-4 flex gap-2">
         <button
           onClick={handleAddEventClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-primary-950/50 font-BebasNeue"
+          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-primary-950/50 font-Trap-Regular text-sm"
         >
           Add Video
         </button>
@@ -81,7 +81,7 @@ const SMCUploads: React.FC = () => {
         <div>Error loading uploads. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 bg-black">
+          <table className="min-w-full border border-gray-300 bg-black font-Trap-Regular text-sm">
             <thead className="bg-white">
               <tr>
                 <th className="text-black py-2 px-4 border-b text-center">Author</th>

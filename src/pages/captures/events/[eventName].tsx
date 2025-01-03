@@ -4,7 +4,6 @@ import { api } from "~/utils/api";
 import { isMobile, isTablet, isDesktop } from 'react-device-detect';
 import downloadImage from "~/utils/downloadUtils";
 import Image from "next/image";
-
 import { Box, ImageList, ImageListItem } from "@mui/material";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
@@ -16,28 +15,18 @@ const EventCaptures = () => {
   const { eventName } = router.query;
   const safeEventName = Array.isArray(eventName) ? eventName[0] : eventName || "Event";
   const formattedEventName = (safeEventName || "").replace(/-/g, " ");
-
   const { data: event } = api.events.getEventByName.useQuery({ name: formattedEventName });
   const { data: images, isLoading, error } = api.gallery.getAllGallery.useQuery();
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
-  const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
-    { cardName: "Events" }
-  );
-  useEffect(() => {
-    if (cardState === "inactive") {
-      router.push("/captures"); 
-    }
-  }, [cardState, router]);
+  const { data: cardState } = api.capturecard.getCardStateByName.useQuery({ cardName: "Events" });
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
-
   const filteredImages = images?.filter((image) => image.event_name === formattedEventName && image.upload_type === "direct" && image.state === "approved") || [];
   const {data: session} = useSession();
   const session_user = session?.user.email || "";
   const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
   const handleClosePopup = () => setSelectedImage(null);
-
   const handleDownload = async (imagePath: string) => {
     await downloadImage(imagePath, "capture-incridea.png");
     await logDownload.mutateAsync({ file_path: imagePath, session_user });
@@ -47,12 +36,10 @@ const EventCaptures = () => {
     setRemovalImage(imagePath);
     setIsModalOpen(true);
   };
-
   const closeRemovalPopup = () => {
     setRemovalImage(null);
     setIsModalOpen(false);
   };
-
   const handleRemovalSubmit = async (data: {
     name: string;
     email: string;
@@ -73,7 +60,11 @@ const EventCaptures = () => {
     }
   };
   const devicecol = isMobile ? 3 : isTablet ? 3 : isDesktop ? 5 : 5;
-
+  useEffect(() => {
+    if (cardState === "inactive") {
+      router.push("/captures"); 
+    }
+  }, [cardState, router]);
   useEffect(() => {
     filteredImages.forEach((image) => {
       const link = document.createElement("link");
@@ -81,9 +72,7 @@ const EventCaptures = () => {
       link.href = `${image.image_path}?w=248&fit=crop&auto=format`; 
       link.as = "image";
       document.head.appendChild(link); 
-    });
-
-   
+    });   
     return () => {
       const links = document.querySelectorAll('link[rel="prefetch"]');
       links.forEach((link) => link.remove());

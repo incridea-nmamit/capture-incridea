@@ -714,7 +714,7 @@ const EventsAdmin: React.FC = () => {
         <div className=''>Error loading events. Please try again later.</div>
       ) : (
           <ScrollableDiv>
-          <table className="min-w-full bg-primary-950/50 border border-slate-700 my-5">
+          <table className="min-w-full bg-primary-950/50 border border-slate-700 my-5 font-Trap-Regular text-sm">
             <thead>
               <tr className='text-black bg-gray-100 font-Trap-Regular'>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>

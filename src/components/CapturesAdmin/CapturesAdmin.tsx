@@ -123,13 +123,14 @@ React.useEffect(() => {
   if (gallery) {
     const filtered = gallery.filter((item) => {
       return (
+        item.upload_type !== "deleted" && 
         (!filters.state || item.state === filters.state) &&
         (!filters.event_category || item.event_category === filters.event_category) &&
         (!filters.event_name || item.event_name === filters.event_name)
       );
     });
     setFilteredGallery(filtered);
-  }
+  }  
 }, [filters, gallery]);
 
 
@@ -199,7 +200,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
         <div>Error loading gallery. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
-          <table className="min-w-full border border-gray-300 bg-primary-950/50">
+          <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
             <thead className="bg-white">
               <tr>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center ">Event-Name</th>
