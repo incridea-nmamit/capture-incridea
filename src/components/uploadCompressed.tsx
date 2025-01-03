@@ -122,7 +122,6 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ onUploadComplete }) =
     <div className="flex flex-col items-center justify-center">
       <h1 className="text-3xl font-bold mb-8 text-gray-800">Upload Your Images</h1>
       <UploadButton
-        className="bg-black p-[20px] h-50 ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300"
         endpoint="imageUploaderCompressed"
         onBeforeUploadBegin={handleBeforeUploadBegin}
         onUploadProgress={() => setIsLoading(true)}

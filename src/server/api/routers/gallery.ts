@@ -3,7 +3,7 @@ import { z } from "zod";
 import { Name } from "node_modules/@simplewebauthn/server/esm/deps";
 export const galleryRouter = createTRPCRouter({
   // Get all events
-  getAllGallery: publicProcedure.query(async ({ ctx }) => {
+  getAllGallery: protectedProcedure.query(async ({ ctx }) => {
     const gallery = await ctx.db.gallery.findMany({
       orderBy: {
         date_time:"desc"
