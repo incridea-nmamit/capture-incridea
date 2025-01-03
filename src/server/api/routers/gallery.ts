@@ -20,7 +20,7 @@ export const galleryRouter = createTRPCRouter({
         event_name: z.string().min(1, "Event name is required"),   
         event_category: z.string().min(1, "Event name is required"),        
         uploadKeyOg: z.string().min(1, "Upload key is required"),       
-        uploadKeyCompressed: z.string().min(1, "Upload key is required"),       
+        uploadKeyCompressed: z.string().min(1, "Upload key is required").optional(),       
       })
     )
     .mutation(async ({ ctx, input }) => {
