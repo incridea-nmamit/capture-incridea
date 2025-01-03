@@ -17,7 +17,7 @@ const CapturesAdmin: React.FC = () => {
   const [filteredGallery, setFilteredGallery] = useState(gallery || []);
   const [filters, setFilters] = useState({ state: '', event_category: '', event_name: '' });
   const [newImage, setNewImage] = useState({ event_name: '', event_category: '', upload_type: '' });
-  const [state, setState] = useState<string>('');
+  const [uploadType, setUploadType] = useState<string>('');
   const deleteImage = api.gallery.deleteImage.useMutation();
   const [captureToDelete, setCaptureToDelete] = useState<{ id: number} | null>(null);
   const auditLogMutation = api.audit.log.useMutation();
@@ -97,12 +97,12 @@ const CapturesAdmin: React.FC = () => {
     const { name, value } = e.target;
   
     if (name === 'event_category') {
-      const newState = value === 'events' ? newImage.event_name : value;
-      setState(newState);
+      const newType = value === 'events' ? newImage.event_name : value;
+      setUploadType(newType);
       setNewImage((prev) => ({ ...prev, [name]: value, event_name: value === 'events' ? '' : '' }));
     } else if (name === 'event_name') {
-      const newState = newImage.event_category === 'events' ? value : state;
-      setState(newState);
+      const newType = newImage.event_category === 'events' ? value : uploadType;
+      setUploadType(newType);
       setNewImage((prev) => ({ ...prev, [name]: value }));
     }
   };
@@ -114,22 +114,10 @@ const CapturesAdmin: React.FC = () => {
     }
     setStep(2);
   };
-  const handleUploadTypeChange = (selectedCategory: string, selectedUploadType: string) => {
-    if (selectedCategory === "events") {
-      if (selectedUploadType === "direct") {
-        setState("direct");
-      } else if (selectedUploadType === "batch") {
-        setState(newImage.event_name || "");
-      }
-    } else {
-      if (selectedUploadType === "direct") {
-        setState("direct");
-      } else if (selectedUploadType === "batch") {
-        setState(selectedCategory); 
-      }
-    }
+  
+  const handleUploadTypeChange = (selectedUploadType: string) => {
+    setUploadType(selectedUploadType);
   };
-
 
 React.useEffect(() => {
   if (gallery) {
@@ -288,27 +276,27 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
 
                 <label className="block mt-5 mb-2 text-left text-white">Upload Type:</label>
                 <div className="flex items-center gap-4">
-                  <label className="flex items-center text-white">
-                    <input
-                      type="checkbox"
-                      name="upload_type"
-                      checked={state === "direct"}
-                      onChange={() => handleUploadTypeChange(newImage.event_category, "direct")}
-                      className="mr-2"
-                    />
-                    Direct
-                  </label>
-                  <label className="flex items-center text-white">
-                    <input
-                      type="checkbox"
-                      name="upload_type"
-                      checked={state === (newImage.event_category === "events" ? newImage.event_name : newImage.event_category)}
-                      onChange={() => handleUploadTypeChange(newImage.event_category, "batch")}
-                      className="mr-2"
-                    />
-                    Batch
-                  </label>
-                </div>
+                <label className="flex items-center text-white">
+                  <input
+                    type="checkbox"
+                    name="upload_type"
+                    checked={uploadType === "direct"}
+                    onChange={() => handleUploadTypeChange("direct")}
+                    className="mr-2"
+                  />
+                  Direct
+                </label>
+                <label className="flex items-center text-white">
+                  <input
+                    type="checkbox"
+                    name="upload_type"
+                    checked={uploadType === "batch"}
+                    onChange={() => handleUploadTypeChange("batch")}
+                    className="mr-2"
+                  />
+                  Batch
+                </label>
+              </div>
 
                 <button
                   type="button"
@@ -319,16 +307,19 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                 </button>
               </form>
             )}
-
             {step === 2 && (
-              <>
-                <UploadComponent
-                  name={newImage.event_name}
-                  category={newImage.event_category}
-                  type={newImage.upload_type}
-                  handleClosePopup={handlePopupClose}
-                />
-              </>
+              <UploadComponent
+              name={newImage.event_name}
+              category={newImage.event_category}
+              type={
+                uploadType === "direct"
+                  ? "direct"
+                  : uploadType === "batch" && newImage.event_category === "events"
+                  ? newImage.event_name
+                  : newImage.event_category
+              }
+              handleClosePopup={handlePopupClose}
+            />            
             )}
           </div>
         </div>

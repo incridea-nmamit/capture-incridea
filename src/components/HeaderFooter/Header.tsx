@@ -67,7 +67,7 @@ const Header: FC = () => {
                       ? pathname === link.href
                       : pathname.startsWith(link.href)
                   }
-                  className="font-Trap-Regular text-xl"
+                  className="font-Trap-Regular text-lg"
                 />
               </div>
             ))
@@ -85,7 +85,7 @@ const Header: FC = () => {
           {session && isAdminRoute && session.user?.role === "admin" && (
             <button
               onClick={() => signOut()}
-              className="flex items-center gap-3 text-xl text-white font-Trap-Regular"
+              className="flex items-center gap-3 text-lg text-white font-Trap-Regular"
             >
               <HiOutlineLogout />{" "}
               <span className="relative top-0.5">Logout</span>

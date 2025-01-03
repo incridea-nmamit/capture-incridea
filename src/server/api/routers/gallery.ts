@@ -47,7 +47,7 @@ export const galleryRouter = createTRPCRouter({
   deleteImage: protectedProcedure
     .input(
       z.object({
-        id: z.number().min(1, "Event ID is required"),
+        id: z.number().min(1, "Capture ID is required"),
       })
     )
     .mutation(async ({ ctx, input }) => {

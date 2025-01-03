@@ -9,14 +9,9 @@ const descriptions = Array.from({ length: 20 }, (_, i) =>
 const shortDescriptions = Array.from({ length: 20 }, (_, i) =>
   `Short desc for event ${i + 1}.`
 );
-const imagePath = 'https://utfs.io/f/0yks13NtToBin0vAAUF56OIDvu2PeYJ4icMh7aBfCbHQRAoq';
-
+const imagePath = 'https://utfs.io/f/0yks13NtToBi1xtbPur8wcI2p1glzqhUDTRZKsnaoO3SCLJx';
 // Gallery images
-const galleryImages: string[] = [
-  'https://utfs.io/f/0yks13NtToBiPdGGXXsu8SvNgVL69KsUPy21WpGfn4lrhZCA',
-  'https://utfs.io/f/0yks13NtToBiLbQMFGmgsTC1Ne2Iapcmz9LhH4YD6ZQuJVRX',
-  'https://utfs.io/f/0yks13NtToBiqInGu16XZ2ECWgjGtRJM7BdbKQ8DYaV1rw4c',
-];
+
 
 async function main() {
   // Clear existing events, gallery, and team data
@@ -41,26 +36,51 @@ async function main() {
 
   const createdEvents = await Promise.all(eventPromises);
   const eventCategories = ['events', 'pronite', 'cultural', 'snaps', 'behindincridea'];
-  
   // Create 100 Random Gallery Entries Per Event
+  const imagePairs = [
+    {
+      imagePath: "https://utfs.io/f/0yks13NtToBiLV71kwYmgsTC1Ne2Iapcmz9LhH4YD6ZQuJVR",
+      compressedPath: "https://utfs.io/f/0yks13NtToBicrPv8USkW2MdjiZvyGTcCxb6qFDfSmzUa731",
+    },
+    {
+      imagePath: "https://utfs.io/f/0yks13NtToBiAmO1iUyysDlBgTvxSE49eUkcFGPA1Yjh5wIK",
+      compressedPath: "https://utfs.io/f/0yks13NtToBiyv22ozdKMt25jkdFfWpIvLESBusza14COqm3",
+    },
+    {
+      imagePath: "https://utfs.io/f/0yks13NtToBi08UXhNtToBiULsc4C1KNaJSf9je8Rp2kXmIG",
+      compressedPath: "https://utfs.io/f/0yks13NtToBiCk9Y4q3RzHN1TXo4nrp8tmVULEZAqBQOKbM6",
+    },
+  ];
+  
+  // Ensure imagePairs is not empty to prevent undefined errors
+  if (imagePairs.length === 0) {
+    throw new Error("No image pairs are defined.");
+  }
+  
   const galleryPromises = createdEvents.flatMap((event) =>
-    Array.from({ length: 100 }, () => { // Create 100 items instead of 0
+    Array.from({ length: 100 }, () => {
       const randomEventCategory = eventCategories[Math.floor(Math.random() * eventCategories.length)];
-      const randomImage = galleryImages[Math.floor(Math.random() * galleryImages.length)] || 'default-image-url';
+      const randomIndex = Math.floor(Math.random() * imagePairs.length);
+      const randomImagePair = imagePairs[randomIndex];
+  
+      if (!randomImagePair) {
+        throw new Error(`Invalid randomImagePair selection at index ${randomIndex}`);
+      }
   
       return prisma.gallery.create({
         data: {
-          image_path: randomImage,
-          event_name: randomEventCategory !== "events" ? null : event.name, // Conditional assignment of event_name
-          event_category: randomEventCategory || "", // Fixed typo
+          image_path: randomImagePair.imagePath,
+          compressed_path: randomImagePair.compressedPath,
+          event_name: randomEventCategory !== "events" ? null : event.name,
+          event_category: randomEventCategory || "",
           state: "approved",
-          upload_type: "direct"
+          upload_type: "direct",
         },
       });
     })
-  );  
-  await Promise.all(galleryPromises);
+  );
   
+  await Promise.all(galleryPromises);  
 
   // Create Team Entries
   const teamNames = Array.from({ length: 50 }, (_, i) => `Team Member ${i + 1}`);

@@ -91,9 +91,9 @@ const YourSnapsPage: React.FC = () => {
           return (
             <div key={image.id} className="relative overflow-hidden rounded-lg z-20">
               <CaptureCard
-                imagePath={image.image_path}
+                imagePath={image.compressed_path ||image.image_path}
                 altText="Snaps image"
-                onClick={() => handleImageClick(image.image_path)}
+                onClick={() => handleImageClick(image.compressed_path ||image.image_path)}
               />
             </div>
           );
