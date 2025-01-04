@@ -132,6 +132,7 @@ const behindincridea = () => {
 
       <CapturePopup
         selectedImage={selectedImage}
+        selectedImageOg={selectedImageOg}
         selectedImageId={selectedImageId}
         handleClosePopup={handleClosePopup}
         handleDownload={handleDownload}

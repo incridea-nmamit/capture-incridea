@@ -159,6 +159,7 @@ const EventCaptures = () => {
 
       <CapturePopup
         selectedImage={selectedImage}
+        selectedImageOg={selectedImageOg}
         selectedImageId={selectedImageId}
         handleClosePopup={handleClosePopup}
         handleDownload={handleDownload}

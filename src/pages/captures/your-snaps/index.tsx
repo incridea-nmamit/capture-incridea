@@ -134,6 +134,7 @@ const YourSnapsPage: React.FC = () => {
 
       <CapturePopup
         selectedImage={selectedImage}
+        selectedImageOg={selectedImageOg}
         selectedImageId={selectedImageId}
         handleClosePopup={handleClosePopup}
         handleDownload={handleDownload}

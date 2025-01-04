@@ -2,6 +2,7 @@ import Image from "next/image";
 
 interface CapturePopupProps {
   selectedImage: string | null;
+  selectedImageOg: string | null;
   selectedImageId: number | null;
   handleClosePopup: () => void;
   handleDownload: (imageUrl: string) => void;
@@ -11,6 +12,7 @@ interface CapturePopupProps {
 
 const CapturePopup: React.FC<CapturePopupProps> = ({
   selectedImage,
+  selectedImageOg,
   selectedImageId,
   handleClosePopup,
   handleDownload,
@@ -39,7 +41,7 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
         <div className="flex justify-center items-center space-x-4 py-5">
           <button
             className="bg-white hover:bg-black hover:text-white w-52 justify-center text-black px-2 py-2 rounded-full flex items-center transition-all"
-            onClick={() => handleDownload(selectedImage)}
+            onClick={() => handleDownload(selectedImageOg||selectedImage)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
