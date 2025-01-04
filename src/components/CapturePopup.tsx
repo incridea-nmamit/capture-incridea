@@ -1,8 +1,9 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useMemo, useContext } from "react"; // Import useContext
-import { FaDownload } from "react-icons/fa";
+import { FaDownload, FaHeart, FaShareAlt } from "react-icons/fa";
 import { api } from "~/utils/api";
+import { FcLike } from "react-icons/fc";
 interface CapturePopupProps {
   selectedImage: string | null;
   selectedImageOg: string | null;
@@ -45,7 +46,7 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-30"
+      className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-20"
       role="dialog"
       aria-modal="true"
       onClick={handleClosePopup}
@@ -70,16 +71,12 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
           {/* Disable right-click globally with Tailwind */}
           <div className="absolute inset-0 pointer-events-none" />
         </div>
-        <div>
-          {session_role === "admin" && selectedImageId && (
-            <div className="text-white flex justify-end">
-            <div className="px-2"><FaDownload /></div>{getDownloadCount(selectedImageId)}
-            </div>
-          )}
-        </div>
-        <div className="flex justify-center items-center space-x-4 py-5">
+        <div className="flex justify-start gap-8 items-center">  
+          <div className="flex gap-2 items-center"><span><FaHeart size={30} color="white" /></span> Count</div>
+          <div className="flex gap-2 items-center"><span><FaShareAlt size={30}/></span></div>
+          <div className="flex justify-center items-center space-x-4">
           <button
-            className="bg-white hover:bg-black hover:text-white w-52 justify-center text-black px-2 py-2 rounded-full flex items-center transition-all"
+            className="bg-white hover:bg-black hover:text-white w-40 justify-center text-black px-2 py-2 rounded-full flex items-center transition-all"
             onClick={() => handleDownload(selectedImageOg || selectedImage)}
           >
             <svg
@@ -99,6 +96,15 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
             Download
           </button>
         </div>
+        </div>
+        <div>
+          {session_role === "admin" && selectedImageId && (
+            <div className="text-white flex justify-end">
+            <div className="px-2"><FaDownload /></div>{getDownloadCount(selectedImageId)}
+            </div>
+          )}
+        </div>
+
         <p className="text-xs text-center py-5 w-full">
           Note: If you prefer this capture not to be public or have any
           issues.
