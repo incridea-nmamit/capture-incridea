@@ -138,6 +138,7 @@ const behindincridea = () => {
         handleDownload={handleDownload}
         openRemovalPopup={openRemovalPopup}
         session_user = {session_user}
+        session_role={session?.user.role || 'user'}
       />
 
       <RequestRemovalModal

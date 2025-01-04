@@ -1,10 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import { isMobile, isTablet, isDesktop } from "react-device-detect";
 import downloadImage from "~/utils/downloadUtils";
-import Image from "next/image";
-import { Box, ImageList, ImageListItem } from "@mui/material";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
 import CapturePopup from "~/components/CapturePopup";
@@ -31,8 +28,6 @@ const EventCaptures = () => {
   const [selectedImageId, setSelectedImageId] = useState<number | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const devicecol = isMobile ? 3 : isTablet ? 3 : isDesktop ? 5 : 5;
   const filteredImages =
     images?.filter(
       (image) =>
@@ -165,6 +160,7 @@ const EventCaptures = () => {
         handleDownload={handleDownload}
         openRemovalPopup={openRemovalPopup}
         session_user={session_user}
+        session_role={session?.user.role || 'user'}
       />
 
       <RequestRemovalModal

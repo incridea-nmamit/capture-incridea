@@ -1,5 +1,8 @@
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-
+import { useMemo, useContext } from "react"; // Import useContext
+import { FaDownload } from "react-icons/fa";
+import { api } from "~/utils/api";
 interface CapturePopupProps {
   selectedImage: string | null;
   selectedImageOg: string | null;
@@ -8,6 +11,7 @@ interface CapturePopupProps {
   handleDownload: (imageUrl: string) => void;
   openRemovalPopup: (imageUrl: string) => void;
   session_user: string;
+  session_role: string;
 }
 
 const CapturePopup: React.FC<CapturePopupProps> = ({
@@ -17,7 +21,26 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
   handleClosePopup,
   handleDownload,
   openRemovalPopup,
+  session_user,
+  session_role
 }) => {
+  const { data: allDownloadLogs, isLoading: isDownloadLogLoading } = api.download.getAllLogs.useQuery();
+
+  const downloadCounts = useMemo(() => {
+    const counts: Record<number, number> = {};
+    if (allDownloadLogs) {
+      allDownloadLogs.forEach((log: any) => {
+        counts[log.image_id] = (counts[log.image_id] || 0) + 1;
+      });
+    }
+    return counts;
+  }, [allDownloadLogs]);
+
+  const getDownloadCount = (image_id: number): string => {
+    if (isDownloadLogLoading) return "...";
+    return downloadCounts[image_id] ? `${downloadCounts[image_id]}` : "0";
+  };
+
   if (!selectedImage) return null;
 
   return (
@@ -34,7 +57,6 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
             className="absolute inset-0 bg-transparent z-10"
             style={{ pointerEvents: "none" }} 
           />
-
           <Image
             src={selectedImage || "/images/fallback.jpg"}
             alt="Selected"
@@ -48,11 +70,17 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
           {/* Disable right-click globally with Tailwind */}
           <div className="absolute inset-0 pointer-events-none" />
         </div>
-        
+        <div>
+          {session_role === "admin" && selectedImageId && (
+            <div className="text-white flex justify-end">
+            <div className="px-2"><FaDownload /></div>{getDownloadCount(selectedImageId)}
+            </div>
+          )}
+        </div>
         <div className="flex justify-center items-center space-x-4 py-5">
           <button
             className="bg-white hover:bg-black hover:text-white w-52 justify-center text-black px-2 py-2 rounded-full flex items-center transition-all"
-            onClick={() => handleDownload(selectedImageOg||selectedImage)}
+            onClick={() => handleDownload(selectedImageOg || selectedImage)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
