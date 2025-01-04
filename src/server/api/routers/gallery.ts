@@ -22,7 +22,7 @@ export const galleryRouter = createTRPCRouter({
         event_name: z.string().optional(),
         event_category: z.string().min(1, "Event name is required"),        
         uploadKeyOg: z.string().min(1, "Upload key is required"), 
-        uploadKeyCompressed: z.string().min(1, "Upload key is required").optional(),       
+        uploadKeyCompressed: z.string().min(1, "Upload key is required"),       
         upload_type: z.string().min(1, "Type is required"), 
       })
     )
