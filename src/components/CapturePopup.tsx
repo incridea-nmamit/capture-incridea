@@ -29,6 +29,12 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
     >
       <div className="relative bg-black p-6 rounded-3xl shadow-lg font-Trap-Regular max-w-xs sm:max-w-md w-full z-30">
         <div className="flex justify-center py-8">
+          {/* Transparent overlay */}
+          <div
+            className="absolute inset-0 bg-transparent z-10"
+            style={{ pointerEvents: "none" }} 
+          />
+
           <Image
             src={selectedImage || "/images/fallback.jpg"}
             alt="Selected"
@@ -36,8 +42,13 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
             height={200}
             layout="responsive"
             className="rounded mb-4"
+            onContextMenu={(e) => e.preventDefault()} 
+            onDragStart={(e) => e.preventDefault()} 
           />
+          {/* Disable right-click globally with Tailwind */}
+          <div className="absolute inset-0 pointer-events-none" />
         </div>
+        
         <div className="flex justify-center items-center space-x-4 py-5">
           <button
             className="bg-white hover:bg-black hover:text-white w-52 justify-center text-black px-2 py-2 rounded-full flex items-center transition-all"

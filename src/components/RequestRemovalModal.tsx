@@ -174,6 +174,11 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
           &times;
         </button>
         <div className="flex justify-center">
+          {/* Transparent overlay */}
+          <div
+            className="absolute inset-0 bg-transparent z-10"
+            style={{ pointerEvents: "none" }} 
+          />
           <Image
             src={imagePath || '/images/fallback.jpg'}
             alt="Removal Image"
@@ -181,6 +186,8 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
             height={75}
             className="rounded mb-4"
           />
+          {/* Disable right-click globally with Tailwind */}
+          <div className="absolute inset-0 pointer-events-none" />
         </div>
         <form className="space-y-4">
           <input
