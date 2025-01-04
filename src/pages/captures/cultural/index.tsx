@@ -117,9 +117,11 @@ const Cultural = () => {
                 altText="Cultural image"
                 onClick={() => handleImageClick(image.compressed_path, image.image_path, image.id)}
               />
-              <div className="absolute inset-0 flex items-end justify-end text-white font-bold text-sm pointer-events-none">
-                <FaDownload /> {getDownloadCount(image.id)}
-              </div>
+               {session?.user.role === "admin" && (
+                  <div className="absolute inset-0 flex items-end justify-end text-white font-bold text-sm pointer-events-none">
+                    <FaDownload /> {getDownloadCount(image.id)}
+                  </div>
+                )}
             </div>
           );
         })}

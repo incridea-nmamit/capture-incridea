@@ -33,7 +33,6 @@ const EventCaptures = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const devicecol = isMobile ? 3 : isTablet ? 3 : isDesktop ? 5 : 5;
-
   const filteredImages =
     images?.filter(
       (image) =>
@@ -149,9 +148,11 @@ const EventCaptures = () => {
                 altText="Snaps image"
                 onClick={() => handleImageClick(image.compressed_path, image.image_path, image.id)}
               />
-                <div className="absolute inset-0 flex items-end justify-end text-white font-bold text-sm pointer-events-none">
-                  <FaDownload /> {getDownloadCount(image.id)}
-                </div>
+               {session?.user.role === "admin" && (
+                  <div className="absolute inset-0 flex items-end justify-end text-white font-bold text-sm pointer-events-none">
+                    <FaDownload /> {getDownloadCount(image.id)}
+                  </div>
+                )}
               </div>
             ))}
       </main>
