@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import { isMobile, isTablet, isDesktop } from 'react-device-detect';
+import { isMobile, isTablet, isDesktop } from "react-device-detect";
 import downloadImage from "~/utils/downloadUtils";
 import Image from "next/image";
 import { Box, ImageList, ImageListItem } from "@mui/material";
@@ -9,37 +9,82 @@ import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
 import CapturePopup from "~/components/CapturePopup";
 import { useSession } from "next-auth/react";
+import { FaDownload } from "react-icons/fa6";
+import CaptureCard from "~/components/CapturePage/CaptureCard";
 
 const EventCaptures = () => {
   const router = useRouter();
   const { eventName } = router.query;
   const safeEventName = Array.isArray(eventName) ? eventName[0] : eventName || "Event";
   const formattedEventName = (safeEventName || "").replace(/-/g, " ");
+  
   const { data: event } = api.events.getEventByName.useQuery({ name: formattedEventName });
   const { data: images, isLoading, error } = api.gallery.getAllGallery.useQuery();
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery({ cardName: "Events" });
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [removalImage, setRemovalImage] = useState<string | null>(null);
-  const filteredImages = images?.filter((image) => image.event_name === formattedEventName && image.upload_type === "direct" && image.state === "approved") || [];
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const session_user = session?.user.email || "";
-  const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
-  const handleClosePopup = () => setSelectedImage(null);
-  const handleDownload = async (imagePath: string) => {
-    await downloadImage(imagePath, "capture-incridea.png");
-    await logDownload.mutateAsync({ file_path: imagePath, session_user });
-  };
+
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImageOg, setSelectedImageOg] = useState<string | null>(null);
+  const [selectedImageId, setSelectedImageId] = useState<number | null>(null);
+  const [removalImage, setRemovalImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const devicecol = isMobile ? 3 : isTablet ? 3 : isDesktop ? 5 : 5;
+
+  const filteredImages =
+    images?.filter(
+      (image) =>
+        image.event_name === formattedEventName &&
+        image.upload_type === "direct" &&
+        image.state === "approved"
+    ) || [];
+
+
+  const { data: allDownloadLogs, isLoading: isDownloadLogLoading ,refetch } = 
+    api.download.getAllLogs.useQuery();
+
+  const downloadCounts = useMemo(() => {
+    const counts: Record<number, number> = {};
+    if (allDownloadLogs) {
+      allDownloadLogs.forEach((log : any) => {
+        counts[log.image_id] = (counts[log.image_id] || 0) + 1;
+      });
+    }
+    return counts;
+  }, [allDownloadLogs]);
+
+  const getDownloadCount = (image_id: number): string => {
+    if (isDownloadLogLoading) return "...";
+    return downloadCounts[image_id] ? `${downloadCounts[image_id]}` : "0";
+  };
+
+  const handleImageClick = (imagePath: string, imagePathOg: string, imageId: number) => {
+    setSelectedImage(imagePath);
+    setSelectedImageOg(imagePathOg);
+    setSelectedImageId(imageId);
+  };
+
+  const handleClosePopup = () => setSelectedImage(null);
+
+  const handleDownload = async (imagePathOg: string) => {
+    await downloadImage(imagePathOg, "capture-incridea.png");
+    await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
+    refetch();
+  };
+
   const openRemovalPopup = (imagePath: string) => {
     setRemovalImage(imagePath);
     setIsModalOpen(true);
   };
+
   const closeRemovalPopup = () => {
     setRemovalImage(null);
     setIsModalOpen(false);
   };
+
   const handleRemovalSubmit = async (data: {
     name: string;
     email: string;
@@ -59,25 +104,27 @@ const EventCaptures = () => {
       console.error("Error submitting removal request:", error);
     }
   };
-  const devicecol = isMobile ? 3 : isTablet ? 3 : isDesktop ? 5 : 5;
+
   useEffect(() => {
     if (cardState === "inactive") {
-      router.push("/captures"); 
+      router.push("/captures");
     }
   }, [cardState, router]);
+
   useEffect(() => {
     filteredImages.forEach((image) => {
       const link = document.createElement("link");
       link.rel = "prefetch";
-      link.href = `${image.image_path}?w=248&fit=crop&auto=format`; 
+      link.href = `${image.image_path}?w=248&fit=crop&auto=format`;
       link.as = "image";
-      document.head.appendChild(link); 
-    });   
+      document.head.appendChild(link);
+    });
+
     return () => {
-      const links = document.querySelectorAll('link[rel="prefetch"]');
+      const links = document.querySelectorAll("link[rel='prefetch']");
       links.forEach((link) => link.remove());
     };
-  }, [filteredImages]); 
+  }, [filteredImages]);
 
   if (isLoading) return <CameraLoading />;
   if (error) return <p className="text-white text-center">Error loading images.</p>;
@@ -90,38 +137,28 @@ const EventCaptures = () => {
       <div className="flex justify-center z-20 mb-10 font-Trap-Regular">
         {event?.description && <p className="text-center text-gray-400 mb-16 w-3/4">{event.description}</p>}
       </div>
-      <main className="flex justify-center items-center">
-        <Box
-          sx={{
-            width: "100vw", 
-            overflowY: "visible", 
-            scrollbarWidth: "none", 
-            "&::-webkit-scrollbar": {
-              display: "none",
-            },
-            WebkitOverflowScrolling: "touch", 
-          }}
-        >
-          <ImageList variant="masonry" cols={devicecol} gap={8}>
+      <main         className="grid gap-4 p-10"
+        style={{
+          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+          gridAutoRows: "auto",
+        }}>
             {filteredImages.map((image) => (
-              <ImageListItem key={image.id}>
-                <Image
-                  src={`${image.compressed_path ||image.image_path}?w=248&fit=crop&auto=format`}
-                  alt={image.event_name || ""}
-                  loading="lazy"
-                  width={248}
-                  height={0}
-                  quality={20}
-                  onClick={() => handleImageClick(image.compressed_path ||image.image_path)}
-                />
-              </ImageListItem>
+              <div className="relative" key={image.id}>
+              <CaptureCard
+                imagePath={image.compressed_path ||image.image_path}
+                altText="Snaps image"
+                onClick={() => handleImageClick(image.compressed_path, image.image_path, image.id)}
+              />
+                <div className="absolute inset-0 flex items-end justify-end text-white font-bold text-sm pointer-events-none">
+                  <FaDownload /> {getDownloadCount(image.id)}
+                </div>
+              </div>
             ))}
-          </ImageList>
-        </Box>
       </main>
 
       <CapturePopup
         selectedImage={selectedImage}
+        selectedImageId={selectedImageId}
         handleClosePopup={handleClosePopup}
         handleDownload={handleDownload}
         openRemovalPopup={openRemovalPopup}

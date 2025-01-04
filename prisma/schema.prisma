@@ -88,14 +88,14 @@ model downloadLog {
   id         Int      @id @default(sequence())
   session_user String
   date_time  DateTime @default(now())
-  file_path  String
+  image_id  Int 
 }
 
 
 model Gallery {
   id         Int      @id @default(sequence())
   image_path String
-  compressed_path String?
+  compressed_path String
   event_name String?
   event_category String
   upload_type  String
@@ -199,9 +199,8 @@ model Variables {
 
 model CaptureLike {
   id        Int      @id @default(sequence())
-  capturePath String
+  captureId Int
   session_user  String
-  like      Boolean
 }
 
 model VerifiedEmail {

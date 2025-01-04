@@ -12,7 +12,7 @@ import Stories from '~/components/Stories/Stories';
 import ApproveCaptures from '~/components/ApproveCapture/ApproveCapture';
 import ControlComponent from '~/components/ControlAdmin/ControlComponent';
 import { Role } from '@prisma/client';
-import { Aperture, Bell, BookCheck, CalendarCog, ChartNoAxesCombined, GalleryHorizontalEnd, ImageUp, Settings, UserCog, Users } from 'lucide-react';
+import { Aperture, Bell, BookCheck, CalendarCog, GalleryHorizontalEnd, ImageUp, Settings, UserCog, Users } from 'lucide-react';
 
 const tabs = [
   {

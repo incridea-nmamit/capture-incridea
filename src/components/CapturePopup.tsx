@@ -2,6 +2,7 @@ import Image from "next/image";
 
 interface CapturePopupProps {
   selectedImage: string | null;
+  selectedImageId: number | null;
   handleClosePopup: () => void;
   handleDownload: (imageUrl: string) => void;
   openRemovalPopup: (imageUrl: string) => void;
@@ -10,6 +11,7 @@ interface CapturePopupProps {
 
 const CapturePopup: React.FC<CapturePopupProps> = ({
   selectedImage,
+  selectedImageId,
   handleClosePopup,
   handleDownload,
   openRemovalPopup,

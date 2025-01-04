@@ -5,9 +5,9 @@ const useDownloadLogger = () => {
   const logDownload = api.download.logDownload.useMutation()
   const{data: session} = useSession();
   const session_user = session?.user.email || "";
-  const logDownloadToServer = async (file_path: string) => {
+  const logDownloadToServer = async (image_id: number) => {
     try {
-      await logDownload.mutateAsync({session_user, file_path });
+      await logDownload.mutateAsync({session_user, image_id });
     } catch (error) {
       console.error("Failed to log download:", error);
     }
