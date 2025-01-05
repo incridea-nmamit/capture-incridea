@@ -60,7 +60,7 @@ const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps:
     <ScrollArea className=" w-full h-screen flex-1 font-roboto flex min-h-screen flex-col">
       <div className="font-roboto flex min-h-screen flex-col">
         <Header />
-        <main className="mt-20 flex-grow">
+        <main className="flex-grow">
           <Toaster position="top-right" reverseOrder={false} />
           <TrackPageVisits />
           {loading ? <CameraLoading /> : <Component {...pageProps} />}

@@ -7,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 enum Status {
   pending
   declined
@@ -15,26 +14,25 @@ enum Status {
 }
 
 model RemovalRequest {
-  id          Int                   @id @default(sequence())
+  id          Int    @id @default(sequence())
   name        String
   idcard      String
   description String
   image_path  String
   email       String
-  status      Status  @default(pending)
+  status      Status @default(pending)
 }
 
 model events {
-  id                Int      @id @default(sequence())
-  name              String   @unique
-  description       String
-  shortDescription  String   // New field for short description
-  image             String
-  type              EventType
-  day               Day
-  visibility        State
+  id               Int       @id @default(sequence())
+  name             String    @unique
+  description      String
+  shortDescription String // New field for short description
+  image            String
+  type             EventType
+  day              Day
+  visibility       State
 }
-
 
 enum EventType {
   core
@@ -51,7 +49,7 @@ enum Day {
 
 enum State {
   active
-  inactive  
+  inactive
 }
 
 enum Teamgroup {
@@ -61,70 +59,64 @@ enum Teamgroup {
   none
 }
 
-
 model team {
-  id            Int     @id @default(sequence())
-  name          String
-  committee    Teamgroup
-  designation  String
-  image         String
-  say           String
+  id          Int       @id @default(sequence())
+  name        String
+  committee   Teamgroup
+  designation String
+  image       String
+  say         String
 }
 
-
-
 model webAnalytics {
-  id        Int      @id @default(sequence())
-  session_user String  
-  uniqueId  String 
-  routePath String  
-  isChecked String
-  timer     Int?   
-  startPing  DateTime 
-  lastPing DateTime
+  id           Int      @id @default(sequence())
+  session_user String
+  uniqueId     String
+  routePath    String
+  isChecked    String
+  timer        Int?
+  startPing    DateTime
+  lastPing     DateTime
 }
 
 model downloadLog {
-  id         Int      @id @default(sequence())
+  id           Int      @id @default(sequence())
   session_user String
-  date_time  DateTime @default(now())
-  image_id  Int 
-  authored String?
+  date_time    DateTime @default(now())
+  image_id     Int
+  Gallery      Gallery  @relation(fields: [image_id], references: [id])
 }
 
-
 model Gallery {
-  id         Int      @id @default(sequence())
-  image_path String
+  id              Int           @id @default(sequence())
+  image_path      String
   compressed_path String
-  event_name String?
-  event_category String
-  upload_type  String
-  state  Status  
-  date_time  DateTime @default(now())
-  authored String?
-  likes           GalleryLike[]
+  event_name      String?
+  event_category  String
+  upload_type     String
+  state           Status
+  date_time       DateTime      @default(now())
+  downloadLog     downloadLog[]
 }
 
 model Smcuploads {
-  id         Int      @id @default(sequence())
-  video_path String
+  id          Int      @id @default(sequence())
+  video_path  String
   description String
-  authored String
-  date_time  DateTime @default(now())
+  author      String
+  date_time   DateTime @default(now())
 }
 
 model Stories {
-  id         Int      @id @default(sequence())
-  video_path String
+  id            Int      @id @default(sequence())
+  video_path    String
   category_name String
-  date_time  DateTime @default(now())
-  authored String
+  date_time     DateTime @default(now())
 }
 
 model storycategories {
-  id                Int      @id @default(sequence())
-  name              String   @unique
+  id   Int    @id @default(sequence())
+  name String @unique
 }
 
 enum Role {
@@ -136,50 +128,49 @@ enum Role {
 }
 
 model Account {
-    id                       String  @id @default(cuid())
-    userId                   String
-    type                     String
-    provider                 String
-    providerAccountId        String
-    refresh_token            String? // @db.Text
-    access_token             String? // @db.Text
-    expires_at               Int?
-    token_type               String?
-    scope                    String?
-    id_token                 String? // @db.Text
-    session_state            String?
-    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    refresh_token_expires_in Int?
+  id                       String  @id @default(cuid())
+  userId                   String
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? // @db.Text
+  access_token             String? // @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String? // @db.Text
+  session_state            String?
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refresh_token_expires_in Int?
 
-    @@unique([provider, providerAccountId])
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    role Role @default(user)
-     galleryLikes  GalleryLike[]
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  role          Role      @default(user)
 }
 
 model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
-    @@unique([identifier, token])
+  @@unique([identifier, token])
 }
 
 model AuditLog {
@@ -189,31 +180,25 @@ model AuditLog {
   description     String
 }
 
-
 model CaptureCard {
-  id        Int      @id @default(sequence())
+  id        Int    @id @default(sequence())
   cardName  String
   cardState State
 }
 
 model Variables {
-  id        Int      @id @default(sequence())
-  key  String      @unique
-  value  String
+  id    Int    @id @default(sequence())
+  key   String @unique
+  value String
 }
 
-model GalleryLike {
-    id         String   @id @default(cuid())
-    userId     String
-    galleryId  Int
-    liked      Boolean  @default(false)
-    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    gallery    Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
-    @@unique([userId, galleryId])
+model CaptureLike {
+  id           Int    @id @default(sequence())
+  captureId    Int
+  session_user String
 }
-
 
 model VerifiedEmail {
-  id        Int      @id @default(sequence())
+  id    Int    @id @default(sequence())
   email String
-} 
+}

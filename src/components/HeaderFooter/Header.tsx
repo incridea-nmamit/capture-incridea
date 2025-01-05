@@ -38,73 +38,74 @@ const Header: FC = () => {
 
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
-      <header className="fixed left-0 top-0 z-50 flex w-full flex-wrap items-center justify-between bg-black/30 p-4 shadow-md backdrop-blur-md md:justify-start">
-        <div className="flex w-full items-center justify-center px-10 md:w-auto">
-          <a
-            href="/"
-            className="mx-auto md:mx-0"
+      <header className="fixed left-0 top-0 z-50 w-full  bg-black/30 py-4 shadow-md backdrop-blur-md md:justify-start">
+        <div className="container-size flex w-full flex-wrap items-center justify-between px-0">
+          <div className="flex w-full items-center justify-center md:w-auto">
+            <a
+              href="/"
+              className="mx-auto md:mx-0"
+            >
+              <Image
+                src="/images/Logo/capture-main.png"
+                alt="Logo"
+                width={150}
+                height={80}
+                className="h-auto w-auto max-w-32"
+              />
+            </a>
+          </div>
+
+          <nav className="z-40 ml-auto hidden gap-5 space-x-8 text-lg text-white md:flex">
+            {
+              ((session && isAdminRoute && session.user?.role === "admin") ? adminLinks : userLinks).map((link) => (
+                <div key={link.href} className="flex items-center gap-2 justify-center">
+                  <span className="mb-1">{link.icon}</span>
+                  <NavLink
+                    href={link.href}
+                    label={link.label}
+                    active={
+                      link.href === "/"
+                        ? pathname === link.href
+                        : pathname.startsWith(link.href)
+                    }
+                    className="font-Trap-Regular text-lg"
+                  />
+                </div>
+              ))
+            }
+
+            {!session && isAdminRoute && (
+              <button
+                onClick={() => signIn()}
+                className="flex text-xl text-white"
+              >
+                <HiOutlineLogout />{" "}
+                <span className="relative top-0.5 font-Trap-Regular">SignIn</span>
+              </button>
+            )}
+            {session && isAdminRoute && session.user?.role === "admin" && (
+              <button
+                onClick={() => signOut()}
+                className="flex items-center gap-3 text-lg text-white font-Trap-Regular"
+              >
+                <HiOutlineLogout />{" "}
+                <span className="relative top-0.5">Logout</span>
+              </button>
+            )}
+          </nav>
+          <button
+            aria-label="Open Menu"
+            className="absolute right-4 text-2xl text-white focus:outline-none md:hidden"
+            onClick={() => setIsOpen(true)}
           >
-            <Image
-              src="/images/Logo/capture-main.png"
-              alt="Logo"
-              width={150}
-              height={80}
-              className="h-auto w-auto max-w-32"
-            />
-          </a>
+            &#9776;
+          </button>
         </div>
-
-        <nav className="z-40 ml-auto hidden gap-5 space-x-8 px-10 text-lg text-white md:flex">
-          {
-            ((session && isAdminRoute && session.user?.role === "admin") ? adminLinks : userLinks).map((link) => (
-              <div key={link.href} className="flex items-center gap-2 justify-center">
-                <span>{link.icon}</span>
-                <NavLink
-                  href={link.href}
-                  label={link.label}
-                  active={
-                    link.href === "/"
-                      ? pathname === link.href
-                      : pathname.startsWith(link.href)
-                  }
-                  className="font-Trap-Regular text-lg"
-                />
-              </div>
-            ))
-          }
-
-          {!session && isAdminRoute && (
-            <button
-              onClick={() => signIn()}
-              className="flex text-xl text-white"
-            >
-              <HiOutlineLogout />{" "}
-              <span className="relative top-0.5 font-Trap-Regular">SignIn</span>
-            </button>
-          )}
-          {session && isAdminRoute && session.user?.role === "admin" && (
-            <button
-              onClick={() => signOut()}
-              className="flex items-center gap-3 text-lg text-white font-Trap-Regular"
-            >
-              <HiOutlineLogout />{" "}
-              <span className="relative top-0.5">Logout</span>
-            </button>
-          )}
-        </nav>
-        <button
-          aria-label="Open Menu"
-          className="absolute right-4 text-2xl text-white focus:outline-none md:hidden"
-          onClick={() => setIsOpen(true)}
-        >
-          &#9776;
-        </button>
       </header>
 
       <div
-        className={`fixed inset-y-0 right-0 z-50 w-64 max-w-full transform space-y-6 bg-black p-6 opacity-100 transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed inset-y-0 right-0 z-50 w-64 max-w-full transform space-y-6 bg-black p-6 opacity-100 transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         role="dialog"
         aria-modal="true"
       >

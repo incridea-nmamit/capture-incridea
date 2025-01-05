@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "~/utils/api";
-import CaptureCard from "~/components/CapturePage/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
 import TitleDescription from "~/components/TitleDescription";
 import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";

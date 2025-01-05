@@ -1,4 +1,3 @@
-import React, { useRef } from 'react'
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { RefreshCcw } from 'lucide-react';
@@ -13,8 +12,8 @@ const images = [
 ];
 
 function Images() {
-    const repeatDelay = 3;
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 3, yoyo: true,onReverseComplete: () => {
+    const repeatDelay = 1;
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: repeatDelay, yoyo: true,onReverseComplete: () => {
         tl.repeatDelay(repeatDelay);
         tl.play()
     }})
@@ -35,7 +34,7 @@ function Images() {
         })
 
         tl.play()
-    })
+    },[])
 
     function updateImage() {
         const imageElements = document.querySelectorAll(".slide-image");

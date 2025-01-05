@@ -4,6 +4,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { api } from "~/utils/api";
 import CameraLoading from "../LoadingAnimation/CameraLoading";
 import { useRouter } from "next/router";
+import { eventDays, eventTypes } from "~/utils/constants";
 
 const Events: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -32,12 +33,12 @@ const Events: FC = () => {
     })
     .sort((a, b) => a.day.localeCompare(b.day));
 
-  if (isLoading) return <CameraLoading/>;
+  if (isLoading) return <CameraLoading />;
 
   return (
-    <div className="p-6 bg-primary-950/50 min-h-screen">
-      <div className="flex flex-row md:flex-row items-center gap-4 mb-8 z-30 font-Trap-Regular">
-        <div className="relative flex-grow z-30">
+    <div className=" min-h-screen container-size">
+      <div className="flex flex-row md:flex-row items-center gap-4 mb-8 font-Trap-Regular">
+        <div className="relative flex-grow">
           <input
             type="text"
             placeholder="Search events by name"
@@ -50,40 +51,35 @@ const Events: FC = () => {
         <select
           value={selectedEventType}
           onChange={(e) => setSelectedEventType(e.target.value.toLowerCase())}
-          className="p-2 z-30 border-slate-700 rounded-xl bg-transparent h-12 text-white"
+          className="p-2 border-slate-700 rounded-xl bg-transparent h-12 text-white"
         >
           <option className="text-white bg-primary-950/50" value="all">All Categories</option>
-          <option className="text-white bg-primary-950/50" value="core">Core</option>
-          <option className="text-white bg-primary-950/50" value="technical">Technical</option>
-          <option className="text-white bg-primary-950/50" value="nontechnical">Non Technical</option>
-          <option className="text-white bg-primary-950/50" value="special">Special</option>
+          {Object.entries(eventTypes).map(type=><option className="text-white bg-primary-950/50" value={type[0]}>{type[1]}</option>)}
+          
         </select>
         <select
+
           value={selectedDay}
           onChange={(e) => setSelectedDay(e.target.value)}
-          className="p-2 z-30 border-slate-700 rounded-xl bg-transparent h-12 text-white"
+          className="p-2 border-slate-700 rounded-xl bg-transparent h-12 text-white"
         >
           <option className="text-white bg-primary-950/50" value="all">All Days</option>
-          <option className="text-white bg-primary-950/50" value="day1">Day 1</option>
-          <option className="text-white bg-primary-950/50" value="day2">Day 2</option>
-          <option className="text-white bg-primary-950/50" value="day3">Day 3</option>
+          {Object.entries(eventDays).map(type=><option className="text-white bg-primary-950/50" value={type[0]}>{type[1]}</option>)}
         </select>
       </div>
-      <div className="z-30 flex flex-wrap justify-center gap-6 mt-6">
+      <div className="flex flex-wrap justify-center gap-6 mt-6">
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event, index) => (
-            <div key={index} className="flex justify-center items-center z-30">
-              <div
-                className="bg-black rounded-lg shadow-lg overflow-hidden flex flex-col justify-between aspect-square z-40"
-                style={{ height: "300px", width: "300px" }}
-              >
-                <EventCard
-                  name={event.name}
-                  description={event.shortDescription}
-                  day={event.day}
-                  background={event.image}
-                />
-              </div>
+            <div
+              key={index}
+              className="rounded-lg shadow-lg overflow-hidden cursor-pointer"
+            >
+              <EventCard
+                name={event.name}
+                description={event.shortDescription}
+                day={event.day}
+                background={event.image}
+              />
             </div>
           ))
         ) : (

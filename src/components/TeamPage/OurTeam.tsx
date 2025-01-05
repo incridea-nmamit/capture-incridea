@@ -29,29 +29,31 @@ const OurTeam = () => {
   ];
 
   return (
-    <div className="min-h-[calc(100vh-60px)] bg-primary-950/50 text-white flex flex-col items-center py-12 px-6 z-20">
-      {/* Page Title */}
-      <h1 className="text-6xl text-center font-Teknaf mb-8 z-20">Our Elite Teams</h1>
+    <div className="mt-20">
+      <div className="container-size bg-primary-950/50 text-white flex flex-col items-center py-12 z-20">
+        {/* Page Title */}
+        <h1 className="text-6xl text-center font-Teknaf mb-8 z-20">Our Elite Teams</h1>
 
-      {/* Small Description */}
-      <p className="text-lg text-center font-Trap-Regular max-w-3xl text-gray-400 mb-12 z-20">
-        Our committees have been the backbone of Incridea, working tirelessly 
-        to ensure a seamless and creative experience. From capturing the essence of the 
-        event to engaging with audiences online and managing digital platforms, each committee 
-        has contributed immensely toward making the fest a grand success!
-      </p>
+        {/* Small Description */}
+        <p className="text-lg text-center font-Trap-Regular max-w-3xl text-gray-400 mb-12 z-20">
+          Our committees have been the backbone of Incridea, working tirelessly
+          to ensure a seamless and creative experience. From capturing the essence of the
+          event to engaging with audiences online and managing digital platforms, each committee
+          has contributed immensely toward making the fest a grand success!
+        </p>
 
-      {/* Cards Container */}
-      <div className="flex flex-col md:flex-row gap-8 flex-wrap justify-center z-20">
-        {teams.map((team, index) => (
-          <TeamCommitteeCard
-            key={index}
-            title={team.title}
-            description={team.description}
-            imageUrl={team.imageUrl}
-            href={team.href}
-          />
-        ))}
+        {/* Cards Container */}
+        <div className="flex flex-col md:flex-row gap-8 flex-wrap justify-center z-20">
+          {teams.map((team, index) => (
+            <TeamCommitteeCard
+              key={index}
+              title={team.title}
+              description={team.description}
+              imageUrl={team.imageUrl}
+              href={team.href}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

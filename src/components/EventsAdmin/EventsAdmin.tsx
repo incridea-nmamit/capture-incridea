@@ -366,20 +366,6 @@ import {
 import { Input } from "~/components/ui/input"
 import { Textarea } from '../ui/textarea';
 
-
-const eventTypes = {
-  core: "Core",
-  technical: "Technical",
-  nontechnical: "Non-Technical",
-  special: "Special",
-}
-
-const days = {
-  day1: "Day-1",
-  day2: "Day-2",
-  day3: "Day-3",
-}
-
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
   description: z.string().min(1, { message: "Description is required." }),
@@ -415,6 +401,7 @@ import {
   SelectValue,
 } from "~/components/ui/select"
 import { ScrollArea } from "../ui/scroll-area"
+import { eventDays, eventTypes } from '~/utils/constants';
 
 const EventsAdmin: React.FC = () => {
   const addEvent = api.events.addEvent.useMutation();
@@ -544,7 +531,7 @@ const EventsAdmin: React.FC = () => {
           <SelectContent>
             <SelectGroup>
               <SelectItem value="all" defaultChecked>All Days</SelectItem>
-              {Object.entries(days).map(([key, val]) => <SelectItem value={key} key={key}>{val}</SelectItem>)}
+              {Object.entries(eventDays).map(([key, val]) => <SelectItem value={key} key={key}>{val}</SelectItem>)}
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -682,7 +669,7 @@ const EventsAdmin: React.FC = () => {
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectGroup>
-                                  {Object.entries(days).map(([key, val]) => {
+                                  {Object.entries(eventDays).map(([key, val]) => {
                                     return <SelectItem value={key} key={key} className="cursor-pointer hover:bg-accent">{val}</SelectItem>
                                   })}
                                 </SelectGroup>
@@ -734,7 +721,7 @@ const EventsAdmin: React.FC = () => {
                   <td className=" py-2 px-4 border-b border-slate-700 text-center text-xs">{eventTypes[event.type]}
                   </td>
                   <td className=" py-2 px-4 border-b border-slate-700 text-center text-xs">
-                    {days[event.day]}
+                    {eventDays[event.day]}
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center w-16">
                     <Image src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />

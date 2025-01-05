@@ -32,13 +32,13 @@ const Captures: React.FC = () => {
   const releaseDate = data.value; // The fetched release date
 
   return (
-    <>
+    <main className='mt-20'>
       {checkReleaseDate(releaseDate) && !isReleased ? (
         <ReleaseOverlay releaseDate={releaseDate} onRelease={handleRelease} />
       ) : (
         <CapturesComponent />
       )}
-    </>
+    </main>
   );
 };
 
