@@ -97,6 +97,7 @@ model Gallery {
   state           Status
   date_time       DateTime      @default(now())
   downloadLog     downloadLog[]
+  galleryLikes    GalleryLike[] 
 }
 
 model Smcuploads {
@@ -155,14 +156,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  role          Role      @default(user)
+  role          Role          @default(user)
+  galleryLikes  GalleryLike[] // Add this reciprocal relation
 }
 
 model VerificationToken {
@@ -201,4 +203,14 @@ model CaptureLike {
 model VerifiedEmail {
   id    Int    @id @default(sequence())
   email String
+}
+
+model GalleryLike {
+  id        String   @id @default(cuid())
+  userId    String   // Required
+  galleryId Int      // Required
+  liked     Boolean  @default(true)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gallery   Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  @@unique([userId, galleryId]) // Ensures a user can only like a gallery entry once
 }
