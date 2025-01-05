@@ -2,6 +2,8 @@ import { ImageList, ImageListItem } from "@mui/material";
 import useResponsiveColumns from "~/hooks/useResponsiveColumns";
 import { FaDownload } from "react-icons/fa";
 import { CaptureCard } from "./CapturePage/CaptureCard";
+import { useMemo } from "react";
+import { api } from "~/utils/api";
 
 type CaptureImage = {
     id: number,
@@ -12,6 +14,21 @@ type CaptureImage = {
 }
 
 export default function ImagesMasonry({ images }: { images: CaptureImage[] }) {
+    const { data: allDownloadLogs, isLoading: isDownloadLogLoading } =  api.download.getAllLogs.useQuery();
+      const downloadCounts = useMemo(() => {
+        const counts: Record<number, number> = {};
+        if (allDownloadLogs) {
+          allDownloadLogs.forEach((log : any) => {
+            counts[log.image_id] = (counts[log.image_id] || 0) + 1;
+          });
+        }
+        return counts;
+      }, [allDownloadLogs]);
+
+    const getDownloadCount = (image_id: number): string => {
+      if (isDownloadLogLoading) return "...";
+      return downloadCounts[image_id] ? `${downloadCounts[image_id]}` : "0";
+    };
     const columnCount = useResponsiveColumns({ 350: 1, 750: 2, 900: 3, 1024: 4 })
     return <div className="container-size pt-8">
         <ImageList variant="masonry" cols={columnCount} gap={8}>
@@ -25,7 +42,7 @@ export default function ImagesMasonry({ images }: { images: CaptureImage[] }) {
                             prefech />
 
                         {image.downloadCount != null && <div className="absolute bottom-0 p-2 right-0 gap-1 flex items-center justify-end  text-white font-bold text-sm pointer-events-none">
-                            <FaDownload /> {image.downloadCount}
+                            <FaDownload /> {getDownloadCount(image.id)}
                         </div>}
                     </div>
                 </ImageListItem>
