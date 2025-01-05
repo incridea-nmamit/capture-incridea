@@ -1,9 +1,8 @@
-import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useMemo, useContext } from "react"; // Import useContext
+import React, { useState, useMemo } from "react";
 import { FaDownload, FaHeart, FaShareAlt } from "react-icons/fa";
 import { api } from "~/utils/api";
-import { FcLike } from "react-icons/fc";
+
 interface CapturePopupProps {
   selectedImage: string | null;
   selectedImageOg: string | null;
@@ -13,6 +12,7 @@ interface CapturePopupProps {
   openRemovalPopup: (imageUrl: string) => void;
   session_user: string;
   session_role: string;
+  sessionId: string;
 }
 
 const CapturePopup: React.FC<CapturePopupProps> = ({
@@ -23,7 +23,8 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
   handleDownload,
   openRemovalPopup,
   session_user,
-  session_role
+  session_role,
+  sessionId,
 }) => {
   const { data: allDownloadLogs, isLoading: isDownloadLogLoading } = api.download.getAllLogs.useQuery();
 
@@ -42,6 +43,55 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
     return downloadCounts[image_id] ? `${downloadCounts[image_id]}` : "0";
   };
 
+  const [totalLikes, setTotalLikes] = useState<number | null>(null);
+  const [hasLiked, setHasLiked] = useState<boolean | null>(null);
+
+  // API Mutations
+  const getTotalLikes = api.like.getTotalLikes.useMutation();
+  const checkHasLiked = api.like.hasLiked.useMutation();
+  const toggleLike = api.like.toggleLike.useMutation();
+
+  // Fetch likes and user's like status when the popup opens
+  const fetchInitialData = async () => {
+    if (selectedImageId) {
+      try {
+        const likes = await getTotalLikes.mutateAsync({ captureId: selectedImageId });
+        setTotalLikes(likes);
+
+        const userLikeStatus = await checkHasLiked.mutateAsync({
+          galleryId: selectedImageId,
+          userId: session_user,
+        });
+
+        // Handle the returned status
+        setHasLiked(userLikeStatus || false);
+      } catch (error) {
+        console.error("Error fetching initial data:", error);
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    fetchInitialData();
+  }, [selectedImageId]);
+
+  // Toggle like status
+  const handleToggleLike = async () => {
+    if (selectedImageId && hasLiked !== null) {
+      try {
+        await toggleLike.mutateAsync({
+          galleryId: selectedImageId,
+          userId: sessionId,
+          toggle: !hasLiked,
+        });
+        setHasLiked(!hasLiked); // Optimistic update
+        setTotalLikes((prev) => (prev !== null ? prev + (hasLiked ? -1 : 1) : prev));
+      } catch (error) {
+        console.error("Error toggling like:", error);
+      }
+    }
+  };
+
   if (!selectedImage) return null;
 
   return (
@@ -53,11 +103,6 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
     >
       <div className="relative bg-black p-6 rounded-3xl shadow-lg font-Trap-Regular max-w-xs sm:max-w-md w-full z-30">
         <div className="flex justify-center py-8">
-          {/* Transparent overlay */}
-          <div
-            className="absolute inset-0 bg-transparent z-10"
-            style={{ pointerEvents: "none" }} 
-          />
           <Image
             src={selectedImage || "/images/fallback.jpg"}
             alt="Selected"
@@ -65,49 +110,44 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
             height={200}
             layout="responsive"
             className="rounded mb-4"
-            onContextMenu={(e) => e.preventDefault()} 
-            onDragStart={(e) => e.preventDefault()} 
+            onContextMenu={(e) => e.preventDefault()}
+            onDragStart={(e) => e.preventDefault()}
           />
-          {/* Disable right-click globally with Tailwind */}
-          <div className="absolute inset-0 pointer-events-none" />
         </div>
-        <div className="flex justify-start gap-8 items-center">  
-          <div className="flex gap-2 items-center"><span><FaHeart size={30} color="white" /></span> Count</div>
-          <div className="flex gap-2 items-center"><span><FaShareAlt size={30}/></span></div>
+        <div className="flex justify-start gap-8 items-center">
+          {/* Likes Section */}
+          <div className="flex gap-2 items-center">
+            <button onClick={handleToggleLike} aria-label="Like Button">
+              <FaHeart size={30} color={hasLiked ? "red" : "white"} />
+            </button>
+            <span>{totalLikes !== null ? totalLikes : "..."}</span>
+          </div>
+          {/* Share Section */}
+          <div className="flex gap-2 items-center">
+            <FaShareAlt size={30} />
+          </div>
+          {/* Download Section */}
           <div className="flex justify-center items-center space-x-4">
-          <button
-            className="bg-white hover:bg-black hover:text-white w-40 justify-center text-black px-2 py-2 rounded-full flex items-center transition-all"
-            onClick={() => handleDownload(selectedImageOg || selectedImage)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-5 h-5 mr-2"
+            <button
+              className="bg-white hover:bg-black hover:text-white w-40 justify-center text-black px-2 py-2 rounded-full flex items-center transition-all"
+              onClick={() => handleDownload(selectedImageOg || selectedImage)}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v12m8-8l-8 8-8-8"
-              />
-            </svg>
-            Download
-          </button>
-        </div>
+              <FaDownload className="mr-2" />
+              Download
+            </button>
+          </div>
         </div>
         <div>
           {session_role === "admin" && selectedImageId && (
             <div className="text-white flex justify-end">
-            <div className="px-2"><FaDownload /></div>{getDownloadCount(selectedImageId)}
+              <FaDownload className="px-2" />
+              {getDownloadCount(selectedImageId)}
             </div>
           )}
         </div>
 
         <p className="text-xs text-center py-5 w-full">
-          Note: If you prefer this capture not to be public or have any
-          issues.
+          Note: If you prefer this capture not to be public or have any issues.
           <br />
           Please{" "}
           <a

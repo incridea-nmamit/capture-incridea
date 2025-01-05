@@ -89,6 +89,7 @@ model downloadLog {
   session_user String
   date_time  DateTime @default(now())
   image_id  Int 
+  authored String?
 }
 
 
@@ -101,13 +102,15 @@ model Gallery {
   upload_type  String
   state  Status  
   date_time  DateTime @default(now())
+  authored String?
+  likes           GalleryLike[]
 }
 
 model Smcuploads {
   id         Int      @id @default(sequence())
   video_path String
   description String
-  author String
+  authored String
   date_time  DateTime @default(now())
 }
 
@@ -116,6 +119,7 @@ model Stories {
   video_path String
   category_name String
   date_time  DateTime @default(now())
+  authored String
 }
 
 model storycategories {
@@ -167,6 +171,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     role Role @default(user)
+     galleryLikes  GalleryLike[]
 }
 
 model VerificationToken {
@@ -197,11 +202,16 @@ model Variables {
   value  String
 }
 
-model CaptureLike {
-  id        Int      @id @default(sequence())
-  captureId Int
-  session_user  String
+model GalleryLike {
+    id         String   @id @default(cuid())
+    userId     String
+    galleryId  Int
+    liked      Boolean  @default(false)
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    gallery    Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+    @@unique([userId, galleryId])
 }
+
 
 model VerifiedEmail {
   id        Int      @id @default(sequence())
