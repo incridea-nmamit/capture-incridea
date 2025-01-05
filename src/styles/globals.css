@@ -153,7 +153,9 @@ body {
 }
 
 .container-size{
-  @apply max-w-screen-xl mx-auto px-4;
+  max-width: min(1280px,90%);
+  margin: 0 auto;
+
 }
 
 @layer base {
@@ -239,4 +241,22 @@ body {
   100% {
     background-position: -200% 0;
   }
+}
+
+
+.story-wrapper{
+  width: min(300px,80vw);
+  aspect-ratio: 9/16;
+}
+
+.story-image{
+  position: absolute;
+  inset:0;
+  object-fit: cover;
+}
+
+.story{
+  width: min(300px,80vw);
+  height: 100%;
+  position: relative;
 }

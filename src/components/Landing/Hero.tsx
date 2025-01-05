@@ -2,8 +2,8 @@ import React from "react";
 
 function Hero() {
   return (
-    <section className="container-size mx-auto flex h-[calc(100vh-6rem)] w-full items-center justify-center overflow-hidden">
-      <div className="relative mx-2 flex h-full w-full max-w-[1600px] items-center justify-center overflow-hidden rounded-2xl sm:mx-4">
+    <section className="pt-20 container-size mx-auto flex h-[calc(100vh-6rem)] w-full items-center justify-center overflow-hidden">
+      <div className="relative flex h-full w-full max-w-[1600px] items-center justify-center overflow-hidden rounded-2xl">
         <video
           autoPlay
           loop

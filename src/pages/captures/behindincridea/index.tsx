@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
-import CaptureCard from "~/components/CapturePage/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
 import TitleDescription from "~/components/TitleDescription";
 import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";
@@ -9,34 +8,34 @@ import { useRouter } from "next/router";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
 import CapturePopup from "~/components/CapturePopup";
 import { useSession } from "next-auth/react";
+import ImagesMasonry from "~/components/ImagesMasonry";
 
 
 
 const behindincridea = () => {
-  const { data: images, isLoading, error } = api.gallery.getAllGallery.useQuery();
+  const { data: images = [], isLoading, error } = api.gallery.getApprovedImagesByCategory.useQuery({ category: "behindincridea" });
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
   const router = useRouter();
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Your Snaps" }
   );
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const session_user = session?.user.email || "";
   useEffect(() => {
     if (cardState === "inactive") {
-      router.push("/captures"); 
+      router.push("/captures");
     }
   }, [cardState, router]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
-  const filteredImages = images?.filter((image) => image.event_category === 'behindincridea' && image.upload_type === "direct" && image.state === "approved") || [];
 
   const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
   const handleClosePopup = () => setSelectedImage(null);
 
   const handleDownload = async (imagePath: string) => {
     await downloadImage(imagePath, "capture-incridea.png");
-    await logDownload.mutateAsync({ file_path: imagePath , session_user});
+    await logDownload.mutateAsync({ file_path: imagePath, session_user });
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openRemovalPopup = (imagePath: string) => {
@@ -68,43 +67,30 @@ const behindincridea = () => {
       console.error("Error submitting removal request:", error);
     }
   };
-  if (isLoading) return <CameraLoading/>;
+  if (isLoading) return <CameraLoading />;
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
     <div>
-    <TitleDescription 
-        title="Behind Incridea" 
+      <TitleDescription
+        title="Behind Incridea"
         description="Engaging our audience and building community through strategic social media initiatives"
         imagePath="https://utfs.io/f/0yks13NtToBiR2RImlGmqjGOIgx47y3cAJSCbQ1V82Nitrsf"
       />
-    <FallingClipart />
-    <div
-        className="grid gap-4 p-10"
-        style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-          gridAutoRows: "auto",
-        }}
-      >
-        {filteredImages.map((image) => {
-          return (
-            <div key={image.id} className="relative overflow-hidden rounded-lg z-20">
-              <CaptureCard
-                imagePath={image.compressed_path ||image.image_path}
-                altText="Snaps image"
-                onClick={() => handleImageClick(image.compressed_path ||image.image_path)}
-              />
-            </div>
-          );
-        })}
-      </div>
+      <FallingClipart />
+      <ImagesMasonry images={images.map(image => ({
+        id: image.id,
+        compressed_path: image.compressed_path,
+        image_path: image.image_path,
+        onClick: () => handleImageClick(image.compressed_path || image.image_path)
+      }))} />
 
       <CapturePopup
         selectedImage={selectedImage}
         handleClosePopup={handleClosePopup}
         handleDownload={handleDownload}
         openRemovalPopup={openRemovalPopup}
-        session_user = {session_user}
+        session_user={session_user}
       />
 
       <RequestRemovalModal

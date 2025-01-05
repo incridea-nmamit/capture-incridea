@@ -9,6 +9,8 @@ import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
 import CapturePopup from "~/components/CapturePopup";
 import { useSession } from "next-auth/react";
+import CaptureCard from "~/components/CapturePage/CaptureCard";
+import ImagesMasonry from "~/components/ImagesMasonry";
 
 const EventCaptures = () => {
   const router = useRouter();
@@ -16,14 +18,13 @@ const EventCaptures = () => {
   const safeEventName = Array.isArray(eventName) ? eventName[0] : eventName || "Event";
   const formattedEventName = (safeEventName || "").replace(/-/g, " ");
   const { data: event } = api.events.getEventByName.useQuery({ name: formattedEventName });
-  const { data: images, isLoading, error } = api.gallery.getAllGallery.useQuery();
+  const { data: images = [], isLoading, error } = api.gallery.getApprovedImagesByEventName.useQuery({ eventName: formattedEventName });
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery({ cardName: "Events" });
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
-  const filteredImages = images?.filter((image) => image.event_name === formattedEventName && image.upload_type === "direct" && image.state === "approved") || [];
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const session_user = session?.user.email || "";
   const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
   const handleClosePopup = () => setSelectedImage(null);
@@ -62,63 +63,29 @@ const EventCaptures = () => {
   const devicecol = isMobile ? 3 : isTablet ? 3 : isDesktop ? 5 : 5;
   useEffect(() => {
     if (cardState === "inactive") {
-      router.push("/captures"); 
+      router.push("/captures");
     }
   }, [cardState, router]);
-  useEffect(() => {
-    filteredImages.forEach((image) => {
-      const link = document.createElement("link");
-      link.rel = "prefetch";
-      link.href = `${image.image_path}?w=248&fit=crop&auto=format`; 
-      link.as = "image";
-      document.head.appendChild(link); 
-    });   
-    return () => {
-      const links = document.querySelectorAll('link[rel="prefetch"]');
-      links.forEach((link) => link.remove());
-    };
-  }, [filteredImages]); 
 
   if (isLoading) return <CameraLoading />;
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
-    <div className="p-6 bg-primary-950/50 min-h-screen">
-      <h1 className="text-3xl md:text-6xl font-Teknaf text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
-        {formattedEventName} Captures
-      </h1>
-      <div className="flex justify-center z-20 mb-10 font-Trap-Regular">
-        {event?.description && <p className="text-center text-gray-400 mb-16 w-3/4">{event.description}</p>}
+    <div className="mt-32">
+      <div className="container-size mt-20">
+        <h1 className="text-3xl md:text-6xl font-Teknaf text-white text-center mb-8 mt-4 md:mb-4 md:mt-8">
+          {formattedEventName} Captures
+        </h1>
+        <div className="flex justify-center mb-10 font-Trap-Regular">
+          {event?.description && <p className="text-center text-gray-400 mb-16 w-3/4">{event.description}</p>}
+        </div>
       </div>
-      <main className="flex justify-center items-center">
-        <Box
-          sx={{
-            width: "100vw", 
-            overflowY: "visible", 
-            scrollbarWidth: "none", 
-            "&::-webkit-scrollbar": {
-              display: "none",
-            },
-            WebkitOverflowScrolling: "touch", 
-          }}
-        >
-          <ImageList variant="masonry" cols={devicecol} gap={8}>
-            {filteredImages.map((image) => (
-              <ImageListItem key={image.id}>
-                <Image
-                  src={`${image.compressed_path ||image.image_path}?w=248&fit=crop&auto=format`}
-                  alt={image.event_name || ""}
-                  loading="lazy"
-                  width={248}
-                  height={0}
-                  quality={20}
-                  onClick={() => handleImageClick(image.compressed_path ||image.image_path)}
-                />
-              </ImageListItem>
-            ))}
-          </ImageList>
-        </Box>
-      </main>
+      <ImagesMasonry images={images.map(image => ({
+        id: image.id,
+        compressed_path: image.compressed_path,
+        image_path: image.image_path,
+        onClick: () => handleImageClick(image.compressed_path || image.image_path)
+      }))} />
 
       <CapturePopup
         selectedImage={selectedImage}

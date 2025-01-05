@@ -1,4 +1,4 @@
-import {  createTRPCRouter, protectedProcedure, publicProcedure} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
 
@@ -8,35 +8,75 @@ export const galleryRouter = createTRPCRouter({
   getAllGallery: publicProcedure.query(async ({ ctx }) => {
     const gallery = await ctx.db.gallery.findMany({
       orderBy: {
-        date_time:"desc"
+        date_time: "desc"
       }
 
     });
     return gallery ?? [];
   }),
+  getApprovedImagesByCategory: publicProcedure
+    .input(
+      z.object({
+        category: z.string().min(1, "Category is required"),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { category } = input;
+      const images = await ctx.db.gallery.findMany({
+        where: {
+          event_category: category,
+          state: "approved",
+          upload_type: "direct"
+        },
+        orderBy: {
+          date_time: "desc",
+        },
+      });
+      return images ?? [];
+    }),
+    getApprovedImagesByEventName: publicProcedure
+    .input(
+      z.object({
+        eventName: z.string().min(1, "Category is required"),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { eventName } = input;
+      const images = await ctx.db.gallery.findMany({
+        where: {
+          event_name: eventName,
+          state: "approved",
+          upload_type: "direct"
+        },
+        orderBy: {
+          date_time: "desc",
+        },
+      });
+      return images ?? [];
+    }),
 
   // Add a new event
   addImage: protectedProcedure
     .input(
       z.object({
         event_name: z.string().optional(),
-        event_category: z.string().min(1, "Event name is required"),        
-        uploadKeyOg: z.string().min(1, "Upload key is required"), 
-        uploadKeyCompressed: z.string().min(1, "Upload key is required").optional(),       
-        upload_type: z.string().min(1, "Type is required"), 
+        event_category: z.string().min(1, "Event name is required"),
+        uploadKeyOg: z.string().min(1, "Upload key is required"),
+        uploadKeyCompressed: z.string().min(1, "Upload key is required").optional(),
+        upload_type: z.string().min(1, "Type is required"),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const imageUrl = input.uploadKeyOg;
       const compressedUrl = input.uploadKeyCompressed;
-      const auto_button = (await ctx.db.variables.findUnique({where:{key:"capture-auto-request"}}))?.value
+      const auto_button = (await ctx.db.variables.findUnique({ where: { key: "capture-auto-request" } }))?.value
       const newImage = await ctx.db.gallery.create({
         data: {
           event_name: input.event_category === "events" ? input.event_name : null,
           event_category: input.event_category,
           image_path: imageUrl,
           compressed_path: compressedUrl,
-          state:auto_button!="OFF"?"approved":"pending",
+          state: auto_button != "OFF" ? "approved" : "pending",
           upload_type: input.upload_type
         },
       });
@@ -53,7 +93,7 @@ export const galleryRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       await ctx.db.gallery.updateMany({
         where: { id: input.id },
-        data:{
+        data: {
           upload_type: "deleted",
         }
       });
@@ -61,7 +101,7 @@ export const galleryRouter = createTRPCRouter({
       return { message: "Image deleted successfully" };
     }),
 
-    updateState: protectedProcedure
+  updateState: protectedProcedure
     .input(
       z.object({
         id: z.number().min(1, "Capture ID is required"),
@@ -69,32 +109,32 @@ export const galleryRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { id, state } = input; 
+      const { id, state } = input;
       await ctx.db.gallery.updateMany({
         where: { id },
         data: {
-          state, 
+          state,
         },
       });
     }),
 
-    batchUpload: protectedProcedure
+  batchUpload: protectedProcedure
     .input(
       z.object({
         id: z.number().min(1, "Capture ID is required"),
-        upload_type: z.string().min(1, "Type is required"), 
+        upload_type: z.string().min(1, "Type is required"),
         state: z.enum(['pending', 'declined', 'approved']), // Ensure the state is valid
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { id, state, upload_type } = input; 
+      const { id, state, upload_type } = input;
       await ctx.db.gallery.updateMany({
         where: { id },
         data: {
-          state, 
+          state,
           upload_type
         },
       });
     })
-    
+
 });

@@ -54,7 +54,7 @@ const FallingClipart: React.FC = () => {
 
   return (
     <div 
-      className="fixed inset-0 pointer-events-none z-10"
+      className="fixed inset-0 pointer-events-none -z-10"
       ref={containerRef}
     ></div>
   );

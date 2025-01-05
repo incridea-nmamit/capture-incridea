@@ -1,4 +1,3 @@
-import React, { useRef } from 'react'
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { RefreshCcw } from 'lucide-react';
@@ -35,7 +34,7 @@ function Images() {
         })
 
         tl.play()
-    })
+    },[])
 
     function updateImage() {
         const imageElements = document.querySelectorAll(".slide-image");
