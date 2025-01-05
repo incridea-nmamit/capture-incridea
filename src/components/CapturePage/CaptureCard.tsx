@@ -7,13 +7,13 @@ interface CaptureCardProps {
   prefech: boolean;
 }
 
-const CaptureCard: React.FC<CaptureCardProps> = ({ imagePath, altText, onClick, prefech = false }) => {
+export const CaptureCard: React.FC<CaptureCardProps> = ({ imagePath, altText, onClick, prefech = false }) => {
 
   const imageUrl = `${imagePath}?w=248&fit=crop&auto=format`;
 
   return (
     <div
-      className="relative rounded-lg shadow-md overflow-hidden w-full max-w-sm cursor-pointer flex flex-col justify-center"
+      className="relative rounded-lg shadow-md overflow-hidden w-full max-w-sm cursor-pointer flex flex-col justify-center "
       onClick={onClick}
     >
       <Image
@@ -23,7 +23,9 @@ const CaptureCard: React.FC<CaptureCardProps> = ({ imagePath, altText, onClick, 
         height={300}
         loading="lazy"
         quality={20}
-        className="object-contain w-full h-auto"
+        className="object-contain w-full h-auto capture-image"
+        onContextMenu={(e) => e.preventDefault()}
+        onDragStart={(e) => e.preventDefault()}
       />
       {prefech && (
         <link rel="prefetch" href={imageUrl} as="image" className="hidden" />
@@ -31,5 +33,3 @@ const CaptureCard: React.FC<CaptureCardProps> = ({ imagePath, altText, onClick, 
     </div>
   )
 };
-
-export default CaptureCard;

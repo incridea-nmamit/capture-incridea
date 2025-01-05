@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { api } from "~/utils/api";
-import CaptureCard from "~/components/CapturePage/CaptureCard";
 import downloadImage from "~/utils/downloadUtils";
 import TitleDescription from "~/components/TitleDescription";
 import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";
@@ -9,6 +8,7 @@ import { useRouter } from "next/router";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
 import CapturePopup from "~/components/CapturePopup";
 import { useSession } from "next-auth/react";
+import { FaDownload } from "react-icons/fa";
 
 
 const YourSnapsPage: React.FC = () => {
@@ -30,13 +30,39 @@ const YourSnapsPage: React.FC = () => {
       router.push("/captures");
     }
   }, [cardState, router]);
-  const handleImageClick = (imagePath: string) => setSelectedImage(imagePath);
+  const [selectedImageOg, setSelectedImageOg] = useState<string | null>(null);
+  const [selectedImageId, setSelectedImageId] = useState<number | null>(null);
+  const handleImageClick = (imagePath: string, imagePathOg: string, imageId: number) => {
+    setSelectedImage(imagePath);
+    setSelectedImageOg(imagePathOg);
+    setSelectedImageId(imageId);
+  };
   const handleClosePopup = () => setSelectedImage(null);
 
-  const handleDownload = async (imagePath: string) => {
-    await downloadImage(imagePath, "capture-incridea.png");
-    await logDownload.mutateAsync({ file_path: imagePath , session_user});
+  const handleDownload = async (imagePathOg: string) => {
+    await downloadImage(imagePathOg, "capture-incridea.png");
+    await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
+    refetch();
   };
+    const { data: allDownloadLogs, isLoading: isDownloadLogLoading, refetch } = 
+    api.download.getAllLogs.useQuery();
+  
+  
+      const downloadCounts = useMemo(() => {
+        const counts: Record<number, number> = {};
+        if (allDownloadLogs) {
+          allDownloadLogs.forEach((log : any) => {
+            counts[log.image_id] = (counts[log.image_id] || 0) + 1;
+          });
+        }
+        return counts;
+      }, [allDownloadLogs]);
+    
+    const getDownloadCount = (image_id: number): string => {
+      if (isDownloadLogLoading) return "...";
+      return downloadCounts[image_id] ? `${downloadCounts[image_id]}` : "0";
+    };
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openRemovalPopup = (imagePath: string) => {
     setRemovalImage(imagePath);
@@ -93,8 +119,13 @@ const YourSnapsPage: React.FC = () => {
               <CaptureCard
                 imagePath={image.compressed_path ||image.image_path}
                 altText="Snaps image"
-                onClick={() => handleImageClick(image.compressed_path ||image.image_path)}
+                onClick={() => handleImageClick(image.compressed_path, image.image_path, image.id)}
               />
+               {session?.user.role === "admin" && (
+                  <div className="absolute inset-0 flex items-end justify-end text-white font-bold text-sm pointer-events-none">
+                    <FaDownload /> {getDownloadCount(image.id)}
+                  </div>
+                )}
             </div>
           );
         })}
@@ -102,10 +133,13 @@ const YourSnapsPage: React.FC = () => {
 
       <CapturePopup
         selectedImage={selectedImage}
+        selectedImageOg={selectedImageOg}
+        selectedImageId={selectedImageId}
         handleClosePopup={handleClosePopup}
         handleDownload={handleDownload}
         openRemovalPopup={openRemovalPopup}
         session_user = {session_user}
+        session_role={session?.user.role || 'user'}
       />
       
       <RequestRemovalModal

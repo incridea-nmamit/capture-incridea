@@ -131,6 +131,8 @@ body {
               radial-gradient(ellipse 70% 90% at 60%, #007dff88 0%, transparent 40%),
               linear-gradient(to bottom, #1c1b2e, #0b0a13); */
   background-blend-mode: multiply;
+
+  @apply font-Trap-Regular;
 }
 
 /* Golden Fade Animation Inside Text */
@@ -259,4 +261,26 @@ body {
   width: min(300px,80vw);
   height: 100%;
   position: relative;
+}
+
+
+
+
+
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  margin-left: -30px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 30px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */
+  background: grey;
+  margin-bottom: 30px;
 }

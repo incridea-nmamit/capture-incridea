@@ -18,23 +18,56 @@ export const galleryRouter = createTRPCRouter({
     .input(
       z.object({
         category: z.string().min(1, "Category is required"),
+        includeDownloadCount: z.boolean().optional(),
+        cursor: z.date().optional(), // Cursor is a string here to represent the `date_time` value
+        limit: z.number().min(1).max(100).optional(),
       })
     )
     .query(async ({ ctx, input }) => {
-      const { category } = input;
+      const { category, includeDownloadCount = false, cursor, limit = 30 } = input;
+
       const images = await ctx.db.gallery.findMany({
         where: {
           event_category: category,
           state: "approved",
-          upload_type: "direct"
+          upload_type: "direct",
+          ...(cursor && { date_time: { lt: cursor } }), // Filter based on cursor
         },
         orderBy: {
           date_time: "desc",
         },
+        take: limit,
+        select: {
+          id: true,
+          image_path: true,
+          compressed_path: true,
+          event_name: true,
+          event_category: true,
+          upload_type: true,
+          state: true,
+          date_time: true,
+          ...(includeDownloadCount && {
+            _count: {
+              select: {
+                downloadLog: true,
+              },
+            },
+          }),
+        },
       });
-      return images ?? [];
+
+      return {
+        images: images.map((gallery) => ({
+          ...gallery,
+          download_count: includeDownloadCount
+            ? gallery._count?.downloadLog ?? 0
+            : undefined,
+        })),
+        nextCursor: images.length > 0 ? images[images.length - 1]!.date_time : null,
+      };
     }),
-    getApprovedImagesByEventName: publicProcedure
+
+  getApprovedImagesByEventName: publicProcedure
     .input(
       z.object({
         eventName: z.string().min(1, "Category is required"),
@@ -62,7 +95,7 @@ export const galleryRouter = createTRPCRouter({
         event_name: z.string().optional(),
         event_category: z.string().min(1, "Event name is required"),
         uploadKeyOg: z.string().min(1, "Upload key is required"),
-        uploadKeyCompressed: z.string().min(1, "Upload key is required").optional(),
+        uploadKeyCompressed: z.string().min(1, "Upload key is required"),
         upload_type: z.string().min(1, "Type is required"),
       })
     )

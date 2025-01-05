@@ -12,8 +12,8 @@ const images = [
 ];
 
 function Images() {
-    const repeatDelay = 3;
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 3, yoyo: true,onReverseComplete: () => {
+    const repeatDelay = 1;
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: repeatDelay, yoyo: true,onReverseComplete: () => {
         tl.repeatDelay(repeatDelay);
         tl.play()
     }})
