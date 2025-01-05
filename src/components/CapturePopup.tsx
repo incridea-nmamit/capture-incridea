@@ -118,21 +118,21 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
           <div className="m-4">
             <div>
               <h4 className="font-Teknaf text-4xl text-center mb-6">Category name</h4>
-              <div className="flex flex-row gap-2 items-center border-2 border-white rounded-full p-4">
-                <div className="rounded-full border-2 border-white overflow-hidden h-24 aspect-square">
+              <div className="flex flex-row gap-2 items-center border-2 border-white rounded-full w-3/4 h-20">
+                <div className="rounded-full border-2 border-white overflow-hidden h-20 aspect-square">
                   <Image
                     src={selectedImage || "/images/fallback.jpg"}
                     className="w-full !h-full object-cover"
                     alt="Selected"
-                    width={100}
-                    height={100}
+                    width={70}
+                    height={70}
                     layout="responsive"
                   />
                 </div>
-                <div className="space-y-2 flex-grow flex flex-col text-center font-Trap-Regular">
-                  <span className="text-sm text-gray-400">Captured by</span>
-                  <span className="text-lg">member name</span>
-                  <span className="text-gray-400 text-sm">team name</span>
+                <div className=" flex-grow flex flex-col text-center font-Trap-Regular">
+                  <span className="text-xs text-gray-400">Captured by</span>
+                  <span className="text-xl">Member Name</span>
+                  <span className="text-gray-400 text-sm">Member Designation</span>
                 </div>
               </div>
             </div>
