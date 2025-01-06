@@ -8,13 +8,22 @@ export const TimeLine = () => {
 
     const years = [{
         title: 2022,
-        content: "Started working on Capture Incridea"
+        image1: "/images/2022/DSC08909.png",
+        image2: "/images/2022/IMG_0373.png",
+        image3: "/images/2022/IMG_2204.png",
+        image4: "/images/2022/IMG_9452.png",
     }, {
         title: 2023,
-        content: "Started working on Capture Incridea"
+        image1: "/images/2023/IMG_7455.png",
+        image2: "/images/2023/DSC_0300.png",
+        image3: "/images/2023/DSC_1080.png",
+        image4: "/images/2023/IMG_6193.png",
     }, {
         title: 2024,
-        content: "Started working on Capture Incridea"
+        image1: "/images/2024/MVB03544.png",
+        image2: "/images/2024/IMG_0162.png",
+        image3: "/images/2024/DSC05653.png",
+        image4: "/images/2024/MVB04911.png",
     }]
 
     const containerRef = useRef<HTMLDivElement>(null);
@@ -59,10 +68,10 @@ export const TimeLine = () => {
                         <div>
                             <div className='w-full h-full overflow-hidden max-h-[80vh]'>
                                 <div className='columns-2 '>
-                                    <img src="https://placehold.co/600x400" alt="" className='m-2' />
-                                    <img src="https://placehold.co/600x600" alt="" className='m-2' />
-                                    <img src="https://placehold.co/600x600" alt="" className='m-2' />
-                                    <img src="https://placehold.co/600x400" alt="" className='m-2' />
+                                    <img src={year.image3} alt="" className='m-2' />
+                                    <img src={year.image1} alt="" className='m-2' />
+                                    <img src={year.image2} alt="" className='m-2' />
+                                    <img src={year.image4} alt="" className='m-2' />
                                 </div>
                             </div>
                         </div>
