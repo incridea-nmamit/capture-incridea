@@ -14,10 +14,11 @@ interface UploadComponentProps {
   name: string; 
   category: string;
   type: string; 
+  authorid: number;
   handleClosePopup: () => void;
 }
 
-const UploadComponent: React.FC<UploadComponentProps> = ({ name, category ,type, handleClosePopup }) => {
+const UploadComponent: React.FC<UploadComponentProps> = ({ name, category ,type,authorid, handleClosePopup }) => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const mutation = api.gallery.addImage.useMutation({
     onSuccess: () => {
@@ -107,6 +108,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category ,type,
         uploadKeyOg: originalUrl,
         uploadKeyCompressed: compressedUrl,
         upload_type: type,
+        author_id: authorid
       });
       setIsLoading(false);
       handleClosePopup();

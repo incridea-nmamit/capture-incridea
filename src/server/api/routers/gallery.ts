@@ -97,6 +97,7 @@ export const galleryRouter = createTRPCRouter({
         uploadKeyOg: z.string().min(1, "Upload key is required"),
         uploadKeyCompressed: z.string().min(1, "Upload key is required"),
         upload_type: z.string().min(1, "Type is required"),
+        author_id: z.number().min(1, "Author Id is required"),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -108,6 +109,7 @@ export const galleryRouter = createTRPCRouter({
           event_name: input.event_category === "events" ? input.event_name : null,
           event_category: input.event_category,
           image_path: imageUrl,
+          authored_id: input.author_id,
           compressed_path: compressedUrl,
           state: auto_button != "OFF" ? "approved" : "pending",
           upload_type: input.upload_type

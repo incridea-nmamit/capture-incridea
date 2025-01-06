@@ -9,15 +9,18 @@ import useUserRole from '~/hooks/useUserRole';
 import GalleryBatchUpload from './BatchUpload';
 import { BsDashCircleFill } from "react-icons/bs";
 import UploadComponent from '../uploadCompressed';
+import { number } from 'zod';
 const CapturesAdmin: React.FC = () => {
   const { data: gallery, isLoading: galleryLoading, isError: galleryError, refetch } = api.gallery.getAllGallery.useQuery();
   const { data: events, isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
+  const { data: team, isLoading: teamsLoading } = api.team.getAllTeams.useQuery();
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [filteredGallery, setFilteredGallery] = useState(gallery || []);
   const [filters, setFilters] = useState({ state: '', event_category: '', event_name: '' });
-  const [newImage, setNewImage] = useState({ event_name: '', event_category: '', upload_type: '' });
+  const [newImage, setNewImage] = useState({ event_name: '', event_category: '', upload_type: '', author_id: 0 });
   const [uploadType, setUploadType] = useState<string>('');
+  const [authorid, setauthorid] = useState<number>();
   const deleteImage = api.gallery.deleteImage.useMutation();
   const [captureToDelete, setCaptureToDelete] = useState<{ id: number} | null>(null);
   const auditLogMutation = api.audit.log.useMutation();
@@ -38,7 +41,7 @@ const CapturesAdmin: React.FC = () => {
   };
   const handleAddCaptureClick = () => {
     setIsPopupOpen(true);
-    setNewImage({ event_name: '', event_category: 'events' , upload_type: 'direct'});
+    setNewImage({ event_name: '', event_category: 'events' , upload_type: 'direct' , author_id:0});
   };
 
   const handlePopupClose = () => {
@@ -47,7 +50,7 @@ const CapturesAdmin: React.FC = () => {
     newImage.event_name="";
     newImage.upload_type="direct";
     setIsPopupOpen(false);
-    setNewImage({ event_name: '', event_category: 'events',upload_type: 'direct' });
+    setNewImage({ event_name: '', event_category: 'events',upload_type: 'direct', author_id:0 });
     refetch();
   };
 
@@ -106,14 +109,28 @@ const CapturesAdmin: React.FC = () => {
       setNewImage((prev) => ({ ...prev, [name]: value }));
     }
   };
+  const handleAuthorChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewImage((prev) => ({
+      ...prev,
+      [name]: name === "author_id" ? Number(value) : value,
+    }));
+  };
+  
   
   const handleNextStep = () => {
-    if (!newImage.event_category || !newImage.upload_type || (newImage.event_category === 'events' && !newImage.event_name)) {
+    if (
+      !newImage.event_category || 
+      !newImage.upload_type || 
+      (newImage.event_category === 'events' && !newImage.event_name) || 
+      !newImage.author_id
+    ) {
       toast.error('Please fill in all required fields.', toastStyle);
       return;
     }
     setStep(2);
   };
+  
   
   const handleUploadTypeChange = (selectedUploadType: string) => {
     setUploadType(selectedUploadType);
@@ -275,6 +292,29 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                   </>
                 )}
 
+
+                  <>
+                    <label className="block mt-5 mb-2 text-left text-white">Author Name:</label>
+                    {teamsLoading ? (
+                    <select className="w-full p-2 rounded" disabled>
+                      <option>Loading Team...</option>
+                    </select>
+                  ) : (
+                  <select
+                    name="author_id"
+                    value={newImage.author_id}
+                    onChange={handleAuthorChange}
+                    className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
+                  >
+                    <option value="" disabled>Select an Author</option>
+                    {team?.map((team) => (
+                      <option key={team.id} value={team.id}>{team.name}</option>
+                    ))}
+                  </select>
+
+                    )}
+                  </>
+
                 <label className="block mt-5 mb-2 text-left text-white">Upload Type:</label>
                 <div className="flex items-center gap-4">
                 <label className="flex items-center text-white">
@@ -312,6 +352,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
               <UploadComponent
               name={newImage.event_name}
               category={newImage.event_category}
+              authorid={newImage.author_id}
               type={
                 uploadType === "direct"
                   ? "direct"
