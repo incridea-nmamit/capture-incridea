@@ -93,6 +93,7 @@ model Gallery {
   compressed_path String
   event_name      String?
   event_category  String
+  authored_id Int 
   upload_type     String
   state           Status
   date_time       DateTime      @default(now())
@@ -112,6 +113,7 @@ model Stories {
   id            Int      @id @default(sequence())
   video_path    String
   category_name String
+  authored_id Int
   date_time     DateTime @default(now())
 }
 
@@ -207,4 +209,11 @@ model GalleryLike {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   gallery   Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
   @@unique([userId, galleryId]) // Ensures a user can only like a gallery entry once
+}
+
+model Playbacks {
+  id         Int   @id @default(sequence())
+  videoPath  String
+  name String
+  description String
 }
