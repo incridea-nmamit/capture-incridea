@@ -105,7 +105,7 @@ model Smcuploads {
   id          Int      @id @default(sequence())
   video_path  String
   description String
-  authored_id Int
+  author String
   date_time   DateTime @default(now())
 }
 
