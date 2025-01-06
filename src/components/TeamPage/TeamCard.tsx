@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 interface CardProps {
   name: string;
   designation: string;
@@ -11,10 +9,10 @@ const TeamCard: React.FC<CardProps> = ({ name, designation, imageSrc, say }) => 
 //   return (
 //     <div className="border border-gray-600 rounded-lg p-4 shadow-2xl transition-transform transform hover:scale-105 h-72 w-52 bg-gradient-to-b from-gray-800 to-gray-700">
 //       <div className="relative w-40 h-40 overflow-hidden rounded-full mx-auto mb-4">
-//         <Image 
+//         <img 
 //           src={imageSrc} 
 //           alt={name} 
-//           layout="fill" 
+//            
 //           objectFit="cover" 
 //           className="rounded-full transition-transform duration-300 ease-in-out transform hover:scale-110" 
 //         />
@@ -30,10 +28,10 @@ const TeamCard: React.FC<CardProps> = ({ name, designation, imageSrc, say }) => 
 // return (
 //   <div className="border-2 border-gray-600 rounded-lg p-4 shadow-md transition-transform transform hover:scale-105 h-72 w-52 bg-transparent">
 //     <div className="relative w-40 h-40 overflow-hidden rounded-full border-2 border-gray-600 mx-auto mb-4">
-//       <Image 
+//       <img 
 //         src={imageSrc} 
 //         alt={name} 
-//         layout="fill" 
+//          
 //         objectFit="cover" 
 //         className="rounded-full" 
 //       />
@@ -49,10 +47,10 @@ const TeamCard: React.FC<CardProps> = ({ name, designation, imageSrc, say }) => 
 // return (
 //   <div className="border border-gray-600 rounded-lg p-4 shadow-lg transition-transform transform hover:-translate-y-1 hover:shadow-2xl h-72 w-52 bg-gray-800">
 //     <div className="relative w-40 h-40 overflow-hidden rounded-md mx-auto mb-4">
-//       <Image 
+//       <img 
 //         src={imageSrc} 
 //         alt={name} 
-//         layout="fill" 
+//          
 //         objectFit="cover" 
 //         className="transition-transform duration-300 ease-in-out transform hover:scale-110" 
 //       />
@@ -66,10 +64,10 @@ const TeamCard: React.FC<CardProps> = ({ name, designation, imageSrc, say }) => 
 // return (
 //   <div className="rounded-lg p-4 shadow-lg transition-transform transform hover:scale-105 h-72 w-52 bg-gray-900">
 //     <div className="relative w-40 h-40 overflow-hidden rounded-lg mx-auto mb-4">
-//       <Image 
+//       <img 
 //         src={imageSrc} 
 //         alt={name} 
-//         layout="fill" 
+//          
 //         objectFit="cover" 
 //         className="rounded-lg" 
 //       />
@@ -84,10 +82,10 @@ const TeamCard: React.FC<CardProps> = ({ name, designation, imageSrc, say }) => 
 // return (
 //   <div className="transform transition-transform hover:-translate-y-2 hover:scale-105 h-72 w-52 bg-gray-800 rounded-lg shadow-lg p-4">
 //     <div className="relative w-40 h-40 overflow-hidden rounded-full mx-auto mb-4">
-//       <Image 
+//       <img 
 //         src={imageSrc} 
 //         alt={name} 
-//         layout="fill" 
+//          
 //         objectFit="cover" 
 //         className="rounded-full" 
 //       />
@@ -102,11 +100,9 @@ const TeamCard: React.FC<CardProps> = ({ name, designation, imageSrc, say }) => 
 return (
   <div className="transform transition-transform hover:rotate-3 hover:scale-105 h-96 w-72 bg-gray-800 rounded-lg shadow-lg p-4">
     <div className="relative w-56 h-56 overflow-hidden rounded-md mx-auto mb-4">
-      <Image 
+      <img 
         src={imageSrc} 
         alt={name} 
-        layout="fill" 
-        objectFit="cover" 
         className="rounded-md transition-transform duration-300 ease-in-out transform hover:scale-110" 
       />
     </div>
@@ -124,10 +120,10 @@ return (
 //     <div className="absolute inset-0 bg-gray-900 bg-opacity-70 transition-opacity duration-300 group-hover:opacity-100"></div>
 //     <div className="relative h-full w-full p-4">
 //       <div className="relative w-40 h-40 overflow-hidden rounded-md mx-auto mb-4">
-//         <Image 
+//         <img 
 //           src={imageSrc} 
 //           alt={name} 
-//           layout="fill" 
+//            
 //           objectFit="cover" 
 //           className="rounded-md" 
 //         />

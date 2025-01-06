@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '~/utils/api';
-import Image from 'next/image';
+
 import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import { BsDashCircleFill } from 'react-icons/bs';// Adjust the import path as needed
@@ -76,7 +76,7 @@ const ApproveCaptures: React.FC = () => {
                   {item.event_category.charAt(0).toUpperCase() + item.event_category.slice(1)}
                 </td>
                 <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
-                  <Image
+                  <img
                     src={item.image_path}
                     alt={item.event_name || ''}
                     width={128}

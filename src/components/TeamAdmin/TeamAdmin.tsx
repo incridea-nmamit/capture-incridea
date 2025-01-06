@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { api } from '~/utils/api';
 import { FaSearch, FaTrash } from 'react-icons/fa';
 import UploadComponent from '../UploadComponent';
-import Image from 'next/image';
+
 import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import { useSession } from 'next-auth/react';
@@ -175,7 +175,7 @@ const TeamAdmin: React.FC = () => {
                 <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.designation}</td>
                 <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.say}</td>
                 <td className="py-2 px-4 border-b border-slate-700 text-center">
-                  <Image
+                  <img
                     src={team.image}
                     alt="Team Member"
                     width={16}

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import Image from 'next/image';
+
 import UploadComponent from '~/components/UploadComponent';
 import toast from 'react-hot-toast';
 
@@ -179,7 +179,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
             className="absolute inset-0 bg-transparent z-10"
             style={{ pointerEvents: "none" }} 
           />
-          <Image
+          <img
             src={imagePath || '/images/fallback.jpg'}
             alt="Removal Image"
             width={75}

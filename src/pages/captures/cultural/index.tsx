@@ -13,20 +13,27 @@ import ImagesMasonry from "~/components/ImagesMasonry";
 const Cultural = () => {
   const { data: session } = useSession();
   const session_user = session?.user.email || "";
-  const { data: images = [], isLoading, error } = api.gallery.getApprovedImagesByCategory.useQuery({ category: "cultural", includeDownloadCount: session?.user.role === "admin" });
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
   const router = useRouter();
+  
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Cultural" }
   );
+
+  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.gallery.getApprovedImagesByCategory.useInfiniteQuery({ category: "cultural", includeDownloadCount: session?.user.role === "admin" }, {
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+  },);
+
+  const images = data?.pages.map(page => page.images).flat() || []
   useEffect(() => {
     if (cardState === "inactive") {
       router.push("/captures");
     }
   }, [cardState, router]);
+
   const [selectedImageOg, setSelectedImageOg] = useState<string | null>(null);
   const [selectedImageId, setSelectedImageId] = useState<number | null>(null);
   const handleImageClick = (imagePath: string, imagePathOg: string, imageId: number) => {
@@ -39,26 +46,8 @@ const Cultural = () => {
   const handleDownload = async (imagePathOg: string) => {
     await downloadImage(imagePathOg, "capture-incridea.png");
     await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
-    // refetch();
   };
-  // const { data: allDownloadLogs, isLoading: isDownloadLogLoading, refetch } = 
-  // api.download.getAllLogs.useQuery();
 
-
-  //   const downloadCounts = useMemo(() => {
-  //     const counts: Record<number, number> = {};
-  //     if (allDownloadLogs) {
-  //       allDownloadLogs.forEach((log : any) => {
-  //         counts[log.image_id] = (counts[log.image_id] || 0) + 1;
-  //       });
-  //     }
-  //     return counts;
-  //   }, [allDownloadLogs]);
-
-  // const getDownloadCount = (image_id: number): string => {
-  //   if (isDownloadLogLoading) return "...";
-  //   return downloadCounts[image_id] ? `${downloadCounts[image_id]}` : "0";
-  // };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openRemovalPopup = (imagePath: string) => {
     setRemovalImage(imagePath);
@@ -101,13 +90,17 @@ const Cultural = () => {
         imagePath="https://utfs.io/f/0yks13NtToBitJchJ4NSCB2X9TSlbJxWYgG6rpN3n8swf4Fz"
       />
       <FallingClipart />
-      <ImagesMasonry images={images.map(image => ({
-        id: image.id,
-        compressed_path: image.compressed_path,
-        image_path: image.image_path,
-        onClick: () => handleImageClick(image.compressed_path, image.image_path, image.id),
-        downloadCount: image._count.downloadLog
-      }))} />
+      <ImagesMasonry
+        isFetchingNextPage={isFetchingNextPage}
+        fetchNextPage={fetchNextPage}
+        nextCursor={data?.pages.at(-1)?.nextCursor}
+        images={images.map(image => ({
+          id: image.id,
+          compressed_path: image.compressed_path,
+          image_path: image.image_path,
+          onClick: () => handleImageClick(image.compressed_path, image.image_path, image.id),
+          downloadCount: image._count?.downloadLog,
+        }))} />
 
 
       <CapturePopup

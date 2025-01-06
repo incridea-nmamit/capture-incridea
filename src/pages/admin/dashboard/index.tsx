@@ -57,7 +57,7 @@ const tabs = [
   },
   {
     name: "smc",
-    sideBarContent: ({} : any) => <>Stories Uploads <ImageUp size={18}/></>,
+    sideBarContent: ({} : any) => <>Stories Uploads <imgUp size={18}/></>,
     content: ()=><SMCUploads />,
     permittedRoles: [Role.admin, Role.editor, Role.smc]
   },

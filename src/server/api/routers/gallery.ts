@@ -66,28 +66,58 @@ export const galleryRouter = createTRPCRouter({
         nextCursor: images.length > 0 ? images[images.length - 1]!.date_time : null,
       };
     }),
-
   getApprovedImagesByEventName: publicProcedure
     .input(
       z.object({
-        eventName: z.string().min(1, "Category is required"),
+        eventName: z.string().min(1, "event name is required"),
+        includeDownloadCount: z.boolean().optional(),
+        cursor: z.date().optional(), // Cursor is a string here to represent the `date_time` value
+        limit: z.number().min(1).max(100).optional(),
       })
     )
     .query(async ({ ctx, input }) => {
-      const { eventName } = input;
+      const { eventName, includeDownloadCount = false, cursor, limit = 30 } = input;
+
       const images = await ctx.db.gallery.findMany({
         where: {
           event_name: eventName,
           state: "approved",
-          upload_type: "direct"
+          upload_type: "direct",
+          ...(cursor && { date_time: { lt: cursor } }), // Filter based on cursor
         },
         orderBy: {
           date_time: "desc",
         },
+        take: limit,
+        select: {
+          id: true,
+          image_path: true,
+          compressed_path: true,
+          event_name: true,
+          event_category: true,
+          upload_type: true,
+          state: true,
+          date_time: true,
+          ...(includeDownloadCount && {
+            _count: {
+              select: {
+                downloadLog: true,
+              },
+            },
+          }),
+        },
       });
-      return images ?? [];
-    }),
 
+      return {
+        images: images.map((gallery) => ({
+          ...gallery,
+          download_count: includeDownloadCount
+            ? gallery._count?.downloadLog ?? 0
+            : undefined,
+        })),
+        nextCursor: images.length > 0 ? images[images.length - 1]!.date_time : null,
+      };
+    }),
   // Add a new event
   addImage: protectedProcedure
     .input(

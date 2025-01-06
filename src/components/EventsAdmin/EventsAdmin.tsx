@@ -3,7 +3,7 @@
 // import UploadComponent from '../UploadComponent';
 // import { api } from '~/utils/api';
 // import type { Day, EventType } from '@prisma/client';
-// import Image from 'next/image';
+// 
 // import toast from 'react-hot-toast';
 // import CameraLoading from '../LoadingAnimation/CameraLoading';
 // import { useSession } from 'next-auth/react';
@@ -207,7 +207,7 @@
 //                     }[event.day] || event.day}
 //                   </td>
 //                   <td className="py-2 px-4 border-b border-slate-700 text-center w-16">
-//                     <Image src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
+//                     <img src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
 
 //                   </td>
 //                   <td className="py-2 px-4 border-b border-slate-700 text-center" onClick={() => handleDeleteClick(event.id, event.name)}>
@@ -379,7 +379,7 @@ const formSchema = z.object({
 import React, { useState } from 'react';
 import { FaSearch, FaTrash } from 'react-icons/fa';
 import { api } from '~/utils/api';
-import Image from 'next/image';
+
 import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import { useSession } from 'next-auth/react';
@@ -724,7 +724,7 @@ const EventsAdmin: React.FC = () => {
                     {eventDays[event.day]}
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center w-16">
-                    <Image src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
+                    <img src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
 
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">

@@ -1,5 +1,5 @@
 import { type FC, useState, useEffect } from "react";
-import Image from "next/image";
+
 import { usePathname } from "next/navigation";
 import { useSession, signOut, signIn } from "next-auth/react";
 import NavLink from "./NavLink";
@@ -45,7 +45,7 @@ const Header: FC = () => {
               href="/"
               className="mx-auto md:mx-0"
             >
-              <Image
+              <img
                 src="/images/Logo/capture-main.png"
                 alt="Logo"
                 width={150}

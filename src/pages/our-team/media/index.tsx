@@ -63,7 +63,7 @@ const MediaCommittee: React.FC = () => {
         backgroundImage="https://utfs.io/f/0yks13NtToBi9i0lf2ogikwWxTSynjh8EY7rbsRV6vKmQGft"
       />
       {/* Cards Section */}
-      <div className=" z-20 py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
+      <div className=" z-20 py-6 md:py-12 container-size flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
         {sortedTeamMembers.map((member, index) => (
           <TeamCard
             key={index}

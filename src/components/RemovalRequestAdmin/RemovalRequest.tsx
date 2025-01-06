@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { api } from '~/utils/api';
-import Image from 'next/image';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import toast from 'react-hot-toast';
 
@@ -12,7 +11,7 @@ const RemovalRequest: React.FC = () => {
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [actionType, setActionType] = useState<'approve' | 'decline' | null>(null);
   const [isActionInProgress, setIsActionInProgress] = useState(false);
-  const { data: removalRequests, isLoading: requestsLoading, isError: requestsError, refetch } = 
+  const { data: removalRequests, isLoading: requestsLoading, isError: requestsError, refetch } =
     api.request.getAll.useQuery();
   const auditLogMutation = api.audit.log.useMutation();
   const { data: session, status } = useSession();
@@ -50,19 +49,19 @@ const RemovalRequest: React.FC = () => {
         if (!response.ok) {
           toast.error('Failed to send Mail');
         }
-          toast.success('Response Mail Sent Successfully');
-          setIsActionInProgress(false);
-          await auditLogMutation.mutateAsync({
-            sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
-            description: `RemovalManagementAudit - Approved mail sent to ${email} for capture ID#${id}`,
-          });
+        toast.success('Response Mail Sent Successfully');
+        setIsActionInProgress(false);
+        await auditLogMutation.mutateAsync({
+          sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+          description: `RemovalManagementAudit - Approved mail sent to ${email} for capture ID#${id}`,
+        });
       } catch (error) {
         toast.error('An error occurred while sending the Mail.');
       }
     } else if (actionType === 'decline') {
       await declineMutation({ id: selectedRequest.id });
       const email = selectedRequest.email;
-      const id =selectedRequest.id;
+      const id = selectedRequest.id;
       try {
         const response = await fetch('/api/sendDeclineMail', {
           method: 'POST',
@@ -76,12 +75,12 @@ const RemovalRequest: React.FC = () => {
         if (!response.ok) {
           toast.error('Failed to send Mail');
         }
-          toast.success('Response Mail Sent Successfully');
-          setIsActionInProgress(false);
-          await auditLogMutation.mutateAsync({
-            sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
-            description: `RemovalManagementAudit - Declined mail sent to ${email} for capture ${id}`,
-          });
+        toast.success('Response Mail Sent Successfully');
+        setIsActionInProgress(false);
+        await auditLogMutation.mutateAsync({
+          sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+          description: `RemovalManagementAudit - Declined mail sent to ${email} for capture ${id}`,
+        });
       } catch (error) {
         toast.error('An error occurred while sending the Mail.');
       }
@@ -144,7 +143,7 @@ const RemovalRequest: React.FC = () => {
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{request.email}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{request.description}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
-                    <Image
+                    <img
                       src={request.image_path}
                       alt="Event image"
                       width={128}
@@ -153,7 +152,7 @@ const RemovalRequest: React.FC = () => {
                     />
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
-                    <Image
+                    <img
                       src={request.idcard}
                       alt="ID card"
                       width={128}

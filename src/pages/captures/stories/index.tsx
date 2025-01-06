@@ -27,7 +27,7 @@ const DATA = [
         likes: 10,
       },
     ],
-  },{
+  }, {
     name: "Event 1",
     icon: "https://utfs.io/f/0yks13NtToBiyMGDp5dKMt25jkdFfWpIvLESBusza14COqm3",
     images: [
@@ -42,7 +42,7 @@ const DATA = [
         likes: 10,
       },
     ],
-  },{
+  }, {
     name: "Event 1",
     icon: "https://utfs.io/f/0yks13NtToBiyMGDp5dKMt25jkdFfWpIvLESBusza14COqm3",
     images: [
@@ -57,7 +57,7 @@ const DATA = [
         likes: 10,
       },
     ],
-  },{
+  }, {
     name: "Event 1",
     icon: "https://utfs.io/f/0yks13NtToBiyMGDp5dKMt25jkdFfWpIvLESBusza14COqm3",
     images: [
@@ -149,7 +149,7 @@ const Stories = () => {
       {DATA.map((category, index) => (
         <div
           key={category.name}
-          className={`story-wrapper relative flex rounded-lg ${activeCategory === index ? "bg-red-700" : "bg-gray-700"
+          className={`story-wrapper overflow-hidden relative flex rounded-lg ${activeCategory === index ? "bg-red-700" : "bg-gray-700"
             }`}
           ref={(el) => {
             if (el) categoriesRef.current[index] = el;
@@ -170,7 +170,7 @@ const Stories = () => {
           </div>
 
           {/* Overlay Content */}
-          <div className="absolute inset-0 p-4 flex flex-col justify-between">
+          <div className="absolute inset-0 p-4 flex flex-col justify-between" >
             {/* Header */}
             <div className="w-full">
               <div className="flex items-center gap-2">

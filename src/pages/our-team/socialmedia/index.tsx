@@ -63,7 +63,7 @@ const SocialMediaPage: React.FC = () => {
         backgroundImage="https://utfs.io/f/0yks13NtToBiNScub3pjzD2wWm5AylYHcVfipk40e8O9RubF"
       />
       {/* Cards Section */}
-      <div className=" z-20 text-white py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
+      <div className="text-white py-6 md:py-12 container-size flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8">
         {/* Render Card components for each team member */}
         {sortedTeamMembers.map((member, index) => (
             <TeamCard

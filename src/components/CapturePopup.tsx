@@ -1,5 +1,5 @@
 import { Heart, Share2 } from "lucide-react";
-import Image from "next/image";
+
 
 interface CapturePopupProps {
   selectedImage: string | null;
@@ -36,11 +36,9 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
 
       <div className="max-w-[80vw] max-h-[90vh] w-full h-full grid grid-cols-1 md:grid-cols-2 bg-primary-900 gap-4 rounded-lg" >
         <div className="bg-slate-800 h-full grid place-content-center rounded-lg border-white border-2 overflow-hidden m-4">
-          <Image src={selectedImage || "/images/fallback.jpg"}
+          <img src={selectedImage || "/images/fallback.jpg"}
             alt="Selected"
-            width={200}
-            height={200}
-            layout="responsive" />
+             />
         </div>
 
         <div className="flex flex-col justify-between">
@@ -49,12 +47,12 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
               <h4 className="font-Teknaf text-4xl text-center mb-6">Category name</h4>
               <div className="flex flex-row gap-2 items-center border-2 border-white rounded-lg p-4">
                 <div className="rounded-full border-2 border-white overflow-hidden h-24 aspect-square">
-                  <Image src={selectedImage || "/images/fallback.jpg"}
+                  <img src={selectedImage || "/images/fallback.jpg"}
                     className="w-full !h-full object-cover"
                     alt="Selected"
                     width={100}
                     height={100}
-                    layout="responsive" />
+                     />
                 </div>
                 <div className="space-y-2 flex-grow flex flex-col text-center font-Trap-Regular">
                   <span className="text-sm text-gray-400">Captured by</span>
