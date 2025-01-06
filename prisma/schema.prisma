@@ -194,12 +194,6 @@ model Variables {
   value String
 }
 
-model CaptureLike {
-  id           Int    @id @default(sequence())
-  captureId    Int
-  session_user String
-}
-
 model VerifiedEmail {
   id    Int    @id @default(sequence())
   email String
