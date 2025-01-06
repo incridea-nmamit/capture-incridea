@@ -1,6 +1,7 @@
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+import Image from 'next/image';
 import { useRef } from "react";
 gsap.registerPlugin(ScrollTrigger);
 
@@ -67,12 +68,12 @@ export const TimeLine = () => {
 
                         <div>
                             <div className='w-full h-full overflow-hidden max-h-[80vh]'>
-                                <div className='columns-2 '>
-                                    <img src={year.image3} alt="" className='m-2' />
-                                    <img src={year.image1} alt="" className='m-2' />
-                                    <img src={year.image2} alt="" className='m-2' />
-                                    <img src={year.image4} alt="" className='m-2' />
-                                </div>
+                            <div className="columns-2">
+                                <Image src={year.image3} alt="Past-Year Images" width={600} height={400} className="m-2" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}/>
+                                <Image src={year.image1} alt="Past-Year Images" width={600} height={600} className="m-2" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}/>
+                                <Image src={year.image2} alt="Past-Year Images" width={600} height={600} className="m-2" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}/>
+                                <Image src={year.image4} alt="Past-Year Images" width={600} height={400} className="m-2" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}/>
+                            </div>
                             </div>
                         </div>
                     </>
