@@ -1,6 +1,7 @@
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+import Image from 'next/image';
 import { useRef } from "react";
 gsap.registerPlugin(ScrollTrigger);
 
@@ -8,13 +9,22 @@ export const TimeLine = () => {
 
     const years = [{
         title: 2022,
-        content: "Started working on Capture Incridea"
+        image1: "/images/2022/DSC08909.png",
+        image2: "/images/2022/IMG_0373.png",
+        image3: "/images/2022/IMG_2204.png",
+        image4: "/images/2022/IMG_9452.png",
     }, {
         title: 2023,
-        content: "Started working on Capture Incridea"
+        image1: "/images/2023/IMG_7455.png",
+        image2: "/images/2023/DSC_0300.png",
+        image3: "/images/2023/DSC_1080.png",
+        image4: "/images/2023/IMG_6193.png",
     }, {
         title: 2024,
-        content: "Started working on Capture Incridea"
+        image1: "/images/2024/MVB03544.png",
+        image2: "/images/2024/IMG_0162.png",
+        image3: "/images/2024/DSC05653.png",
+        image4: "/images/2024/MVB04911.png",
     }]
 
     const containerRef = useRef<HTMLDivElement>(null);
@@ -58,12 +68,12 @@ export const TimeLine = () => {
 
                         <div>
                             <div className='w-full h-full overflow-hidden max-h-[80vh]'>
-                                <div className='columns-2 '>
-                                    <img src="https://placehold.co/600x400" alt="" className='m-2' />
-                                    <img src="https://placehold.co/600x600" alt="" className='m-2' />
-                                    <img src="https://placehold.co/600x600" alt="" className='m-2' />
-                                    <img src="https://placehold.co/600x400" alt="" className='m-2' />
-                                </div>
+                            <div className="columns-2">
+                                <Image src={year.image3} alt="Past-Year Images" width={600} height={400} className="m-2" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}/>
+                                <Image src={year.image1} alt="Past-Year Images" width={600} height={600} className="m-2" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}/>
+                                <Image src={year.image2} alt="Past-Year Images" width={600} height={600} className="m-2" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}/>
+                                <Image src={year.image4} alt="Past-Year Images" width={600} height={400} className="m-2" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}/>
+                            </div>
                             </div>
                         </div>
                     </>

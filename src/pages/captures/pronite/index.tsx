@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import downloadImage from "~/utils/downloadUtils";
 import TitleDescription from "~/components/TitleDescription";
@@ -29,7 +29,6 @@ const pronite = () => {
       router.push("/captures");
     }
   }, [cardState, router]);
-
   const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.gallery.getApprovedImagesByCategory.useInfiniteQuery({ category: "pronite", includeDownloadCount: session?.user.role === "admin" }, {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   },);
@@ -46,8 +45,10 @@ const pronite = () => {
   const handleDownload = async (imagePathOg: string) => {
     await downloadImage(imagePathOg, "capture-incridea.png");
     await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
-    //TODO: update download count for downloaded image
+    refetch();
   };
+  const { refetch } = api.download.getAllLogs.useQuery();
+
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openRemovalPopup = (imagePath: string) => {
@@ -113,6 +114,7 @@ const pronite = () => {
         openRemovalPopup={openRemovalPopup}
         session_user={session_user}
         session_role={session?.user.role || 'user'}
+        sessionId={session?.user.id || ""}
       />
 
       <RequestRemovalModal

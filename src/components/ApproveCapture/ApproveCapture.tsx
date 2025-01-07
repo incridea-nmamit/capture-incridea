@@ -3,9 +3,9 @@ import { api } from '~/utils/api';
 
 import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
-import { BsDashCircleFill } from 'react-icons/bs';// Adjust the import path as needed
-import CapturePopup from '../CapturePopup';
+import { BsDashCircleFill } from 'react-icons/bs';
 import PopupComponent from './PopupComponent';
+import ScrollableContainer from '../ScrollableDiv';
 
 const ApproveCaptures: React.FC = () => {
   const { data: gallery, isLoading, isError, refetch } = api.gallery.getAllGallery.useQuery();
@@ -56,7 +56,7 @@ const ApproveCaptures: React.FC = () => {
     <div className="p-4">
       <h1 className="text-4xl font-Teknaf mb-8 py-5 text-center">Approve Captures</h1>
 
-      <div className="overflow-x-auto">
+      <ScrollableContainer className='overflow-x-auto'>
         <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
           <thead className="bg-white">
             <tr>
@@ -68,7 +68,7 @@ const ApproveCaptures: React.FC = () => {
           </thead>
           <tbody>
             {pendingCaptures?.map(item => (
-              <tr key={item.id} className="hover:bg-gray-50 hover:text-black">
+              <tr key={item.id} className="hover:bg-gray-900/90">
                 <td className="py-2 px-4 border-b border-slate-700 text-center">
                   {item.event_name || <BsDashCircleFill />}
                 </td>
@@ -89,13 +89,13 @@ const ApproveCaptures: React.FC = () => {
                   <div className="flex flex-col gap-2">
                     <button
                       onClick={() => handleRequestDecision(item.id, 'approve')}
-                      className="bg-green-500 text-white py-1 px-3 rounded mr-2 w-28"
+                      className="bg-green-500 text-white py-1 px-3 rounded mr-2 w-28 hover:scale-105"
                     >
                       Approve
                     </button>
                     <button
                       onClick={() => handleRequestDecision(item.id, 'decline')}
-                      className="bg-red-500 text-white py-1 px-3 rounded w-28"
+                      className="bg-red-500 text-white py-1 px-3 rounded w-28 hover:scale-105"
                     >
                       Decline
                     </button>
@@ -105,7 +105,7 @@ const ApproveCaptures: React.FC = () => {
             ))}
           </tbody>
         </table>
-      </div>
+      </ScrollableContainer>
 
       {selectedCapture && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 backdrop-blur-sm">
@@ -117,15 +117,14 @@ const ApproveCaptures: React.FC = () => {
             <div className="flex justify-center gap-4 w-full">
               <button
                 onClick={handleAction}
-                className={`${
-                  selectedCapture.action === 'approve' ? 'bg-green-600' : 'bg-red-600'
-                } font-BebasNeue text-white px-4 py-2 rounded`}
+                className={`${selectedCapture.action === 'approve' ? 'bg-green-600' : 'bg-red-600'
+                  } font-BebasNeue text-white px-4 py-2 rounded  hover:scale-105`}
               >
                 {selectedCapture.action.charAt(0).toUpperCase() + selectedCapture.action.slice(1)}
               </button>
               <button
                 onClick={() => setSelectedCapture(null)}
-                className="bg-gray-600 font-BebasNeue text-white px-4 py-2 rounded"
+                className="bg-gray-600 font-BebasNeue text-white px-4 py-2 rounded hover:scale-105"
               >
                 Cancel
               </button>

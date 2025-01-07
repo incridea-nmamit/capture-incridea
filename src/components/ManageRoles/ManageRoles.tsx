@@ -3,6 +3,8 @@ import { api } from '~/utils/api';
 import { User } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
+import ScrollableContainer from '../ScrollableDiv';
+import SearchInput from '../ui/search-input';
 
 // Define a type for roles
 type Role = 'admin' | 'manager' | 'smc' | 'editor' | 'user';
@@ -28,7 +30,7 @@ const ManageRoles = () => {
   useEffect(() => {
     if (usersData) {
       setUsers(usersData);
-      setFilteredUsers(usersData); 
+      setFilteredUsers(usersData);
     }
   }, [usersData]);
 
@@ -43,7 +45,7 @@ const ManageRoles = () => {
         })
       );
     } else {
-      setFilteredUsers(users); 
+      setFilteredUsers(users);
     }
   }, [searchTerm, users]);
 
@@ -75,58 +77,59 @@ const ManageRoles = () => {
       <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center">Manage Roles</h1>
 
       {/* Search Bar and Role Count Buttons */}
-      <div className="mb-4 flex flex-col gap-10 justify-between items-center font-Trap-Regular text-sm">
-        <div className="flex justify-center">
-          <input
-            type="text"
-            placeholder="Search by Name or Email"
-            className="p-2 w-full border rounded-3xl text-center bg-primary-950/50 text-white"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      <div className='dashboard-grid'>
+
+        <SearchInput
+          type="text"
+          placeholder="Search..."
+          className="dashboard-search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        <div className="dashboard-controls flex gap-2 w-full justify-start items-center">
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28"> Admin-{roleCounts['admin'] || 0}</div>
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Manager-{roleCounts['manager'] || 0} </div>
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Editor-{roleCounts['editor'] || 0} </div>
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">SMC-{roleCounts['smc'] || 0} </div>
+          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Users-{roleCounts['user'] || 0} </div>
         </div>
 
-        <div className="flex space-x-4">
-          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28"> Admin-{roleCounts['admin']||0}</div>
-          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Manager-{roleCounts['manager']||0} </div>
-          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Editor-{roleCounts['editor']||0} </div>
-          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">SMC-{roleCounts['smc']||0} </div>
-          <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Users-{roleCounts['user'] ||0} </div>
-        </div>
+        <ScrollableContainer className='dashboard-table'>
+          <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Email</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Role</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Change Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredUsers.map((user) => (
+                <tr key={user.id} className="text-center hover:bg-gray-800/90">
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{user.name}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{user.email}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{user.role}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                    <button
+                      className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+                      onClick={() => {
+                        setSelectedUserId(user.id);
+                        setSelectedUserName(user.name);
+                        setNewRole(user.role);
+                        setIsPopupOpen(true);
+                      }}
+                    >
+                      Change Role
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </ScrollableContainer>
       </div>
-
-      <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
-            <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Email</th>
-            <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Role</th>
-            <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Change Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredUsers.map((user) => (
-            <tr key={user.id} className="text-center">
-              <td className="py-2 px-4 border-b border-slate-700 text-center">{user.name}</td>
-              <td className="py-2 px-4 border-b border-slate-700 text-center">{user.email}</td>
-              <td className="py-2 px-4 border-b border-slate-700 text-center">{user.role}</td>
-              <td className="py-2 px-4 border-b border-slate-700 text-center">
-                <button
-                  className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
-                  onClick={() => {
-                    setSelectedUserId(user.id);
-                    setSelectedUserName(user.name);
-                    setNewRole(user.role);
-                    setIsPopupOpen(true);
-                  }}
-                >
-                  Change Role
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
 
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">

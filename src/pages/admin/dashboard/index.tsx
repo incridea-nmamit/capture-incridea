@@ -12,31 +12,42 @@ import Stories from '~/components/Stories/Stories';
 import ApproveCaptures from '~/components/ApproveCapture/ApproveCapture';
 import ControlComponent from '~/components/ControlAdmin/ControlComponent';
 import { Role } from '@prisma/client';
-import { Aperture, Bell, BookCheck, CalendarCog, GalleryHorizontalEnd, ImageUp, Settings, UserCog, Users } from 'lucide-react';
+import { Aperture, ArrowRight, Bell, BookCheck, CalendarCog, ChevronLeft, ChevronRight, GalleryHorizontalEnd, ImageUp, Settings, UserCog, Users } from 'lucide-react';
+
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+  SidebarProvider,
+  SidebarTrigger,
+} from "~/components/ui/sidebar"
 
 const tabs = [
   {
     name: "events",
-    sideBarContent: ({} : any) => <><div className='w-full'>Events </div><CalendarCog size={18}/></>,
-    content: ()=><EventsAdmin />,
+    sideBarContent: ({ }: any) => <><div className='w-full'>Events </div><CalendarCog size={18} /></>,
+    content: () => <EventsAdmin />,
     permittedRoles: [Role.admin, Role.manager]
   },
   {
     name: "captures",
-    sideBarContent: ({} : any) => <> <div className='w-full'>Captures </div><Aperture size={18}/></>,
-    content: ()=><CapturesAdmin />,
+    sideBarContent: ({ }: any) => <> <div className='w-full'>Captures </div><Aperture size={18} /></>,
+    content: () => <CapturesAdmin />,
     permittedRoles: [Role.admin, Role.manager, Role.editor]
   },
   {
     name: "team",
-    sideBarContent: ({} : any) => <><div className='w-full'>Teams </div><Users size={18}/></>,
-    content: ()=><TeamAdmin />,
+    sideBarContent: ({ }: any) => <><div className='w-full'>Teams </div><Users size={18} /></>,
+    content: () => <TeamAdmin />,
     permittedRoles: [Role.admin, Role.manager]
   },
   {
     name: "roles",
-    sideBarContent: ({} : any) => <><div className='w-full'>User Roles </div><UserCog size={18}/></>,
-    content: ()=><ManageRoles />,
+    sideBarContent: ({ }: any) => <><div className='w-full'>User Roles </div><UserCog size={18} /></>,
+    content: () => <ManageRoles />,
     permittedRoles: [Role.admin]
   },
   {
@@ -45,32 +56,32 @@ const tabs = [
       <span className="bg-yellow-300 text-black text-xs rounded-full aspect-square w-5 grid place-content-center">
         {pendingCount}
       </span>
-    )}<Bell size={18}/> </>,
-    content: ()=><RemovalRequest />,
+    )}<Bell size={18} /> </>,
+    content: () => <RemovalRequest />,
     permittedRoles: [Role.admin, Role.manager, Role.editor]
   },
   {
     name: "controls",
-    sideBarContent: ({} : any) => <><div className='w-full'>Settings</div> <Settings size={18}/></>,
-    content: ()=><ControlComponent />,
+    sideBarContent: ({ }: any) => <><div className='w-full'>Settings</div> <Settings size={18} /></>,
+    content: () => <ControlComponent />,
     permittedRoles: [Role.admin]
   },
   {
     name: "smc",
-    sideBarContent: ({} : any) => <>Stories Uploads <imgUp size={18}/></>,
-    content: ()=><SMCUploads />,
+    sideBarContent: ({ }: any) => <>Stories Uploads <ImageUp size={18} /></>,
+    content: () => <SMCUploads />,
     permittedRoles: [Role.admin, Role.editor, Role.smc]
   },
   {
     name: "stories",
-    sideBarContent: ({} : any) => <>Capture Stories <GalleryHorizontalEnd  size={18}/></>,
-    content: ()=><Stories />,
+    sideBarContent: ({ }: any) => <>Capture Stories <GalleryHorizontalEnd size={18} /></>,
+    content: () => <Stories />,
     permittedRoles: [Role.admin, Role.editor, Role.manager]
   },
   {
     name: "approvecap",
-    sideBarContent: ({} : any) => <>Approve Captures <BookCheck size={18} /></>,
-    content: ()=><ApproveCaptures />,
+    sideBarContent: ({ }: any) => <>Approve Captures <BookCheck size={18} /></>,
+    content: () => <ApproveCaptures />,
     permittedRoles: [Role.admin, Role.manager]
   }
 ];
@@ -127,45 +138,61 @@ const Dashboard = () => {
     }
   };
 
-  const renderTabNavigation = () => (
-    <div className="flex flex-col mb-4 gap-4">
-      {
-        tabs.map((tab) => {
-          //happens string matching underthehood so not a problem
-          //@ts-ignore
-          if (tab.permittedRoles.includes(session?.user.role)) {
-            return (
-              <button
-                key={tab.name}
-                onClick={() => {
-                  setActiveTab(tab.name);
-                }}
-                className={`relative flex items-center font-Trap-Regular text-md h-16 justify-center gap-2 text-center p-2 rounded-lg ${activeTab === tab.name
-                  ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
-                  : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
-                  } transition duration-200`}
-              >
-                {tab.sideBarContent({pendingCount})}
-              </button>
-            );
-          }
-          return null;
-        }
-        )
-      }
-    </div>
-  );
+  const renderTabNavigation = (open: boolean) => (
 
-  return (
-    <div className="flex flex-col md:flex-row bg-primary-950/50 text-white min-h-screen">
-      {/* Sidebar */}
-      <div className="md:w-48 w-full p-4 bg-primary-900">
-        {renderTabNavigation()}
+    <div className={`absolute lg:relative bg-primary-900 pt-20 max-w-48 transition-all ${open && "-ml-48"} z-20`} >
+
+
+      <div className='relative p-4'>
+        <div className="flex flex-col mb-4 gap-4 bg-primary-900 relative">
+          {
+            tabs.map((tab) => {
+              //happens string matching underthehood so not a problem
+              //@ts-ignore
+              if (tab.permittedRoles.includes(session?.user.role)) {
+                return (
+                  <button
+                    key={tab.name}
+                    onClick={() => {
+                      setActiveTab(tab.name);
+                    }}
+                    className={`relative flex items-center font-Trap-Regular text-md h-16 justify-center gap-2 text-center p-2 rounded-lg ${activeTab === tab.name
+                      ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+                      : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+                      } transition duration-200`}
+                  >
+                    {tab.sideBarContent({ pendingCount })}
+                  </button>
+                );
+              }
+              return null;
+            }
+            )
+          }
+
+        </div>
+        <button className='absolute right-0 translate-x-full max-w-6 h-20 bg-gray-800 p-2 grid place-content-center rounded top-1/2 -translate-y-1/2' onClick={() => setOpen(o => !o)}>
+          {open ? <ChevronRight /> : <ChevronLeft />}
+        </button>
       </div>
 
-      {/* Content Area */}
-      <div className="md:w-5/6 w-full min-h-screen p-4">
-        {renderComponent()}
+    </div>
+
+  );
+
+
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <div className="bg-primary-950/50 text-white min-h-screen">
+      <div className='flex flex-row'>
+        {renderTabNavigation(open)}
+        <main className='w-full'>
+
+          <div className="w-full min-h-screen p-4 mt-20">
+            {renderComponent()}
+          </div>
+        </main>
       </div>
     </div>
   );

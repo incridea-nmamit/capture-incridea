@@ -402,6 +402,8 @@ import {
 } from "~/components/ui/select"
 import { ScrollArea } from "../ui/scroll-area"
 import { eventDays, eventTypes } from '~/utils/constants';
+import ScrollableContainer from '../ScrollableDiv';
+import SearchInput from '../ui/search-input';
 
 const EventsAdmin: React.FC = () => {
   const addEvent = api.events.addEvent.useMutation();
@@ -421,18 +423,6 @@ const EventsAdmin: React.FC = () => {
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState<{ id: number; name: string } | null>(null);
 
-  const ScrollableDiv = styled.div`
-  max-height: 60vh;
-  overflow-y: scroll;
-
-  /* Hide scrollbar in WebKit browsers (Chrome, Safari, Edge) */
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Firefox: hide scrollbar */
-  scrollbar-width: none;
-`;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -510,259 +500,260 @@ const EventsAdmin: React.FC = () => {
   return (
     <div className="p-4">
       <h1 className='flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center'>Event Data and Management</h1>
-      <div className="mb-4 flex gap-2 flex-wrap">
-        <div className="relative w-1/2">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="font-Trap-Regular text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-primary-950/50"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <div className="absolute left-3 top-6 transform -translate-y-1/2 text-gray-600">
-            <FaSearch />
-          </div>
-        </div>
+      <div className='dashboard-grid'>
+        <SearchInput
+          type="text"
+          placeholder="Search..."
+          className="dashboard-search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
 
-        <Select onValueChange={(value) => setSelectedDay(value)} value={selectedDay} >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select day" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="all" defaultChecked>All Days</SelectItem>
-              {Object.entries(eventDays).map(([key, val]) => <SelectItem value={key} key={key}>{val}</SelectItem>)}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <div className='dashboard-controls flex gap-2 w-full justify-start items-center'>
+          <Select onValueChange={(value) => setSelectedDay(value)} value={selectedDay} >
+            <SelectTrigger className='select'>
+              <SelectValue placeholder="Select day" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="all" defaultChecked>All Days</SelectItem>
+                {Object.entries(eventDays).map(([key, val]) => <SelectItem value={key} key={key}>{val}</SelectItem>)}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
 
-        <Select onValueChange={(value) => setSelectedEventType(value)} value={selectedEventType} >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select Event" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="all" defaultChecked>All Category</SelectItem>
-              {Object.entries(eventTypes).map(([key, val]) => <SelectItem value={key} key={key}>{val}</SelectItem>)}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-
-        <Dialog>
-          <DialogTrigger>
-            <Button
-            >
-              Add Event
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogTitle><h2 className="text-2xl font-bold text-white" >Add Event</h2></DialogTitle>
-            <ScrollArea className="h-[60vh]">
-              <DialogDescription>
-
-                <Form {...form}>
+          <Select onValueChange={(value) => setSelectedEventType(value)} value={selectedEventType} >
+            <SelectTrigger className='select'>
+              <SelectValue placeholder="Select Event" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="all" defaultChecked>All Category</SelectItem>
+                {Object.entries(eventTypes).map(([key, val]) => <SelectItem value={key} key={key}>{val}</SelectItem>)}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
 
 
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-4">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Name</FormLabel>
-                          <FormControl>
-                            <Input {...field} className="p-2 w-full border border-slate-700 rounded-xl h-12 bg-black text-white" />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+          <Dialog>
+            <DialogTrigger>
+              <Button
+                className='w-full'
+              >
+                Add Event
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogTitle><h2 className="text-2xl font-bold text-white" >Add Event</h2></DialogTitle>
+              <ScrollArea className="h-[60vh]">
+                <DialogDescription>
 
-                    <FormField
-                      control={form.control}
-                      name="uploadUrl"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Name</FormLabel>
-                          <FormControl>
-                            <Input {...field} className="p-2 w-full border border-slate-700 rounded-xl h-12 bg-black text-white" value={uploadUrl} hidden />
-                            {/* <UploadComponent
+                  <Form {...form}>
+
+
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-4">
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Name</FormLabel>
+                            <FormControl>
+                              <Input {...field} className="p-2 w-full border border-slate-700 rounded-xl h-12 bg-black text-white" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="uploadUrl"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Name</FormLabel>
+                            <FormControl>
+                              <Input {...field} className="p-2 w-full border border-slate-700 rounded-xl h-12 bg-black text-white" value={uploadUrl} hidden />
+                              {/* <UploadComponent
                               onUploadComplete={handleUploadComplete}
                               resetUpload={() => setUploadUrl('')}
                               onUploadBegin={() => setUploading(true)}
                             /> */}
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="description"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Description</FormLabel>
-                          <FormControl>
-                            <Textarea {...field} className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white" />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="shortDescription"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Short Description</FormLabel>
-                          <FormControl>
-                            <textarea {...field} className="p-2 w-full border border-slate-700 rounded-xl h-12 bg-black text-white" />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="type"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Type</FormLabel>
-
-                          <Select  {...field}
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select day" />
-                              </SelectTrigger>
                             </FormControl>
-                            <SelectContent>
-                              <SelectGroup>
-                                {Object.entries(eventTypes).map(([key, val]) => {
-                                  return <SelectItem value={key} key={key} className="cursor-pointer hover:bg-accent">{val}</SelectItem>
-                                })}
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                              <Textarea {...field} className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name="day"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Day</FormLabel>
-                          <FormControl>
-                            <Select  {...field}>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select day" />
-                              </SelectTrigger>
+                      <FormField
+                        control={form.control}
+                        name="shortDescription"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Short Description</FormLabel>
+                            <FormControl>
+                              <textarea {...field} className="p-2 w-full border border-slate-700 rounded-xl h-12 bg-black text-white" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="type"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Type</FormLabel>
+
+                            <Select  {...field}
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              value={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select day" />
+                                </SelectTrigger>
+                              </FormControl>
                               <SelectContent>
                                 <SelectGroup>
-                                  {Object.entries(eventDays).map(([key, val]) => {
+                                  {Object.entries(eventTypes).map(([key, val]) => {
                                     return <SelectItem value={key} key={key} className="cursor-pointer hover:bg-accent">{val}</SelectItem>
                                   })}
                                 </SelectGroup>
                               </SelectContent>
                             </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
 
-                    <Button type="submit" className="mt-4 p-2 bg-white text-black rounded-xl w-full" disabled={isSubmitting || uploading}>
-                      {isSubmitting ? 'Submitting...' : 'Submit'}
-                    </Button>
-                  </form>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                </Form>
+                      <FormField
+                        control={form.control}
+                        name="day"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Day</FormLabel>
+                            <FormControl>
+                              <Select  {...field}>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select day" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectGroup>
+                                    {Object.entries(eventDays).map(([key, val]) => {
+                                      return <SelectItem value={key} key={key} className="cursor-pointer hover:bg-accent">{val}</SelectItem>
+                                    })}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-              </DialogDescription>
-            </ScrollArea>
-          </DialogContent>
-        </Dialog>
+                      <Button type="submit" className="mt-4 p-2 bg-white text-black rounded-xl w-full" disabled={isSubmitting || uploading}>
+                        {isSubmitting ? 'Submitting...' : 'Submit'}
+                      </Button>
+                    </form>
+
+                  </Form>
+
+                </DialogDescription>
+              </ScrollArea>
+            </DialogContent>
+          </Dialog>
+        </div>
+
+        {/* Events Table */}
+        {isLoading ? (
+          <CameraLoading />
+        ) : isError ? (
+          <div className=''>Error loading events. Please try again later.</div>
+        ) : (
+          <ScrollableContainer className='dashboard-table'>
+            <table className="min-w-full bg-primary-950/50 border border-slate-700 font-Trap-Regular text-sm rounded-lg">
+              <thead className='sticky top-0  z-10'>
+                <tr className='text-black bg-gray-100 font-Trap-Regular'>
+                  <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
+                  <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Description</th>
+                  <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Category</th>
+                  <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Day</th>
+                  <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Background</th>
+                  <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Delete</th>
+                  <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Visibility</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredEvents?.map((event) => (
+                  <tr key={event.id} className='hover:bg-gray-800/90'>
+                    <td className=" py-2 px-4 border-b border-slate-700 text-center  text-xs">{event.name}</td>
+                    <td className=" py-2 px-4 w-56 border-b border-slate-700 text-center text-xs">{event.description}</td>
+                    <td className=" py-2 px-4 border-b border-slate-700 text-center text-xs">{eventTypes[event.type]}
+                    </td>
+                    <td className=" py-2 px-4 border-b border-slate-700 text-center text-xs">
+                      {eventDays[event.day]}
+                    </td>
+                    <td className="py-2 px-4 border-b border-slate-700 text-center w-16">
+                      <img src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
+
+                    </td>
+                    <td className="py-2 px-4 border-b border-slate-700 text-center">
+                      <button onClick={() => handleDeleteClick(event.id, event.name)}>
+                        <FaTrash className="text-red-600 hover:text-red-800" />
+                      </button>
+                    </td>
+                    <td
+                      className="py-2 px-4 border-b border-slate-700 text-center cursor-pointer"
+                    >
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={event.visibility === 'active'}
+                          onChange={async () => {
+                            const newValue = event.visibility === 'active' ? 'inactive' : 'active';
+                            const id = event.id;
+                            const name = event.name;
+                            await updateVisibility.mutateAsync({ id });
+                            await auditLogMutation.mutateAsync({
+                              sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
+                              description: `EventManagementAudit - ${name} visibility set to ${newValue}`,
+                            });
+                            toast.success(`${name} visibility set to ${newValue}`);
+                            refetch();
+                          }}
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-red-500 peer-checked:bg-green-500 rounded-full peer-focus:ring-2 peer-focus:ring-green-300 transition"></div>
+                        <div className="absolute top-0.5 left-1 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
+                      </label>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </ScrollableContainer>
+        )}
       </div>
 
-      {/* Events Table */}
-      {isLoading ? (
-        <CameraLoading />
-      ) : isError ? (
-        <div className=''>Error loading events. Please try again later.</div>
-      ) : (
-          <ScrollableDiv>
-          <table className="min-w-full bg-primary-950/50 border border-slate-700 my-5 font-Trap-Regular text-sm">
-            <thead>
-              <tr className='text-black bg-gray-100 font-Trap-Regular'>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Description</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Category</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Day</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Background</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Delete</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Visibility</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredEvents?.map((event) => (
-                <tr key={event.id} className='hover:bg-gray-50 hover:text-black font-Trap-Regular'>
-                  <td className=" py-2 px-4 border-b border-slate-700 text-center  text-xs">{event.name}</td>
-                  <td className=" py-2 px-4 w-56 border-b border-slate-700 text-center text-xs">{event.description}</td>
-                  <td className=" py-2 px-4 border-b border-slate-700 text-center text-xs">{eventTypes[event.type]}
-                  </td>
-                  <td className=" py-2 px-4 border-b border-slate-700 text-center text-xs">
-                    {eventDays[event.day]}
-                  </td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center w-16">
-                    <img src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
-
-                  </td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">
-                    <button onClick={() => handleDeleteClick(event.id, event.name)}>
-                      <FaTrash className="text-red-600 hover:text-red-800" />
-                    </button>
-                  </td>
-                  <td
-                    className="py-2 px-4 border-b border-slate-700 text-center cursor-pointer"
-                  >
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={event.visibility === 'active'}
-                        onChange={async () => {
-                          const newValue = event.visibility === 'active' ? 'inactive' : 'active';
-                          const id = event.id;
-                          const name = event.name;
-                          await updateVisibility.mutateAsync({ id });
-                          await auditLogMutation.mutateAsync({
-                            sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
-                            description: `EventManagementAudit - ${name} visibility set to ${newValue}`,
-                          });
-                          toast.success(`${name} visibility set to ${newValue}`);
-                          refetch();
-                        }}
-                        className="sr-only peer"
-                      />
-                      <div className="w-11 h-6 bg-red-500 peer-checked:bg-green-500 rounded-full peer-focus:ring-2 peer-focus:ring-green-300 transition"></div>
-                      <div className="absolute top-0.5 left-1 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
-                    </label>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          </ScrollableDiv>
-      )}
+      <div className='dashboard-blank'></div>
 
       <Dialog open={isDeletePopupOpen} onOpenChange={setIsDeletePopupOpen}>
         <DialogContent>

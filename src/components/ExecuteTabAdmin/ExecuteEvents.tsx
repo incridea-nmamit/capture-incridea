@@ -33,7 +33,7 @@ const ExecuteEvents = () => {
           {cards?.map((card: Card) => (
             <tr
               key={card.id}
-              className="cursor-pointer hover:bg-gray-700"
+              className="cursor-pointer hover:bg-gray-800/90"
             >
               <td className="py-2 px-4 border text-center">{card.cardName}</td>
               <td className="py-2 px-4 border text-center">

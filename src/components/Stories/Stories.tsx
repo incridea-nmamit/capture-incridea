@@ -159,7 +159,7 @@ const Stories: React.FC = () => {
             </thead>
             <tbody>
               {stories?.map((story) => (
-                <tr key={story.id} className="hover:bg-gray-50 hover:text-black">
+                <tr key={story.id} className="hover:bg-gray-800/90">
                   <td className="py-2 px-4 border-b text-center">{story.category_name}</td>
                   <td className="py-2 px-4 border-b text-center flex justify-center">
                     <video src={story.video_path} width={120} height={80} controls />

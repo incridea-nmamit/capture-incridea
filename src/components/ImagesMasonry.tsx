@@ -53,9 +53,14 @@ export default function ImagesMasonry({ images, nextCursor, isFetchingNextPage, 
                             onClick={image.onClick}
                             prefech />
 
-                        {image.downloadCount != null && <div className="absolute bottom-0 p-2 right-0 gap-1 flex items-center justify-end  text-white font-bold text-sm pointer-events-none">
-                            <FaDownload /> {image.downloadCount}
-                        </div>}
+                        {image.downloadCount != null && (
+                            <div className="absolute bottom-0 p-2 right-0 gap-1 flex items-center justify-end text-white font-bold text-sm pointer-events-none">
+                                <FaDownload />
+                                {image.downloadCount}
+                            </div>
+                        )}
+
+
                     </div>
                 </ImageListItem>
             ))}

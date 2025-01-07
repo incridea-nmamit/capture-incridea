@@ -6,10 +6,29 @@ import UploadComponent from '../UploadComponent';
 import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import { useSession } from 'next-auth/react';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { ScrollArea } from '@radix-ui/react-scroll-area';
+import { styled } from 'styled-components';
+import { Button } from '../ui/button';
+import SearchInput from '../ui/search-input';
 
 type Committee = 'media' | 'socialmedia' | 'developer';
 
 const TeamAdmin: React.FC = () => {
+
+  const ScrollableDiv = styled.div`
+  max-height: 60vh;
+  overflow-y: scroll;
+
+  /* Hide scrollbar in WebKit browsers (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Firefox: hide scrollbar */
+  scrollbar-width: none;
+`;
+
   const { data: teams, isLoading, isError, refetch } = api.team.getAllTeams.useQuery();
   const addTeam = api.team.addTeam.useMutation();
   const deleteTeam = api.team.deleteTeam.useMutation();
@@ -28,7 +47,7 @@ const TeamAdmin: React.FC = () => {
   });
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [teamToDelete, setTeamToDelete] = useState<{ id: number; name: string } | null>(null);
-  const resetUpload = () => setUploadUrl(''); 
+  const resetUpload = () => setUploadUrl('');
 
   useEffect(() => {
     setTeamForm((prev) => ({
@@ -41,7 +60,7 @@ const TeamAdmin: React.FC = () => {
     const { name, value } = e.target;
     setTeamForm((prev) => ({ ...prev, [name]: value }));
   };
-  
+
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -74,7 +93,7 @@ const TeamAdmin: React.FC = () => {
       toast.success(`Added a team member ${teamForm.name} as ${teamForm.designation} for ${teamForm.committee}`);
     } catch (error) {
       toast.error(`Error adding team: ${teamForm.name}`);
-    } finally  {
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -119,85 +138,82 @@ const TeamAdmin: React.FC = () => {
   return (
     <div className="relative">
       <h1 className="flex justify-center text-center text-4xl font-Teknaf mb-8 py-5">Team Data and Management</h1>
-      <div className="flex items-center mb-4 space-x-2 h-12">
-        <div className="relative w-1/2">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-primary-950/50 font-BebasNeue"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600">
-            <FaSearch />
-          </div>
+      <div className="dashboard-grid">
+      <SearchInput
+          type="text"
+          placeholder="Search..."
+          className="dashboard-search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        <div className='dashboard-controls justify-start items-center flex gap-2'>
+          <Select onValueChange={(value) => setSelectedFilter(value)} value={selectedFilter} >
+            <SelectTrigger className='select'>
+              <SelectValue placeholder="Select day" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="all" defaultChecked>All Days</SelectItem>
+                {['media', 'socialmedia', 'developer'].map((option) => <SelectItem key={option} value={option}>{option.charAt(0).toUpperCase() + option.slice(1)}</SelectItem>)}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          <Button
+            className='w-full text-black bg-white'
+            onClick={() => setIsPopupOpen(true)}
+          >
+            Add Event
+          </Button>
         </div>
 
-        <select
-          className="font-BebasNeue ml-2 p-2 border border-slate-700 rounded-xl text-white h-full bg-primary-950/50"
-          value={selectedFilter}
-          onChange={(e) => setSelectedFilter(e.target.value)}
-        >
-          <option value="all">All Committees</option>
-          {['media', 'socialmedia', 'developer'].map((option) => (
-            <option key={option} value={option}>
-              {option.charAt(0).toUpperCase() + option.slice(1)}
-            </option>
-          ))}
-        </select>
-
-        <button
-          className="font-BebasNeue ml-2 p-2 border border-slate-700 rounded-xl w-32 text-white h-full bg-primary-950/50"
-          onClick={() => setIsPopupOpen(true)}
-        >
-          Add Member
-        </button>
+        <ScrollableDiv className="dashboard-table" >
+          <table className="min-w-full bg-primary-950/50 border border-slate-700 scrollable-table font-Trap-Regular text-sm">
+            <thead  className='sticky top-0  z-10'>
+              <tr className="text-black bg-gray-100">
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Committee</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Position</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Say</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Image</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredTeams?.map((team) => (
+                <tr key={team.id} className="hover:bg-gray-800/90">
+                  <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.name}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.committee}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.designation}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.say}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                    <img
+                      src={team.image}
+                      alt="Team Member"
+                      width={16}
+                      height={16}
+                      className="w-16 h-16 object-cover"
+                    />
+                  </td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center" onClick={() => handleDeleteClick(team.id, team.name)}>
+                    <button onClick={() => handleDeleteClick(team.id, team.name)}>
+                      <FaTrash className="text-red-600 hover:text-red-800" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {!filteredTeams?.length && (
+                <tr>
+                  <td colSpan={6} className="py-2 px-4 border-b border-slate-700 text-center">No teams found.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </ScrollableDiv>
       </div>
 
-      {/* Team data table */}
-      <div className="overflow-x-auto py-5" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
-        <table className="min-w-full bg-primary-950/50 border border-slate-700 scrollable-table font-Trap-Regular text-sm">
-          <thead>
-            <tr className="text-black bg-gray-100">
-              <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
-              <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Committee</th>
-              <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Position</th>
-              <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Say</th>
-              <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Image</th>
-              <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredTeams?.map((team) => (
-              <tr key={team.id} className="hover:bg-gray-50 hover:text-black">
-                <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.name}</td>
-                <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.committee}</td>
-                <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.designation}</td>
-                <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.say}</td>
-                <td className="py-2 px-4 border-b border-slate-700 text-center">
-                  <img
-                    src={team.image}
-                    alt="Team Member"
-                    width={16}
-                    height={16}
-                    className="w-16 h-16 object-cover"
-                  />
-                </td>
-                <td className="py-2 px-4 border-b border-slate-700 text-center" onClick={() => handleDeleteClick(team.id, team.name)}>
-                  <button onClick={() => handleDeleteClick(team.id, team.name)}>
-                    <FaTrash className="text-red-600 hover:text-red-800" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {!filteredTeams?.length && (
-              <tr>
-                <td colSpan={6} className="py-2 px-4 border-b border-slate-700 text-center">No teams found.</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+
 
       {/* Delete confirmation popup */}
       {isDeletePopupOpen && (

@@ -1,4 +1,5 @@
 
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { type FC } from "react";
 
@@ -21,11 +22,11 @@ const EventCard: FC<EventCardProps> = ({ name, description, background }) => {
       className="relative w-72 h-72 rounded-lg overflow-hidden border border-gray-700 shadow-md transition-transform duration-300 transform hover:scale-105"
       onClick={handleCardClick}
     >
-      <img
+      <Image
         src={background}
         alt={name}
-        // fill
-        // quality={20}
+        fill
+        quality={20}
         className="object-cover w-72 h-72"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent p-4 flex flex-col justify-end">
