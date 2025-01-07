@@ -48,7 +48,7 @@ export default function ImagesMasonry({ images, nextCursor, isFetchingNextPage, 
                 <ImageListItem key={image.id} className="grid place-content-center place-items-center">
                     <div className="relative w-fit h-fit">
                         <CaptureCard
-                            imagePath={image.compressed_path || image.image_path}
+                            imagePath={image.compressed_path}
                             altText="Snaps image"
                             onClick={image.onClick}
                             prefech />
