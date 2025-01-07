@@ -155,6 +155,7 @@ const Dashboard = () => {
                     key={tab.name}
                     onClick={() => {
                       setActiveTab(tab.name);
+                      setOpen(o => !o)
                     }}
                     className={`relative flex items-center font-Trap-Regular text-md h-16 justify-center gap-2 text-center p-2 rounded-lg ${activeTab === tab.name
                       ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
