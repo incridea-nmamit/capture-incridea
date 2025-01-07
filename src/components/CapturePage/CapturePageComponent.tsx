@@ -34,14 +34,14 @@ const CapturesComponent = () => {
       description: "Explore the behind-the-scenes moments.",
       imagePath: "https://utfs.io/f/0yks13NtToBiR2RImlGmqjGOIgx47y3cAJSCbQ1V82Nitrsf",
       link: "/captures/behindincridea",
-      priority: 4,
+      priority: 7,
     },
     {
       title: "Cultural",
       description: "Feast your eyes to the glorious display of traditional brilliance paired alongside the glitzy, modern era",
       imagePath: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4",
       link: "/captures/cultural",
-      priority: 5,
+      priority: 4,
     },
     {
       title: "Stories",
@@ -51,18 +51,11 @@ const CapturesComponent = () => {
       priority: 5,
     },
     {
-      title: "Flashmobs",
-      description: "Hop in to watch the teasers for the events that fly by during the buildup to Incridea '25",
-      imagePath: "https://utfs.io/f/0yks13NtToBiNNw4AKjzD2wWm5AylYHcVfipk40e8O9RubFS",
-      link: "/captures/flashmobs",
-      priority: 5,
-    },
-    {
       title: "Cultural Playbacks",
       description: "Stories captured for you",
       imagePath: "https://utfs.io/f/0yks13NtToBiNNw4AKjzD2wWm5AylYHcVfipk40e8O9RubFS",
       link: "/captures/cultural-playbacks",
-      priority: 5,
+      priority: 6,
     },
   ];
 
@@ -99,14 +92,14 @@ const CapturesComponent = () => {
       <div
         className="container-size bg-cover bg-center flex flex-col items-center justify-start z-30"
       >
-        <h1 className="text-6xl md:text-6xl text-white font-Teknaf mb-5 z-30">Captures</h1>
-        <p className="text-lg text-center max-w-3xl text-gray-400 mb-12 z-20 font-Trap-Regular">
+        <h1 className="text-6xl md:text-6xl text-white font-Teknaf mb-5 z-30 mt-10">Captures</h1>
+        <p className="text-lg text-center max-w-3xl text-gray-400 mb-16 z-20 font-Trap-Regular">
         A picture is worth a thousand words, that’s why we let our captures do the talking. 
         Explore the moments showcasing the best of our techno-cultural fest.
         Relive the highlights and immerse yourself in the spirit of our college community as we celebrate the unforgettable moments that make Incridea truly special!
         </p>
 
-        <div className="flex flex-col md:px-28 md:flex-row gap-12 flex-wrap justify-center z-30">
+        <div className="flex flex-col md:px-28 md:flex-row gap-12 flex-wrap justify-center z-30 mb-20">
           {sortedCards.map((card, index) => (
             <CapturePageCard
               key={index}

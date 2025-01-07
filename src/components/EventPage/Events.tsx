@@ -37,7 +37,7 @@ const Events: FC = () => {
 
   return (
     <div className=" min-h-screen container-size">
-      <div className="flex flex-row md:flex-row items-center gap-4 mb-8 font-Trap-Regular">
+      <div className="flex flex-row md:flex-row items-center gap-4 font-Trap-Regular mt-10">
         <div className="relative flex-grow">
           <input
             type="text"
@@ -67,7 +67,7 @@ const Events: FC = () => {
           {Object.entries(eventDays).map(type=><option className="text-white bg-primary-950/50" value={type[0]}>{type[1]}</option>)}
         </select>
       </div>
-      <div className="flex flex-wrap justify-center gap-6 mt-6">
+      <div className="flex flex-wrap justify-center gap-6 mt-10 mb-20">
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event, index) => (
             <div

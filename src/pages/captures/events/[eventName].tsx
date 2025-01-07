@@ -92,7 +92,7 @@ const EventCaptures = () => {
           {formattedEventName} Captures
         </h1>
         <div className="flex justify-center mb-10 font-Trap-Regular">
-          {event?.description && <p className="text-center text-gray-400 mb-16 w-3/4">{event.description}</p>}
+          {event?.description && <p className="text-center text-gray-400 mb-5 w-3/4">{event.description}</p>}
         </div>
       </div>
       <ImagesMasonry

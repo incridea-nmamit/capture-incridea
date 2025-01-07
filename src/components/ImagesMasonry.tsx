@@ -42,10 +42,10 @@ export default function ImagesMasonry({ images, nextCursor, isFetchingNextPage, 
     }, []);
 
     const columnCount = useResponsiveColumns({ 350: 1, 750: 2, 900: 3, 1024: 4 })
-    return <div className="container-size pt-8">
-        <ImageList variant="masonry" cols={columnCount} gap={8}>
+    return <div className="container-size pt-8 ">
+        <ImageList variant="masonry" cols={columnCount} gap={8} className="mb-20">
             {images.map((image) => (
-                <ImageListItem key={image.id} className="grid place-content-center place-items-center">
+                <ImageListItem key={image.id} className="grid place-content-center place-items-center ">
                     <div className="relative w-fit h-fit">
                         <CaptureCard
                             imagePath={image.compressed_path}

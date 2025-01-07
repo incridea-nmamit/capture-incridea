@@ -49,7 +49,7 @@ export const TimeLine = () => {
 
     return (
         <section className='container-size mx-auto mt-20 my-20'>
-            <h3 className="mb-16 w-full font-Teknaf text-5xl md:text-6xl lg:text-6xl text-center">Explore the past memory</h3>
+            <h3 className="mb-16 w-full mt-10 font-Teknaf text-5xl md:text-6xl lg:text-6xl text-center">Explore the past memory</h3>
             <div className='grid gap-8 relative'
                 style={{
                     gridTemplateColumns: "20% auto"
@@ -67,7 +67,7 @@ export const TimeLine = () => {
                         </div>
 
                         <div>
-                            <div className='w-full h-full overflow-hidden max-h-[80vh]'>
+                            <div className='w-full h-full overflow-hidden max-h-[80vh] mb-32'>
                             <div className="columns-2">
                                 <Image src={year.image3} alt="Past-Year Images" width={600} height={400} className="m-2" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}/>
                                 <Image src={year.image1} alt="Past-Year Images" width={600} height={600} className="m-2" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}/>

@@ -43,7 +43,7 @@ const OurTeam = () => {
         </p>
 
         {/* Cards Container */}
-        <div className="flex flex-col md:flex-row gap-8 flex-wrap justify-center z-20">
+        <div className="flex flex-col md:flex-row gap-8 flex-wrap justify-center z-20 m-16">
           {teams.map((team, index) => (
             <TeamCommitteeCard
               key={index}
