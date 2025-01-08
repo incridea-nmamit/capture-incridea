@@ -5,11 +5,19 @@ import Image from "next/image";
 
 // please use the images which are 600x600 cuz its not optimised for mobile view due to gsap
 const images = [
-  { src: "/images/2022/DSC08909.png" },
-  { src: "/images/2022/IMG_0373.png" },
-  { src: "/images/2023/IMG_7455.png" },
-  { src: "/images/2024/IMG_0162.png" },
-  { src: "/images/2024/img5.jpeg" },
+    { src: "/images/landing-images/img1.png" },
+    { src: "/images/landing-images/img2.png" },
+    { src: "/images/landing-images/img3.png" },
+    { src: "/images/landing-images/img4.png" },
+    { src: "/images/landing-images/img5.png" },
+    { src: "/images/landing-images/img5.png" },
+    { src: "/images/landing-images/img6.png" },
+    { src: "/images/landing-images/img7.png" },
+    { src: "/images/landing-images/img8.png" },
+    { src: "/images/landing-images/img9.png" },
+    { src: "/images/landing-images/img10.png" },
+    { src: "/images/landing-images/img11.png" },
+    { src: "/images/landing-images/img12.png" },
 ];
 
 function Images() {
