@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { api } from '~/utils/api';
@@ -70,7 +71,7 @@ const GalleryBatchUpload = () => {
   const eventNames = Array.from(new Set(gallery?.map((item: GalleryItem) => item.event_name) || []));
 
   return (
-    <div className="p-4 bg-primary-950/50 rounded-lg shadow-md">
+    <div className="p-4 bg-neutral-950 rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-4 text-white">Gallery Batch Upload</h1>
       <label htmlFor="batch" className="block mb-2 text-lg font-semibold text-white">
         Batch Name:
@@ -81,7 +82,7 @@ const GalleryBatchUpload = () => {
             id="batch"
             value={selectedBatch}
             onChange={(e) => setSelectedBatch(e.target.value)}
-            className="block w-full p-2 border rounded-md bg-primary-950/50 text-white"
+            className="block w-full p-2 border rounded-md bg-neutral-950 text-white"
           >
             <option value="" disabled>
               Select a batch
@@ -131,7 +132,7 @@ const GalleryBatchUpload = () => {
                 <td className="border border-gray-300 px-4 py-2">{item.event_category}</td>
                 <td className="border border-gray-300 px-4 py-2">{item.state}</td>
                 <td className="border border-gray-300 px-4 py-2">
-                  <img
+                  <Image
                     src={item.image_path}
                     alt={item.event_name || 'Image'}
                     className="w-16 h-16 object-cover"

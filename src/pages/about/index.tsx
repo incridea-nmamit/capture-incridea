@@ -129,7 +129,7 @@ const About = () => {
             {
               cards.map(card => (<div key={card.name} className='h-44 aspect-video rounded-lg overflow-hidden relative hover:border-blue-600 hover:border-2'>
 
-                <img src={card.image} width={800} height={300} alt="capture logo" className='mx-auto w-full h-full object-cover' />
+                <Image src={card.image} width={800} height={300} alt="capture logo" className='mx-auto w-full h-full object-cover' />
 
                 <div className='absolute inset-0 hover:bg-black/55 transition-all grid place-content-center group/card'>
                   <span className='group-hover/card:translate-y-0 translate-y-10 transition-all opacity-0 group-hover/card:opacity-100' >

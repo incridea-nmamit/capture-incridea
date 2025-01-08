@@ -10,6 +10,7 @@ import GalleryBatchUpload from './BatchUpload';
 import { BsDashCircleFill } from "react-icons/bs";
 import UploadComponent from '../uploadCompressed';
 import { number } from 'zod';
+import Image from 'next/image';
 const CapturesAdmin: React.FC = () => {
   const { data: gallery, isLoading: galleryLoading, isError: galleryError, refetch } = api.gallery.getAllGallery.useQuery();
   const { data: events, isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
@@ -160,7 +161,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
         {(userRole === 'admin' || userRole === 'editor') && (
           <button
             onClick={handleAddCaptureClick}
-            className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-primary-950/50 font-BebasNeue"
+            className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-BebasNeue"
           >
             Add Capture
           </button>
@@ -173,7 +174,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
             handleFilterChange(e);
             applyFilters(); // Apply filters dynamically
           }}
-          className="p-2 border border-slate-700 rounded-xl bg-primary-950/50 text-white font-BebasNeue"
+          className="p-2 border border-slate-700 rounded-xl bg-neutral-950 text-white font-BebasNeue"
         >
           <option value="">Filter by Category</option>
           <option value="events">Events</option>
@@ -198,7 +199,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                   handleFilterChange(e);
                   applyFilters();
                 }}
-                className="p-2 border border-slate-700 rounded-xl bg-primary-950/50 text-white font-BebasNeue"
+                className="p-2 border border-slate-700 rounded-xl bg-neutral-950 text-white font-BebasNeue"
               >
                 <option value="">Filter by Event</option>
                 {events?.map((event) => (
@@ -217,7 +218,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
         <div>Error loading gallery. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
-          <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
+          <table className="min-w-full border border-gray-300 bg-neutral-950 font-Trap-Regular text-sm">
             <thead className="bg-white">
               <tr>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center ">Event-Name</th>
@@ -233,7 +234,7 @@ if (eventsLoading || galleryLoading) return <CameraLoading/>;
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.event_category.charAt(0).toUpperCase() + item.event_category.slice(1)}</td>
 
                   <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
-                    <img src={item.image_path} alt={item.event_name||""} width={20} height={20} className="h-20 w-20 object-cover" />
+                    <Image src={item.image_path} alt={item.event_name||""} width={20} height={20} className="h-20 w-20 object-cover" />
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center" onClick={() => handleDeleteClick(item.id)}>
                     <button onClick={() => handleDeleteClick(item.id)}>

@@ -53,8 +53,8 @@ const Events: FC = () => {
           onChange={(e) => setSelectedEventType(e.target.value.toLowerCase())}
           className="p-2 border-slate-700 rounded-xl bg-transparent h-12 text-white"
         >
-          <option className="text-white bg-primary-950/50" value="all">All Categories</option>
-          {Object.entries(eventTypes).map(type=><option className="text-white bg-primary-950/50" value={type[0]}>{type[1]}</option>)}
+          <option className="text-white bg-neutral-950" value="all">All Categories</option>
+          {Object.entries(eventTypes).map(type=><option className="text-white bg-neutral-950" value={type[0]}>{type[1]}</option>)}
           
         </select>
         <select
@@ -63,8 +63,8 @@ const Events: FC = () => {
           onChange={(e) => setSelectedDay(e.target.value)}
           className="p-2 border-slate-700 rounded-xl bg-transparent h-12 text-white"
         >
-          <option className="text-white bg-primary-950/50" value="all">All Days</option>
-          {Object.entries(eventDays).map(type=><option className="text-white bg-primary-950/50" value={type[0]}>{type[1]}</option>)}
+          <option className="text-white bg-neutral-950" value="all">All Days</option>
+          {Object.entries(eventDays).map(type=><option className="text-white bg-neutral-950" value={type[0]}>{type[1]}</option>)}
         </select>
       </div>
       <div className="flex flex-wrap justify-center gap-6 mt-10 mb-20">

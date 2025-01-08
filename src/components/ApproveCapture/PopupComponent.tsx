@@ -1,3 +1,4 @@
+import Image from "next/image";
 
 
 interface PopupProps {
@@ -28,7 +29,7 @@ const PopupComponent: React.FC<PopupProps> = ({
           </button>
         </div>
         <div className="flex justify-center py-10">
-          <img
+          <Image
             src={selectedImage || "/images/fallback.jpg"}
             alt="Selected"
             width={200}

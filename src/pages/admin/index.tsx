@@ -53,7 +53,7 @@ function Admin() {
 
   if (session) {
     return (
-      <div className="flex items-center justify-center min-h-screen  bg-primary-950/50 text-white bg-cover">
+      <div className="flex items-center justify-center min-h-screen  bg-neutral-950 text-white bg-cover">
         <div className="text-center ">
           <h1 className="text-5xl font-Teknaf mb-4 ">
             Welcome to the {session.user.role.toUpperCase()} Panel <br/>

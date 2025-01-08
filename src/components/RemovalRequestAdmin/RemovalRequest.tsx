@@ -3,6 +3,7 @@ import { useSession } from 'next-auth/react';
 import { api } from '~/utils/api';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 const RemovalRequest: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<string>('pending');
@@ -122,7 +123,7 @@ const RemovalRequest: React.FC = () => {
         <div>Error loading requests. Please try again later.</div>
       ) : (
         <div className="overflow-x-auto py-5" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
-          <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
+          <table className="min-w-full border border-gray-300 bg-neutral-950 font-Trap-Regular text-sm">
             <thead className="bg-white">
               <tr>
                 <th className="text-black border border-gray-300 p-2">Name</th>
@@ -143,7 +144,7 @@ const RemovalRequest: React.FC = () => {
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{request.email}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{request.description}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
-                    <img
+                    <Image
                       src={request.image_path}
                       alt="Event image"
                       width={128}
@@ -152,7 +153,7 @@ const RemovalRequest: React.FC = () => {
                     />
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
-                    <img
+                    <Image
                       src={request.idcard}
                       alt="ID card"
                       width={128}

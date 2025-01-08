@@ -6,7 +6,7 @@ const SearchInput: React.FC<React.ComponentPropsWithoutRef<'input'>> = ({ childr
         <input
             type="text"
             placeholder={placeholder ?? "Search..."}
-            className={cn("font-Trap-Regular text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-primary-950/50", className)}
+            className={cn("font-Trap-Regular text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-neutral-950", className)}
             {...rest}
         />
         <div className="absolute left-3 top-6 transform -translate-y-1/2 text-gray-600">

@@ -1,3 +1,5 @@
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 import React, { useState } from 'react';
 import UploadComponent from '~/components/uploadCompressed';
 
@@ -12,7 +14,7 @@ const UploadPage: React.FC = () => {
       alert('URL copied to clipboard!');
     });
   };
-
+  const {data: session} = useSession();
   const name = "Test_Name";
   const category = "Test_Category"; 
   const type = "Test_Type"; 
@@ -26,6 +28,7 @@ const UploadPage: React.FC = () => {
           category={category} 
           type ={type}
           handleClosePopup={() => console.log("Popup closed!")}
+          authorid={0}
         />
       </div>
 
@@ -39,7 +42,7 @@ const UploadPage: React.FC = () => {
                 <p className="text-lg font-semibold mb-3 text-gray-700">Image {index + 1}</p>
                 <div className="flex gap-4 mb-4">
                   <div className="w-1/2">
-                    <img
+                    <Image
                       src={image.original}
                       alt={`Original ${index + 1}`}
                       className="w-full h-48 object-cover rounded-md"
@@ -52,7 +55,7 @@ const UploadPage: React.FC = () => {
                     </button>
                   </div>
                   <div className="w-1/2">
-                    <img
+                    <Image
                       src={image.compressed}
                       alt={`Compressed ${index + 1}`}
                       className="w-full h-48 object-cover rounded-md"

@@ -4,7 +4,7 @@ import FallingClipart from '~/components/BackgroundFallAnimation/FallingClipart'
 
 const NotRegistered: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-primary-950/50 text-gray-200 text-center p-6 backdrop-blur-md">
+    <div className="flex flex-col items-center justify-center h-screen bg-neutral-950 text-gray-200 text-center p-6 backdrop-blur-md">
       <FallingClipart/>
       <h1 className="text-5xl font-semibold mb-6 text-shadow-lg text-center">
         We are sorry !

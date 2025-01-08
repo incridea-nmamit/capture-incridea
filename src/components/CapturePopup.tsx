@@ -104,7 +104,7 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
       aria-modal="true"
       onClick={handleClosePopup}
     >
-      <div className="max-w-[80vw] max-h-[90vh] w-full h-full grid grid-cols-1 md:grid-cols-2 bg-primary-900 gap-4 rounded-lg" onClick={e=>e.stopPropagation()}>
+      <div className="max-w-[80vw] max-h-[90vh] w-full h-full grid grid-cols-1 md:grid-cols-2 bg-neutral-950 gap-4 rounded-lg" onClick={e=>e.stopPropagation()}>
         <div className="bg-slate-800 h-full grid place-content-center rounded-lg overflow-hidden m-4">
           <Image
             src={selectedImage || "/images/fallback.jpg"}

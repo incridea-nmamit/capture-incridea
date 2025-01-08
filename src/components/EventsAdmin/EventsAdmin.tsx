@@ -128,7 +128,7 @@
 //           <input
 //             type="text"
 //             placeholder="Search..."
-//             className="font-BebasNeue text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-primary-950/50"
+//             className="font-BebasNeue text-white p-2 pl-10 border border-slate-700 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-white h-12 bg-neutral-950"
 //             value={searchTerm}
 //             onChange={(e) => setSearchTerm(e.target.value)}
 //           />
@@ -140,7 +140,7 @@
 //         <select
 //           value={selectedEventType}
 //           onChange={(e) => setSelectedEventType(e.target.value)}
-//           className="p-2 border-slate-700 rounded-xl bg-primary-950/50 h-12 font-BebasNeue border"
+//           className="p-2 border-slate-700 rounded-xl bg-neutral-950 h-12 font-BebasNeue border"
 //         >
 //           <option className='' value="all">All Category</option>
 //           <option className='' value="core">Core</option>
@@ -152,7 +152,7 @@
 //         <select
 //           value={selectedDay}
 //           onChange={(e) => setSelectedDay(e.target.value)}
-//           className="p-2 border-slate-700 rounded-xl bg-primary-950/50 h-12 font-BebasNeue border"
+//           className="p-2 border-slate-700 rounded-xl bg-neutral-950 h-12 font-BebasNeue border"
 //         >
 //           <option className='' value="all">All Days</option>
 //           <option className='' value="day1">Day 1</option>
@@ -162,7 +162,7 @@
 
 //         <button
 //           onClick={handleAddEventClick}
-//           className="p-2 border-slate-700 rounded-xl w-32 text-white h-12 bg-primary-950/50 font-BebasNeue border"
+//           className="p-2 border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-BebasNeue border"
 //         >
 //           Add Event
 //         </button>
@@ -175,7 +175,7 @@
 //         <div className=''>Error loading events. Please try again later.</div>
 //       ) : (
 //         <div className="overflow-x-auto" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
-//           <table className="min-w-full bg-primary-950/50 border border-slate-700">
+//           <table className="min-w-full bg-neutral-950 border border-slate-700">
 //             <thead>
 //               <tr className='text-black bg-gray-100'>
 //                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
@@ -404,6 +404,7 @@ import { ScrollArea } from "../ui/scroll-area"
 import { eventDays, eventTypes } from '~/utils/constants';
 import ScrollableContainer from '../ScrollableDiv';
 import SearchInput from '../ui/search-input';
+import Image from 'next/image';
 
 const EventsAdmin: React.FC = () => {
   const addEvent = api.events.addEvent.useMutation();
@@ -689,7 +690,7 @@ const EventsAdmin: React.FC = () => {
           <div className=''>Error loading events. Please try again later.</div>
         ) : (
           <ScrollableContainer className='dashboard-table'>
-            <table className="min-w-full bg-primary-950/50 border border-slate-700 font-Trap-Regular text-sm rounded-lg">
+            <table className="min-w-full bg-neutral-950 border border-slate-700 font-Trap-Regular text-sm rounded-lg">
               <thead className='sticky top-0  z-10'>
                 <tr className='text-black bg-gray-100 font-Trap-Regular'>
                   <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
@@ -712,7 +713,7 @@ const EventsAdmin: React.FC = () => {
                       {eventDays[event.day]}
                     </td>
                     <td className="py-2 px-4 border-b border-slate-700 text-center w-16">
-                      <img src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
+                      <Image src={event.image} alt="Team Member" width={16} height={16} className="w-16 h-16 object-cover" />
 
                     </td>
                     <td className="py-2 px-4 border-b border-slate-700 text-center">

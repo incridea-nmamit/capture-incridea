@@ -6,6 +6,7 @@ import CameraLoading from '../LoadingAnimation/CameraLoading';
 import { BsDashCircleFill } from 'react-icons/bs';
 import PopupComponent from './PopupComponent';
 import ScrollableContainer from '../ScrollableDiv';
+import Image from 'next/image';
 
 const ApproveCaptures: React.FC = () => {
   const { data: gallery, isLoading, isError, refetch } = api.gallery.getAllGallery.useQuery();
@@ -57,7 +58,7 @@ const ApproveCaptures: React.FC = () => {
       <h1 className="text-4xl font-Teknaf mb-8 py-5 text-center">Approve Captures</h1>
 
       <ScrollableContainer className='overflow-x-auto'>
-        <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
+        <table className="min-w-full border border-gray-300 bg-neutral-950 font-Trap-Regular text-sm">
           <thead className="bg-white">
             <tr>
               <th className="text-black py-2 px-4 border-b border-slate-700 text-center">Event Name</th>
@@ -76,7 +77,7 @@ const ApproveCaptures: React.FC = () => {
                   {item.event_category.charAt(0).toUpperCase() + item.event_category.slice(1)}
                 </td>
                 <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
-                  <img
+                  <Image
                     src={item.image_path}
                     alt={item.event_name || ''}
                     width={128}

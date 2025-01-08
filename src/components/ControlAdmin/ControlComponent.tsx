@@ -66,7 +66,7 @@ const ControlComponent: React.FC = () => {
   return (
     <div className="p-4">
       <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center">Control Center</h1>
-      <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
+      <table className="min-w-full border border-gray-300 bg-neutral-950 font-Trap-Regular text-sm">
         <thead>
           <tr className="bg-gray-200">
             <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Key</th>

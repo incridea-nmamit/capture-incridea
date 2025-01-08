@@ -1,5 +1,6 @@
 import React from 'react';
 import { Youtube, Instagram, Linkedin } from 'lucide-react';
+import Image from 'next/image';
 
 
 const Footer = () => {
@@ -10,7 +11,7 @@ const Footer = () => {
         <a href='https://incridea.in'
            rel="noopener noreferrer">
         <div className="text-left">
-          <img
+          <Image
             src="/images/Logo/capture-footer.png"
             alt="Logo"
             width={150}

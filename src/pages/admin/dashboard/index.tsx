@@ -140,11 +140,11 @@ const Dashboard = () => {
 
   const renderTabNavigation = (open: boolean) => (
 
-    <div className={`absolute lg:relative bg-primary-900 pt-20 max-w-48 transition-all ${open && "-ml-48"} z-20`} >
+    <div className={`absolute lg:relative bg-neutral-950 pt-20 max-w-48 transition-all ${open && "-ml-48"} z-20`} >
 
 
       <div className='relative p-4'>
-        <div className="flex flex-col mb-4 gap-4 bg-primary-900 relative">
+        <div className="flex flex-col mb-4 gap-4 bg-neutral-950 relative">
           {
             tabs.map((tab) => {
               //happens string matching underthehood so not a problem
@@ -185,7 +185,7 @@ const Dashboard = () => {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <div className="bg-primary-950/50 text-white min-h-screen">
+    <div className="bg-neutral-950 text-white min-h-screen">
       <div className='flex flex-row'>
         {renderTabNavigation(open)}
         <main className='w-full'>

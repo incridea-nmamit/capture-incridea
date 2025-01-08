@@ -11,6 +11,7 @@ import { ScrollArea } from '@radix-ui/react-scroll-area';
 import { styled } from 'styled-components';
 import { Button } from '../ui/button';
 import SearchInput from '../ui/search-input';
+import Image from 'next/image';
 
 type Committee = 'media' | 'socialmedia' | 'developer';
 
@@ -169,7 +170,7 @@ const TeamAdmin: React.FC = () => {
         </div>
 
         <ScrollableDiv className="dashboard-table" >
-          <table className="min-w-full bg-primary-950/50 border border-slate-700 scrollable-table font-Trap-Regular text-sm">
+          <table className="min-w-full bg-neutral-950 border border-slate-700 scrollable-table font-Trap-Regular text-sm">
             <thead  className='sticky top-0  z-10'>
               <tr className="text-black bg-gray-100">
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
@@ -188,7 +189,7 @@ const TeamAdmin: React.FC = () => {
                   <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.designation}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.say}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
-                    <img
+                    <Image
                       src={team.image}
                       alt="Team Member"
                       width={16}

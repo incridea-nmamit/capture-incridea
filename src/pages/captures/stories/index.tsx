@@ -9,6 +9,7 @@
 // // ];
 
 
+import Image from "next/image";
 import React, { useState, useRef, useEffect } from "react";
 
 const DATA = [
@@ -160,7 +161,7 @@ const Stories = () => {
           <div className="w-max flex story-images transition-all">
             {category.images.map((image, i) => (
               <div key={i} className="story">
-                <img
+                <Image
                   className="w-full h-full object-contain object-center"
                   src={image.url}
                   alt={`Story ${i}`}
@@ -174,7 +175,7 @@ const Stories = () => {
             {/* Header */}
             <div className="w-full">
               <div className="flex items-center gap-2">
-                <img
+                <Image
                   className="w-10 aspect-square rounded-full object-cover border-white border-2"
                   src={category.icon}
                   alt={category.name}

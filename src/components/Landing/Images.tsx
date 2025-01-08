@@ -1,6 +1,7 @@
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { RefreshCcw } from 'lucide-react';
+import Image from 'next/image';
 const images = [
     { src: "https://utfs.io/f/0yks13NtToBiyMGDp5dKMt25jkdFfWpIvLESBusza14COqm3" },
     { src: "https://utfs.io/f/0yks13NtToBiRytYFqGmqjGOIgx47y3cAJSCbQ1V82Nitrsf" },
@@ -47,9 +48,9 @@ function Images() {
         <section className=" h-fit relative text-center space-y-8 overflow-hidden flex flex-col items-center">
             <h3 className='mb-12 w-3/4 font-Teknaf text-3xl md:text-4xl lg:text-5xl text-center'>We cherish the memory what we see , so y not make it available to all</h3>
             <div className="flex overflow-hidden w-full items-center justify-center gap-6">
-                <img src="https://placehold.co/400x600" alt="" className="slide-image w-[50%] h-full object-cover rounded-lg"  />
-                <img src="https://placehold.co/400x600" alt="" className="slide-image w-[50%] rounded-lg " />
-                <img src="https://placehold.co/400x600" alt="" className="slide-image w-[50%] rounded-lg" />
+                <Image src="https://placehold.co/400x600" alt="" className="slide-image w-[50%] h-full object-cover rounded-lg"  />
+                <Image src="https://placehold.co/400x600" alt="" className="slide-image w-[50%] rounded-lg " />
+                <Image src="https://placehold.co/400x600" alt="" className="slide-image w-[50%] rounded-lg" />
             </div>
             <button
                 className="absolute h-24 aspect-square top-20 right-1/3 rounded-full cursor-pointer text-white p-2 md:p-6  z-10 border-2 hover:rotate-[24deg] transition backdrop-blur-sm bg-white/30 grid place-content-center"
@@ -62,7 +63,7 @@ function Images() {
             >
                 <RefreshCcw size={36} className='w-full'  strokeWidth={2}/>
             </button>
-            <div className="absolute bottom-0 w-full h-[300px] bg-gradient-to-t from-primary-950 from-10% via-primary-950 via-20% to-transparent to-90% "></div>
+            <div className="absolute bottom-0 w-full h-[300px] bg-gradient-to-t from-neutral-950 from-10% via-neutral-950 via-20% to-transparent to-90% "></div>
         </section>
     )
 }

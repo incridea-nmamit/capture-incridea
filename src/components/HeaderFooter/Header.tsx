@@ -9,6 +9,7 @@ import { GoHomeFill } from "react-icons/go";
 import { MdCamera } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi";
+import Image from "next/image";
 
 const adminLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: <BiSolidDashboard /> },
@@ -45,7 +46,7 @@ const Header: FC = () => {
               href="/"
               className="mx-auto md:mx-0"
             >
-              <img
+              <Image
                 src="/images/Logo/capture-main.png"
                 alt="Logo"
                 width={150}

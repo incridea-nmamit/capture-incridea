@@ -359,7 +359,7 @@ const Analytics = () => {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="ml-2 border font-Trap-Regular border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-primary-950/50 text-white"
+            className="ml-2 border font-Trap-Regular border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-neutral-950 text-white"
           >
             <option value="all">All Days</option>
             <option value="1">Day 1</option>
@@ -376,7 +376,7 @@ const Analytics = () => {
               type="date"
               value={customDate || ""}
               onChange={handleDateChange}
-              className="mt-4 border font-Trap-Regular border-gray-700 rounded-lg py-2 px-4 bg-primary-950/50 text-white"
+              className="mt-4 border font-Trap-Regular border-gray-700 rounded-lg py-2 px-4 bg-neutral-950 text-white"
             />
           )}
         </div>
@@ -438,7 +438,7 @@ const Analytics = () => {
                 <select
                   value={captureFilter}
                   onChange={(e) => setCaptureFilter(e.target.value)}
-                  className="border font-Trap-Regular border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-primary-950/50 text-white"
+                  className="border font-Trap-Regular border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-neutral-950 text-white"
                 >
                   <option value="all">All Routes</option>
                   <option value="/">Home</option>
@@ -475,7 +475,7 @@ const Analytics = () => {
                 <select
                   value={eventFilter}
                   onChange={(e) => setEventFilter(e.target.value)}
-                  className="border font-Trap-Regular border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-primary-950/50 text-white"
+                  className="border font-Trap-Regular border-gray-700 rounded-lg py-2 pl-3 pr-4 bg-neutral-950 text-white"
                 >
                   <option value="all">All Events</option>
                   {events.map((event) => {

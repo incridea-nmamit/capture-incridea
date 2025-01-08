@@ -96,7 +96,7 @@ const ManageRoles = () => {
         </div>
 
         <ScrollableContainer className='dashboard-table'>
-          <table className="min-w-full border border-gray-300 bg-primary-950/50 font-Trap-Regular text-sm">
+          <table className="min-w-full border border-gray-300 bg-neutral-950 font-Trap-Regular text-sm">
             <thead>
               <tr className="bg-gray-200">
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>

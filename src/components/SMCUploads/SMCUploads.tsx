@@ -71,7 +71,7 @@ const SMCUploads: React.FC = () => {
       <div className="mb-4 flex gap-2">
         <button
           onClick={handleAddEventClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-primary-950/50 font-Trap-Regular text-sm"
+          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-Trap-Regular text-sm"
         >
           Add Video
         </button>
@@ -224,7 +224,7 @@ export default SMCUploads;
 //         <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">SMC Stories Uploads</h1>
 
 //         <div className="mb-4 flex gap-2">
-//           <DialogTrigger className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-primary-950/50 font-BebasNeue">
+//           <DialogTrigger className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-BebasNeue">
 //             <div className='flex gap-2 justify-center items-center'><span>Add Video</span><CloudUpload /></div>
 //           </DialogTrigger>
 //         </div>

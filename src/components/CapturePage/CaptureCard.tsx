@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface CaptureCardProps {
   imagePath: string;
   altText: string;
@@ -11,7 +13,7 @@ export const CaptureCard: React.FC<CaptureCardProps> = ({ imagePath, altText, on
       className="relative rounded-lg shadow-md overflow-hidden w-full max-w-sm cursor-pointer flex flex-col justify-center "
       onClick={onClick}
     >
-      <img
+      <Image
         src={imagePath}
         alt={altText}
         loading="lazy"

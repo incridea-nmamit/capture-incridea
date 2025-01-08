@@ -30,7 +30,7 @@ const OurTeam = () => {
 
   return (
     <div className="mt-20">
-      <div className="container-size bg-primary-950/50 text-white flex flex-col items-center py-12 z-20">
+      <div className="container-size bg-neutral-950 text-white flex flex-col items-center py-12 z-20">
         {/* Page Title */}
         <h1 className="text-6xl text-center font-Teknaf mb-8 z-20">Our Elite Teams</h1>
 
