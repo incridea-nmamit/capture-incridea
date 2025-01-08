@@ -99,81 +99,108 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-50"
-      role="dialog"
-      aria-modal="true"
-      onClick={handleClosePopup}
-    >
-      <div className="max-w-[80vw] max-h-[90vh] w-full h-full grid grid-cols-1 md:grid-cols-2 bg-neutral-950 gap-4 rounded-lg" onClick={e=>e.stopPropagation()}>
-        <div className="bg-slate-800 h-full grid place-content-center rounded-lg overflow-hidden m-4">
-          <Image
-            src={selectedImage || "/images/fallback.jpg"}
-            alt="Selected"
-            width={200}
-            height={200}
-            layout="responsive"
-          />  
-        </div>
+  className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-50"
+  role="dialog"
+  aria-modal="true"
+  onClick={handleClosePopup}
+>
+  <div
+    className="max-w-[80vw] max-h-[90vh] w-full h-full grid grid-cols-1 md:grid-cols-2 bg-neutral-950 gap-4 rounded-3xl overflow-hidden"
+    onClick={(e) => e.stopPropagation()}
+  >
+    {/* Image Section */}
+    <div className="flex items-center">
+      <Image
+        src={selectedImage || "/images/fallback.jpg"}
+        alt="Selected"
+        className=""
+        width={200}
+        height={200}
+        layout="responsive"
+      />
+      </div>
 
-        <div className="flex flex-col justify-between">
-          <div className="m-4">
-            <div>
-              <h4 className="font-Teknaf text-4xl text-center mb-6">Category name</h4>
-              <div className="flex flex-row gap-2 items-center border-2 border-white rounded-full w-3/4 h-20">
-                <div className="rounded-full border-2 border-white overflow-hidden h-20 aspect-square">
+    {/* Content Section */}
+    <div className="flex flex-col justify-between">
+      <div className="m-4">
+        <div>
+          <h4 className="font-Teknaf text-4xl text-center mb-6">Category name</h4>
+
+          {/* Profile Section */}
+          <div className="flex flex-row gap-2 items-center rounded-full w-full h-20">
+            <div className="flex items-center justify-between border-2 border-white rounded-full w-full h-20 bg-black">
+              {/* Left Section */}
+              <div className="flex items-center text-black text-xs text-wrap h-20 text-center bg-white rounded-tl-full rounded-bl-full px-4 py-2 w-[35%]">
+                Captured By
+              </div>
+
+              {/* Middle Circle (Profile Image) */}
+              <div className="relative -ml-10 w-20 h-20">
+                <div className="rounded-full overflow-hidden w-20 h-20 border-2 border-white bg-black">
                   <Image
                     src={selectedImage || "/images/fallback.jpg"}
-                    className="w-full !h-full object-cover"
+                    className="object-cover"
                     alt="Selected"
-                    width={70}
-                    height={70}
-                    layout="responsive"
+                    width={96}
+                    height={96}
                   />
                 </div>
-                <div className=" flex-grow flex flex-col text-center font-Trap-Regular">
-                  <span className="text-xs text-gray-400">Captured by</span>
-                  <span className="text-xl">Member Name</span>
-                  <span className="text-gray-400 text-sm">Member Designation</span>
+              </div>
+
+              {/* Right Section */}
+              <div className="flex flex-col items-center justify-center mx-4 text-white w-[65%]">
+                <div className="text-md font-Cursive text-center w-full">
+                  Team Member Name
+                </div>
+                <div className="text-white text-xs text-center w-full">
+                  Team Member Name
                 </div>
               </div>
             </div>
           </div>
-          <div>
-            <div className="text-center py-5 m-4">
-              <p className="text-xs mx-auto max-w-lg mb-4 w-full">
-                Note: If you prefer this capture not to be public or have any issues. We’ll verify your request and work
-                on it soon.
-              </p>
-              <button
-                className="flex-grow bg-white rounded-2xl text-black p-2 px-5 hover:scale-105 transition-all"
-                onClick={() => {
-                  handleClosePopup();
-                  openRemovalPopup(selectedImage);
-                }}
-              >
-                Request Removal
-              </button>
-            </div>
+        </div>
+      </div>
 
-            <div className="flex gap-4 w-full rounded-lg p-5">
-              <button onClick={handleToggleLike} aria-label="Like Button">
-                <FaHeart size={30} color={hasLiked ? "red" : "white"} />
-              </button>
-              <span className="flex items-center">{totalLikes !== null ? totalLikes : "..."}</span>
-              <button>
-                <Share2 />
-              </button>
-              <button
-                className="flex-grow bg-white rounded-2xl text-black mx-10 p-2 px-6 hover:scale-[101%] transition-all"
-                onClick={() => handleDownload(selectedImageOg || selectedImage)}
-              >
-                Download
-              </button>
-            </div>
-          </div>
-        </div >
-      </div >
-    </div >
+      {/* Footer Section */}
+      <div>
+        <div className="text-center py-5 m-4">
+          <p className="text-xs mx-auto max-w-lg mb-4 w-full">
+            Note: If you prefer this capture not to be public or have any issues. We’ll verify your request and work
+            on it soon.
+          </p>
+          <button
+            className="flex-grow bg-white rounded-2xl text-black p-2 px-5 hover:scale-105 transition-all"
+            onClick={() => {
+              handleClosePopup();
+              openRemovalPopup(selectedImage);
+            }}
+          >
+            Request Removal
+          </button>
+        </div>
+
+        <div className="flex gap-4 w-full rounded-lg p-5">
+          <button onClick={handleToggleLike} aria-label="Like Button">
+            <FaHeart size={30} color={hasLiked ? "red" : "white"} />
+          </button>
+          <span className="flex items-center">
+            {totalLikes !== null ? totalLikes : "..."}
+          </span>
+          <button>
+            <Share2 />
+          </button>
+          <button
+            className="flex-grow bg-white rounded-2xl text-black mx-10 p-2 px-6 hover:scale-[101%] transition-all"
+            onClick={() => handleDownload(selectedImageOg || selectedImage)}
+          >
+            Download
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
   );
 };
 

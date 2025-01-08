@@ -3,13 +3,19 @@ import gsap from 'gsap';
 import { RefreshCcw } from 'lucide-react';
 import Image from 'next/image';
 const images = [
-    { src: "https://utfs.io/f/0yks13NtToBiyMGDp5dKMt25jkdFfWpIvLESBusza14COqm3" },
-    { src: "https://utfs.io/f/0yks13NtToBiRytYFqGmqjGOIgx47y3cAJSCbQ1V82Nitrsf" },
-    { src: "https://utfs.io/f/0yks13NtToBi6HmZQ4hUy9ofa2RpzAV7ldXGwM4xgSure8sE" },
-    { src: "https://utfs.io/f/0yks13NtToBiJ9b4q7w4BLygFdW15xChAKiDEleRHcja6tkI" },
-    { src: "https://utfs.io/f/0yks13NtToBipWkLivmnEQxj9Ckq6tA4uGeavWLzMV5woYHP" },
-    { src: "https://utfs.io/f/0yks13NtToBidkGYwLhfcvGemo1qIhyiPK56u3ZrnLzJUQRW" },
-    { src: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4" },
+    { src: "/images/landing-images/img1.png" },
+    { src: "/images/landing-images/img2.png" },
+    { src: "/images/landing-images/img3.png" },
+    { src: "/images/landing-images/img4.png" },
+    { src: "/images/landing-images/img5.png" },
+    { src: "/images/landing-images/img5.png" },
+    { src: "/images/landing-images/img6.png" },
+    { src: "/images/landing-images/img7.png" },
+    { src: "/images/landing-images/img8.png" },
+    { src: "/images/landing-images/img9.png" },
+    { src: "/images/landing-images/img10.png" },
+    { src: "/images/landing-images/img11.png" },
+    { src: "/images/landing-images/img12.png" },
 ];
 
 function Images() {
