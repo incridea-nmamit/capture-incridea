@@ -2,7 +2,7 @@ import React from "react";
 
 function Hero() {
   return (
-    <section className="!mt-20 container-size mx-auto flex h-[calc(100vh-6rem)] w-full items-center justify-center overflow-hidden">
+    <section className="container-size mx-auto !mt-20 flex h-[calc(100vh-6rem)] w-full items-center justify-center overflow-hidden">
       <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-2xl">
         <video
           autoPlay
@@ -19,7 +19,7 @@ function Hero() {
             <h1 className="mb-4 w-full font-Teknaf text-5xl md:text-6xl lg:text-6xl">
               Your Memories, Our Passion
             </h1>
-            <p className="px-4 text-xs sm:text-sm md:text-base font-Trap-Regular">
+            <p className="px-4 font-Trap-Regular text-xs sm:text-sm md:text-base">
               Get your event photos and story-worthy moments.
               <br />
               See them the same day! <br />
