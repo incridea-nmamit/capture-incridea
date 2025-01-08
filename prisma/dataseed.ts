@@ -75,6 +75,7 @@ async function main() {
           event_category: randomEventCategory || "",
           state: "approved",
           upload_type: "direct",
+          authored_id: 0
         },
       });
     })

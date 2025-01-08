@@ -13,6 +13,8 @@ const Stories: React.FC = () => {
   const [description, setDescription] = useState('');
   const [uploadUrl, setUploadUrl] = useState<string>('');
   const [categoryName, setCategoryName] = useState('');
+  const [authoredId, setAuthoredId] = useState<number>(0);
+  const { data: team, isLoading: teamsLoading } = api.team.getAllTeams.useQuery();
   const [categoryInput, setCategoryInput] = useState('');
   const addCat = api.storycat.addCat.useMutation();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -97,6 +99,7 @@ const Stories: React.FC = () => {
       await addStories.mutateAsync({
         category_name: categoryName,
         uploadKey: uploadUrl,
+        authored_id: authoredId
       });
   
       resetForm();
@@ -205,6 +208,29 @@ const Stories: React.FC = () => {
                   ))}
                 </select>
               )}
+
+              
+<>
+                    <label className="block mt-5 mb-2 text-left text-white">Author Name:</label>
+                    {teamsLoading ? (
+                    <select className="w-full p-2 rounded" disabled>
+                      <option>Loading Team...</option>
+                    </select>
+                  ) : (
+                  <select
+                    name="author_id"
+                    value={authoredId}
+                    onChange={(e) => setAuthoredId(Number(e.target.value))}
+                    className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
+                  >
+                    <option value="" disabled>Select an Author</option>
+                    {team?.map((team) => (
+                      <option key={team.id} value={team.id}>{team.name}</option>
+                    ))}
+                  </select>
+
+                    )}
+                  </>
               <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-5">
                 Submit
               </button>

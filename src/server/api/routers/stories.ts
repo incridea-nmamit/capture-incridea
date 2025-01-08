@@ -12,6 +12,7 @@ export const storiesRouter = createTRPCRouter({
       z.object({
         category_name: z.string().min(1, "Category name is required"),
         uploadKey: z.string().min(1, "Upload key is required"),
+        authored_id: z.number().min(1, "Authored id is required"),
 
       })
     )
@@ -20,7 +21,8 @@ export const storiesRouter = createTRPCRouter({
       const newStory = await ctx.db.stories.create({
         data: {
           video_path: videoURL,
-          category_name: input.category_name
+          category_name: input.category_name,
+          authored_id: input.authored_id
         },
       });
 
