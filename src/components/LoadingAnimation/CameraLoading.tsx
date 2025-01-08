@@ -14,6 +14,8 @@ const CameraLoading = () => {
                             style={{
                                 animation: 'focus 4s ease infinite',
                             }}
+                            width={400}
+                            height={400}
                         />
                     </div>
                 </div>

@@ -100,11 +100,12 @@ const TeamCard: React.FC<CardProps> = ({ name, designation, imageSrc, say }) => 
 // };
 
 return (
-  <div className="transform transition-transform hover:rotate-3 hover:scale-105 h-96 w-72 bg-gray-800 rounded-lg shadow-lg p-4">
+  <div className="transform transition-transform hover:rotate-3 hover:scale-105 h-96 w-72 bg-neutral-800 rounded-lg shadow-lg p-4">
     <div className="relative w-56 h-56 overflow-hidden rounded-md mx-auto mb-4">
       <Image 
         src={imageSrc} 
         alt={name} 
+        fill
         className="rounded-md transition-transform duration-300 ease-in-out transform hover:scale-110" 
       />
     </div>

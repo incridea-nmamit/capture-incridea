@@ -42,7 +42,7 @@ const UploadPage: React.FC = () => {
                 <p className="text-lg font-semibold mb-3 text-gray-700">Image {index + 1}</p>
                 <div className="flex gap-4 mb-4">
                   <div className="w-1/2">
-                    <Image
+                    <img
                       src={image.original}
                       alt={`Original ${index + 1}`}
                       className="w-full h-48 object-cover rounded-md"
@@ -55,7 +55,7 @@ const UploadPage: React.FC = () => {
                     </button>
                   </div>
                   <div className="w-1/2">
-                    <Image
+                    <img
                       src={image.compressed}
                       alt={`Compressed ${index + 1}`}
                       className="w-full h-48 object-cover rounded-md"

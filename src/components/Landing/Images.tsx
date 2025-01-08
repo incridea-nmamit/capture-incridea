@@ -48,9 +48,9 @@ function Images() {
         <section className=" h-fit relative text-center space-y-8 overflow-hidden flex flex-col items-center">
             <h3 className='mb-12 w-3/4 font-Teknaf text-3xl md:text-4xl lg:text-5xl text-center'>We cherish the memory what we see , so y not make it available to all</h3>
             <div className="flex overflow-hidden w-full items-center justify-center gap-6">
-                <Image src="https://placehold.co/400x600" alt="" className="slide-image w-[50%] h-full object-cover rounded-lg"  />
-                <Image src="https://placehold.co/400x600" alt="" className="slide-image w-[50%] rounded-lg " />
-                <Image src="https://placehold.co/400x600" alt="" className="slide-image w-[50%] rounded-lg" />
+                <img src="https://placehold.co/400x600" alt="" className="slide-image w-[50%] h-full object-cover rounded-lg"  />
+                <img src="https://placehold.co/400x600" alt="" className="slide-image w-[50%] rounded-lg " />
+                <img src="https://placehold.co/400x600" alt="" className="slide-image w-[50%] rounded-lg" />
             </div>
             <button
                 className="absolute h-24 aspect-square top-20 right-1/3 rounded-full cursor-pointer text-white p-2 md:p-6  z-10 border-2 hover:rotate-[24deg] transition backdrop-blur-sm bg-white/30 grid place-content-center"

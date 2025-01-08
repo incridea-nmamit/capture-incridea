@@ -132,7 +132,7 @@ const GalleryBatchUpload = () => {
                 <td className="border border-gray-300 px-4 py-2">{item.event_category}</td>
                 <td className="border border-gray-300 px-4 py-2">{item.state}</td>
                 <td className="border border-gray-300 px-4 py-2">
-                  <Image
+                  <img
                     src={item.image_path}
                     alt={item.event_name || 'Image'}
                     className="w-16 h-16 object-cover"
