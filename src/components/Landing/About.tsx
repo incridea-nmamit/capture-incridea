@@ -4,6 +4,7 @@ import RedirectButton from "./RedirectButton";
 function About() {
   return (
     <section className="container-size mx-auto flex h-screen flex-col items-center justify-center gap-8 text-center">
+      <br />
       <h3 className="mb-8 w-full text-center font-Teknaf text-5xl md:text-6xl lg:text-6xl">
         We capture what u see....
       </h3>
