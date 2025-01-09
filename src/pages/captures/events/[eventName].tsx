@@ -4,9 +4,10 @@ import { api } from "~/utils/api";
 import downloadImage from "~/utils/downloadUtils";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
-import CapturePopup from "~/components/CapturePopup";
+import CapturePopup from "~/components/CapturePage/CapturePopup";
 import { useSession } from "next-auth/react";
-import ImagesMasonry from "~/components/ImagesMasonry";
+import ImagesMasonry from "~/components/CapturePage/ImagesMasonry";
+
 
 const EventCaptures = () => {
   const { data: session } = useSession();

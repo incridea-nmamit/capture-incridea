@@ -6,9 +6,10 @@ import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart"
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { useRouter } from "next/router";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
-import CapturePopup from "~/components/CapturePopup";
+import CapturePopup from "~/components/CapturePage/CapturePopup";
 import { useSession } from "next-auth/react";
-import ImagesMasonry from "~/components/ImagesMasonry";
+import ImagesMasonry from "~/components/CapturePage/ImagesMasonry";
+
 
 const pronite = () => {
   const { data: session } = useSession();
