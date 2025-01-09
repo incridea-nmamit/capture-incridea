@@ -71,12 +71,6 @@ const MediaCommittee: React.FC = () => {
             name={member.name}
             designation={member.designation}
             say={member.say}
-stats={[
-        {
-          title: "Experience",
-          bigText: "5 years",
-          regularText: "In software development",
-        }]}
           />
         ))}
       </div>

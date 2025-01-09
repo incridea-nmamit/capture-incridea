@@ -137,6 +137,8 @@ const handleShare = async () => {
         width={200}
         height={200}
         layout="responsive"
+        onContextMenu={(e) => e.preventDefault()}
+        onDragStart={(e) => e.preventDefault()}
       />
       </div>
 

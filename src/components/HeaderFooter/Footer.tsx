@@ -5,7 +5,8 @@ import Image from 'next/image';
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-8">
+    <footer className="bg-gradient-to-r from-black via-neutral-950 to-black
+ text-white py-8">
       <div className="container-size grid grid-cols-1 md:grid-cols-3 gap-8 w-11/12">
         {/* Left Section */}
         <a href='https://incridea.in'
