@@ -75,7 +75,7 @@ stats={[
           title: "Experience",
           bigText: "5 years",
           regularText: "In software development",
-        }
+        }]}
           />
         ))}
       </div>
