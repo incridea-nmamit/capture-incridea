@@ -129,7 +129,17 @@ const config: Config = {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		  keyframes: {
+			neonBorder: {
+			  "0%": { borderWidth: "2px", opacity: "0.8" },
+			  "50%": { borderWidth: "4px", opacity: "1" },
+			  "100%": { borderWidth: "2px", opacity: "0.8" },
+			},
+		  },
+		  animation: {
+			"neon-border": "neonBorder 1.5s ease-in-out infinite",
+		  },
   	}
   },
   plugins: [require("tailwindcss-animate")],

@@ -63,7 +63,7 @@ const Footer = () => {
 
       {/* Bottom Section */}
       <div className="border-t border-gray-700 mt-8 pt-4 text-center font-Trap-Regular">
-        <p className="text-sm text-gray-500 shining-text">
+        <p className="text-xs text-gray-500 shining-text">
           © Capture Incridea 2025  &nbsp; | &nbsp;  <a href='/our-team/developers'>Made with ❤️ by Capture Incridea Developers</a>
         </p>
       </div>
