@@ -1,6 +1,7 @@
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { State, EventType, Day } from "@prisma/client";
+import { get } from "react-hook-form";
 
 export const eventRouter = createTRPCRouter({
   // Fetch all events
@@ -38,6 +39,44 @@ export const eventRouter = createTRPCRouter({
 
       return newEvent;
     }),
+
+  getEventById: protectedProcedure.input(z.object({
+    id: z.number().min(1, "Event ID is required"),
+  })).query(async ({ ctx, input }) => {
+    const event = await ctx.db.events.findUnique({
+      where: { id: input.id },
+    });
+    if (!event) throw new Error("Event not found");
+    return event;
+  }),
+
+  
+  editEvent: protectedProcedure
+    .input(
+      z.object({
+        id:z.number().min(1, "Event ID is required"),
+        name: z.string().min(1, "Event name is required").optional(),
+        description: z.string().min(1, "Event description is required").optional(),
+        shortDescription: z.string().min(1, "Short description is required").optional(),
+        type: z.nativeEnum(EventType).optional(),
+        day: z.nativeEnum(Day).optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const newEvent = await ctx.db.events.update({
+        where:{id: input.id},
+        data: {
+          name: input.name!,
+          description: input.description!,
+          shortDescription: input.shortDescription!,
+          type: input.type!,
+          day: input.day!,
+        },
+      });
+
+      return newEvent;
+    }),
+
 
   // Toggle event visibility between active and inactive
   updateEventVisibility: protectedProcedure

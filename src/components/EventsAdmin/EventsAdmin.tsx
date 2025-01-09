@@ -116,7 +116,6 @@
 //     const matchesSearchTerm = event.name.toLowerCase().includes(searchTerm.toLowerCase());
 //     const matchesEventType = selectedEventType === 'all' || event.type === selectedEventType;
 //     const matchesDay = selectedDay === 'all' || event.day === selectedDay;
-
 //     return matchesSearchTerm && matchesEventType && matchesDay;
 //   });
 
@@ -352,6 +351,7 @@ import styled from 'styled-components';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import UploadComponent from '../UploadComponent';
 
 import { Button } from "~/components/ui/button"
 import {
@@ -405,6 +405,7 @@ import { eventDays, eventTypes } from '~/utils/constants';
 import ScrollableContainer from '../ScrollableDiv';
 import SearchInput from '../ui/search-input';
 import Image from 'next/image';
+import EditForm from './edit-form';
 
 const EventsAdmin: React.FC = () => {
   const addEvent = api.events.addEvent.useMutation();
@@ -423,6 +424,9 @@ const EventsAdmin: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState('all');
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState<{ id: number; name: string } | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState<number>();
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -575,12 +579,13 @@ const EventsAdmin: React.FC = () => {
                             <FormLabel>Name</FormLabel>
                             <FormControl>
                               <Input {...field} className="p-2 w-full border border-slate-700 rounded-xl h-12 bg-black text-white" value={uploadUrl} hidden />
-                              {/* <UploadComponent
+                             
+                            </FormControl>
+                            <UploadComponent
                               onUploadComplete={handleUploadComplete}
                               resetUpload={() => setUploadUrl('')}
                               onUploadBegin={() => setUploading(true)}
-                            /> */}
-                            </FormControl>
+                            />
                             <FormMessage />
                           </FormItem>
                         )}
@@ -690,7 +695,7 @@ const EventsAdmin: React.FC = () => {
           <div className=''>Error loading events. Please try again later.</div>
         ) : (
           <ScrollableContainer className='dashboard-table'>
-            <table className="min-w-full bg-neutral-950 border border-slate-700 font-Trap-Regular text-sm rounded-lg">
+            <table className="min-w-full bg-neutral-950 border border-slate-700 font-Trap-Regular text-sm rounded-2xl">
               <thead className='sticky top-0  z-10'>
                 <tr className='text-black bg-gray-100 font-Trap-Regular'>
                   <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
@@ -704,9 +709,16 @@ const EventsAdmin: React.FC = () => {
               </thead>
               <tbody>
                 {filteredEvents?.map((event) => (
-                  <tr key={event.id} className='hover:bg-gray-800/90'>
+                  <tr
+                    onClick={() => {
+                      setSelectedEventId(event.id);
+                      setIsEditDialogOpen(true);
+                    }}
+                    key={event.id} className='hover:bg-gray-800/90'>
                     <td className=" py-2 px-4 border-b border-slate-700 text-center  text-xs">{event.name}</td>
-                    <td className=" py-2 px-4 w-56 border-b border-slate-700 text-center text-xs">{event.description}</td>
+                    <td className=" py-2 px-4 border-b border-slate-700 text-center  text-xs max-w-12 lg:whitespace-normal truncate">
+                      {event.description}
+                    </td>
                     <td className=" py-2 px-4 border-b border-slate-700 text-center text-xs">{eventTypes[event.type]}
                     </td>
                     <td className=" py-2 px-4 border-b border-slate-700 text-center text-xs">
@@ -772,6 +784,19 @@ const EventsAdmin: React.FC = () => {
           </DialogHeader>
         </DialogContent>
       </Dialog>
+      {isEditDialogOpen && (
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit Event</DialogTitle>
+              <DialogDescription>
+                Modify the details for the selected event.
+              </DialogDescription>
+            </DialogHeader>
+            <EditForm id={selectedEventId!} closeDialog={() => setIsEditDialogOpen(false)}/>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };

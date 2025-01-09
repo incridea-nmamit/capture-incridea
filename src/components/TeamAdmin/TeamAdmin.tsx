@@ -186,8 +186,8 @@ const TeamAdmin: React.FC = () => {
                 <tr key={team.id} className="hover:bg-gray-800/90">
                   <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.name}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.committee}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.designation}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center text-xs">{team.say}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center text-xs truncate">{team.designation}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center text-xs truncate ">{team.say}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
                     <Image
                       src={team.image}
