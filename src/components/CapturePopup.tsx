@@ -40,6 +40,22 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
     return counts;
   }, [allDownloadLogs]);
 
+const handleShare = async () => {
+  if (navigator.share && selectedImageOg) {
+    try {
+      await navigator.share({
+        title: "Check out this capture!",
+        text: "Here's an amazing image I wanted to share with you.",
+        url: selectedImageOg, // Ensure this URL is accessible
+      });
+      console.log("Content shared successfully");
+    } catch (error) {
+      console.error("Error sharing content:", error);
+    }
+  } else {
+    alert("Sharing is not supported on your device.");
+  }
+};
   const getDownloadCount = (image_id: number): string => {
     if (isDownloadLogLoading) return "...";
     return downloadCounts[image_id] ? `${downloadCounts[image_id]}` : "0";
@@ -186,9 +202,9 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
           <span className="flex items-center">
             {totalLikes !== null ? totalLikes : "..."}
           </span>
-          <button>
-            <Share2 />
-          </button>
+          <button onClick={handleShare}>
+  <Share2 />
+</button>
           <button
             className="flex-grow bg-white rounded-2xl text-black mx-10 p-2 px-6 hover:scale-[101%] transition-all"
             onClick={() => handleDownload(selectedImageOg || selectedImage)}
