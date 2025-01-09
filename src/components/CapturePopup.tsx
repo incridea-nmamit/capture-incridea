@@ -41,21 +41,25 @@ const CapturePopup: React.FC<CapturePopupProps> = ({
   }, [allDownloadLogs]);
 
 const handleShare = async () => {
-  if (navigator.share && selectedImageOg) {
+  if (navigator.share && selectedImage) {
     try {
+      const response = await fetch(selectedImage); // Fetch the image
+      const blob = await response.blob();
+      const file = new File([blob], "shared-image.jpg", { type: blob.type }); // Create a File object
+
       await navigator.share({
-        title: "Check out this capture!",
-        text: "Here's an amazing image I wanted to share with you.",
-        url: selectedImageOg, // Ensure this URL is accessible
+        files: [file]
       });
-      console.log("Content shared successfully");
+      console.log("Image shared successfully");
     } catch (error) {
-      console.error("Error sharing content:", error);
+      console.error("Error sharing image:", error);
     }
   } else {
-    alert("Sharing is not supported on your device.");
+    alert("Sharing files is not supported on your device.");
   }
 };
+
+
   const getDownloadCount = (image_id: number): string => {
     if (isDownloadLogLoading) return "...";
     return downloadCounts[image_id] ? `${downloadCounts[image_id]}` : "0";
