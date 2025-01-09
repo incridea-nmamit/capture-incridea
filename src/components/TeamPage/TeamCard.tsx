@@ -24,7 +24,7 @@ const TeamCard: React.FC<CardProps> = ({
           alt={name}
           className="absolute top-0 left-0 w-full h-full object-cover"
         />
-        <div className="absolute top-0 left-0 h-8 w-32 bg-gradient-to-br from-neutral-900 via-blue-900 to-neutral-950
+        <div className="absolute top-0 left-0 h-8 w-32 bg-gradient-to-br from-neutral-900 via-blue-900 to-black
           transform -skew-x-12 shadow-md"></div>
         <div className="absolute top-0 flex justify-between items-center w-full px-4 py-2">
           {/* Placeholder for logo */}
