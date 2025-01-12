@@ -83,7 +83,7 @@ const About = () => {
             //   borderRadius: "25px"
             // }}
           >
-            <Image src="/images/Logo/incrideaLogo-2.png" width={1200} height={500} alt="capture logo" className='mx-auto h-44  w-full ' />
+            <Image src="/images/Logo/incridealogo-2.png" width={1200} height={500} alt="capture logo" className='mx-auto h-44  w-full ' />
           </div>
           <div className='space-y-4 max-w-xl'>
             <p>        Incridea is a colossal national-level techno-cultural fest with an audience pool spread among 200 colleges all across India.
