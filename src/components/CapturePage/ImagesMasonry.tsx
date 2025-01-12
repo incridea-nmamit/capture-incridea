@@ -1,8 +1,8 @@
 import { ImageList, ImageListItem } from "@mui/material";
 import useResponsiveColumns from "~/hooks/useResponsiveColumns";
 import { FaDownload } from "react-icons/fa";
-import { CaptureCard } from "./CapturePage/CaptureCard";
 import { useEffect, useRef } from "react";
+import { CaptureCard } from "./CaptureCard";
 
 type CaptureImage = {
     id: number,

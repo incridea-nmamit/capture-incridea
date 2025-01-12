@@ -1,6 +1,6 @@
 /* From Uiverse.io by Smit-Prajapati */
 .loader {
-  --size: 250px;
+  --size: 300px;
   --duration: 2s;
   --logo-color: grey;
   --background: linear-gradient(
@@ -24,16 +24,20 @@
   animation: ripple var(--duration) infinite ease-in-out;
 }
 
-.loader .box:nth-child(1) {
+/* .loader .box:nth-child(1) {
   inset: 40%;
   z-index: 99;
-}
+
+} */
 
 .loader .box:nth-child(2) {
   inset: 30%;
   z-index: 98;
   border-color: rgba(100, 100, 100, 0.8);
   animation-delay: 0.2s;
+  background-image:url('/images/Logo/i-gold.png');
+  background-position: center;
+  background-size: cover;
 }
 
 .loader .box:nth-child(3) {

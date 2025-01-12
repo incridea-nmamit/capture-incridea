@@ -1,4 +1,3 @@
-// pages/_app.tsx
 import { type Session } from "next-auth";
 import { SessionProvider, useSession } from "next-auth/react";
 import { type AppType } from "next/app";
@@ -17,6 +16,7 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import LoginComponent from "./LoginComponent";
 import NotRegistered from "./NotRegistered";
 import KeyboardShortcut from "~/components/Shortcuts";
+import IntroAnimation from "./Intro";
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -50,14 +50,17 @@ const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps:
 
   if (!sessionData) return <LoginComponent />;
 
-  const isEmailVerified = verifiedEmailData?.some(
-    (emailEntry: { email: string }) => emailEntry.email === sessionData?.user?.email
-  ) || sessionData?.user?.email?.endsWith("nitte.edu.in") || sessionData?.user?.role === "admin";
+  const isEmailVerified =
+    verifiedEmailData?.some(
+      (emailEntry: { email: string }) => emailEntry.email === sessionData?.user?.email
+    ) ||
+    sessionData?.user?.email?.endsWith("nitte.edu.in") ||
+    sessionData?.user?.role === "admin";
 
   if (!isEmailVerified) return <NotRegistered />;
 
   return (
-    <ScrollArea className=" w-full h-screen flex-1 font-roboto flex min-h-screen flex-col">
+    <ScrollArea className="w-full h-screen flex-1 font-roboto flex min-h-screen flex-col">
       <div className="font-roboto flex min-h-screen flex-col">
         <Header />
         <main className="flex-grow">
@@ -71,11 +74,24 @@ const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps:
   );
 };
 
-
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+  const [showIntro, setShowIntro] = useState(true); // Initially, show intro animation
+
+  useEffect(() => {
+    const hasSeenIntro = sessionStorage.getItem("hasSeenIntro");
+    if (hasSeenIntro === "true") {
+      setShowIntro(false); // Skip intro if it's already seen
+    }
+  }, []);
+
+  const handleIntroAnimationComplete = () => {
+    setShowIntro(false); // Once the intro completes, show the main app
+    sessionStorage.setItem("hasSeenIntro", "true"); // Store that intro has been seen
+  };
+
   return (
     <SessionProvider session={session}>
       <Head>
@@ -96,7 +112,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta property="og:url" content="https://captures.incridea.in" />
       </Head>
       <KeyboardShortcut />
-      <AuthenticatedApp Component={Component} pageProps={pageProps} />
+      {showIntro ? (
+        <IntroAnimation onAnimationComplete={handleIntroAnimationComplete} />
+      ) : (
+        <AuthenticatedApp Component={Component} pageProps={pageProps} />
+      )}
     </SessionProvider>
   );
 };

@@ -136,9 +136,30 @@ const config: Config = {
 			  "50%": { borderWidth: "4px", opacity: "1" },
 			  "100%": { borderWidth: "2px", opacity: "0.8" },
 			},
+			fade: {
+				"0%": { backgroundPosition: "0 0", opacity: "1" },
+				"50%": { backgroundPosition: "2000% 2000%", opacity: "0.6" },
+				"100%": { backgroundPosition: "-2000% -2000%", opacity: "0" },
+			  },
+			  rotate: {
+				"0%": { transform: "translate(-50%, -50%) rotate3d(1,-1,0,40deg) scale(2)" },
+				"50%": { transform: "translate(-50%, -50%) rotate3d(0,0,0,0deg) scale(1.1)" },
+				"100%": { transform: "translate(-50%, -50%) rotate3d(0,0,0,0deg) scale(1)" },
+			  },
+			  logo: {
+				"0%": { visibility: "visible", opacity: "1" },
+				"100%": { visibility: "hidden", opacity: "0" },
+			  },
 		  },
 		  animation: {
 			"neon-border": "neonBorder 1.5s ease-in-out infinite",
+			"fade-1": "fade 4s steps(30) forwards",
+			"fade-2": "fade 4s steps(30) forwards",
+			"rotate-1": "rotate 4s 2s forwards",
+			"rotate-2": "rotate 4s 2s forwards",
+		  },
+		  perspective: {
+			700: "700px",
 		  },
   	}
   },
