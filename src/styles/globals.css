@@ -169,7 +169,7 @@ body {
 }
 
 .container-size {
-  max-width: min(1280px, 90%);
+  max-width: min(1280px, 90vw);
   margin: 0 auto;
 
 }
@@ -399,12 +399,15 @@ table{
   0% {
     opacity: 0;
   }
+
   10% {
     opacity: 1;
   }
+
   90% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -412,4 +415,8 @@ table{
 
 .animate-fade-in-out {
   animation: fade-in-out 5s ease-in-out forwards;
+}
+
+.heading-font {
+  @apply font-Teknaf
 }

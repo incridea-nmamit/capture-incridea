@@ -4,7 +4,7 @@ import FallingClipart from '~/components/BackgroundFallAnimation/FallingClipart'
 
 const LoginComponent: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-neutral-950 text-gray-200 text-center p-6 backdrop-blur-md">
+    <div className="flex flex-col items-center justify-center h-screen bg-neutral-950 text-gray-200 text-center p-6 backdrop-blur-md overflow-hidden">
       <FallingClipart/>
       <h1 className="text-5xl font-semibold mb-6 text-shadow-lg text-center">
         Welcome to Capture Incridea!

@@ -12,18 +12,7 @@ import Stories from '~/components/Stories/Stories';
 import ApproveCaptures from '~/components/ApproveCapture/ApproveCapture';
 import ControlComponent from '~/components/ControlAdmin/ControlComponent';
 import { Role } from '@prisma/client';
-import { Aperture, ArrowRight, Bell, BookCheck, CalendarCog, ChevronLeft, ChevronRight, GalleryHorizontalEnd, ImageUp, Settings, UserCog, Users } from 'lucide-react';
-
-
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarHeader,
-  SidebarProvider,
-  SidebarTrigger,
-} from "~/components/ui/sidebar"
+import { Aperture,  Bell, BookCheck, CalendarCog, ChevronLeft, ChevronRight, GalleryHorizontalEnd, ImageUp, Settings, UserCog, Users } from 'lucide-react';
 
 const tabs = [
   {
