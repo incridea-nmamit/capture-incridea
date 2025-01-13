@@ -3,6 +3,8 @@ import useResponsiveColumns from "~/hooks/useResponsiveColumns";
 import { FaDownload } from "react-icons/fa";
 import { CaptureCard } from "./CaptureCard";
 import { useEffect, useRef } from "react";
+import { HeartIcon } from "lucide-react";
+import { api } from "~/utils/api";
 
 type CaptureImage = {
     id: number,
@@ -45,22 +47,15 @@ export default function ImagesMasonry({ images, nextCursor, isFetchingNextPage, 
     return <div className="container-size pt-8 ">
         <ImageList variant="masonry" cols={columnCount} gap={8} className="mb-20">
             {images.map((image) => (
-                <ImageListItem key={image.id} className="grid place-content-center place-items-center ">
+                <ImageListItem key={image.id} className="grid place-content-center place-items-center bg-slate-900 p-2  rounded-lg ">
                     <div className="relative w-fit h-fit">
                         <CaptureCard
+                            imageId={image.id}
                             imagePath={image.compressed_path}
                             altText="Snaps image"
                             onClick={image.onClick}
                             prefech />
-
-                        {image.downloadCount != null && (
-                            <div className="absolute bottom-0 p-2 right-0 gap-1 flex items-center justify-end text-white font-bold text-sm pointer-events-none">
-                                <FaDownload />
-                                {image.downloadCount}
-                            </div>
-                        )}
-
-
+                      
                     </div>
                 </ImageListItem>
             ))}

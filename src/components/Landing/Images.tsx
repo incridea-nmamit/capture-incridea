@@ -5,19 +5,19 @@ import Image from "next/image";
 
 // please use the images which are 600x600 cuz its not optimised for mobile view due to gsap
 const images = [
-    { src: "/images/landing-images/img1.png" },
-    { src: "/images/landing-images/img2.png" },
-    { src: "/images/landing-images/img3.png" },
-    { src: "/images/landing-images/img4.png" },
-    { src: "/images/landing-images/img5.png" },
-    { src: "/images/landing-images/img5.png" },
-    { src: "/images/landing-images/img6.png" },
-    { src: "/images/landing-images/img7.png" },
-    { src: "/images/landing-images/img8.png" },
-    { src: "/images/landing-images/img9.png" },
-    { src: "/images/landing-images/img10.png" },
-    { src: "/images/landing-images/img11.png" },
-    { src: "/images/landing-images/img12.png" },
+  { src: "/images/landing-images/img1.png" },
+  { src: "/images/landing-images/img2.png" },
+  { src: "/images/landing-images/img3.png" },
+  { src: "/images/landing-images/img4.png" },
+  { src: "/images/landing-images/img5.png" },
+  { src: "/images/landing-images/img5.png" },
+  { src: "/images/landing-images/img6.png" },
+  { src: "/images/landing-images/img7.png" },
+  { src: "/images/landing-images/img8.png" },
+  { src: "/images/landing-images/img9.png" },
+  { src: "/images/landing-images/img10.png" },
+  { src: "/images/landing-images/img11.png" },
+  { src: "/images/landing-images/img12.png" },
 ];
 
 function Images() {
@@ -66,31 +66,35 @@ function Images() {
     });
   }
 
+
+
   return (
     <section className="relative flex h-fit flex-col items-center space-y-8 overflow-hidden text-center">
       <br />
-      <h3 className="mb-12 w-3/4 text-center font-Teknaf text-3xl md:text-4xl lg:text-5xl">
+      <h3 className="mb-12 text-center font-Teknaf text-3xl md:text-4xl lg:text-5xl">
         "Let’s cherish memories by sharing them with all."
       </h3>
-      <div className="flex w-full items-center justify-center gap-6 overflow-hidden">
+      <div className="flex w-full  items-center justify-center gap-2 md:gap-6 overflow-hidden">
         <img
           src="https://placehold.co/400x600"
           alt=""
-          className="slide-image h-full w-[50%] rounded-lg object-cover"
+          className="slide-image  h-[27vh] md:h-full w-[50%] rounded-lg object-cover"
         />
         <img
           src="https://placehold.co/400x600"
           alt=""
-          className="slide-image w-[50%] rounded-lg"
+          className="slide-image h-[27vh] md:h-full  w-[50%] rounded-lg"
         />
         <img
           src="https://placehold.co/400x600"
           alt=""
-          className="slide-image w-[50%] rounded-lg"
+          className="slide-image h-[27vh] md:h-full  w-[50%] rounded-lg"
         />
       </div>
+
+
       <button
-        className="absolute right-1/3 top-20 z-10 grid aspect-square h-16 cursor-pointer place-content-center rounded-full bg-white/30 p-2 text-white backdrop-blur-sm transition hover:rotate-[24deg] md:h-24 md:p-6"
+        className="absolute md:right-1/3 right-3 top-24 md:top-20 z-10 grid aspect-square h-12 cursor-pointer place-content-center rounded-full bg-white/30 p-2 text-white backdrop-blur-sm transition hover:rotate-[24deg] md:h-24 md:p-6"
         onClick={() => {
           if (!tl.reversed()) {
             tl.repeatDelay(0);

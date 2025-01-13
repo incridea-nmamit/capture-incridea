@@ -1,5 +1,6 @@
 "use client";
 
+import { Camera, Computer, PcCase, Phone,  } from "lucide-react";
 import Link from "next/link";
 
 interface CardProps {
@@ -10,18 +11,32 @@ interface CardProps {
 }
 
 const TeamCommitteeCard: React.FC<CardProps> = ({ title, description, imageUrl, href }) => {
+
+  const renderIcon = (title:string) => {
+    switch (title) {
+      case "Capture Incridea Developers & Team":
+        return <Computer size={32} className="text-white" />;
+      case "Media Team":
+        return <Camera size={32} className="text-white" />;
+      case "Social Media Team":
+        return <PcCase size={32} className="text-white" />; 
+      default:
+        return null; 
+    }
+  };
   return (
     <Link href={href} passHref>
-      <div
-        className="relative w-64 h-64 md:w-72 md:h-72 bg-cover bg-center flex justify-center rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-        style={{ backgroundImage: `url('${imageUrl}')` }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-xl" />
-        <div className="relative flex flex-col items-center justify-center h-full text-white text-2xl text-center font-Teknaf w-3/4">
-          {title}
-          <p className="mt-2 text-center text-base text-gray-300 font-Trap-Regular">
-            {description}
-          </p>
+      <div className="relative bg-blend-saturation w-72 h-64 md:w-80 md:h-72 bg-cover bg-center flex flex-col justify-center items-start rounded-3xl shadow-lg cursor-pointer transition-transform transform hover:scale-105 hover:border hover:border-white"
+        style={{ backgroundImage: `url(${imageUrl})` }}>
+        <div className="absolute inset-0 bg-black opacity-40 backdrop-blur-lg rounded-3xl"></div>
+        <div className="absolute top-0 left-0 ml-6 mt-6">
+        {renderIcon(title)}
+        </div>
+
+        {/* Course Title and Description */}
+        <div className="p-6 text-white mt-24 z-50 space-y-2">
+          <h3 className="text-xl font-semibold">{title}</h3>
+          <p className="text-sm">{description}</p>
         </div>
       </div>
     </Link>
@@ -29,3 +44,4 @@ const TeamCommitteeCard: React.FC<CardProps> = ({ title, description, imageUrl, 
 };
 
 export default TeamCommitteeCard;
+

@@ -37,8 +37,8 @@ const Events: FC = () => {
 
   return (
     <div className=" min-h-screen container-size">
-      <div className="flex flex-row md:flex-row items-center gap-4 font-Trap-Regular mt-10">
-        <div className="relative flex-grow">
+      <div className="flex flex-col md:flex-row items-center gap-4 font-Trap-Regular mt-10">
+        <div className="relative flex-grow w-full md:w-auto">
           <input
             type="text"
             placeholder="Search events by name"
@@ -48,25 +48,46 @@ const Events: FC = () => {
           />
           <AiOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
         </div>
-        <select
-          value={selectedEventType}
-          onChange={(e) => setSelectedEventType(e.target.value.toLowerCase())}
-          className="p-2 border-slate-700 rounded-xl bg-transparent h-12 text-white"
-        >
-          <option className="text-white bg-neutral-950" value="all">All Categories</option>
-          {Object.entries(eventTypes).map(type=><option className="text-white bg-neutral-950" value={type[0]}>{type[1]}</option>)}
-          
-        </select>
-        <select
-
-          value={selectedDay}
-          onChange={(e) => setSelectedDay(e.target.value)}
-          className="p-2 border-slate-700 rounded-xl bg-transparent h-12 text-white"
-        >
-          <option className="text-white bg-neutral-950" value="all">All Days</option>
-          {Object.entries(eventDays).map(type=><option className="text-white bg-neutral-950" value={type[0]}>{type[1]}</option>)}
-        </select>
+        <div className="flex flex-row gap-4 w-fit md:w-auto">
+          <select
+            value={selectedEventType}
+            onChange={(e) => setSelectedEventType(e.target.value.toLowerCase())}
+            className="p-2 border-slate-700 rounded-xl bg-transparent h-12 text-white w-fit md:w-auto"
+          >
+            <option className="text-white bg-neutral-950" value="all">
+              All Categories
+            </option>
+            {Object.entries(eventTypes).map((type) => (
+              <option
+                key={type[0]}
+                className="text-white bg-neutral-950"
+                value={type[0]}
+              >
+                {type[1]}
+              </option>
+            ))}
+          </select>
+          <select
+            value={selectedDay}
+            onChange={(e) => setSelectedDay(e.target.value)}
+            className="p-2 border-slate-700 rounded-xl bg-transparent h-12 text-white w-full md:w-auto"
+          >
+            <option className="text-white bg-neutral-950" value="all">
+              All Days
+            </option>
+            {Object.entries(eventDays).map((type) => (
+              <option
+                key={type[0]}
+                className="text-white bg-neutral-950"
+                value={type[0]}
+              >
+                {type[1]}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
+
       <div className="flex flex-wrap justify-center gap-6 mt-10 mb-20">
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event, index) => (

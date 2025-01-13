@@ -1,49 +1,64 @@
 import { FaGithub } from "react-icons/fa";
 import { IoLogoInstagram } from "react-icons/io5";
+import Image from "next/image";
+
 interface CardProps {
   name: string;
   designation: string;
+  description: string;
   imageSrc: string;
-  say: string;
 }
 
 const TeamCard: React.FC<CardProps> = ({
   name,
   designation,
+  description,
   imageSrc,
-  say,
 }) => {
   return (
-    <div className="w-60 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-950
-        rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 border border-white">
-      {/* Top Section */}
-      <div className="relative h-64 rounded-t-lg overflow-hidden">
-        {/* Image fills the gradient background */}
-        <img
-          src={imageSrc}
-          alt={name}
-          className="absolute top-0 left-0 w-full h-full object-cover"
-        />
-        <div className="absolute top-0 left-0 h-8 w-32 bg-gradient-to-br from-neutral-900 via-blue-900 to-black
-          transform -skew-x-12 shadow-md"></div>
-        <div className="absolute top-0 flex justify-between items-center w-full px-4 py-2">
-          {/* Placeholder for logo */}
-          <div className="flex gap-4">
-            <IoLogoInstagram size={20}/>
-            <FaGithub size={20}/>
-          </div>
-        </div>
+    <div className="relative w-72 md:w-80 bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-80000 rounded-3xl p-4 md:p-6 shadow-xl  border">
+
+      <div className="absolute top-4 left-4 z-10 flex flex-col items-start space-y-4 justify-start mb-6 ml-0 bg-neutral-900 p-1 rounded-xl">
+        <a href="/">
+          <Image
+            src="/images/Logo/capture-main.png"
+            alt="Logo"
+            width={80}
+            height={45}
+            className="h-auto w-auto max-w-32"
+            onContextMenu={(e) => e.preventDefault()}
+            onDragStart={(e) => e.preventDefault()}
+          />
+        </a>
       </div>
 
-      {/* Bottom Section */}
-      <div className="p-2 text-center">
-        <h3 className="text-lg font-semibold text-white">{name}</h3>
-        <p className="text-sm text-gray-400">{designation}</p>
-        <p className="pt-2 text-xs text-gray-300 p-1">{say}</p>
-        <div className="flex justify-between mt-4"></div>
+
+      <div className="relative w-full h-60  ">
+        <Image
+          src={imageSrc}
+          alt={name}
+          layout="fill"
+          objectFit="cover"
+          objectPosition="top left"
+          className="rounded-t-2xl"
+        />
+      </div>
+
+      <div className="mt-5 text-center">
+        <h2 className="text-xl font-bold text-white">{name}</h2>
+        <p className="text-sm text-blue-400 mt-2">{designation}</p>
+        <p className="text-sm text-neutral-300 mt-4">{description}</p>
+      </div>
+
+      <div className="w-full h-[1px] bg-neutral-700 mt-4"></div>
+      <div className="flex justify-center gap-4 mt-4">
+        <IoLogoInstagram size={20} className="text-neutral-300 hover:text-blue-400" />
+        <FaGithub size={20} className="text-neutral-300 hover:text-blue-400" />
       </div>
     </div>
+
   );
 };
 
 export default TeamCard;
+

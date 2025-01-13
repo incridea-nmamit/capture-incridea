@@ -28,11 +28,11 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
   const [description, setDescription] = useState('');
   const [uploadUrl, setUploadUrl] = useState('');
   const [otp, setOtp] = useState('');
-  const [otpEntered, setOtpEntered] = useState<string[]>(['', '', '', '']); 
-  const [emailVerified, setEmailVerified] = useState(false); 
+  const [otpEntered, setOtpEntered] = useState<string[]>(['', '', '', '']);
+  const [emailVerified, setEmailVerified] = useState(false);
   const [otpStatus, setOtpStatus] = useState<string>('');
-  const [otpSent, setOtpSent] = useState(false); 
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]); 
+  const [otpSent, setOtpSent] = useState(false);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const generateOtp = () => {
     return Math.floor(1000 + Math.random() * 9000).toString();
@@ -66,17 +66,17 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
     setEmail('');
     setDescription('');
     setUploadUrl('');
-    setOtpEntered(['', '', '', '']); 
+    setOtpEntered(['', '', '', '']);
     setOtpStatus('');
     setOtpSent(false);
-    setEmailVerified(false); 
+    setEmailVerified(false);
 
     onClose();
   };
 
   const handleEmailVerification = async () => {
     const generatedOtp = generateOtp();
-    setOtp(generatedOtp); 
+    setOtp(generatedOtp);
     try {
       const response = await fetch('/api/sendEmail', {
         method: 'POST',
@@ -84,34 +84,34 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email, 
-          otp: generatedOtp, 
+          email,
+          otp: generatedOtp,
         }),
       });
 
       const result = await response.json();
       if (response.status === 200 && result.message === 'OTP sent successfully!') {
         toast.success('OTP sent successfully!');
-        setOtpSent(true); 
-        setOtpStatus(''); 
+        setOtpSent(true);
+        setOtpStatus('');
       } else {
         toast.error('Failed to send OTP.');
-        setOtpSent(false); 
+        setOtpSent(false);
       }
     } catch (error) {
       alert('An error occurred while sending the OTP.');
-      setOtpSent(false); 
+      setOtpSent(false);
     }
   };
 
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const value = e.target.value;
-    if (/[^0-9]/.test(value)) return; 
+    if (/[^0-9]/.test(value)) return;
     const updatedOtp = [...otpEntered];
     updatedOtp[index] = value;
     setOtpEntered(updatedOtp);
 
-    
+
     if (value && index < otpEntered.length - 1) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -119,7 +119,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
     if (e.key === 'Backspace' && otpEntered[index] === '') {
-      
+
       if (index > 0) {
         inputRefs.current[index - 1]?.focus();
       }
@@ -136,15 +136,15 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
     if (enteredOtp === otp) {
       setOtpStatus('OTP Verified!');
       toast.success('OTP Verified Successfully')
-      setEmailVerified(true); 
+      setEmailVerified(true);
     } else {
       setOtpStatus('Incorrect OTP. Please try again.');
       toast.error('Invaild OTP, Please Enter again!')
-      setEmailVerified(false); 
+      setEmailVerified(false);
     }
   };
   const handleResendOtp = async () => {
-    setOtpStatus(''); 
+    setOtpStatus('');
     await handleEmailVerification();
   };
 
@@ -154,10 +154,10 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
     setEmail('');
     setDescription('');
     setUploadUrl('');
-    setOtpEntered(['', '', '', '']); 
-    setOtpSent(false); 
+    setOtpEntered(['', '', '', '']);
+    setOtpSent(false);
     setEmailVerified(false);
-    setEmailVerified(false); 
+    setEmailVerified(false);
     onClose();
   };
 
@@ -169,8 +169,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
       role="dialog"
       aria-modal="true"
     >
-      <div className="relative bg-black p-6 rounded-3xl shadow-lg max-w-xs sm:max-w-md w-full z-50 font-Trap-Regular">
-        <h2 className="text-2xl text-white text-center mb-4">Request Removal</h2>
+<div className="relative bg-black p-6 rounded-3xl shadow-lg w-full max-w-sm sm:max-w-md lg:max-w-xl xl:max-w-2xl h-auto lg:h-[500px] xl:h-[600px] flex flex-col items-center justify-center mx-auto z-50 font-Trap-Regular">        <h2 className="text-2xl text-white text-center mb-4">Request Removal</h2>
         <button onClick={handleModalClose} className="absolute top-1 right-6 text-2xl text-white p-5">
           &times;
         </button>
@@ -178,7 +177,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
           {/* Transparent overlay */}
           <div
             className="absolute inset-0 bg-transparent z-10"
-            style={{ pointerEvents: "none" }} 
+            style={{ pointerEvents: "none" }}
           />
           <Image
             src={imagePath || '/images/fallback.jpg'}
@@ -244,18 +243,18 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
               ))}
             </div>
           )}
-           {/* Resend OTP Button */}
-           {otpSent && !emailVerified && (
+          {/* Resend OTP Button */}
+          {otpSent && !emailVerified && (
             <div>
-            <div className='flex justify-center'>
-              <button
-                type="button"
-                onClick={handleResendOtp}
-                className="w-1/3 hover:text-green-500 text-white px-4 rounded"
-              >
-                Resend OTP
-              </button>
-            </div>
+              <div className='flex justify-center'>
+                <button
+                  type="button"
+                  onClick={handleResendOtp}
+                  className="w-1/3 hover:text-green-500 text-white px-4 rounded"
+                >
+                  Resend OTP
+                </button>
+              </div>
             </div>
           )}
 

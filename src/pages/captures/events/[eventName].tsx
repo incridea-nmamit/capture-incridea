@@ -88,14 +88,15 @@ const EventCaptures = () => {
 
   return (
     <div className="mt-32">
-      <div className="container-size mt-20">
+      <div className="mt-20">
         <h1 className="text-3xl md:text-6xl font-Teknaf text-white text-center mb-8 mt-4 md:mb-4 md:mt-8">
           {formattedEventName} Captures
         </h1>
-        <div className="flex justify-center mb-10 font-Trap-Regular">
-          {event?.description && <p className="text-center text-gray-400 mb-5 w-3/4">{event.description}</p>}
+        <div className="flex   justify-center mb-10 font-Trap-Regular">
+          {event?.description && <p className=" text-justify md:text-center text-gray-400 mb-5 w-3/4">{event.description}</p>}
         </div>
       </div>
+
       <ImagesMasonry
         isFetchingNextPage={isFetchingNextPage}
         fetchNextPage={fetchNextPage}

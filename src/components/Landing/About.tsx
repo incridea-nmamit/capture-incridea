@@ -3,22 +3,22 @@ import RedirectButton from "./RedirectButton";
 
 function About() {
   return (
-    <section className="container-size mx-auto flex h-screen flex-col items-center justify-center gap-8 text-center">
+    <section className="container-size mx-auto flex h-screen flex-col items-center justify-center gap-8 text-left md:text-center">
       <br />
-      <h3 className="mb-8 w-full text-center font-Teknaf text-5xl md:text-6xl lg:text-6xl">
-        We capture what u see....
+      <h3 className="mb-8 w-full text-center font-Teknaf font-bold text-4xl md:text-6xl lg:text-6xl">
+        We capture 📷 what you see ...
       </h3>
 
-      <p className="max-w-3xl text-center font-Trap-Regular">
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has b een the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley o f type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but a lso the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more re cently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum About capture incredia
+      <p className="max-w-3xl  text-justify md:text-center font-Trap-Regular leading-relaxed">
+        We transform what you see into extraordinary visuals with
+        unmatched creativity and attention to detail. From our early
+        beginnings to today, we’ve been committed to excellence in
+        capturing and elevating every moment. Our journey started
+        with the traditional tools of the trade and has evolved alongside
+        cutting-edge technology, ensuring that every image tells a compelling story.
+        Whether it’s through innovative techniques or timeless approaches, we bring your
+        vision to life. With decades of expertise, we continue to enhance, innovate, and
+        inspire, making every captured moment a masterpiece.
       </p>
       <br />
 

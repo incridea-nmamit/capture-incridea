@@ -8,7 +8,7 @@ export const likeRouter = createTRPCRouter({
         captureId: z.number(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       const totalLikes = await ctx.db.galleryLike.count({
         where: { galleryId: input.captureId, liked: true },
       });
@@ -18,13 +18,12 @@ export const likeRouter = createTRPCRouter({
   hasLiked: protectedProcedure
     .input(
       z.object({
-        galleryId: z.number(),
-        userId: z.string(),
+        captureId: z.number(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       const likeStatus = await ctx.db.galleryLike.findUnique({
-        where: { userId_galleryId: { userId: input.userId, galleryId: input.galleryId } },
+        where: { userId_galleryId: { userId: ctx.session.user.id, galleryId: input.captureId } },
       });
       return likeStatus?.liked || false;
     }),
@@ -33,15 +32,14 @@ export const likeRouter = createTRPCRouter({
     .input(
       z.object({
         galleryId: z.number(),
-        userId: z.string(),
         toggle: z.boolean(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db.galleryLike.upsert({
-        where: { userId_galleryId: { userId: input.userId, galleryId: input.galleryId } },
+        where: { userId_galleryId: { userId:ctx.session.user.id, galleryId: input.galleryId } },
         update: { liked: input.toggle },
-        create: { userId: input.userId, galleryId: input.galleryId, liked: input.toggle },
+        create: { userId: ctx.session.user.id, galleryId: input.galleryId, liked: input.toggle },
       });
     }),
 });

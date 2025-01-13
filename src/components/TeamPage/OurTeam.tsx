@@ -2,7 +2,6 @@
 
 import TeamCommitteeCard from "./TeamCommitteeCard";
 
-
 const OurTeam = () => {
   const teams = [
     {
@@ -29,13 +28,14 @@ const OurTeam = () => {
   ];
 
   return (
-    <div className="mt-20">
-      <div className="container-size bg-neutral-950 text-white flex flex-col items-center py-12 z-20">
-        {/* Page Title */}
-        <h1 className="text-6xl text-center font-Teknaf mb-8 z-20">Our Elite Teams</h1>
+    <div className="mt-16 lg:mt-20">
+      <div className="max-w-screen-xl mx-auto bg-neutral-950 text-white flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 z-20">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-center font-Teknaf mb-8">
+          Our Elite Teams
+        </h1>
 
         {/* Small Description */}
-        <p className="text-lg text-center font-Trap-Regular max-w-3xl text-gray-400 mb-12 z-20">
+        <p className="text-base sm:text-lg md:text-xl text-justify md:text-center font-Trap-Regular max-w-3xl text-gray-400 mb-12">
           Our committees have been the backbone of Incridea, working tirelessly
           to ensure a seamless and creative experience. From capturing the essence of the
           event to engaging with audiences online and managing digital platforms, each committee
@@ -43,7 +43,7 @@ const OurTeam = () => {
         </p>
 
         {/* Cards Container */}
-        <div className="flex flex-col md:flex-row gap-8 flex-wrap justify-center z-20 m-16">
+        <div className="flex flex-wrap justify-center gap-6 mt-10 mb-20">
           {teams.map((team, index) => (
             <TeamCommitteeCard
               key={index}

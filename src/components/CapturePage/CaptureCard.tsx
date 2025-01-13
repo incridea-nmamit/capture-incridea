@@ -1,16 +1,22 @@
+import { HeartIcon } from "lucide-react";
 import Image from "next/image";
+import { api } from "~/utils/api";
 
 interface CaptureCardProps {
+  imageId: number;
   imagePath: string;
   altText: string;
   onClick: () => void;
   prefech: boolean;
 }
 
-export const CaptureCard: React.FC<CaptureCardProps> = ({ imagePath, altText, onClick, prefech = false }) => {
+export const CaptureCard: React.FC<CaptureCardProps> = ({ imageId, imagePath, altText, onClick, prefech = false }) => {
+
+  const { data: totalLikes } = api.like.getTotalLikes.useQuery({ captureId: imageId! })
+
   return (
     <div
-      className="relative rounded-lg shadow-md overflow-hidden w-full max-w-sm cursor-pointer flex flex-col justify-center "
+      className="relative rounded-lg shadow-md overflow-hidden w-full max-w-sm cursor-pointer flex flex-col justify-center  "
       onClick={onClick}
     >
       <Image
@@ -26,6 +32,9 @@ export const CaptureCard: React.FC<CaptureCardProps> = ({ imagePath, altText, on
       {prefech && (
         <link rel="prefetch" href={imagePath} as="image" className="hidden" />
       )}
+      <div className="absolute -bottom-1 right-0 text-white bg-slate-900  px-4 py-2 rounded-tl-full " >
+        ❤️{totalLikes}
+      </div>
     </div>
   )
 };
