@@ -2,23 +2,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { RefreshCcw } from "lucide-react";
 import Image from "next/image";
+import { randomSliderImages } from './../constants/data';
 
-// please use the images which are 600x600 cuz its not optimised for mobile view due to gsap
-const images = [
-  { src: "/images/landing-images/img1.png" },
-  { src: "/images/landing-images/img2.png" },
-  { src: "/images/landing-images/img3.png" },
-  { src: "/images/landing-images/img4.png" },
-  { src: "/images/landing-images/img5.png" },
-  { src: "/images/landing-images/img5.png" },
-  { src: "/images/landing-images/img6.png" },
-  { src: "/images/landing-images/img7.png" },
-  { src: "/images/landing-images/img8.png" },
-  { src: "/images/landing-images/img9.png" },
-  { src: "/images/landing-images/img10.png" },
-  { src: "/images/landing-images/img11.png" },
-  { src: "/images/landing-images/img12.png" },
-];
 
 function Images() {
   const repeatDelay = 1;
@@ -59,7 +44,7 @@ function Images() {
 
     imageElements.forEach((element) => {
       // Ensure images array is not empty and access the src properly
-      const randomImage = images[Math.floor(Math.random() * images.length)];
+      const randomImage = randomSliderImages [Math.floor(Math.random() * randomSliderImages .length)];
       if (randomImage && randomImage.src) {
         element.setAttribute("src", randomImage.src);
       }
@@ -69,7 +54,7 @@ function Images() {
 
 
   return (
-    <section className="relative flex h-fit flex-col items-center space-y-8 overflow-hidden text-center">
+    <section className="relative flex h-fit flex-col items-center space-y-8 overflow-hidden text-center bg-neutral-950">
       <br />
       <h3 className="mb-12 text-center font-Teknaf text-3xl md:text-4xl lg:text-5xl">
         "Let’s cherish memories by sharing them with all."

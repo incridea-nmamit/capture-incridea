@@ -17,6 +17,7 @@ import LoginComponent from "./LoginComponent";
 import NotRegistered from "./NotRegistered";
 import KeyboardShortcut from "~/components/Shortcuts";
 import IntroAnimation from "./Intro";
+import { usePathname } from "next/navigation";
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -59,19 +60,31 @@ const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps:
 
   if (!isEmailVerified) return <NotRegistered />;
 
-  return (
-    <ScrollArea className="w-full h-screen flex-1 font-roboto flex min-h-screen flex-col">
-      <div className="font-roboto flex min-h-screen flex-col">
-        <Header />
-        <main className="flex-grow">
-          <Toaster position="top-right" reverseOrder={false} />
-          <TrackPageVisits />
-          {loading ? <CameraLoading /> : <Component {...pageProps} />}
-        </main>
-        <Footer />
-      </div>
-    </ScrollArea>
-  );
+  const excludedRoute = [
+    "/LoginComponent",
+    "/NotRegistered",
+    "/test"
+
+  ];
+  const pathname = usePathname();
+  const isExcluded = excludedRoute.some((route) => pathname.startsWith(route));
+  if (isExcluded) {
+    return <>{loading ? <CameraLoading /> : <Component {...pageProps} />} </>
+  } else {
+    return (
+      <ScrollArea className="w-full h-screen flex-1 font-roboto flex min-h-screen flex-col">
+        <div className="font-roboto flex min-h-screen flex-col">
+          <Header />
+          <main className="flex-grow">
+            <Toaster position="top-right" reverseOrder={false} />
+            <TrackPageVisits />
+            {loading ? <CameraLoading /> : <Component {...pageProps} />}
+          </main>
+          <Footer />
+        </div>
+      </ScrollArea>
+    );
+  }
 };
 
 const MyApp: AppType<{ session: Session | null }> = ({
