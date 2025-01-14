@@ -5,12 +5,13 @@ import { type FC } from "react";
 
 interface EventCardProps {
   name: string;
+  type: string;
   description: string;
   day: string;
   background: string;
 }
 
-const EventCard: FC<EventCardProps> = ({ name, description, background }) => {
+const EventCard: FC<EventCardProps> = ({ name, type, description, day, background }) => {
   const router = useRouter();
 
   const handleCardClick = () => {
@@ -19,24 +20,39 @@ const EventCard: FC<EventCardProps> = ({ name, description, background }) => {
 
   return (
     <div
-      className="relative group cursor-pointer overflow-hidden w-72 h-80 bg-zinc-800 text-gray-50 p-2 hover:border hover:border-s-zinc-50"
+      className="relative cursor-pointer overflow-hidden w-80 h-full bg-neutral-900 text-gray-50 rounded-lg shadow-md hover:border border-gray-700 hover:shadow-lg hover:border-gray-600 transition duration-300"
       onClick={handleCardClick}
     >
-      <div className="relative w-full h-64 group-hover:scale-110 duration-500">
+      {/* Image Section */}
+      <div className="relative p-2">
         <Image
           src={background}
           alt={name}
-          layout="fill"
-          quality={20}
-          className="object-cover w-full h-full group-hover:opacity-70 duration-500"
+          width={300}
+          height={80}
+          className="object-cover rounded-xl "
         />
       </div>
-      <div className="absolute w-56 left-0 p-5 -bottom-10 group-hover:text-center group-hover:items-center group-hover:justify-center duration-500 group-hover:-translate-y-12">
-        <div className="absolute -z-10 left-0 w-72 h-28 opacity-0 duration-500 group-hover:opacity-50 group-hover:bg-gray-300 group-hover:rounded-t-md"></div>
-        <h2 className=" group-hover:ml-12 text-xl font-bold text-white group-hover:text-white group-hover:bg-neutral-900 group-hover:mt-1 group-hover:items-center group-hover:text-center group-hover:justify-center group-hover:mb-1  rounded-md p-2">{name}</h2>
-        <p className="group-hover:opacity-100 w-56 duration-500 group-hover:text-center opacity-0  text-sm text-white line-clamp-4">
-          {description}
-        </p>
+
+
+      <div className="p-4 space-y-3 ">
+        <div className=" flex flex-row justify-between items-center gap-2">
+          <h2 className="text-lg font-bold text-white">{name}</h2>
+          <span className="border border-gray-200 text-gray-200 px-2 py-1 rounded-md">
+            {type}
+          </span>
+        </div>
+
+
+        <div className="flex items-end justify-end text-sm text-gray-400">
+          <span className="bg-black text-gray-200 px-2 py-1 rounded-md">
+            {day}
+          </span>
+        </div>
+        <hr/>
+
+        {/* Description */}
+        <p className="text-sm text-gray-300 line-clamp-3">{description}</p>
       </div>
     </div>
   );
