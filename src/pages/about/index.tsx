@@ -3,8 +3,6 @@ import dynamic from "next/dynamic";
 import Image from 'next/image';
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
-
-
 const About = () => {
 
   const cards = [{
@@ -28,22 +26,7 @@ const About = () => {
   },]
   return (
     <>
-      <div className='relative h-[512px] max-h-screen w-full overflow-hidden shrink-0'>
-        <div className="w-full h-full items-center md:h-screen lg:h-screen xl:h-screen md:min-h-[396px] md:max-h-[525px] lg:min-h-[620px] lg:max-h-[640px] xl:min-h-[720px] xl:max-h-[780px] 2xl:h-[800px] flex justify-stretch ">
-          <ReactPlayer
-            url="https://vimeo.com/883551016?share=copy"
-            playing
-            loop
-            muted
-            controls={false}
-            width="100%"
-            height="100%"
-          />
-        </div>
-      </div>
-
-
-      <main className='container-size text-center space-y-24 lg:py-24 md:py-16 py-8 font-Trap-Regular'>
+      <main className='container-size text-center my-20 space-y-24 lg:py-24 md:py-16 py-8 font-Trap-Regular'>
         <section>
           <Image src="/images/Logo/nitteLogoWhite.png" width={800} height={300} alt="nmamit logo" className='mx-auto px-4 mb-5' />
 
@@ -77,16 +60,11 @@ const About = () => {
 
 
         <section className='grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4  font-Trap-Regular'>
-          <div className='p-6 border-white'
-            // style={{
-            //   backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='25' ry='25' stroke='white' stroke-width='6' stroke-dasharray='18' stroke-dashoffset='10' stroke-linecap='square'/%3e%3c/svg%3e")`,
-            //   borderRadius: "25px"
-            // }}
-          >
-            <Image src="/images/Logo/incridealogo-2.png" width={1200} height={500} alt="capture logo" className='mx-auto h-44  w-full ' />
+          <div className='p-6 border-white'>
+            <Image src="/images/Logo/inc-abt.png" width={600} height={500} alt="capture logo" className='mx-auto h-32  w-full ' />
           </div>
           <div className='space-y-4 max-w-xl'>
-            <p>        Incridea is a colossal national-level techno-cultural fest with an audience pool spread among 200 colleges all across India.
+            <p>Incridea is a colossal national-level techno-cultural fest with an audience pool spread among 200 colleges all across India.
               The fest holds the values abbreviated in the name, i.e.
               Innovate, Create and Ideate at the highest standard possible by becoming a symbol of technology, passion, culture and
               conviction among students. Incridea is conducted with the help of
@@ -101,13 +79,8 @@ const About = () => {
         </section>
 
         <section className='grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4'>
-          <div className='p-6 border-white lg:order-last'
-            // style={{
-            //   backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='25' ry='25' stroke='white' stroke-width='6' stroke-dasharray='18' stroke-dashoffset='10' stroke-linecap='square'/%3e%3c/svg%3e")`,
-            //   borderRadius: "25px"
-            // }}
-          >
-            <Image src="/images/Logo/capture-main.png" width={800} height={300} alt="capture logo" className='mx-auto max-h-44 max-w-96 w-full h-full' />
+          <div className='p-6 border-white lg:order-last'>
+            <Image src="/images/Logo/capture.png" width={800} height={300} alt="capture logo" className='mx-auto max-h-44 max-w-96 w-full h-24' />
           </div>
           <div className=' space-y-4 max-w-xl  font-Trap-Regular'>
             <p>Capture Incridea is the official digital platform curated by the Media-Social Media Team 
@@ -121,7 +94,20 @@ const About = () => {
           </div>
         </section>
 
-
+        {/* Video Section */}
+        <section className='relative h-[512px] max-h-screen w-full overflow-hidden shrink-0'>
+          <div className="w-full h-full items-center md:h-screen lg:h-screen xl:h-screen md:min-h-[396px] md:max-h-[525px] lg:min-h-[620px] lg:max-h-[640px] xl:min-h-[720px] xl:max-h-[780px] 2xl:h-[800px] flex justify-stretch ">
+            <ReactPlayer
+              url="https://vimeo.com/883551016?share=copy"
+              playing
+              loop
+              muted
+              controls={false}
+              width="100%"
+              height="100%"
+            />
+          </div>
+        </section>
 
         <section>
           <h5 className='font-Teknaf text-5xl mb-16'>Team Incridea'24</h5>
@@ -140,7 +126,6 @@ const About = () => {
             }
           </div>
         </section>
-
       </main>
     </>
   )

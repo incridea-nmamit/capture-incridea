@@ -19,7 +19,6 @@ const TeamCard: React.FC<CardProps> = ({
     <div className="relative w-72 md:w-80 bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-80000 rounded-3xl p-4 md:p-6 shadow-xl  border">
 
       <div className="absolute top-4 left-4 z-10 flex flex-col items-start space-y-4 justify-start mb-6 ml-0 bg-neutral-900 p-1 rounded-xl">
-        <a href="/">
           <Image
             src="/images/Logo/capture-main.png"
             alt="Logo"
@@ -29,7 +28,6 @@ const TeamCard: React.FC<CardProps> = ({
             onContextMenu={(e) => e.preventDefault()}
             onDragStart={(e) => e.preventDefault()}
           />
-        </a>
       </div>
 
 
@@ -41,6 +39,8 @@ const TeamCard: React.FC<CardProps> = ({
           objectFit="cover"
           objectPosition="top left"
           className="rounded-t-2xl"
+          onContextMenu={(e) => e.preventDefault()}
+          onDragStart={(e) => e.preventDefault()}
         />
       </div>
 

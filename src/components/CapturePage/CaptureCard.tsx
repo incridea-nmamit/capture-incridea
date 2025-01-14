@@ -1,7 +1,6 @@
-import { HeartIcon } from "lucide-react";
 import Image from "next/image";
 import { api } from "~/utils/api";
-
+import { FcLike } from "react-icons/fc";
 interface CaptureCardProps {
   imageId: number;
   imagePath: string;
@@ -32,8 +31,8 @@ export const CaptureCard: React.FC<CaptureCardProps> = ({ imageId, imagePath, al
       {prefech && (
         <link rel="prefetch" href={imagePath} as="image" className="hidden" />
       )}
-      <div className="absolute -bottom-1 right-0 text-white bg-slate-900  px-4 py-2 rounded-tl-full " >
-        ❤️{totalLikes}
+      <div className="absolute -bottom-1 right-0 text-white bg-slate-900 flex gap-1 px-4 py-2 rounded-tl-3xl" >
+        <FcLike size={20}/>{totalLikes}
       </div>
     </div>
   )

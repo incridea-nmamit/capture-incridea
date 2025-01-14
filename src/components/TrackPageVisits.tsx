@@ -3,8 +3,9 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { generateUniqueId } from "~/utils/generateUniqueId";
 import { useSession } from "next-auth/react";
-
+import { isMobile, isTablet, isDesktop } from 'react-device-detect';
 const TrackPageVisits = () => {
+  
   const logVisitMutation = api.analytics.logVisit.useMutation();
   const updateVisitMutation = api.analytics.updateVisit.useMutation();
   const updateNullEntriesMutation = api.analytics.updateNullEntries.useMutation();
@@ -22,9 +23,14 @@ const TrackPageVisits = () => {
       const routePath = router.asPath;
       const allowedPaths = ["/captures", "/about", "/our-team"];
       const isAllowedPath = routePath === "/" || allowedPaths.some((path) => routePath.startsWith(path));
-
+      const getDevice = () => {
+        if (isMobile) return "mobile";
+        if (isTablet) return "tablet";
+        if (isDesktop) return "desktop";
+        return "unknown"; // Fallback for undefined cases
+      };
+      const device = getDevice();
       if (!isAllowedPath) return;
-
       const uniqueId = generateUniqueId();
       uniqueIdRef.current = uniqueId;
 
@@ -33,7 +39,7 @@ const TrackPageVisits = () => {
         {
           onSuccess: () => {
             logVisitMutation.mutate(
-              { session_user, uniqueId, routePath },
+              { session_user, uniqueId, routePath ,device },
               {
                 onError: (error) => {
                   console.error("Error logging visit:", error);
@@ -68,6 +74,8 @@ const TrackPageVisits = () => {
         }
       }, 20000); // Sync every 20 seconds
     };
+
+   
 
     const handlePageExit = () => {
       if (uniqueIdRef.current) {
