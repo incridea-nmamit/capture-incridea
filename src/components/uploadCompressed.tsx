@@ -5,24 +5,25 @@ import { UploadButton } from '~/utils/uploadthing';
 import CameraLoading from '~/components/LoadingAnimation/CameraLoading';
 import toast from 'react-hot-toast';
 
-interface UploadedImage {
+type UploadedImage = {
   original: string;
   compressed: string;
 }
 
-interface UploadComponentProps {
-  name: string; 
+type UploadComponentProps = {
+  name: string;
   category: string;
-  type: string; 
+  type: string;
   authorid: number;
   handleClosePopup: () => void;
 }
 
-const UploadComponent: React.FC<UploadComponentProps> = ({ name, category ,type,authorid, handleClosePopup }) => {
+const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type, authorid, handleClosePopup }) => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const mutation = api.gallery.addImage.useMutation({
     onSuccess: () => {
-      alert('Image added successfully!');
+      toast.success('Image added successfully!');
+
     },
     onError: () => {
       alert('Failed to add image!');
@@ -103,8 +104,8 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category ,type,
 
     if (originalUrl && compressedUrl) {
       mutation.mutate({
-        event_name: name,  
-        event_category: category, 
+        event_name: name,
+        event_category: category,
         uploadKeyOg: originalUrl,
         uploadKeyCompressed: compressedUrl,
         upload_type: type,
@@ -123,17 +124,31 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category ,type,
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">Upload Your Images</h1>
-      <UploadButton
-        endpoint="imageUploaderCompressed"
-        onBeforeUploadBegin={handleBeforeUploadBegin}
-        onUploadProgress={() => setIsLoading(true)}
-        onClientUploadComplete={handleUploadComplete}
-        onUploadError={handleUploadError}
-      />
-      {isLoading && <CameraLoading />}
+    <div className="flex flex-col items-center justify-center p-6 bg-neutral-900 rounded-lg shadow-md">
+      <h1 className="text-4xl font-Hunters leading-5 font-semibold mb-4 text-white">
+        Upload Your Images
+      </h1>
+      <p className="mb-6 font-Trap-Regular text-gray-400 text-sm text-center">
+        Choose and upload high-quality images. Supported formats: JPEG, PNG.
+      </p>
+      <div className="w-full max-w-md p-6 border-2 border-dashed border-gray-300 rounded-lg bg-neutral-950 hover:border-blue-400 transition-colors space-y-6">
+        <UploadButton
+          endpoint="imageUploaderCompressed"
+          onBeforeUploadBegin={handleBeforeUploadBegin}
+          onUploadProgress={() => setIsLoading(true)}
+          onClientUploadComplete={handleUploadComplete}
+          onUploadError={handleUploadError}
+        />
+        <span className="flex flex-col items-center justify-center">
+
+          <span className="text-sm text-gray-500">
+            Click to upload
+          </span>
+        </span>
+     
     </div>
+    { isLoading && <CameraLoading /> }
+  </div >
   );
 };
 

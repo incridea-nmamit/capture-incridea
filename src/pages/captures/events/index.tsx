@@ -4,11 +4,11 @@ import TitleDescription from "~/components/TitleDescription";
 
 function EventsPage() {
   return (
-    <div>
+    <div className="mt-20">
       <TitleDescription 
         title="Events" 
         description="Vibrant Events"
-        imagePath="/images/event.jpg"
+        imagePath="https://utfs.io/f/0yks13NtToBitJchJ4NSCB2X9TSlbJxWYgG6rpN3n8swf4Fz"
       />
       <FallingClipart />
       <Events />

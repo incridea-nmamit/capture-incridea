@@ -97,6 +97,7 @@ const Events: FC = () => {
             >
               <EventCard
                 name={event.name}
+                type={event.type}
                 description={event.shortDescription}
                 day={event.day}
                 background={event.image}

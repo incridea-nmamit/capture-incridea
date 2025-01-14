@@ -53,7 +53,7 @@ const MediaCommittee: React.FC = () => {
   });
 
   return (
-    <div className="flex flex-col items-center bg-neutral-950 z-20">
+    <div className="flex flex-col items-center bg-neutral-950 z-20 md:mt-10 ">
       <FallingClipart />
       {/* Title Section */}
       <TitleSection 
