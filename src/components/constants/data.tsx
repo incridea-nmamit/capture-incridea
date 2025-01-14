@@ -1,6 +1,30 @@
 
 import Image from "next/image";
 import React from "react";
+import {
+  Aperture,
+  Bell,
+  BookCheck,
+  CalendarCog,
+  GalleryHorizontalEnd,
+  ImageUp,
+  Settings,
+  UserCog,
+  Users,
+} from 'lucide-react';
+
+import EventsAdmin from '~/components/EventsAdmin/EventsAdmin';
+import CapturesAdmin from '~/components/CapturesAdmin/CapturesAdmin';
+import TeamAdmin from '~/components/TeamAdmin/TeamAdmin';
+import ManageRoles from '~/components/ManageRoles/ManageRoles';
+import RemovalRequest from '~/components/RemovalRequestAdmin/RemovalRequest';
+import ControlComponent from '~/components/ControlAdmin/ControlComponent';
+import SMCUploads from '~/components/SMCUploads/SMCUploads';
+import Stories from '~/components/Stories/Stories';
+import ApproveCaptures from '~/components/ApproveCapture/ApproveCapture';
+
+import { Role } from '@prisma/client';
+
 
 export const randomSliderImages = [
   { src: "/images/landing-images/img1.png" },
@@ -130,5 +154,72 @@ export const timeLineData = [
           </div>
         </div>
       ),
+    },
+
+  ];
+
+ export const tabs = [
+    {
+      name: 'events',
+      label: 'Events',
+      icon: CalendarCog,
+      content: <EventsAdmin />,
+      roles: [Role.admin, Role.manager],
+    },
+    {
+      name: 'captures',
+      label: 'Captures',
+      icon: Aperture,
+      content: <CapturesAdmin />,
+      roles: [Role.admin, Role.manager, Role.editor],
+    },
+    {
+      name: 'team',
+      label: 'Teams',
+      icon: Users,
+      content: <TeamAdmin />,
+      roles: [Role.admin, Role.manager],
+    },
+    {
+      name: 'roles',
+      label: 'User Roles',
+      icon: UserCog,
+      content: <ManageRoles />,
+      roles: [Role.admin],
+    },
+    {
+      name: 'removalrequest',
+      label: 'Request',
+      icon: Bell,
+      content: <RemovalRequest />,
+      roles: [Role.admin, Role.manager, Role.editor],
+    },
+    {
+      name: 'controls',
+      label: 'Settings',
+      icon: Settings,
+      content: <ControlComponent />,
+      roles: [Role.admin],
+    },
+    {
+      name: 'smc',
+      label: 'Stories Uploads',
+      icon: ImageUp,
+      content: <SMCUploads />,
+      roles: [Role.admin, Role.editor, Role.smc],
+    },
+    {
+      name: 'stories',
+      label: 'Capture Stories',
+      icon: GalleryHorizontalEnd,
+      content: <Stories />,
+      roles: [Role.admin, Role.editor, Role.manager],
+    },
+    {
+      name: 'approvecap',
+      label: 'Approve Captures',
+      icon: BookCheck,
+      content: <ApproveCaptures />,
+      roles: [Role.admin, Role.manager],
     },
   ];
