@@ -26,6 +26,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({
           const uploadKey = res?.[0]?.key;
           if (uploadKey) {
             onUploadComplete(uploadKey);
+            toast.success("uplodeCompleted")
           } else {
             toast.error("Upload failed or no key received.");
           }
