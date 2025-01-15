@@ -9,12 +9,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "~/utils/api";
-import UploadComponent from "../uploadCompressed";
+import UploadComponent from "../../uploadCompressed";
 import UseRefetch from "~/hooks/use-refetch";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Label } from "../ui/label";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
+import { Label } from "../../ui/label";
 
 const schema = z.object({
     event_category: z.string().nonempty("Please select a category"),

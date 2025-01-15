@@ -9,6 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "~/components/ui/dialog"
+import UseRefetch from "~/hooks/use-refetch";
 
 import { api } from "~/utils/api";
 
@@ -23,7 +24,7 @@ export function DeleteCapturePopUpModel({ isOpen, setOpen, captureId }: Props) {
     const auditLogMutation = api.audit.log.useMutation();
     const [loading, setLoading] = useState(false)
     const { data: session } = useSession();
-    const { refetch } = api.gallery.getAllGallery.useQuery();
+    const  refetch  =UseRefetch()
     const toastStyle = {
         style: {
             borderRadius: '10px',
@@ -42,8 +43,8 @@ export function DeleteCapturePopUpModel({ isOpen, setOpen, captureId }: Props) {
                     sessionUser: session?.user.name || "Invalid User",
                     description: `CaptureManagementAudit - Deleted a capture with id ${captureId} as disagreement`,
                 });
-                toast.success('Successfully deleted the capture', toastStyle);
                 setLoading(false)
+                toast.success('Successfully deleted the capture', toastStyle);
             } catch (error) {
                 toast.error('Error deleting capture', toastStyle);
                 setLoading(false)
