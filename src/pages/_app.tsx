@@ -63,7 +63,6 @@ const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps:
   const excludedRoute = [
     "/LoginComponent",
     "/NotRegistered",
-    "/test"
 
   ];
   const pathname = usePathname();
