@@ -18,12 +18,10 @@ export const CaptureCard: React.FC<CaptureCardProps> = ({ imageId, imagePath, al
       className="relative rounded-lg shadow-md overflow-hidden w-full max-w-sm cursor-pointer flex flex-col justify-center  "
       onClick={onClick}
     >
-      <Image
+      <img
         src={imagePath}
         alt={altText}
         loading="lazy"
-        width={200}
-        height={200}
         className="object-contain w-full h-auto capture-image"
         onContextMenu={(e) => e.preventDefault()}
         onDragStart={(e) => e.preventDefault()}

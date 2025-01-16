@@ -8,7 +8,7 @@ const NotRegistered = () => {
         <ImageGrid>
             <FallingClipart />
             <div className="z-50 flex flex-col items-center justify-center h-full bg-neutral-950 rounded-t-2xl p-4 ">
-                <a href="/" className="shadow-2xl bg-black rounded-xl">
+                <a href="/" className="shadow-2xl rounded-xl">
                     <Image
                         src="/images/Logo/capture-main.png"
                         alt="Logo"

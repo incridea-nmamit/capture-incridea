@@ -8,32 +8,32 @@ const LoginComponent = () => {
         <ImageGrid>
             <FallingClipart />
             <div className=" z-50 flex flex-col items-center justify-center h-full bg-neutral-950 rounded-t-2xl p-4 ">
-                <a href="/" className="shadow-2xl bg-black rounded-xl">
+                <a href="/" className="shadow-2xl rounded-xl">
                     <Image
                         src="/images/Logo/capture-main.png"
                         alt="Logo"
                         width={200}
                         height={80}
-                        className=""
+                        className="h-10 w-auto my-10"
                         onContextMenu={(e) => e.preventDefault()}
                         onDragStart={(e) => e.preventDefault()}
                     />
                 </a>
                 <div className="z-50 text-md md:text-xl leading-relaxed space-y-4 opacity-90 text-left max-w-lg mx-auto px-4 sm:px-6">
-                    <h1 className="z-50 text-4xl font-Hunters md:text-5xl font-semibold mb-6 text-shadow-lg text-center">
+                    <h1 className="z-50 text-2xl font-Teknaf md:text-4xl font-semibold mb-6 text-shadow-lg text-center py-2">
                         Welcome to Capture Incridea!
                     </h1>
-                    <div className="p-2 font-Trap-Regular">
+                    <div className="p-2 font-Trap-Regular text-sm">
                         <p className="mb-4 text-md">
                             <strong>We’re delighted to have you here!</strong><br />
                             Experience the magic of Incridea through stunning moments captured by our amazing team.
                         </p>
 
-                        <p className="mb-4">
+                        <p className="mb-4 font-Trap-Regular">
                             &#x2022; Log in using the Email Id you registered for Incridea.
                         </p>
 
-                        <p className="mb-4">
+                        <p className="mb-4 font-Trap-Regular">
                             &#x2022; If you haven't registered yet, head over to{" "}
                             <strong>
                                 <a href="https://incridea.in" className="text-white hover:text-blue-700">
@@ -43,7 +43,7 @@ const LoginComponent = () => {
                             to register and join the experience.
                         </p>
 
-                        <p className="font-semibold text-white text-sm">
+                        <p className="font-semibold text-white text-sm font-Trap-Regular">
                             This platform is exclusively for Registered Students & Faculty only.
                         </p>
                     </div>
