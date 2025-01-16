@@ -39,7 +39,7 @@ const TrackPageVisits = () => {
         {
           onSuccess: () => {
             logVisitMutation.mutate(
-              { session_user, uniqueId, routePath ,device },
+              { session_user, uniqueId, routePath },
               {
                 onError: (error) => {
                   console.error("Error logging visit:", error);
