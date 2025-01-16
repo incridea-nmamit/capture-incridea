@@ -14,6 +14,61 @@ export const galleryRouter = createTRPCRouter({
     });
     return gallery ?? [];
   }),
+
+  getAllActiveGalleryforAdmin: publicProcedure.query(async ({ ctx }) => {
+    const gallery = await ctx.db.gallery.findMany({
+      where: {
+        upload_type: {
+          not: "deleted",
+        },
+      },
+      orderBy: {
+        date_time: "desc",
+      },
+    });
+    return gallery ?? [];
+  }),
+  getAllDeletedGalleryforAdmin: publicProcedure.query(async ({ ctx }) => {
+    const gallery = await ctx.db.gallery.findMany({
+      where: {
+        upload_type: {
+          equals: "deleted",
+        },
+      },
+      orderBy: {
+        date_time: "desc",
+      },
+    });
+    return gallery ?? [];
+  }),
+
+  restoreDeletedGallery: publicProcedure.input(
+    z.object({
+      id: z.number().min(1, "Capture ID is required"),
+    })
+  ).mutation(async ({ ctx, input }) => {
+    await ctx.db.gallery.updateMany({
+      where: { id: input.id },
+      data: {
+        upload_type: "",
+      },
+    });
+    return { message: "Image restored successfully" };
+  }),
+
+  deleteGalleryPermanently: publicProcedure.input(
+    z.object({
+      id: z.number().min(1, "Capture ID is required"),
+    })
+  ).mutation(async ({ ctx, input }) => {
+    await ctx.db.gallery.delete({
+      where: { id: input.id },
+    });
+    return { message: "Image deleted permanently" };
+  }),
+
+
+
   getApprovedImagesByCategory: publicProcedure
     .input(
       z.object({
@@ -162,7 +217,6 @@ export const galleryRouter = createTRPCRouter({
           upload_type: "deleted",
         }
       });
-
       return { message: "Image deleted successfully" };
     }),
 
