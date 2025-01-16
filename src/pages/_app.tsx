@@ -49,7 +49,7 @@ const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps:
 
   if (sessionStatus === "loading" || isVerifiedEmailLoading) return <CameraLoading />;
 
-  if (!sessionData) return <LoginComponent />;
+  // if (!sessionData) return <LoginComponent />;
 
   const isEmailVerified =
     verifiedEmailData?.some(
@@ -58,7 +58,7 @@ const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps:
     sessionData?.user?.email?.endsWith("nitte.edu.in") ||
     sessionData?.user?.role === "admin";
 
-  if (!isEmailVerified) return <NotRegistered />;
+  // if (!isEmailVerified) return <NotRegistered />;
 
   const excludedRoute = [
     "/LoginComponent",
