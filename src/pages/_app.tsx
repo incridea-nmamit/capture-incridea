@@ -18,6 +18,7 @@ import NotRegistered from "./NotRegistered";
 import KeyboardShortcut from "~/components/Shortcuts";
 import IntroAnimation from "./Intro";
 import { usePathname } from "next/navigation";
+import FluidAnimation from './../components/fluidAnimtion/FluidAnimation';
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -73,6 +74,7 @@ const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps:
     return (
       <ScrollArea className="w-full h-screen flex-1 font-roboto flex min-h-screen flex-col">
         <div className="font-roboto flex min-h-screen flex-col">
+          <FluidAnimation/>
           <Header />
           <main className="flex-grow">
             <Toaster position="top-right" reverseOrder={false} />
