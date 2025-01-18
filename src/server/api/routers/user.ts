@@ -8,12 +8,25 @@ export const userRouter = createTRPCRouter({
     return users;
   }),
 
+  //getUserRolebyId Query
+  getUserRoleById: protectedProcedure.input(
+    z.object({
+      userId: z.string(),
+    })
+  ).query(async ({ ctx, input }) => {
+    const user = await ctx.db.user.findUnique({
+      where: { id: input.userId },
+    });
+    return user?.role;
+  }),
+
+
   // Change User Role Mutation
   changeUserRole: protectedProcedure
     .input(
       z.object({
         userId: z.string(),
-        role: z.enum(['admin', 'manager', 'editor', 'user','smc']),
+        role: z.enum(['admin', 'manager', 'editor', 'user', 'smc']),
       })
     )
     .mutation(async ({ ctx, input }) => {

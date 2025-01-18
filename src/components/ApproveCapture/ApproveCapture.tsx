@@ -7,6 +7,7 @@ import { BsDashCircleFill } from 'react-icons/bs';
 import PopupComponent from './PopupComponent';
 import ScrollableContainer from '../ScrollableDiv';
 import Image from 'next/image';
+import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 
 const ApproveCaptures: React.FC = () => {
   const { data: gallery, isLoading, isError, refetch } = api.gallery.getAllGallery.useQuery();
@@ -57,14 +58,14 @@ const ApproveCaptures: React.FC = () => {
     <div className="p-4">
       <h1 className="text-4xl font-Teknaf mb-8 py-5 text-center">Approve Captures</h1>
 
-      <ScrollableContainer className='overflow-x-auto'>
-        <table className="min-w-full border border-gray-300 bg-neutral-950 font-Trap-Regular text-sm">
+      <ScrollArea className=" w-screen md:w-full whitespace-nowrap">
+        <table className="w-full border border-gray-300 bg-neutral-950 font-Trap-Regular text-sm">
           <thead className="bg-white">
             <tr>
-              <th className="text-black py-2 px-4 border-b border-slate-700 text-center">Event Name</th>
-              <th className="text-black py-2 px-4 border-b border-slate-700 text-center">Capture Category</th>
-              <th className="text-black py-2 px-4 border-b border-slate-700 text-center">Image</th>
-              <th className="text-black py-2 px-4 border-b border-slate-700 text-center">Decision</th>
+              <th className="text-black w-1/6 py-2 px-4 border-b border-slate-700 text-center">Event Name</th>
+              <th className="text-black w-1/6 py-2 px-4 border-b border-slate-700 text-center">Capture Category</th>
+              <th className="text-black w-1/3 py-2 px-4 border-b border-slate-700 text-center">Image</th>
+              <th className="text-black w-1/3 py-2 px-4 border-b border-slate-700 text-center">Decision</th>
             </tr>
           </thead>
           <tbody>
@@ -86,27 +87,29 @@ const ApproveCaptures: React.FC = () => {
                     onClick={() => handleImageClick(item.image_path)}
                   />
                 </td>
-                <td className="py-2 px-4 border-b border-slate-700 text-center">
-                  <div className="flex flex-col gap-2">
-                    <button
-                      onClick={() => handleRequestDecision(item.id, 'approve')}
-                      className="bg-green-500 text-white py-1 px-3 rounded mr-2 w-28 hover:scale-105"
-                    >
-                      Approve
-                    </button>
-                    <button
-                      onClick={() => handleRequestDecision(item.id, 'decline')}
-                      className="bg-red-500 text-white py-1 px-3 rounded w-28 hover:scale-105"
-                    >
-                      Decline
-                    </button>
-                  </div>
-                </td>
+                <td className="py-2 px-4 border-b border-slate-700">
+  <div className="flex flex-col items-center justify-center gap-2">
+    <button
+      onClick={() => handleRequestDecision(item.id, 'approve')}
+      className="bg-green-500 text-white py-1 px-3 rounded w-28 hover:scale-105"
+    >
+      Approve
+    </button>
+    <button
+      onClick={() => handleRequestDecision(item.id, 'decline')}
+      className="bg-red-500 text-white py-1 px-3 rounded w-28 hover:scale-105"
+    >
+      Decline
+    </button>
+  </div>
+</td>
+
               </tr>
             ))}
           </tbody>
         </table>
-      </ScrollableContainer>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
 
       {selectedCapture && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 backdrop-blur-sm">

@@ -3,13 +3,14 @@ import { api } from '~/utils/api';
 import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import VideoUploadComponent from '../VideoUploadComponent';
+import ReactPlayer from 'react-player';
 
 const Stories: React.FC = () => {
   const addStories = api.stories.addStories.useMutation();
   const { data: stories, isLoading, isError, refetch } = api.stories.getAllStories.useQuery();
   const { data: categories, isLoading: categoriesLoading, refetch: refetchCategories } = api.storycat.getAllCategories.useQuery();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isCatPopupOpen, setIsCatPopupOpen] = useState(false); 
+  const [isCatPopupOpen, setIsCatPopupOpen] = useState(false);
   const [description, setDescription] = useState('');
   const [uploadUrl, setUploadUrl] = useState<string>('');
   const [categoryName, setCategoryName] = useState('');
@@ -26,7 +27,7 @@ const Stories: React.FC = () => {
     },
   };
 
-  
+
   const resetForm = useCallback(() => {
     setDescription('');
     setUploadUrl('');
@@ -41,138 +42,147 @@ const Stories: React.FC = () => {
   };
 
   const handleAddCategoryClick = () => {
-    setIsCatPopupOpen(true); 
+    setIsCatPopupOpen(true);
   };
 
   const handlePopupClose = () => {
     setIsPopupOpen(false);
-    setIsCatPopupOpen(false); 
+    setIsCatPopupOpen(false);
   };
 
   const handleCategorySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
-    if (!categoryInput.trim()) {  
+
+    if (!categoryInput.trim()) {
       toast.error('Please enter a category name', toastStyle);
       return;
     }
     setIsSubmitting(true);
     try {
-     
+
       await addCat.mutateAsync({
-        name: categoryInput, 
+        name: categoryInput,
       });
-  
-      setCategoryInput(''); 
-      setIsCatPopupOpen(false); 
-      void refetchCategories(); 
+
+      setCategoryInput('');
+      setIsCatPopupOpen(false);
+      void refetchCategories();
       toast.success('Category added successfully.', toastStyle);
-  ;
-      
+      ;
+
     } catch (error) {
       toast.error('Failed to add category.', toastStyle);
-    } finally { 
+    } finally {
       setIsSubmitting(false);
     }
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     if (!uploadUrl) {
       toast.error('Please upload the video', toastStyle);
       return;
     }
-  
-    if (!description) {
-      toast.error('Please enter a description', toastStyle);
+    if (!authoredId) {
+      toast.error('Please select an author', toastStyle);
       return;
     }
-  
     if (!categoryName) {
       toast.error('Please select a category', toastStyle);
       return;
     }
     setIsSubmitting(true);
     try {
-      
+
       await addStories.mutateAsync({
         category_name: categoryName,
         uploadKey: uploadUrl,
         authored_id: authoredId
       });
-  
+
       resetForm();
       setIsPopupOpen(false);
       void refetch();
       toast.success('Story added successfully.', toastStyle);
     } catch (error) {
       toast.error('Failed to upload story.', toastStyle);
-    } finally { 
+    } finally {
       setIsSubmitting(false);
     }
   };
-  
+
 
   if (isLoading) return <CameraLoading />;
 
   return (
     <div className="p-4">
       <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center">Stories Uploads</h1>
+      <div className="flex flex-col-reverse md:grid md:grid-cols-12 gap-4">
+        <div className="col-span-12 md:col-span-11">
+          <div>
+            {isError ? (
+              <div>Error loading uploads. Please try again later.</div>
+            ) : (
+              <div className="overflow-x-auto flex flex-col gap-10">
+                <table className="min-w-full border border-gray-300 bg-neutral-950 font-Trap-Regular text-sm">
+                  <thead className="bg-white">
+                    <tr>
+                      <th className="text-black py-2 px-4 border-b text-center">Category</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {categories?.map((option) => (
+                      <tr key={option.id} className="hover:bg-gray-600 hover:text-black">
+                        <td className="py-2 px-4 border-b text-center">{option.name}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <table className="min-w-full border border-gray-300 bg-neutral-800 font-Trap-Regular text-sm">
+                  <thead className="bg-white">
+                    <tr>
+                      <th className="text-black py-2 px-4 border-b text-center">Category</th>
+                      <th className="text-black py-2 px-4 border-b text-center">Video</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {stories?.map((story) => (
+                      <tr key={story.id} className="hover:bg-gray-800/90">
+                        <td className="py-2 px-4 border-b text-center">{story.category_name}</td>
+                        <td className="py-2 px-4 border-b text-center flex justify-center">
+                           <video src={story.video_path} width={120} height={80} controls />
 
-      <div className="mb-4 flex gap-2">
-        <button
-          onClick={handleAddEventClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-BebasNeue"
-        >
-          Add Video
-        </button>
-        <button
-          onClick={handleAddCategoryClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-BebasNeue"
-        >
-          Add Category
-        </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="col-span-12 md:col-span-1">
+          <div className="mb-4 flex md:flex-col flex-row  gap-2">
+            <button
+              onClick={handleAddEventClick}
+              className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-BebasNeue"
+            >
+              Add Video
+            </button>
+            <button
+              onClick={handleAddCategoryClick}
+              className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-BebasNeue"
+            >
+              Add Category
+            </button>
+          </div>
+        </div>
       </div>
 
-      {isError ? (
-        <div>Error loading uploads. Please try again later.</div>
-      ) : (
-        <div className="overflow-x-auto flex flex-col gap-10">
-          <table className="min-w-full border border-gray-300 bg-neutral-950 font-Trap-Regular text-sm">
-            <thead className="bg-white">
-              <tr>
-                <th className="text-black py-2 px-4 border-b text-center">Category</th>
-              </tr>
-            </thead>
-            <tbody>
-              {categories?.map((option) => (
-                <tr key={option.id} className="hover:bg-gray-50 hover:text-black">
-                  <td className="py-2 px-4 border-b text-center">{option.name}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <table className="min-w-full border border-gray-300 bg-neutral-950 font-Trap-Regular text-sm">
-            <thead className="bg-white">
-              <tr>
-                <th className="text-black py-2 px-4 border-b text-center">Category</th>
-                <th className="text-black py-2 px-4 border-b text-center">Video</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stories?.map((story) => (
-                <tr key={story.id} className="hover:bg-gray-800/90">
-                  <td className="py-2 px-4 border-b text-center">{story.category_name}</td>
-                  <td className="py-2 px-4 border-b text-center flex justify-center">
-                    <video src={story.video_path} width={120} height={80} controls />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+
+
+
 
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
@@ -185,7 +195,17 @@ const Stories: React.FC = () => {
               &times;
             </button>
             <form onSubmit={handleSubmit}>
-              <VideoUploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
+              {
+                uploadUrl ? (
+                  <ReactPlayer url={`https://utfs.io/f/${uploadUrl}`} controls width="100%" height="360px" />
+                ) : (
+                  <VideoUploadComponent
+                    onUploadComplete={handleUploadComplete}
+                    resetUpload={() => setUploadUrl('')}
+                  />
+                )
+              }
+
               <label className="block mt-5 mb-2 text-left text-white">Category Name:</label>
               {categoriesLoading ? (
                 <select className="w-full p-2 rounded" disabled>
@@ -208,15 +228,13 @@ const Stories: React.FC = () => {
                   ))}
                 </select>
               )}
-
-              
-<>
-                    <label className="block mt-5 mb-2 text-left text-white">Author Name:</label>
-                    {teamsLoading ? (
-                    <select className="w-full p-2 rounded" disabled>
-                      <option>Loading Team...</option>
-                    </select>
-                  ) : (
+              <>
+                <label className="block mt-5 mb-2 text-left text-white">Author Name:</label>
+                {teamsLoading ? (
+                  <select className="w-full p-2 rounded" disabled>
+                    <option>Loading Team...</option>
+                  </select>
+                ) : (
                   <select
                     name="author_id"
                     value={authoredId}
@@ -229,8 +247,8 @@ const Stories: React.FC = () => {
                     ))}
                   </select>
 
-                    )}
-                  </>
+                )}
+              </>
               <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-5">
                 Submit
               </button>
@@ -260,7 +278,7 @@ const Stories: React.FC = () => {
                 />
               </div>
               <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-5" disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting...' : 'Submit'}
+                {isSubmitting ? 'Submitting...' : 'Submit'}
               </button>
             </form>
           </div>

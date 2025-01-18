@@ -146,10 +146,7 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
                         />
                         {errors.designation && <p className="text-red-500 text-sm">{errors.designation.message}</p>}
                     </div>
-
-                   
                     <div>
-
                         {uploadUrl ? (
                             <>
                                 <Label className="text-white">Uploaded Image</Label>
@@ -168,9 +165,7 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
                                 <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl("")} />
                             </>
                         )}
-                    </div>
-
-          
+                    </div>          
                     <DialogFooter>
                         <Button
                             type="submit"

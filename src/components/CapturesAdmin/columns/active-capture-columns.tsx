@@ -48,7 +48,7 @@ export const activeCapturecolumns: ColumnDef<Capture>[] = [
             <img
                 src={row.original.compressed_path}
                 alt="Capture"
-                className="w-24 h-24 object-cover rounded-md"
+                className="w-20 h-20 md:h-24 md:w-24 object-cover rounded-md"
             />
         ),
     },
