@@ -1,6 +1,7 @@
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
+import { Status } from "@prisma/client";
 
 export const removalRequestRouter = createTRPCRouter({
 
@@ -23,16 +24,18 @@ export const removalRequestRouter = createTRPCRouter({
           email: input.email,
           description: input.description,
           image_path: input.image_path,
-          status: "pending" 
+          status: "pending"
         },
       });
       return newRequest;
     }),
 
-  approve: protectedProcedure
+
+  clearRequest: protectedProcedure
     .input(
       z.object({
         id: z.number().min(1, "Request ID is required"),
+        status:z.nativeEnum(Status)
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -44,35 +47,10 @@ export const removalRequestRouter = createTRPCRouter({
         throw new Error("Request not found");
       }
 
-      const approvedRequest = await ctx.db.removalRequest.update({
+      return await ctx.db.removalRequest.update({
         where: { id: input.id },
-        data: { status: "approved" },
+        data: { status: input.status },
       });
-
-      return approvedRequest;
-    }),
-
-  decline: protectedProcedure
-    .input(
-      z.object({
-        id: z.number().min(1, "Request ID is required"),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      const request = await ctx.db.removalRequest.findUnique({
-        where: { id: input.id },
-      });
-
-      if (!request) {
-        throw new Error("Request not found");
-      }
-
-      const declinedRequest = await ctx.db.removalRequest.update({
-        where: { id: input.id },
-        data: { status: "declined" }, 
-      });
-
-      return declinedRequest;
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
