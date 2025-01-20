@@ -4,6 +4,8 @@ import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import VideoUploadComponent from '../VideoUploadComponent';
 import useUserName from '~/hooks/useUserName';
+import ReactPlayer from 'react-player';
+import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 
 const SMCUploads: React.FC = () => {
   const userName = useUserName() ?? 'user';
@@ -40,15 +42,15 @@ const SMCUploads: React.FC = () => {
     }
 
     if (!description) {
-        toast.error('Please enter a description', toastStyle);
-        return;
-      }
-      setIsSubmitting(true);
+      toast.error('Please enter a description', toastStyle);
+      return;
+    }
+    setIsSubmitting(true);
     try {
-      await addVideo.mutateAsync({ 
-        author: userName, 
-        description, 
-        uploadKey: uploadUrl 
+      await addVideo.mutateAsync({
+        author: userName,
+        description,
+        uploadKey: uploadUrl
       });
       setIsPopupOpen(false);
       setDescription('');
@@ -57,7 +59,7 @@ const SMCUploads: React.FC = () => {
       toast.success('Capture added successfully.', toastStyle);
     } catch (error) {
       toast.error('Failed to upload capture.', toastStyle);
-    } finally  {
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -67,42 +69,57 @@ const SMCUploads: React.FC = () => {
   return (
     <div className="p-4">
       <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center"> Stories Uploads</h1>
+      <div className="flex flex-col-reverse md:grid md:grid-cols-12 gap-4">
+        <div className="col-span-12 md:col-span-11">
+          <div>
 
-      <div className="mb-4 flex gap-2">
-        <button
-          onClick={handleAddEventClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-Trap-Regular text-sm"
-        >
-          Add Video
-        </button>
+            <ScrollArea className=" w-screen md:w-full whitespace-nowrap">
+              {isError ? (
+                <div>Error loading uploads. Please try again later.</div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full border border-gray-300 bg-black font-Trap-Regular text-sm">
+                    <thead className="bg-white">
+                      <tr>
+                        <th className="text-black py-2 px-4 border-b text-center">Author</th>
+                        <th className="text-black py-2 px-4 border-b text-center">Description</th>
+                        <th className="text-black py-2 px-4 border-b text-center">Video</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {uploads?.map((item) => (
+                        <tr key={item.id} className="hover:bg-gray-500 hover:text-black">
+                          <td className="py-2 px-4 border-b text-center">{item.author}</td>
+                          <td className="py-2 px-4 border-b text-center">{item.description}</td>
+                          <td className="py-2 px-4 border-b text-center flex justify-center">
+                            <ReactPlayer url={item.video_path} controls width={120} height={120} />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+
+              )}
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </div>
+        </div>
+        <div className="col-span-12 md:col-span-1">
+
+
+          <div className="mb-4 flex gap-2">
+            <button
+              onClick={handleAddEventClick}
+              className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-Trap-Regular text-sm"
+            >
+              Add Video
+            </button>
+          </div>
+        </div>
       </div>
 
-      {isError ? (
-        <div>Error loading uploads. Please try again later.</div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 bg-black font-Trap-Regular text-sm">
-            <thead className="bg-white">
-              <tr>
-                <th className="text-black py-2 px-4 border-b text-center">Author</th>
-                <th className="text-black py-2 px-4 border-b text-center">Description</th>
-                <th className="text-black py-2 px-4 border-b text-center">Video</th>
-              </tr>
-            </thead>
-            <tbody>
-              {uploads?.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50 hover:text-black">
-                  <td className="py-2 px-4 border-b text-center">{item.author}</td>
-                  <td className="py-2 px-4 border-b text-center">{item.description}</td>
-                  <td className="py-2 px-4 border-b text-center flex justify-center">
-                    <video src={item.video_path} width={120} height={80} controls />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
 
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
@@ -115,7 +132,16 @@ const SMCUploads: React.FC = () => {
               &times;
             </button>
             <form onSubmit={handleSubmit}>
-              <VideoUploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
+              {
+                uploadUrl ? (
+                  <ReactPlayer url={`https://utfs.io/f/${uploadUrl}`} controls width="100%" height="360px" />
+                ) : (
+                  <VideoUploadComponent
+                    onUploadComplete={handleUploadComplete}
+                    resetUpload={() => setUploadUrl('')}
+                  />
+                )
+              }
               <label className="block mt-4 text-white">Description:</label>
               <textarea
                 name="description"
@@ -123,10 +149,10 @@ const SMCUploads: React.FC = () => {
                 onChange={(e) => setDescription(e.target.value)}
                 className="p-2 w-full border border-slate-700 rounded-xl h-20 bg-black text-white"
               />
-              <button type="submit" 
-              className="p-2 bg-white text-black rounded-xl w-full mt-5"
-              disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting...' : 'Submit'}
+              <button type="submit"
+                className="p-2 bg-white text-black rounded-xl w-full mt-5"
+                disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Submit'}
               </button>
             </form>
           </div>
@@ -137,152 +163,4 @@ const SMCUploads: React.FC = () => {
 };
 
 export default SMCUploads;
-
-
-// import React, { useState } from 'react';
-// import { api } from '~/utils/api';
-// import toast from 'react-hot-toast';
-// import CameraLoading from '../LoadingAnimation/CameraLoading';
-// import VideoUploadComponent from '../VideoUploadComponent';
-// import useUserName from '~/hooks/useUserName';
-
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogHeader,
-//   DialogTitle,
-//   DialogTrigger,
-// } from "~/components/ui/dialog"
-// import { CloudUpload } from 'lucide-react';
-
-// const SMCUploads: React.FC = () => {
-//   const userName = useUserName() ?? 'user';
-//   const addVideo = api.smc.addVideo.useMutation();
-//   const { data: uploads, isLoading, isError, refetch } = api.smc.getAllUploads.useQuery();
-//   const [isPopupOpen, setIsPopupOpen] = useState(false);
-//   const [description, setDescription] = useState('');
-//   const [uploadUrl, setUploadUrl] = useState<string>('');
-//   const [isSubmitting, setIsSubmitting] = useState(false);
-//   const toastStyle = {
-//     style: {
-//       borderRadius: '10px',
-//       background: 'black',
-//       color: 'white',
-//     },
-//   };
-
-//   const handleUploadComplete = (url: string) => setUploadUrl(url);
-
-//   const handleAddEventClick = () => {
-//     setIsPopupOpen(true);
-//     setDescription('');
-//     setUploadUrl('');
-//   };
-
-//   const handlePopupClose = () => setIsPopupOpen(false);
-
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-
-//     if (!uploadUrl) {
-//       toast.error('Please upload the video', toastStyle);
-//       return;
-//     }
-
-//     if (!description) {
-//       toast.error('Please enter a description', toastStyle);
-//       return;
-//     }
-//     setIsSubmitting(true);
-//     try {
-//       await addVideo.mutateAsync({
-//         author: userName,
-//         description,
-//         uploadKey: uploadUrl
-//       });
-//       setIsPopupOpen(false);
-//       setDescription('');
-//       setUploadUrl('');
-//       void refetch();
-//       toast.success('Capture added successfully.', toastStyle);
-//     } catch (error) {
-//       toast.error('Failed to upload capture.', toastStyle);
-//     } finally {
-//       setIsSubmitting(false);
-//     }
-//   };
-
-//   if (isLoading) return <CameraLoading />;
-
-
-
-
-//   return (
-//     <Dialog>
-//       <div className="p-4">
-//         <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">SMC Stories Uploads</h1>
-
-//         <div className="mb-4 flex gap-2">
-//           <DialogTrigger className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-BebasNeue">
-//             <div className='flex gap-2 justify-center items-center'><span>Add Video</span><CloudUpload /></div>
-//           </DialogTrigger>
-//         </div>
-
-//         {isError ? (
-//           <div>Error loading uploads. Please try again later.</div>
-//         ) : (
-//           <div className="overflow-x-auto">
-//             <table className="min-w-full border border-gray-300 bg-black">
-//               <thead className="bg-white">
-//                 <tr>
-//                   <th className="text-black py-2 px-4 border-b text-center">Author</th>
-//                   <th className="text-black py-2 px-4 border-b text-center">Description</th>
-//                   <th className="text-black py-2 px-4 border-b text-center">Video</th>
-//                 </tr>
-//               </thead>
-//               <tbody>
-//                 {uploads?.map((item) => (
-//                   <tr key={item.id} className="hover:bg-gray-50 hover:text-black">
-//                     <td className="py-2 px-4 border-b text-center">{item.author}</td>
-//                     <td className="py-2 px-4 border-b text-center">{item.description}</td>
-//                     <td className="py-2 px-4 border-b text-center flex justify-center">
-//                       <video src={item.video_path} width={120} height={80} controls />
-//                     </td>
-//                   </tr>
-//                 ))}
-//               </tbody>
-//             </table>
-//           </div>
-//         )}
-
-//       </div>
-
-//       <DialogContent>
-//         <DialogHeader>
-//           <DialogTitle><h1>Upload New Video</h1></DialogTitle>
-//           <DialogDescription>
-//             <form onSubmit={handleSubmit}>
-//               <VideoUploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
-//               <label className="block mt-4 text-white">Description:</label>
-//               <textarea
-//                 name="description"
-//                 value={description}
-//                 onChange={(e) => setDescription(e.target.value)}
-//                 className="p-2 w-full border border-slate-700 rounded-xl h-20 bg-black text-white"
-//               />
-//               <button type="submit"
-//                 className="p-2 bg-white text-black rounded-xl w-full mt-5"
-//                 disabled={isSubmitting}>
-//                 {isSubmitting ? 'Submitting...' : 'Submit'}
-//               </button>
-//             </form>
-//           </DialogDescription>
-//         </DialogHeader>
-//       </DialogContent>
-//     </Dialog>
-//   )
-// };
-
-// export default SMCUploads;
 
