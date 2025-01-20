@@ -49,14 +49,16 @@ header a {
   font-weight: bold;
   letter-spacing: 10px;
 }
-.carousel .list .item .title,
-.carousel .list .item .topic {
+.carousel .list .item .title {
   font-size: 5em;
   font-weight: bold;
   line-height: 1.3em;
 }
 .carousel .list .item .topic {
   color: #f1683a;
+  font-size: 5em;
+  font-weight: bold;
+  line-height: 1.3em;
 }
 .carousel .list .item .buttons {
   display: grid;
@@ -66,8 +68,8 @@ header a {
   margin-top: 20px;
 }
 .carousel .list .item .buttons button {
-  border: none;
-  background-color: #eee;
+  background-color: transparent;
+  border: 1px solid #fff;
   letter-spacing: 3px;
   font-family: Poppins;
   font-weight: 500;
@@ -294,8 +296,9 @@ header a {
   .carousel .list .item .content {
     padding-right: 0;
   }
-  .carousel .list .item .content .title {
+  .carousel .list .item .content .topic {
     font-size: 30px;
+    font-weight: bold;
   }
 }
 

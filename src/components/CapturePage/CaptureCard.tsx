@@ -100,12 +100,11 @@ const Carousel: React.FC<CarouselProps> = ({
             </div>
             <div className={style.content}>
               <div className={style.author}>{item.author}</div>
-              <div className={style.title}>{item.title}</div>
+
               <div className={style.topic}>{item.topic}</div>
               <div className={style.des}>{item.description}</div>
               <div className={style.buttons}>
                 <button>SEE MORE</button>
-                <button>SUBSCRIBE</button>
               </div>
             </div>
           </div>
