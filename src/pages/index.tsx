@@ -1,23 +1,10 @@
-// pages/index.tsx
-import Head from "next/head";
-import About from "~/components/Landing/About";
-import Hero from "~/components/Landing/Hero";
-import Images from "~/components/Landing/Images";
-import TimeLine from "~/components/Landing/TimeLine";
-
-
+import { HomeUi } from "~/components/homePage/page";
 
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>Capture Incridea</title>
-      </Head>
-      <Hero />
-      <About />
-      <Images />
-      <TimeLine />
+      <HomeUi/>
     </>
   );
 }
