@@ -42,34 +42,49 @@ export const ParallaxHero = () => {
   return (
     <>
       <section ref={sceneRef} className="relative min-h-screen">
+
         <div className="absolute h-screen w-screen" data-depth="0.4">
-          <div className="absolute bottom-0 left-[50%] aspect-video h-[100vh] scale-110 md:left-0 md:h-full md:w-full md:-translate-x-0">
+          <div className="absolute bottom-0 left-[10%] aspect-video h-[100vh] scale-110 md:left-0 md:h-full md:w-full md:-translate-x-0">
             <Image
               src={Background}
               alt="Gradient"
               width={1920}
               height={1080}
-              className="object-coverß h-full w-full object-bottom"
+              className=" object-coverß  h-full w-full object-bottom"
             />
+          </div>
+        </div>
+        <div className="absolute h-screen w-screen">
+          <div id="foglayer_01" className="fog">
+            <div className="image01" />
+            <div className="image02" />
+          </div>
+          <div id="foglayer_02" className="fog">
+            <div className="image01" />
+            <div className="image02" />
+          </div>
+          <div id="foglayer_03" className="fog">
+            <div className="image01" />
+            <div className="image02" />
           </div>
         </div>
 
         <div
           data-depth="0.2"
-          className="absolute h-screen w-screen"
+          className="absolute h-screen w-screen lg:top-0 lg:mt-[-40px]"
           style={{ top: "-15%" }}
         >
           <Image
-            src={layer2}
+            src={Layer1}
             alt="Layer 2"
             layout="fill"
             className="h-screen w-screen object-cover"
           />
         </div>
 
-        <div data-depth="0.1" className="absolute h-screen w-screen">
+        <div data-depth="0.1" className="absolute h-screen w-screen ">
           <Image
-            src={Layer1}
+            src={layer2}
             alt="Layer 1"
             layout="fill"
             className="h-screen w-screen object-cover object-center"
