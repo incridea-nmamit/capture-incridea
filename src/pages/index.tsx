@@ -1,13 +1,13 @@
-import Images from "~/components/Landing/Images";
+import { LandingButtons } from "~/components/Landing/landing-button";
+import { LandingFooter } from "~/components/Landing/landing-footer";
 import { ParallaxHero } from "~/components/Landing/Parallax";
-import TimeLine from "~/components/Landing/TimeLine";
 
 export default function Home() {
   return (
     <>
       <ParallaxHero />
-      <Images />
-      <TimeLine />
+      <LandingButtons/>
+      <LandingFooter/>
     </>
   );
 }

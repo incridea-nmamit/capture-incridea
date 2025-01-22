@@ -69,16 +69,28 @@ const AuthenticatedApp = ({
 
   // if (!isEmailVerified) return <NotRegistered />;
 
-  const excludedRoute = ["/LoginComponent", "/NotRegistered"];
+  const excludedRoute = ["/LoginComponent", "/NotRegistered","/" ];
   const pathname = usePathname();
   const isExcluded = excludedRoute.some((route) => pathname.startsWith(route));
   if (isExcluded) {
-    return <>{loading ? <CameraLoading /> : <Component {...pageProps} />} </>;
+    return(
+      <ScrollArea className="font-roboto flex h-screen min-h-screen w-full flex-1 flex-col">
+      <div className="font-roboto flex min-h-screen flex-col">
+        <main className="flex-grow">
+          <Toaster position="top-right" reverseOrder={false} />
+          <TrackPageVisits />
+          {loading ? <CameraLoading /> : <Component {...pageProps} />}
+        </main>
+      </div>
+    </ScrollArea>
+    );
   } else {
     return (
       <ScrollArea className="font-roboto flex h-screen min-h-screen w-full flex-1 flex-col">
         <div className="font-roboto flex min-h-screen flex-col">
           <main className="flex-grow">
+          <Header/>
+          <Header/>
             <Toaster position="top-right" reverseOrder={false} />
             <TrackPageVisits />
             {loading ? <CameraLoading /> : <Component {...pageProps} />}

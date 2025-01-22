@@ -6,6 +6,9 @@ import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import style from "./corousel.module.css";
 import CenteredLoader from "../LoadingAnimation/CameraLoading";
+import { carouselItems } from "../constants/data";
+import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
+import { Button } from "../ui/button";
 
 const CaptureCard = () => {
   useEffect(() => {
@@ -16,7 +19,7 @@ const CaptureCard = () => {
     let SliderDom = carouselDom?.querySelector(".carousel .list");
     let thumbnailBorderDom = document.querySelector(".carousel .thumbnail");
     let thumbnailItemsDom = thumbnailBorderDom?.querySelectorAll(".item");
-    let timeRunning = 3000;
+    let timeRunning = 1000;
     let timeAutoNext = 7000;
 
     if (thumbnailBorderDom && thumbnailItemsDom && thumbnailItemsDom[0]) {
@@ -410,143 +413,61 @@ const CaptureCard = () => {
           }
         }
       `}</style>
+
       <div className="carousel">
         <div className="list">
-          <div className="item">
-            <img src="images/CapturePage/img1.jpg" />
-            <div className="content">
-              <div className="author">LUNDEV</div>
-              <div className="title">DESIGN SLIDER</div>
-              <div className="topic">ANIMAL</div>
-              <div className="des">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
-                sequi, rem magnam nesciunt minima placeat, itaque eum neque
-                officiis unde, eaque optio ratione aliquid assumenda facere ab
-                et quasi ducimus aut doloribus non numquam. Explicabo,
-                laboriosam nisi reprehenderit tempora at laborum natus unde. Ut,
-                exercitationem eum aperiam illo illum laudantium?
-              </div>
-              <div className="buttons">
-                <button>SEE MORE</button>
-                <button>SUBSCRIBE</button>
-              </div>
-            </div>
-          </div>
-          <div className="item">
-            <img src="images/CapturePage/img2.jpg" />
-            <div className="content">
-              <div className="author">LUNDEV</div>
-              <div className="title">DESIGN SLIDER</div>
-              <div className="topic">ANIMAL</div>
-              <div className="des">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
-                sequi, rem magnam nesciunt minima placeat, itaque eum neque
-                officiis unde, eaque optio ratione aliquid assumenda facere ab
-                et quasi ducimus aut doloribus non numquam. Explicabo,
-                laboriosam nisi reprehenderit tempora at laborum natus unde. Ut,
-                exercitationem eum aperiam illo illum laudantium?
-              </div>
-              <div className="buttons">
-                <button>SEE MORE</button>
-                <button>SUBSCRIBE</button>
+          {carouselItems.map((item, index) => (
+            <div className="item" key={index}>
+              <img src={item.imgSrc} alt={`Slide ${index + 1}`} />
+              <div className="content">
+                <div className="author">
+                  <a href="/" className="mx-auto md:mx-0">
+                    <Image
+                      src="/images/Logo/capture.png"
+                      alt="Logo"
+                      width={150}
+                      height={80}
+                      className="h-auto w-auto max-w-32"
+                      onContextMenu={(e) => e.preventDefault()}
+                      onDragStart={(e) => e.preventDefault()}
+                    />
+                  </a>
+                </div>
+                <div className="title">{item.title}</div>
+                <div className="des">{item.description}</div>
+
+                <div
+                  onClick={() => { window.location.href = `/captures/${item.route}`; }}
+                  className="buttons"
+                >
+                  <Button className="h-16 w-64 px-6 py-4 text-lg font-bold hover:bg-[#101b37] text-white rounded-xl bg-[#081025] border-2">
+                    Enter
+                  </Button>
+                </div>
+
               </div>
             </div>
-          </div>
-          <div className="item">
-            <img src="images/CapturePage/img3.jpg" />
-            <div className="content">
-              <div className="author">LUNDEV</div>
-              <div className="title">DESIGN SLIDER</div>
-              <div className="topic">ANIMAL</div>
-              <div className="des">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
-                sequi, rem magnam nesciunt minima placeat, itaque eum neque
-                officiis unde, eaque optio ratione aliquid assumenda facere ab
-                et quasi ducimus aut doloribus non numquam. Explicabo,
-                laboriosam nisi reprehenderit tempora at laborum natus unde. Ut,
-                exercitationem eum aperiam illo illum laudantium?
-              </div>
-              <div className="buttons">
-                <button>SEE MORE</button>
-                <button>SUBSCRIBE</button>
-              </div>
-            </div>
-          </div>
-          <div className="item">
-            <img src="images/CapturePage/img4.jpg" />
-            <div className="content">
-              <div className="author">LUNDEV</div>
-              <div className="title">DESIGN SLIDER</div>
-              <div className="topic">ANIMAL</div>
-              <div className="des">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
-                sequi, rem magnam nesciunt minima placeat, itaque eum neque
-                officiis unde, eaque optio ratione aliquid assumenda facere ab
-                et quasi ducimus aut doloribus non numquam. Explicabo,
-                laboriosam nisi reprehenderit tempora at laborum natus unde. Ut,
-                exercitationem eum aperiam illo illum laudantium?
-              </div>
-              <div className="buttons">
-                <button>SEE MORE</button>
-                <button>SUBSCRIBE</button>
-              </div>
-            </div>
-          </div>
-          <div className="item">
-            <img src="images/CapturePage/img5.jpg" />
-            <div className="content">
-              <div className="author">Varshith</div>
-              <div className="title">DESIGN SLIDER</div>
-              <div className="topic">ANIMAL</div>
-              <div className="des">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
-                sequi, rem magnam nesciunt minima placeat, itaque eum neque
-                officiis unde, eaque optio ratione aliquid assumenda facere ab
-                et quasi ducimus aut doloribus non numquam. Explicabo,
-                laboriosam nisi reprehenderit tempora at laborum natus unde. Ut,
-                exercitationem eum aperiam illo illum laudantium?
-              </div>
-              <div className="buttons">
-                <button>SEE MORE</button>
-                <button>SUBSCRIBE</button>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
         <div className="thumbnail">
-          <div className="item">
-            <img src="images/CapturePage/img1.jpg" />
-            <div className="content">
-              <div className="title">Name Slider</div>
-              <div className="description">Description</div>
+          {carouselItems.map((thumb, index) => (
+            <div className="item relative shadow-2xl hover:scale-110 " key={index}>
+              <img
+                src={thumb.imgSrc}
+                alt={`Thumbnail ${index + 1}`}
+                className="w-full h-auto object-cover"
+              />
+              <div className="  bottom-0 rounded-b-3xl absolute  w-full bg-gradient-to-t from-black via-black/50 to-transparent text-white p-4  transition-opacity duration-300">
+                <div className="title text-lg font-bold">{thumb.title}</div>
+              </div>
             </div>
-          </div>
-          <div className="item">
-            <img src="images/CapturePage/img2.jpg" />
-            <div className="content">
-              <div className="title">Name Slider</div>
-              <div className="description">Description</div>
-            </div>
-          </div>
-          <div className="item">
-            <img src="images/CapturePage/img3.jpg" />
-            <div className="content">
-              <div className="title">Name Slider</div>
-              <div className="description">Description</div>
-            </div>
-          </div>
-          <div className="item">
-            <img src="images/CapturePage/img4.jpg" />
-            <div className="content">
-              <div className="title">Name Slider</div>
-              <div className="description">Description</div>
-            </div>
-          </div>
+
+          ))}
         </div>
 
         <div className="arrows">
-          <button id="prev">prev</button>
-          <button id="next">next</button>
+          <button id="prev" className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full shadow-md hover:bg-gray-300"><ArrowLeftCircle /></button>
+          <button id="next" className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full shadow-md hover:bg-gray-300" ><ArrowRightCircle /></button>
         </div>
         <div className="time"></div>
       </div>

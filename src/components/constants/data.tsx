@@ -223,3 +223,64 @@ export const timeLineData = [
       roles: [Role.admin, Role.manager],
     },
   ];
+
+
+
+
+  export const carouselItems = [
+    {
+      imgSrc: "images/CapturePage/img1.jpg",
+      author: "incredia",
+      title: "Pronite",
+      route:"/pronite",
+      description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
+        sequi, rem magnam nesciunt minima placeat, itaque eum neque
+        officiis unde, eaque optio ratione aliquid assumenda facere ab`,
+    },
+    {
+      imgSrc: "images/CapturePage/img2.jpg",
+      author: "Incridea",
+      title: "Cultural",
+      route:"/cultural",
+      description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
+        sequi, rem magnam nesciunt minima placeat, itaque eum neque
+        officiis unde, eaque optio ratione aliquid assumenda facere ab`,
+    },
+    {
+      imgSrc: "images/CapturePage/img3.jpg",
+      author: "Incridea",
+      title: "Playbacks",
+      route:"/cultural-playbacks",
+      description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
+        sequi, rem magnam nesciunt minima placeat, itaque eum neque
+        officiis unde, eaque optio ratione aliquid assumenda facere ab`,
+    },
+    {
+      imgSrc: "images/CapturePage/img4.jpg",
+      author: "Incridea",
+      title: "Events",
+      route:"/events",
+      description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
+        sequi, rem magnam nesciunt minima placeat, itaque eum neque
+        officiis unde, eaque optio ratione aliquid assumenda facere ab`,
+    },
+
+    {
+      imgSrc: "images/CapturePage/img5.jpg",
+      author: "Stories",
+      title: "Stories",
+      route:"/stories",
+      description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
+        sequi, rem magnam nesciunt minima placeat, itaque eum neque
+        officiis unde, eaque optio ratione aliquid assumenda facere ab`,
+    },
+    {
+      imgSrc: "images/CapturePage/img5.jpg",
+      author: "Stories",
+      title: "Snaps",
+      route:"/your-snaps",
+      description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
+        sequi, rem magnam nesciunt minima placeat, itaque eum neque
+        officiis unde, eaque optio ratione aliquid assumenda facere ab`,
+    },
+  ];
