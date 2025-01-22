@@ -18,7 +18,7 @@ import NotRegistered from "./NotRegistered";
 import KeyboardShortcut from "~/components/Shortcuts";
 import IntroAnimation from "./Intro";
 import { usePathname } from "next/navigation";
-import FluidAnimation from './../components/fluidAnimtion/FluidAnimation';
+import FluidAnimation from "./../components/fluidAnimtion/FluidAnimation";
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -42,46 +42,50 @@ const useRouteLoading = () => {
   return loading;
 };
 
-const AuthenticatedApp = ({ Component, pageProps }: { Component: any; pageProps: any }) => {
+const AuthenticatedApp = ({
+  Component,
+  pageProps,
+}: {
+  Component: any;
+  pageProps: any;
+}) => {
   const loading = useRouteLoading();
   const { data: sessionData, status: sessionStatus } = useSession();
   const { data: verifiedEmailData, isLoading: isVerifiedEmailLoading } =
     api.verifiedEmail.getEmail.useQuery();
 
-  if (sessionStatus === "loading" || isVerifiedEmailLoading) return <CameraLoading />;
+  if (sessionStatus === "loading" || isVerifiedEmailLoading)
+    return <CameraLoading />;
 
   // if (!sessionData) return <LoginComponent />;
 
   const isEmailVerified =
     verifiedEmailData?.some(
-      (emailEntry: { email: string }) => emailEntry.email === sessionData?.user?.email
+      (emailEntry: { email: string }) =>
+        emailEntry.email === sessionData?.user?.email,
     ) ||
     sessionData?.user?.email?.endsWith("nitte.edu.in") ||
     sessionData?.user?.role === "admin";
 
   // if (!isEmailVerified) return <NotRegistered />;
 
-  const excludedRoute = [
-    "/LoginComponent",
-    "/NotRegistered",
-
-  ];
+  const excludedRoute = ["/LoginComponent", "/NotRegistered"];
   const pathname = usePathname();
   const isExcluded = excludedRoute.some((route) => pathname.startsWith(route));
   if (isExcluded) {
-    return <>{loading ? <CameraLoading /> : <Component {...pageProps} />} </>
+    return <>{loading ? <CameraLoading /> : <Component {...pageProps} />} </>;
   } else {
     return (
-      <ScrollArea className="w-full h-screen flex-1 font-roboto flex min-h-screen flex-col">
+      <ScrollArea className="font-roboto flex h-screen min-h-screen w-full flex-1 flex-col">
         <div className="font-roboto flex min-h-screen flex-col">
-          <FluidAnimation/>
+          <FluidAnimation />
           <Header />
           <main className="flex-grow">
             <Toaster position="top-right" reverseOrder={false} />
             <TrackPageVisits />
             {loading ? <CameraLoading /> : <Component {...pageProps} />}
           </main>
-          <Footer />
+          {/*<Footer />*/}
         </div>
       </ScrollArea>
     );
