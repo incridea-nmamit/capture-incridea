@@ -30,7 +30,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
     },
   });
 
-  const compressImage = (file: File, quality: number = 0.25): Promise<Blob> => {
+  const compressImage = (file: File, quality: number = 0.25,  maxWidth: number = 600): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -45,10 +45,10 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
             reject(new Error('Failed to get canvas context'));
             return;
           }
-
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0);
+          const aspectRatio = img.height / img.width;
+          canvas.width = maxWidth;
+          canvas.height = maxWidth * aspectRatio;
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
           canvas.toBlob(
             (blob) => {
