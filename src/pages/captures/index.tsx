@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import CapturesComponent from '~/components/CapturePage/CapturePageComponent';
-import CameraLoading from '~/components/LoadingAnimation/CameraLoading';
-import ReleaseOverlay from '~/components/ReleasingOverlay/ReleaseOverlay';
-import { api } from '~/utils/api';
+import React, { useState, useEffect } from "react";
+import CapturesComponent from "~/components/C/CapturePageComponent";
+import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
+import ReleaseOverlay from "~/components/ReleasingOverlay/ReleaseOverlay";
+import { api } from "~/utils/api";
 
 const Captures: React.FC = () => {
   const [isReleased, setIsReleased] = useState<boolean>(false);
   const { data, isLoading, error } = api.variables.getVariable.useQuery({
-    key: 'CountDown-Capture',
+    key: "CountDown-Capture",
   });
 
   const handleRelease = () => {
@@ -32,7 +32,7 @@ const Captures: React.FC = () => {
   const releaseDate = data.value; // The fetched release date
 
   return (
-    <main className='mt-20'>
+    <main className="mt-20">
       {checkReleaseDate(releaseDate) && !isReleased ? (
         <ReleaseOverlay releaseDate={releaseDate} onRelease={handleRelease} />
       ) : (
