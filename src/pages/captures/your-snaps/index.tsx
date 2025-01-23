@@ -8,7 +8,8 @@ import { useRouter } from "next/router";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
 import CapturePopup from "~/components/CapturePage/CapturePopup";
 import { useSession } from "next-auth/react";
-import ImagesMasonry from "~/components/CapturePage/ImagesMasonry";
+import ImagesGrid from "~/components/Image-grid/image-grid";
+import ImagePopup from "~/components/ImagePopup/image-popup";
 
 
 const YourSnapsPage: React.FC = () => {
@@ -93,10 +94,11 @@ const YourSnapsPage: React.FC = () => {
       />
       <FallingClipart />
 
-      <ImagesMasonry
+      <ImagesGrid
         isFetchingNextPage={isFetchingNextPage}
         fetchNextPage={fetchNextPage}
         nextCursor={data?.pages.at(-1)?.nextCursor}
+        isLoading={isLoading}
         images={images.map(image => ({
           id: image.id,
           compressed_path: image.compressed_path,
@@ -105,7 +107,7 @@ const YourSnapsPage: React.FC = () => {
           downloadCount: image._count?.downloadLog,
         }))} />
 
-      <CapturePopup
+      <ImagePopup
         selectedImage={selectedImage}
         selectedImageOg={selectedImageOg}
         selectedImageId={selectedImageId}

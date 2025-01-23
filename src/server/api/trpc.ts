@@ -158,3 +158,26 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+
+export const adminProcedure = t.procedure.use(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user || ctx.session.user.role != "admin") {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+export const editorProcedure = t.procedure.use(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user || ctx.session.user.role != "editor") {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});

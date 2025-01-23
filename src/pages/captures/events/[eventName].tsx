@@ -6,7 +6,8 @@ import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
 import CapturePopup from "~/components/CapturePage/CapturePopup";
 import { useSession } from "next-auth/react";
-import ImagesMasonry from "~/components/CapturePage/ImagesMasonry";
+import ImagesGrid from "~/components/Image-grid/image-grid";
+import ImagePopup from "~/components/ImagePopup/image-popup";
 
 
 const EventCaptures = () => {
@@ -97,10 +98,11 @@ const EventCaptures = () => {
         </div>
       </div>
 
-      <ImagesMasonry
+      <ImagesGrid
         isFetchingNextPage={isFetchingNextPage}
         fetchNextPage={fetchNextPage}
         nextCursor={data?.pages.at(-1)?.nextCursor}
+        isLoading={isLoading}
         images={images.map(image => ({
           id: image.id,
           compressed_path: image.compressed_path,
@@ -109,7 +111,7 @@ const EventCaptures = () => {
           downloadCount: image._count?.downloadLog,
         }))} />
 
-      <CapturePopup
+      <ImagePopup
         selectedImage={selectedImage}
         selectedImageOg={selectedImageOg}
         selectedImageId={selectedImageId}

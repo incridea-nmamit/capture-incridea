@@ -6,9 +6,9 @@ import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart"
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { useRouter } from "next/router";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
-import CapturePopup from "~/components/CapturePage/CapturePopup";
 import { useSession } from "next-auth/react";
-import ImagesMasonry from "~/components/CapturePage/ImagesMasonry";
+import ImagesGrid from "~/components/Image-grid/image-grid";
+import ImagePopup from "~/components/ImagePopup/image-popup";
 
 const Cultural = () => {
   const { data: session } = useSession();
@@ -18,7 +18,7 @@ const Cultural = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
   const router = useRouter();
-  
+
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Cultural" }
   );
@@ -90,10 +90,11 @@ const Cultural = () => {
         imagePath="https://utfs.io/f/0yks13NtToBitJchJ4NSCB2X9TSlbJxWYgG6rpN3n8swf4Fz"
       />
       <FallingClipart />
-      <ImagesMasonry
+      <ImagesGrid
         isFetchingNextPage={isFetchingNextPage}
         fetchNextPage={fetchNextPage}
         nextCursor={data?.pages.at(-1)?.nextCursor}
+        isLoading={isLoading}
         images={images.map(image => ({
           id: image.id,
           compressed_path: image.compressed_path,
@@ -103,7 +104,7 @@ const Cultural = () => {
         }))} />
 
 
-      <CapturePopup
+      <ImagePopup
         selectedImage={selectedImage}
         selectedImageOg={selectedImageOg}
         selectedImageId={selectedImageId}

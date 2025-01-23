@@ -451,7 +451,9 @@ const CaptureCard = () => {
         </div>
         <div className="thumbnail">
           {carouselItems.map((thumb, index) => (
-            <div className="item relative shadow-2xl hover:scale-110 " key={index}>
+            <div
+              onClick={() => { window.location.href = `/captures/${thumb.route}`; }}
+              className="item relative shadow-2xl hover:scale-110 hover:border hover:rounded-3xl " key={index} >
               <img
                 src={thumb.imgSrc}
                 alt={`Thumbnail ${index + 1}`}
@@ -461,7 +463,6 @@ const CaptureCard = () => {
                 <div className="title text-lg font-bold">{thumb.title}</div>
               </div>
             </div>
-
           ))}
         </div>
 
