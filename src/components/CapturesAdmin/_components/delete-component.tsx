@@ -17,7 +17,7 @@ const DeleteComponent = ({
 
     };
 
-    console.log(id)
+    
     return (
         <div>
             <button

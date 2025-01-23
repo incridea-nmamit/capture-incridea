@@ -3,7 +3,7 @@ import CaptureCard from "./CaptureCaorsel";
 
 const CapturePageComponent = () => {
   return (
-    <div className="-mt-10">
+    <div className=" bg-secondary">
       <CaptureCard />
     </div>
   );
