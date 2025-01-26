@@ -457,7 +457,7 @@ const CaptureCard = () => {
           {carouselItems.map((thumb, index) => (
             <div
               onClick={() => { window.location.href = `/captures/${thumb.route}`; }}
-              className="item relative shadow-2xl hover:scale-110 hover:border hover:rounded-3xl " key={index} >
+              className="item relative  hover:scale-110 hover:border hover:rounded-3xl " key={index} >
               <img
                 src={thumb.imgSrc}
                 alt={`Thumbnail ${index + 1}`}
