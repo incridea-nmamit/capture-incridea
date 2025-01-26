@@ -7,6 +7,7 @@ import { api } from "~/utils/api";
 import Head from "next/head";
 
 import "~/styles/globals.css";
+import "~/styles/embla.css";
 import Header from "~/components/HeaderFooter/Header";
 import Footer from "~/components/HeaderFooter/Footer";
 import TrackPageVisits from "~/components/TrackPageVisits";
