@@ -4,7 +4,7 @@ import { Share,Download,Heart } from "lucide-react";
 
 const StoriesComponent = ({ storyData }) => {
   return (
-    <div className='border-4 border-indigo-800 border-radius rounded-xl p-4'>
+    <div>
       <Stories
         width={'100%'}
         height={'100%'}
