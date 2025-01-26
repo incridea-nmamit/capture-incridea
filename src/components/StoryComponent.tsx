@@ -15,21 +15,20 @@ const StoriesComponent = ({ storyData }) => {
           height: '2px',
         }}
         loop={true}
-        autoplay={true}
         keyboardNavigation={true}
         onStoryStart={(index) => console.log(`Story ${index + 1} started`)}
         onStoryEnd={(index) => console.log(`Story ${index + 1} ended`)}
         onAllStoriesEnd={() => console.log('All stories ended')}
       />
-         <div className="flex justify-end gap-4 mt-2">
-          <button aria-label="Like Button">
-            <Heart size={35} className="text-white"/>
+         <div className="justify-end flex gap-3 mt-2 pb-4">
+          <button>
+            <Heart className="text-white"/>
           </button>
           <button>
-           <Share size={30} className="text-white" />
+           <Share className="text-white" />
           </button>
-          <button>
-            <Download size={30} className="text-white" />
+          <button className='bp-20'>
+           <Download className="text-white" />
           </button>
          </div>
     </div>
