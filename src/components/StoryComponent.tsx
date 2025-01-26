@@ -27,7 +27,7 @@ const StoriesComponent = ({ storyData }) => {
           <button>
            <Share className="text-white" />
           </button>
-          <button className='bp-20'>
+          <button>
            <Download className="text-white" />
           </button>
          </div>
