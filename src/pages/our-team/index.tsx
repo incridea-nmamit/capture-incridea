@@ -3,7 +3,7 @@ import OurTeam from '~/components/TeamPage/OurTeam';
 function OurTeamPage() {
  
   return (
-    <div>
+    <div className="gradient-bg">
       <FallingClipart />
       <OurTeam />
     </div>

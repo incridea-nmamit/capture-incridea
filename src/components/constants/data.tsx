@@ -283,4 +283,13 @@ export const timeLineData = [
         sequi, rem magnam nesciunt minima placeat, itaque eum neque
         officiis unde, eaque optio ratione aliquid assumenda facere ab`,
     },
+    {
+      imgSrc: "images/CapturePage/img3.jpg",
+      author: "Stories",
+      title: "Behind Incredia",
+      route:"/behindincridea",
+      description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
+        sequi, rem magnam nesciunt minima placeat, itaque eum neque
+        officiis unde, eaque optio ratione aliquid assumenda facere ab`,
+    },
   ];

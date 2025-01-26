@@ -4,7 +4,7 @@ import TitleDescription from "~/components/TitleDescription";
 
 function EventsPage() {
   return (
-    <div className="mt-20">
+    <div className=" gradient-bg">
       <TitleDescription 
         title="Events" 
         description="Vibrant Events"

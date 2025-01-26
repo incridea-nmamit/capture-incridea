@@ -5,11 +5,10 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
 import Head from "next/head";
-
+import { fonts } from "~/fonts";
 import "~/styles/globals.css";
 import "~/styles/embla.css";
 import Header from "~/components/HeaderFooter/Header";
-import Footer from "~/components/HeaderFooter/Footer";
 import TrackPageVisits from "~/components/TrackPageVisits";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { Toaster } from "react-hot-toast";
@@ -19,7 +18,6 @@ import NotRegistered from "./NotRegistered";
 import KeyboardShortcut from "~/components/Shortcuts";
 import IntroAnimation from "./Intro";
 import { usePathname } from "next/navigation";
-import FluidAnimation from "./../components/fluidAnimtion/FluidAnimation";
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -75,7 +73,7 @@ const AuthenticatedApp = ({
   const isExcluded = excludedRoute.some((route) => pathname.startsWith(route));
   if (isExcluded) {
     return(
-      <ScrollArea className="font-roboto flex h-screen min-h-screen w-full flex-1 flex-col">
+      <ScrollArea className={ ` ${fonts.lobster} ${fonts.grotesk} font-roboto flex h-screen min-h-screen w-full flex-1 flex-col`}>
       <div className="font-roboto flex min-h-screen flex-col">
         <main className="flex-grow">
           <Toaster position="top-right" reverseOrder={false} />

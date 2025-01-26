@@ -54,6 +54,8 @@ export const ParallaxHero = () => {
             />
           </div>
         </div>
+
+        {/* // Fog Layers */}
         <div className="absolute h-screen w-screen">
           <div id="foglayer_01" className="fog">
             <div className="image01" />
@@ -90,6 +92,7 @@ export const ParallaxHero = () => {
             className="h-screen w-screen object-cover object-center"
           />
         </div>
+
 
         <div className="absolute bottom-0 h-screen w-screen">
           <Image

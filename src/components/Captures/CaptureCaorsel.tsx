@@ -131,10 +131,11 @@ const CaptureCard = () => {
         /* carousel */
         .carousel {
           height: 100vh;
-          margin-top: -50px;
+          margin-top: -80px;
           width: 100vw;
           overflow: hidden;
           position: relative;
+           background: linear-gradient(to left, rgba(0, 0, 0, 0.75), transparent, transparent);
         }
         .carousel .list .item {
           width: 100%;
@@ -146,6 +147,8 @@ const CaptureCard = () => {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          background: linear-gradient(to left, rgba(0, 0, 0, 0.75), transparent, transparent);
+
         }
         .carousel .list .item .content {
           position: absolute;
@@ -414,7 +417,7 @@ const CaptureCard = () => {
         }
       `}</style>
 
-      <div className="carousel">
+      <div className="carousel bg-gradient-to-l from-black/75 via-transparent to-transparent">
         <div className="list">
           {carouselItems.map((item, index) => (
             <div className="item" key={index}>
@@ -433,14 +436,15 @@ const CaptureCard = () => {
                     />
                   </a>
                 </div>
-                <div className="title">{item.title}</div>
-                <div className="des">{item.description}</div>
-
+                <div className="shadow-[0_4px_10px_rgba(0,0,0,0.2)] p-2 rounded-xl">
+                  <div className="title font-lobster tracking-wider ">{item.title}</div>
+                  <div className="des font-grotesk ">{item.description}</div>
+                </div>
                 <div
                   onClick={() => { window.location.href = `/captures/${item.route}`; }}
                   className="buttons"
                 >
-                  <Button className="h-16 w-64 px-6 py-4 text-lg font-bold hover:bg-[#101b37] text-white rounded-xl bg-[#081025] border-2">
+                  <Button className="h-16 w-64 font-grotesk  gradient-bg line-clamp-3 px-6 py-4 text-lg font-bold hover:bg-[#101b37] text-white rounded-3xl bg-[#081025] border-2">
                     Enter
                   </Button>
                 </div>
@@ -460,7 +464,7 @@ const CaptureCard = () => {
                 className="w-full h-auto object-cover"
               />
               <div className="  bottom-0 rounded-b-3xl absolute  w-full bg-gradient-to-t from-black via-black/50 to-transparent text-white p-4  transition-opacity duration-300">
-                <div className="title text-lg font-bold">{thumb.title}</div>
+                <div className="title text-lg font-bold font-lobster tracking-widest">{thumb.title}</div>
               </div>
             </div>
           ))}

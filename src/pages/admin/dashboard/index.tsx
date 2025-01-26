@@ -44,7 +44,7 @@ const Dashboard = () => {
 
   const renderSidebar = () => (
     <div
-      className={`absolute lg:relative bg-neutral-950 pt-20 max-w-48 transition-all ${sidebarOpen ? '-ml-48' : ''
+      className={`absolute lg:relative bg-neutral-950  max-w-48 transition-all ${sidebarOpen ? '-ml-48' : ''
         } z-20`}
     >
       <div className="relative p-4">

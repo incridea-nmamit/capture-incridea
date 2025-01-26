@@ -4,7 +4,6 @@ import { api } from "~/utils/api";
 import downloadImage from "~/utils/downloadUtils";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
-import CapturePopup from "~/components/CapturePage/CapturePopup";
 import { useSession } from "next-auth/react";
 import ImagesGrid from "~/components/Image-grid/image-grid";
 import ImagePopup from "~/components/ImagePopup/image-popup";
@@ -88,12 +87,12 @@ const EventCaptures = () => {
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
-    <div className="mt-32">
+    <div className="mt-32 gradient-bg">
       <div className="mt-20">
-        <h1 className="text-3xl md:text-6xl font-Teknaf text-white text-center mb-8 mt-4 md:mb-4 md:mt-8">
+        <h1 className="text-3xl md:text-6xl font-lobster text-white text-center mb-8 mt-4 md:mb-4 md:mt-8">
           {formattedEventName} Captures
         </h1>
-        <div className="flex   justify-center mb-10 font-Trap-Regular">
+        <div className="flex   justify-center mb-10 font-grotesk">
           {event?.description && <p className=" text-justify md:text-center text-gray-400 mb-5 w-3/4">{event.description}</p>}
         </div>
       </div>

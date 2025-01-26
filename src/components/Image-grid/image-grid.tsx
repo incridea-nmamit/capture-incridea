@@ -51,12 +51,12 @@ export default function ImagesGrid({
 
     const columnCount = useResponsiveColumns({ 350: 1, 750: 2, 900: 3, 1024: 4 });
     return (
-        <div className="container-size pt-8">
+        <div className="container-size pt-8 rounded-t-3xl">
             <ImageList variant="masonry" cols={columnCount} gap={8} className="mb-20">
                 {images.map((image) => (
                     <ImageListItem
                         key={image.id}
-                        className="grid place-content-center place-items-center rounded-lg bg-slate-900 p-2"
+                        className="grid place-content-center place-items-center rounded-lg bg-gradient-to-b from-slate-400 to-[#ad64ed] p-2"
                     >
                         {
                             isLoading ? (

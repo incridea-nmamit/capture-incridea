@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import downloadImage from "~/utils/downloadUtils";
 import TitleDescription from "~/components/TitleDescription";
@@ -83,7 +83,7 @@ const Cultural = () => {
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
-    <div>
+    <div className="gradient-bg ">
       <TitleDescription
         title="Cultural Program Captures"
         description="Engaging our audience and building community through strategic social media initiatives"

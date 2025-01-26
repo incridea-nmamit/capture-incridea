@@ -54,7 +54,7 @@ const SocialMediaPage: React.FC = () => {
   });
 
   return (
-    <div className="flex flex-col items-center bg-neutral-950">
+    <div className="flex flex-col items-center gradient-bg">
       <FallingClipart />
       {/* Title Section */}
       <TitleSection 

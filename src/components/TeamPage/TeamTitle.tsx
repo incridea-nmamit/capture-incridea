@@ -18,8 +18,8 @@ const TitleSection: React.FC<TitleSectionProps> = ({ title, description, backgro
 
  
       <div className="absolute inset-0 flex flex-col items-center justify-center p-4 mt-36">
-        <h1 className="text-4xl font-Teknaf md:text-6xl text-white text-center">{title}</h1>
-        <p className="mt-2 text-base md:text-lg text-gray-300 max-w-2xl text-center font-Trap-Regular">
+        <h1 className="text-4xl font-lobster md:text-6xl text-white text-center">{title}</h1>
+        <p className="mt-2 text-base md:text-lg text-gray-300 max-w-2xl text-center font-grotesk">
           {description}
         </p>
       </div>

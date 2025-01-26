@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -22,7 +23,6 @@
   font-weight: normal;
   font-style: normal;
 }
-
 
 @font-face {
   font-family: "ClubHouse";
@@ -65,7 +65,6 @@
   font-weight: normal;
   font-style: normal;
 }
-
 
 html,
 body {
@@ -171,7 +170,6 @@ body {
 .container-size {
   max-width: min(1280px, 90vw);
   margin: 0 auto;
-
 }
 
 @layer base {
@@ -209,6 +207,8 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --font-grotesk: "Space Grotesk", sans-serif;
+    --font-lobster: "Lobster", sans-serif;
   }
 
   .dark {
@@ -260,7 +260,7 @@ body {
 .shining-text {
   position: relative;
   display: inline-block;
-  background: linear-gradient(90deg, #6B7280, #ffffff, #6B7280);
+  background: linear-gradient(90deg, #6b7280, #ffffff, #6b7280);
   background-size: 200%;
   background-clip: text;
   -webkit-background-clip: text;
@@ -279,7 +279,6 @@ body {
     background-position: -200% 0;
   }
 }
-
 
 .story-wrapper {
   width: min(300px, 80vw);
@@ -322,19 +321,17 @@ dialog[open] {
   row-gap: 1rem;
 }
 
-
 @media (min-width: 1024px) {
   .dashboard-grid {
     grid-template-areas:
       "search blank"
       "table controls";
-    ;
     grid-template-rows: auto 1fr;
     grid-template-columns: auto 150px;
   }
 
   .dashboard-controls {
-    @apply flex-col
+    @apply flex-col;
   }
 
   .select {
@@ -349,8 +346,6 @@ dialog[open] {
 .select {
   @apply w-full max-w-56;
 }
-
-
 
 .dashboard-blank {
   grid-area: blank;
@@ -368,23 +363,6 @@ dialog[open] {
 .dashboard-table {
   grid-area: table;
 }
-
-/* th:first-of-type {
-  border-top-left-radius: 10px;
-}
-th:last-of-type {
-  border-top-right-radius: 10px;
-}
-tr:last-of-type td:first-of-type {
-  border-bottom-left-radius: 10px;
-}
-tr:last-of-type td:last-of-type {
-  border-bottom-right-radius: 10px;
-}
-
-table{
-  border-radius: 10px;
-} */
 
 .hide-scrollbar {
   &::-webkit-scrollbar {
@@ -417,9 +395,8 @@ table{
 }
 
 .heading-font {
-  @apply font-Teknaf
+  @apply font-Teknaf;
 }
-
 
 /* fog */
 .fogwrapper {
@@ -757,6 +734,14 @@ table{
 }
 
 
-
-
-
+.gradient-bg {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(
+      circle at center,
+      rgba(128, 0, 128, 0.8),
+      rgba(32, 0, 64, 1)
+    ),
+    linear-gradient(135deg, rgba(51, 153, 255, 0.344), rgba(32, 0, 64, 0.707));
+  background-blend-mode: screen, overlay;
+}

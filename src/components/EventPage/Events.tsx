@@ -44,15 +44,15 @@ const Events: FC = () => {
             placeholder="Search events by name"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="border border-gray-700 rounded-lg py-2 pl-10 pr-4 w-full bg-transparent text-white"
+            className="border border-gray-100 rounded-lg py-2 pl-10 pr-4 w-full bg-transparent text-white"
           />
-          <AiOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+          <AiOutlineSearch className=" text-white absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
         </div>
         <div className="flex flex-row gap-4 w-fit md:w-auto">
           <select
             value={selectedEventType}
             onChange={(e) => setSelectedEventType(e.target.value.toLowerCase())}
-            className="p-2 border-slate-700 rounded-xl bg-transparent h-12 text-white w-fit md:w-auto"
+            className="p-2 border-slate-100 rounded-xl bg-transparent h-12 text-white w-fit md:w-auto"
           >
             <option className="text-white bg-neutral-950" value="all">
               All Categories
@@ -70,7 +70,7 @@ const Events: FC = () => {
           <select
             value={selectedDay}
             onChange={(e) => setSelectedDay(e.target.value)}
-            className="p-2 border-slate-700 rounded-xl bg-transparent h-12 text-white w-full md:w-auto"
+            className="p-2 border-slate-100 rounded-xl bg-transparent h-12 text-white w-full md:w-auto"
           >
             <option className="text-white bg-neutral-950" value="all">
               All Days

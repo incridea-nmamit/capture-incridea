@@ -7,7 +7,7 @@ interface GridCardProps {
   imagePath: string;
   altText: string;
   onClick: () => void;
-  prefech?: boolean; // Made it optional by adding a question mark
+  prefech?: boolean; 
 }
 
 export const GridCard: React.FC<GridCardProps> = ({
@@ -37,7 +37,7 @@ export const GridCard: React.FC<GridCardProps> = ({
       {prefech && (
         <link rel="prefetch" href={imagePath} as="image" className="hidden" />
       )}
-      <div className="absolute -bottom-1 right-0 flex gap-1 rounded-tl-3xl bg-slate-900 px-4 py-2 text-white">
+      <div className="absolute -bottom-1 right-0 flex gap-1 rounded-tl-3xl bg-gradient-to-b from-slate-400 to-[#ad64ed]  px-4 py-2 text-white">
         <FcLike size={20} />
         {totalLikes}
       </div>

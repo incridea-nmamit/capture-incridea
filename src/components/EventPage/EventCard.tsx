@@ -20,7 +20,7 @@ const EventCard: FC<EventCardProps> = ({ name, type, description, day, backgroun
 
   return (
     <div
-      className="relative cursor-pointer overflow-hidden w-80 h-full bg-neutral-900 text-gray-50 rounded-lg shadow-md hover:border border-gray-700 hover:shadow-lg hover:border-gray-600 transition duration-300"
+      className="relative gradient-bg cursor-pointer overflow-hidden w-80 h-full bg-neutral-900 text-gray-50 rounded-lg shadow-md hover:border border-gray-700 hover:shadow-lg hover:border-gray-100 transition duration-300 hover:scale-105 "
       onClick={handleCardClick}
     >
       {/* Image Section */}
@@ -37,14 +37,14 @@ const EventCard: FC<EventCardProps> = ({ name, type, description, day, backgroun
 
       <div className="p-4 space-y-3 ">
         <div className=" flex flex-row justify-between items-center gap-2">
-          <h2 className="text-lg font-bold text-white">{name}</h2>
-          <span className="border border-gray-200 text-gray-200 px-2 py-1 rounded-md">
+          <h2 className="text-xl md:text-2xl font-bold text-white font-lobster tracking-wider">{name}</h2>
+          <span className="border border-gray-200 text-gray-200 px-2 py-1 rounded-md font-grotesk">
             {type}
           </span>
         </div>
 
 
-        <div className="flex items-end justify-end text-sm text-gray-400">
+        <div className="flex items-end justify-end text-sm text-gray-400 font-grotesk">
           <span className="bg-black text-gray-200 px-2 py-1 rounded-md">
             {day}
           </span>
@@ -52,7 +52,7 @@ const EventCard: FC<EventCardProps> = ({ name, type, description, day, backgroun
         <hr/>
 
         {/* Description */}
-        <p className="text-sm text-gray-300 line-clamp-3">{description}</p>
+        <p className="text-sm text-gray-300 line-clamp-3 font-grotesk">{description}</p>
       </div>
     </div>
   );

@@ -6,7 +6,6 @@ import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart"
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { useRouter } from "next/router";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
-import CapturePopup from "~/components/CapturePage/CapturePopup";
 import { useSession } from "next-auth/react";
 import ImagesGrid from "~/components/Image-grid/image-grid";
 import ImagePopup from "~/components/ImagePopup/image-popup";
@@ -86,7 +85,7 @@ const YourSnapsPage: React.FC = () => {
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gradient-bg">
       <TitleDescription
         title="Your Snaps"
         description="Engaging our audience and building community through strategic social media initiatives."

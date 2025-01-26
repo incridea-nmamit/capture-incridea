@@ -48,7 +48,9 @@ const config: Config = {
   			'Teknaf': [
   				'Teknaf',
   				'cursive'
-  			]
+  			],
+			  grotesk: "var(--font-grotesk)",
+			  lobster: "var(--font-lobster)",
   		},
   		colors: {
   			gold: '#FFD700',

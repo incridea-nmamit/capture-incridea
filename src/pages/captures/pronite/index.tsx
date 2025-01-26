@@ -86,7 +86,7 @@ const pronite = () => {
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
-    <div className="mt-20">
+    <div className="gradient-bg">
       <TitleDescription
         title="Pronite Captures"
         description="Engaging our audience and building community through strategic social media initiatives"
