@@ -49,7 +49,7 @@ const Stories = () => {
         heading: 'Business',
         subheading: 'Captured By: Incridia',
         profileImage: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=600',
-      },
+      }
     },
     // Add more story data here along with Cateogry Name(heading) to Merge them, and the slides will automatically update
   ];

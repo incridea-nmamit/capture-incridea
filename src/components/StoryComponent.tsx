@@ -15,6 +15,7 @@ const StoriesComponent = ({ storyData }) => {
           height: '2px',
         }}
         loop={true}
+        autoplay={true}
         keyboardNavigation={true}
         onStoryStart={(index) => console.log(`Story ${index + 1} started`)}
         onStoryEnd={(index) => console.log(`Story ${index + 1} ended`)}
