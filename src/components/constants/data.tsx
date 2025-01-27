@@ -8,6 +8,7 @@ import {
   CalendarCog,
   GalleryHorizontalEnd,
   ImageUp,
+  PlayCircle,
   Settings,
   UserCog,
   Users,
@@ -24,6 +25,7 @@ import Stories from '~/components/Stories/Stories';
 import ApproveCaptures from '~/components/ApproveCapture/ApproveCapture';
 
 import { Role } from '@prisma/client';
+import AdminPlayBacks from "../Playbacks";
 
 
 export const randomSliderImages = [
@@ -222,10 +224,14 @@ export const timeLineData = [
       content: <ApproveCaptures />,
       roles: [Role.admin, Role.manager],
     },
+    {
+      name: 'playbacks',
+      label: 'playBacks',
+      icon: PlayCircle,
+      content: <AdminPlayBacks />,
+      roles: [Role.admin, Role.manager],
+    },
   ];
-
-
-
 
   export const carouselItems = [
     {
