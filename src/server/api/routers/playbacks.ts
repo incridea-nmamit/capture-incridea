@@ -59,7 +59,7 @@ export const playbacksRouter = createTRPCRouter({
                     description: input.description
 
                 },
-            }); 
+            });
         }),
 
     getPlaybacksDetailsById: adminProcedure
@@ -73,7 +73,7 @@ export const playbacksRouter = createTRPCRouter({
                 where: {
                     id: input.id
                 }
-            }) ?? []
+            }) 
         }),
 
     getAllPlaybacks: protectedProcedure.query(async ({ ctx }) => {

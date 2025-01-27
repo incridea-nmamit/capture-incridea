@@ -4,110 +4,27 @@ import { useEffect, useRef, useState } from 'react'
 import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area'
 import { Heart, Share2 } from 'lucide-react'
 import { Button } from '~/components/ui/button'
+import { api } from '~/utils/api'
+import Loading from '~/pages/Loading'
+import ReactPlayer from 'react-player'
+import { isDesktop } from 'react-device-detect';
 
-const videoList = [{
-  id: "1",
-  name: "video 1",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "2",
-  name: "video 2",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "3",
-  name: "video 3",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "4",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "5",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "6",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "7",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "8",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "9",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "10",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "11",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "12",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "13",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "14",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}, {
-  id: "15",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
+type VideosProps = {
+  id: number;
+  name: string;
+  description: string;
+  videoPath: string;
 }
-  , {
-  id: "15",
-  name: "video 4",
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum eaque, eligendi nulla maiores impedit magnam modi, in alias nemo excepturi atque corrupti quae? Suscipit sint nobis unde eius praesentium ipsa.",
-  videoUrl: "/videos/VidCom.mp4",
-  thumbnail: "https://utfs.io/f/0yks13NtToBiWfMRyqVYXTQy1FZeNvkVStrj2lsMHdq5GfK4"
-}
-]
-
 const CulturalPlaybacks = () => {
+  const { data: Videos = [], isLoading } = api.playbacks.getAllPlaybacks.useQuery()
 
-  const [selectedVideo, setSelectedVideo] = useState(videoList[0])
+  const [selectedVideo, setSelectedVideo] = useState<VideosProps>();
+
+  useEffect(() => {
+    if (Videos.length > 0) {
+      setSelectedVideo(Videos[0] as VideosProps)
+    }
+  }, [Videos]);
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -115,6 +32,9 @@ const CulturalPlaybacks = () => {
     videoRef.current?.load();
   }, [selectedVideo]);
 
+  if (isLoading) {
+    return <Loading />
+  }
   return (
     <div className="gradient-bg h-full w-full  ">
       <div className='!mt-20 container-size '>
@@ -131,11 +51,12 @@ const CulturalPlaybacks = () => {
             controls
             className="w-full aspect-video h-auto object-cover col-span-6 rounded-lg"
           >
-            <source src={selectedVideo?.videoUrl} type="video/mp4" />
+            <source src={selectedVideo?.videoPath} type="video/mp4" />
           </video>
           <div className=' gradient-bg shadow-2xl flex flex-col justify-start w-full h-full max-w-[106vh] gap-2 col-span-2 border border-gray-50 p-3 rounded-xl'>
-            <h3 className="text-4xl font-lobster">Playbacks</h3>
-            <p className="font-grotesk">Lorem ipsum dolor sit amet consectetur adipisicing elit. A officia animi reprehenderit cupiditate dolore, commodi tenetur quas aut nemo facilis error officiis. Impedit consectetur quod sequi rerum aut sed ab!
+            <h3 className="text-4xl font-lobster">{selectedVideo?.name}</h3>
+            <p className="font-grotesk">
+              {selectedVideo?.description}
             </p>
 
             <div className="flex flex-row items-center w-full justify-start gap-4 mt-2">
@@ -154,25 +75,31 @@ const CulturalPlaybacks = () => {
           <ScrollArea className="whitespace-nowrap rounded-md border-2 lg:overflow-x-auto h-full gradient-bg">
 
             <div className="flex lg:w-max h-max p-4 flex-wrap gap-4 items-center justify-center">
-              {videoList.map((video) => (
-                <figure key={video.id}
-                  className={`shrink-0 cursor-pointer rounded-md  max-h-48 h-full overflow-hidden max-w-full aspect-video ${selectedVideo?.id == video.id ? "border-4 border-white p-1" : ""}`}
+              {Videos.map((video) => (
+                <figure
+                  key={video.id}
+                  className={`shrink-0 cursor-pointer rounded-md max-h-48 h-full overflow-hidden max-w-full aspect-video ${selectedVideo?.id == video.id ? "border-4 border-white p-1" : ""
+                    }`}
                   onClick={() => setSelectedVideo(video)}
                 >
-                  <div className="overflow-hidden">
-                    <Image
-                      src={video.thumbnail}
-                      alt={`Photo by ${video.name}`}
-                      className=" h-fit w-fit object-cover"
-                      width={300}
-                      height={400}
+                  <div className="overflow-hidden h-full w-full">
+                    <ReactPlayer
+                      url={video.videoPath}
+                      playing={false}
+                      muted={true}
+                      controls={false}
+                      width="100%"
+                      height="100%"
+                      style={{ objectFit: "cover" }}
+                      className="w-full h-full"
                     />
                   </div>
                 </figure>
 
+
               ))}
             </div>
-             <ScrollBar orientation="horizontal" />
+            <ScrollBar orientation="horizontal" />
           </ScrollArea>
         </div>
 
