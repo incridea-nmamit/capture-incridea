@@ -93,19 +93,19 @@ model Gallery {
   compressed_path String
   event_name      String?
   event_category  String
-  authored_id      Int 
+  authored_id     Int
   upload_type     String
   state           Status
   date_time       DateTime      @default(now())
   downloadLog     downloadLog[]
-  galleryLikes    GalleryLike[] 
+  galleryLikes    GalleryLike[]
 }
 
 model Smcuploads {
   id          Int      @id @default(sequence())
   video_path  String
   description String
-  author String
+  author      String
   date_time   DateTime @default(now())
 }
 
@@ -113,7 +113,7 @@ model Stories {
   id            Int      @id @default(sequence())
   video_path    String
   category_name String
-  authored_id Int
+  authored_id   Int
   date_time     DateTime @default(now())
 }
 
@@ -202,18 +202,19 @@ model VerifiedEmail {
 }
 
 model GalleryLike {
-  id        String   @id @default(cuid())
-  userId    String   // Required
-  galleryId Int      // Required
-  liked     Boolean  @default(true)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  gallery   Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  id        String  @id @default(cuid())
+  userId    String // Required
+  galleryId Int // Required
+  liked     Boolean @default(true)
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gallery   Gallery @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+
   @@unique([userId, galleryId]) // Ensures a user can only like a gallery entry once
 }
 
 model Playbacks {
-  id         Int   @id @default(sequence())
-  videoPath  String
-  name String
+  id          Int    @id @default(sequence())
+  videoPath   String
+  name        String
   description String
 }

@@ -14,6 +14,7 @@ import { storiesRouter } from "./routers/stories";
 import { auditLog } from "./routers/auditlog";
 import { verifiedEmail } from "./routers/verifiedemail";
 import { likeRouter } from "./routers/like";
+import { playbacksRouter } from "./routers/playbacks";
 
 export const appRouter = createTRPCRouter({
   team: teamRouter,
@@ -31,6 +32,7 @@ export const appRouter = createTRPCRouter({
   audit: auditLog,
   verifiedEmail: verifiedEmail,
   like: likeRouter,
+  playbacks :playbacksRouter,
 });
 
 export type AppRouter = typeof appRouter;
