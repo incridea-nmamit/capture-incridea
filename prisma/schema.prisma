@@ -31,7 +31,7 @@ model events {
   image            String
   type             EventType
   day              Day
-  visibility       State
+  visibility       Boolean @default(false)
 }
 
 enum EventType {
@@ -47,10 +47,6 @@ enum Day {
   day3
 }
 
-enum State {
-  active
-  inactive
-}
 
 enum Teamgroup {
   media
@@ -221,7 +217,7 @@ model AuditLog {
 model CaptureCard {
   id        Int    @id @default(autoincrement())
   cardName  String
-  cardState State
+  cardState Boolean @default(false)
 }
 
 model Variables {
