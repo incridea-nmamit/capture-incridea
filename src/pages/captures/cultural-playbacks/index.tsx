@@ -1,5 +1,4 @@
 import FallingClipart from '~/components/BackgroundFallAnimation/FallingClipart'
-import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area'
 import { Heart, Share2 } from 'lucide-react'
@@ -7,7 +6,6 @@ import { Button } from '~/components/ui/button'
 import { api } from '~/utils/api'
 import Loading from '~/pages/Loading'
 import ReactPlayer from 'react-player'
-import { isDesktop } from 'react-device-detect';
 
 type VideosProps = {
   id: number;
@@ -38,7 +36,7 @@ const CulturalPlaybacks = () => {
   return (
     <div className="gradient-bg h-full w-full  ">
       <div className='!mt-20 container-size '>
-        <h1 className="text-6xl font-lobster md:text-7xl text-white text-left mb-8" >Playbacks</h1>
+        <h1 className="text-5xl font-Teknaf md:text-6xl text-white text-left mb-8" >Playbacks</h1>
         <FallingClipart />
 
         <div className=' items-start justify-start gap-4 grid lg:grid-cols-8 grid-cols-1 my-6'>
@@ -69,7 +67,7 @@ const CulturalPlaybacks = () => {
           </div>
         </div>
         <div className="mb-10 space-y-7">
-          <h1 className="text-xl md:text-4xl font-lobster">
+          <h1 className="text-xl md:text-3xl font-Teknaf">
             Recently uploded Playbacks
           </h1>
           <ScrollArea className="whitespace-nowrap rounded-md border-2 lg:overflow-x-auto h-full gradient-bg">
@@ -86,7 +84,7 @@ const CulturalPlaybacks = () => {
                     <ReactPlayer
                       url={video.videoPath}
                       playing={false}
-                      muted={true}
+                      muted={false}
                       controls={false}
                       width="100%"
                       height="100%"

@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 interface Card {
   id: number;
   cardName: string;
-  cardState: 'active' | 'inactive';
+  cardState: boolean;
 }
 
 
@@ -40,9 +40,9 @@ const ExecuteEvents = () => {
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
-                    checked={card.cardState === 'active'}
+                    checked={card.cardState === true}
                     onChange={async () => {
-                      const newValue = card.cardState === 'active' ? 'inactive' : 'active';
+                      const newValue = card.cardState === true ? false : true;
                       const id = card.id;
                       const cardName = card.cardName;
                       await updateVisibility.mutateAsync({ cardName, newValue });

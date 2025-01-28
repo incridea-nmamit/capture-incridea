@@ -18,7 +18,7 @@ const ApproveCard: FC<ApproveCardProps> = ({ id, eventName, category, imageUrl }
     const [selectedCapture, setSelectedCapture] = useState<{ id: number; action: 'approve' | 'decline' } | null>(null);
     const [selectedImage, setSelectedImage] = useState<string | null>(null); // State for the selected image
     const refetch = UseRefetch();
-    const updateState = api.gallery.updateState.useMutation();
+    const updateState = api.capture.updateState.useMutation();
     const handleRequestDecision = (captureId: number, action: 'approve' | 'decline') => {
         setSelectedCapture({ id: captureId, action });
     };

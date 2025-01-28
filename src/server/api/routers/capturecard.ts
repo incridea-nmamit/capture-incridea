@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
-export const captureRouter = createTRPCRouter({
+export const capturecardRouter = createTRPCRouter({
 
   getCards: publicProcedure.query(async ({ ctx }) => {
     const cards = await ctx.db.captureCard.findMany();
@@ -33,7 +33,7 @@ export const captureRouter = createTRPCRouter({
   .input(
     z.object({
       cardName: z.string().nonempty("Card name is required"),
-      newValue: z.enum(['active', 'inactive']),  
+      newValue: z.boolean(),  
     })
   )
   .mutation(async ({ ctx, input }) => {

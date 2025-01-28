@@ -1,11 +1,11 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { teamRouter } from "./routers/team";
 import { eventRouter } from "./routers/event";
-import { galleryRouter } from "./routers/gallery";
+import { capturesRouter } from "./routers/capture";
 import { downloadLogRouter } from "./routers/downloadlog";
 import { removalRequestRouter } from "./routers/requests";
 import { userRouter } from "./routers/user";
-import { captureRouter } from "./routers/capturecard";
+import { capturecardRouter } from "./routers/capturecard";
 import { analyticsRouter } from "./routers/analytics";
 import { variableRouter } from "./routers/variable";
 import { smcRouter } from "./routers/smc";
@@ -19,12 +19,12 @@ import { playbacksRouter } from "./routers/playbacks";
 export const appRouter = createTRPCRouter({
   team: teamRouter,
   events: eventRouter,
-  gallery: galleryRouter,
+  capture: capturesRouter,
   analytics: analyticsRouter ,
   download: downloadLogRouter,
   request : removalRequestRouter,
   user: userRouter,
-  capturecard: captureRouter,
+  capturecard: capturecardRouter,
   variables: variableRouter,
   smc: smcRouter,
   stories: storiesRouter,

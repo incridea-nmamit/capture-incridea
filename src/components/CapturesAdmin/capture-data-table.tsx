@@ -10,7 +10,7 @@ import {
     VisibilityState,
     getSortedRowModel,
 } from "@tanstack/react-table";
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 
 import { Button } from "~/components/ui/button";

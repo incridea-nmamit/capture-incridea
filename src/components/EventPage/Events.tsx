@@ -11,21 +11,21 @@ const Events: FC = () => {
   const [selectedEventType, setSelectedEventType] = useState<string>("all");
   const [selectedDay, setSelectedDay] = useState<string>("all");
   const { data: eventsData = [], isLoading } = api.events.getAllEvents.useQuery(undefined, {
-    refetchInterval: 5000, // Refetch every 5 seconds to simulate real-time updates
+    refetchInterval: 5000,
   });
   const router = useRouter();
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Events" }
   );
   useEffect(() => {
-    if (cardState === "inactive") {
-      router.push("/captures"); // Redirect to /capture if inactive
+    if (cardState === false) {
+      router.push("/captures");
     }
   }, [cardState, router]);
 
   const filteredEvents = eventsData
     .filter((event) => {
-      const matchesVisibility = event.visibility === "active";
+      const matchesVisibility = event.visibility === true;
       const matchesSearch = event.name.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesType = selectedEventType === "all" || event.type.toLowerCase() === selectedEventType;
       const matchesDay = selectedDay === "all" || event.day === selectedDay;

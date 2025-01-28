@@ -1,22 +1,36 @@
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
-
-
-export const galleryRouter = createTRPCRouter({
+export const capturesRouter = createTRPCRouter({
   // Get all events
-  getAllGallery: publicProcedure.query(async ({ ctx }) => {
-    const gallery = await ctx.db.gallery.findMany({
+  getAllcaptures: publicProcedure.query(async ({ ctx }) => {
+    const captures = await ctx.db.captures.findMany({
       orderBy: {
         date_time: "desc"
       }
 
     });
-    return gallery ?? [];
+    return captures ?? [];
   }),
 
-  getAllActiveGalleryforAdmin: publicProcedure.query(async ({ ctx }) => {
-    const gallery = await ctx.db.gallery.findMany({
+    getApproveCaptures: publicProcedure.query(async ({ ctx }) => {
+      const captures = await ctx.db.captures.findMany({
+        orderBy: {
+          date_time: "desc"
+        },
+        where:{
+          state: "pending",
+          upload_type: {
+            not: "deleted",
+          },
+        }
+  
+      });
+      return captures ?? [];
+    }),
+
+  getAllActivecapturesforAdmin: publicProcedure.query(async ({ ctx }) => {
+    const captures = await ctx.db.captures.findMany({
       where: {
         upload_type: {
           not: "deleted",
@@ -26,10 +40,10 @@ export const galleryRouter = createTRPCRouter({
         date_time: "desc",
       },
     });
-    return gallery ?? [];
+    return captures ?? [];
   }),
-  getAllDeletedGalleryforAdmin: publicProcedure.query(async ({ ctx }) => {
-    const gallery = await ctx.db.gallery.findMany({
+  getAllDeletedcapturesforAdmin: publicProcedure.query(async ({ ctx }) => {
+    const captures = await ctx.db.captures.findMany({
       where: {
         upload_type: {
           equals: "deleted",
@@ -39,15 +53,15 @@ export const galleryRouter = createTRPCRouter({
         date_time: "desc",
       },
     });
-    return gallery ?? [];
+    return captures ?? [];
   }),
 
-  restoreDeletedGallery: publicProcedure.input(
+  restoreDeletedcaptures: publicProcedure.input(
     z.object({
       id: z.number().min(1, "Capture ID is required"),
     })
   ).mutation(async ({ ctx, input }) => {
-    await ctx.db.gallery.updateMany({
+    await ctx.db.captures.updateMany({
       where: { id: input.id },
       data: {
         upload_type: "",
@@ -56,12 +70,12 @@ export const galleryRouter = createTRPCRouter({
     return { message: "Image restored successfully" };
   }),
 
-  deleteGalleryPermanently: publicProcedure.input(
+  deletecapturesPermanently: publicProcedure.input(
     z.object({
       id: z.number().min(1, "Capture ID is required"),
     })
   ).mutation(async ({ ctx, input }) => {
-    await ctx.db.gallery.delete({
+    await ctx.db.captures.delete({
       where: { id: input.id },
     });
     return { message: "Image deleted permanently" };
@@ -81,7 +95,7 @@ export const galleryRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { category, includeDownloadCount = false, cursor, limit = 30 } = input;
 
-      const images = await ctx.db.gallery.findMany({
+      const images = await ctx.db.captures.findMany({
         where: {
           event_category: category,
           state: "approved",
@@ -112,10 +126,10 @@ export const galleryRouter = createTRPCRouter({
       });
 
       return {
-        images: images.map((gallery) => ({
-          ...gallery,
+        images: images.map((captures) => ({
+          ...captures,
           download_count: includeDownloadCount
-            ? gallery._count?.downloadLog ?? 0
+            ? captures._count?.downloadLog ?? 0
             : undefined,
         })),
         nextCursor: images.length > 0 ? images[images.length - 1]!.date_time : null,
@@ -133,7 +147,7 @@ export const galleryRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { eventName, includeDownloadCount = false, cursor, limit = 30 } = input;
 
-      const images = await ctx.db.gallery.findMany({
+      const images = await ctx.db.captures.findMany({
         where: {
           event_name: eventName,
           state: "approved",
@@ -164,10 +178,10 @@ export const galleryRouter = createTRPCRouter({
       });
 
       return {
-        images: images.map((gallery) => ({
-          ...gallery,
+        images: images.map((captures) => ({
+          ...captures,
           download_count: includeDownloadCount
-            ? gallery._count?.downloadLog ?? 0
+            ? captures._count?.downloadLog ?? 0
             : undefined,
         })),
         nextCursor: images.length > 0 ? images[images.length - 1]!.date_time : null,
@@ -189,12 +203,12 @@ export const galleryRouter = createTRPCRouter({
       const imageUrl = input.uploadKeyOg;
       const compressedUrl = input.uploadKeyCompressed;
       const auto_button = (await ctx.db.variables.findUnique({ where: { key: "capture-auto-request" } }))?.value
-      const newImage = await ctx.db.gallery.create({
+      const newImage = await ctx.db.captures.create({
         data: {
           event_name: input.event_category === "events" ? input.event_name : null,
           event_category: input.event_category,
           image_path: imageUrl,
-          authored_id: input.author_id,
+          captured_by_id: input.author_id,
           compressed_path: compressedUrl,
           state: auto_button != "OFF" ? "approved" : "pending",
           upload_type: input.upload_type
@@ -211,7 +225,7 @@ export const galleryRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.gallery.updateMany({
+      await ctx.db.captures.updateMany({
         where: { id: input.id },
         data: {
           upload_type: "deleted",
@@ -229,7 +243,7 @@ export const galleryRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { id, state } = input;
-      await ctx.db.gallery.updateMany({
+      await ctx.db.captures.updateMany({
         where: { id },
         data: {
           state,
@@ -247,7 +261,7 @@ export const galleryRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { id, state, upload_type } = input;
-      await ctx.db.gallery.updateMany({
+      await ctx.db.captures.updateMany({
         where: { id },
         data: {
           state,

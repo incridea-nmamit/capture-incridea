@@ -14,11 +14,6 @@ const imagePath = 'https://utfs.io/f/0yks13NtToBi1xtbPur8wcI2p1glzqhUDTRZKsnaoO3
 
 
 async function main() {
-  // Clear existing events, gallery, and team data
-  await prisma.events.deleteMany({});
-  await prisma.gallery.deleteMany({});
-  await prisma.team.deleteMany({});
-
   // Create Events
   const eventPromises = eventNames.map((name, index) =>
     prisma.events.create({
@@ -29,7 +24,7 @@ async function main() {
         image: imagePath,
         type: ['core', 'technical', 'nontechnical', 'special'][Math.floor(Math.random() * 4)] as 'core' | 'technical' | 'nontechnical' | 'special',
         day: ['day1', 'day2', 'day3'][Math.floor(Math.random() * 3)] as 'day1' | 'day2' | 'day3',
-        visibility: Math.random() < 0.8 ? 'active' : 'inactive',
+        visibility: Math.random() < 0.8 ? true : false,
       },
     })
   );
@@ -67,7 +62,7 @@ async function main() {
         throw new Error(`Invalid randomImagePair selection at index ${randomIndex}`);
       }
   
-      return prisma.gallery.create({
+      return prisma.captures.create({
         data: {
           image_path: randomImagePair.imagePath,
           compressed_path: randomImagePair.compressedPath,
@@ -75,7 +70,7 @@ async function main() {
           event_category: randomEventCategory || "",
           state: "approved",
           upload_type: "direct",
-          authored_id: 0
+          captured_by_id: 257
         },
       });
     })

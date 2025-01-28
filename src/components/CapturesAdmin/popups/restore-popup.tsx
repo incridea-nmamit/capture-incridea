@@ -30,7 +30,7 @@ export default function RestorePopup({
 }
   : Props
 ) {
-  const restoreImage = api.gallery.restoreDeletedGallery.useMutation();
+  const restoreImage = api.capture.restoreDeletedcaptures.useMutation();
   const [loading, setLoading] = useState(false)
   const refetch = UseRefetch()
   return (
@@ -55,8 +55,8 @@ export default function RestorePopup({
                       setLoading(false)
                       setOpen(false)
                     },
-                    onError: (error) => {
-                      toast.error("Chalna Chutiye");
+                    onError: () => {
+                      toast.error("Couldnt Delete");
                       setLoading(false)
                     },
                   }

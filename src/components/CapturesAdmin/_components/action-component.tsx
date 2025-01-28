@@ -5,8 +5,6 @@ import { Button } from '~/components/ui/button'
 import DeleteCapturePopUpModel from '../popups/delete-permanently-popup'
 import RestorePopup from '../popups/restore-popup'
 
-
-
 type Props = {
     id: number
 }

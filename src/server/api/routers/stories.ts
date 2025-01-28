@@ -22,7 +22,7 @@ export const storiesRouter = createTRPCRouter({
         data: {
           video_path: videoURL,
           category_name: input.category_name,
-          authored_id: input.authored_id
+          captured_by_id: input.authored_id
         },
       });
 

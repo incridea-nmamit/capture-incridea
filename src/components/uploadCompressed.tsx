@@ -20,7 +20,7 @@ type UploadComponentProps = {
 
 const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type, authorid, handleClosePopup }) => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
-  const mutation = api.gallery.addImage.useMutation({
+  const mutation = api.capture.addImage.useMutation({
     onSuccess: () => {
       toast.success('Image added successfully!');
 

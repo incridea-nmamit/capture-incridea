@@ -20,7 +20,7 @@ type Props = {
 }
 
 export function DeleteCapturePopUpModel({ isOpen, setOpen, captureId }: Props) {
-    const deleteImage = api.gallery.deleteImage.useMutation();
+    const deleteImage = api.capture.deleteImage.useMutation();
     const auditLogMutation = api.audit.log.useMutation();
     const [loading, setLoading] = useState(false)
     const { data: session } = useSession();

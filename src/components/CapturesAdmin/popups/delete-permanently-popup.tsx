@@ -29,7 +29,7 @@ export default function DeleteCapturePopUpModel({
 }
   : Props
 ) {
-  const restoreImage = api.gallery.deleteGalleryPermanently.useMutation();
+  const restoreImage = api.capture.deletecapturesPermanently.useMutation();
   const [loading, setLoading] = useState(false)
   const refetch = UseRefetch()
   return (
@@ -54,8 +54,8 @@ export default function DeleteCapturePopUpModel({
                       setLoading(false)
                       setOpen(false)
                     },
-                    onError: (error) => {
-                      toast.error("Chalna Chutiye");
+                    onError: () => {
+                      toast.error("Couldnt Delete");
                       setLoading(false)
                     },
                   }

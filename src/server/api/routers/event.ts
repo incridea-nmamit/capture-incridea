@@ -1,11 +1,15 @@
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { State, EventType, Day } from "@prisma/client";
-import { get } from "react-hook-form";
+import { EventType, Day } from "@prisma/client";
 
 export const eventRouter = createTRPCRouter({
   // Fetch all events
   getAllEvents: publicProcedure.query(async ({ ctx }) => {
+    const events = await ctx.db.events.findMany();
+    return events ?? [];
+  }),
+
+  getEvents: publicProcedure.query(async ({ ctx }) => {
     const events = await ctx.db.events.findMany();
     return events ?? [];
   }),
@@ -20,7 +24,7 @@ export const eventRouter = createTRPCRouter({
         uploadKey: z.string().min(1, "Upload key is required"),
         type: z.nativeEnum(EventType),
         day: z.nativeEnum(Day),
-        visibility: z.nativeEnum(State).default("active"),
+        visibility: z.boolean(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -95,7 +99,7 @@ export const eventRouter = createTRPCRouter({
       const updatedEvent = await ctx.db.events.update({
         where: { id: input.id },
         data: {
-          visibility: event.visibility === "active" ? "inactive" : "active",
+          visibility: event.visibility === true ? false : true,
         },
       });
 

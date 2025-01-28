@@ -17,11 +17,11 @@ const EventCaptures = () => {
   const formattedEventName = (safeEventName || "").replace(/-/g, " ");
 
   const { data: event } = api.events.getEventByName.useQuery({ name: formattedEventName });
-  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.gallery.getApprovedImagesByEventName.useInfiniteQuery({ eventName: formattedEventName, includeDownloadCount: session?.user.role === "admin" }, {
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.capture.getApprovedImagesByEventName.useInfiniteQuery({ eventName: formattedEventName, includeDownloadCount: session?.user.role === "admin" }, {
+    getNextPageParam: (lastPage:any) => lastPage.nextCursor,
   },);
 
-  const images = data?.pages.map(page => page.images).flat() || []
+  const images = data?.pages.map((page:any) => page.images).flat() || []
 
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
@@ -78,7 +78,7 @@ const EventCaptures = () => {
   };
 
   useEffect(() => {
-    if (cardState === "inactive") {
+    if (cardState === false) {
       router.push("/captures");
     }
   }, [cardState, router]);
@@ -102,7 +102,7 @@ const EventCaptures = () => {
         fetchNextPage={fetchNextPage}
         nextCursor={data?.pages.at(-1)?.nextCursor}
         isLoading={isLoading}
-        images={images.map(image => ({
+        images={images.map((image:any) => ({
           id: image.id,
           compressed_path: image.compressed_path,
           image_path: image.image_path,

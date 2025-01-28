@@ -104,7 +104,7 @@ const EventsAdmin: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const result = await addEvent.mutateAsync({ ...values, uploadKey: values.uploadUrl });
+      const result = await addEvent.mutateAsync({ ...values, uploadKey: values.uploadUrl , visibility: false });
       setUploadUrl('');
       await auditLogMutation.mutateAsync({
         sessionUser: session?.user.name || "Invalid User", 
@@ -400,9 +400,9 @@ const EventsAdmin: React.FC = () => {
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
                           type="checkbox"
-                          checked={event.visibility === 'active'}
+                          checked={event.visibility === true}
                           onChange={async () => {
-                            const newValue = event.visibility === 'active' ? 'inactive' : 'active';
+                            const newValue = event.visibility === true ? false : true;
                             const id = event.id;
                             const name = event.name;
                             await updateVisibility.mutateAsync({ id });

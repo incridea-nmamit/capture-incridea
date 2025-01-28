@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgres"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
@@ -14,7 +14,7 @@ enum Status {
 }
 
 model RemovalRequest {
-  id          Int    @id @default(autoincrement())
+  id          Int    @id @default(sequence())
   name        String
   idcard      String
   description String
@@ -24,7 +24,7 @@ model RemovalRequest {
 }
 
 model events {
-  id               Int       @id @default(autoincrement())
+  id               Int       @id @default(sequence())
   name             String    @unique
   description      String
   shortDescription String // New field for short description
@@ -61,7 +61,7 @@ enum CollegeType {
 }
 
 model team {
-  id          Int       @id @default(autoincrement())
+  id          Int       @id @default(sequence())
   name        String
   committee   Teamgroup
   designation String
@@ -72,7 +72,7 @@ model team {
 }
 
 model webAnalytics {
-  id           Int      @id @default(autoincrement())
+  id           Int      @id @default(sequence())
   session_user String
   uniqueId     String
   routePath    String
@@ -84,7 +84,7 @@ model webAnalytics {
 }
 
 model downloadLog {
-  id           Int      @id @default(autoincrement())
+  id           Int      @id @default(sequence())
   session_user String
   date_time    DateTime @default(now())
   image_id     Int
@@ -92,7 +92,7 @@ model downloadLog {
 }
 
 model PlaybackLog {
-  id           Int      @id @default(autoincrement())
+  id           Int      @id @default(sequence())
   session_user String
   date_time    DateTime @default(now())
   playback_id     Int
@@ -100,14 +100,14 @@ model PlaybackLog {
 }
 
 model StoryLog {
-  id           Int      @id @default(autoincrement())
+  id           Int      @id @default(sequence())
   session_user String
   date_time    DateTime @default(now())
   story_id     Int
   story      Stories  @relation(fields: [story_id], references: [id])
 }
 model Captures {
-  id              Int           @id @default(autoincrement())
+  id              Int           @id @default(sequence())
   image_path      String
   compressed_path String
   event_name      String?
@@ -116,14 +116,14 @@ model Captures {
   captured_by team @relation(fields: [captured_by_id],references: [id])
   
   upload_type     String
-  state           Boolean @default(false)
+  state           Status
   date_time       DateTime      @default(now())
   downloadLog     downloadLog[]
   captureLikes    CaptureLike[]
 }
 
 model Smcuploads {
-  id          Int      @id @default(autoincrement())
+  id          Int      @id @default(sequence())
   video_path  String
   description String
   author      String
@@ -131,21 +131,20 @@ model Smcuploads {
 }
 
 model Stories {
-  id            Int      @id @default(autoincrement())
+  id            Int      @id @default(sequence())
   video_path    String
   captured_by_id     Int   
   captured_by team @relation(fields: [captured_by_id],references: [id])
   date_time     DateTime @default(now())
-  category_id  Int
-  category     storycategories   @relation(fields: [category_id], references: [id])
-
+  category_name String
+  category     storycategories   @relation(fields: [category_name], references: [name])
   storyLog StoryLog[]
   storyLikes StoryLike[]
 
 }
 
 model storycategories {
-  id   Int    @id @default(autoincrement())
+  id   Int    @id @default(sequence())
   name String @unique
   stories Stories[]
 }
@@ -208,26 +207,26 @@ model VerificationToken {
 }
 
 model AuditLog {
-  id              Int      @id @default(autoincrement())
+  id              Int      @id @default(sequence())
   sessionUserName String
   dateTime        DateTime @default(now())
   description     String
 }
 
 model CaptureCard {
-  id        Int    @id @default(autoincrement())
+  id        Int    @id @default(sequence())
   cardName  String
   cardState Boolean @default(false)
 }
 
 model Variables {
-  id    Int    @id @default(autoincrement())
+  id    Int    @id @default(sequence())
   key   String @unique
   value String
 }
 
 model VerifiedEmail {
-  id    Int    @id @default(autoincrement())
+  id    Int    @id @default(sequence())
   email String
   name String
   phone_number String
@@ -236,7 +235,7 @@ model VerifiedEmail {
 
 }
 model Playbacks {
-  id            Int            @id @default(autoincrement())
+  id            Int            @id @default(sequence())
   thumbnails    String?
   videoPath     String
   name          String

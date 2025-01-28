@@ -34,7 +34,7 @@ const Analytics = () => {
   const { data: events = [], isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
   const { data: logs = [], isLoading } = api.analytics.getAnalytics.useQuery();
   const { data: dlogs = [] } = api.download.getAllLogs.useQuery();
-  const { data: gallery = [], isLoading: galleryLoading } = api.gallery.getAllGallery.useQuery();
+  const { data: gallery = [], isLoading: galleryLoading } = api.capture.getAllcaptures.useQuery();
   const [graphData, setGraphData] = useState<{ time: string; visits: number; unique: number; viewsPerUnique: number; avgTimeSpent: number }[]>([]);
   const [growthData, setGrowthData] = useState<{ time: string; cumulativeVisits: number }[]>([]);
   const router = useRouter();
@@ -130,7 +130,7 @@ const Analytics = () => {
   const filteredGallery =
     filter === "all"
       ? gallery
-      : gallery.filter((galleryItem) => {
+      : gallery.filter((galleryItem: any) => {
           const galleryItemDate = new Date(galleryItem.date_time);
           const dateReferenceKey = `day${filter}`;
           const dateReference = dateReferences[dateReferenceKey];

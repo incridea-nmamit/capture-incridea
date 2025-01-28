@@ -14,12 +14,12 @@ const CapturesAdmin: React.FC = () => {
   const [captureState, setCaptureState] = useState<string>(initialState);
 
   const { data: activeGalleryData = [], refetch: refetchActive } = 
-    api.gallery.getAllActiveGalleryforAdmin.useQuery(undefined, {
+    api.capture.getAllActivecapturesforAdmin.useQuery(undefined, {
       enabled: captureState === 'active',
     });
 
   const { data: deletedGalleryData = [], refetch: refetchDeleted } = 
-    api.gallery.getAllDeletedGalleryforAdmin.useQuery(undefined, {
+    api.capture.getAllDeletedcapturesforAdmin.useQuery(undefined, {
       enabled: captureState === 'deleted',
     });
 

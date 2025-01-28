@@ -31,7 +31,7 @@ type Props = {
 };
 
 export function AddCapturePopUpModel({ isOpen, setOpen }: Props) {
-    const {  refetch } = api.gallery.getAllGallery.useQuery();
+    const {  refetch } = api.capture.getAllcaptures.useQuery();
     const { data: events, isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
     const { data: team, isLoading: teamsLoading } = api.team.getAllTeams.useQuery();
     const [step, setStep] = useState(1);

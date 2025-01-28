@@ -5,7 +5,7 @@ import { api } from '~/utils/api';
 
 interface GalleryItem {
   id: number;
-  event_name: string | null; // Updated to string | null
+  event_name: string | null; 
   event_category: string;
   upload_type: string;
   state: 'pending' | 'declined' | 'approved';
@@ -19,9 +19,9 @@ const GalleryBatchUpload = () => {
     isLoading: galleryLoading,
     isError: galleryError,
     refetch,
-  } = api.gallery.getAllGallery.useQuery();
-  const batchUpload = api.gallery.batchUpload.useMutation();
-  const deleteGalleryItem = api.gallery.batchUpload.useMutation();
+  } = api.capture.getAllcaptures.useQuery();
+  const batchUpload = api.capture.batchUpload.useMutation();
+  const deleteGalleryItem = api.capture.batchUpload.useMutation();
 
   const [selectedBatch, setSelectedBatch] = useState('');
   const [filteredGallery, setFilteredGallery] = useState<GalleryItem[]>([]);
@@ -87,9 +87,9 @@ const GalleryBatchUpload = () => {
             <option value="" disabled>
               Select a batch
             </option>
-            {eventNames
-              .filter((name) => name !== null)
-              .map((name) => (
+            {eventNames 
+               .filter((name): name is string => typeof name === "string")
+              .map((name) => (              
                 <option key={name} value={name}>
                   {name}
                 </option>

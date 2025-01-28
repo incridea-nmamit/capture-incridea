@@ -20,16 +20,16 @@ const behindincridea = () => {
   );
   const session_user = session?.user.email || "";
   useEffect(() => {
-    if (cardState === "inactive") {
+    if (cardState === false) {
       router.push("/captures");
     }
   }, [cardState, router]);
 
-  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.gallery.getApprovedImagesByCategory.useInfiniteQuery({ category: "behindincridea", includeDownloadCount: session?.user.role === "admin" }, {
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.capture.getApprovedImagesByCategory.useInfiniteQuery({ category: "behindincridea", includeDownloadCount: session?.user.role === "admin" }, {
+    getNextPageParam: (lastPage:any) => lastPage.nextCursor,
   },);
 
-  const images = data?.pages.map(page => page.images).flat() || []
+  const images = data?.pages.map((page:any) => page.images).flat() || []
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
@@ -93,7 +93,7 @@ const behindincridea = () => {
         fetchNextPage={fetchNextPage}
         nextCursor={data?.pages.at(-1)?.nextCursor}
         isLoading={isLoading}
-        images={images.map(image => ({
+        images={images.map((image:any) => ({
           id: image.id,
           compressed_path: image.compressed_path,
           image_path: image.image_path,

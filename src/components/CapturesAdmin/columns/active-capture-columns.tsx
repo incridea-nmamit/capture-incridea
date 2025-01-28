@@ -7,7 +7,6 @@ import { ArrowUpDown, } from "lucide-react";
 import DeleteComponent from "../_components/delete-component";
 
 
-
 export type Capture = {
     state?: Status;
     id?: number;
@@ -16,7 +15,7 @@ export type Capture = {
     compressed_path: string;
     upload_type?: string;
     image_path?: string;
-    authored_id?: number;
+    clicked_by_id?: number;
     date_time?: Date;
 }
 export const activeCapturecolumns: ColumnDef<Capture>[] = [

@@ -4,8 +4,7 @@ import CameraLoading from '../LoadingAnimation/CameraLoading';
 import ApproveCard from './approve-card';
 
 const ApproveCaptures: React.FC = () => {
-  const { data: gallery, isLoading, isError, } = api.gallery.getAllGallery.useQuery();
-  const pendingCaptures = gallery?.filter(item => item.state === 'pending' && item.upload_type !== 'deleted');
+  const { data: pendingCaptures, isLoading, isError, } = api.capture.getApproveCaptures.useQuery();
   if (isLoading) return <CameraLoading />;
   if (isError) return <div>Error loading gallery. Please try again later.</div>;
 
@@ -16,7 +15,7 @@ const ApproveCaptures: React.FC = () => {
       <h1 className="text-4xl font-Teknaf mb-8 py-5 text-center">Approve Captures</h1>
       <div className="flex flex-wrap items-center justify-center p-4 gap-4">
         {pendingCaptures && pendingCaptures.length > 0 ? (
-          pendingCaptures.map((item) => (
+          pendingCaptures.map((item: any) => (
             <ApproveCard
               key={item.id}
               id={item.id}
