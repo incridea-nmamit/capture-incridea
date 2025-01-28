@@ -32,9 +32,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (req.method === 'POST') {
         console.log('Handling POST request');   
         const trpcHandler = appRouter.createCaller(createContext({ req }));
-        const { email } = req.body;
+        const { email, name,phone_number,college } = req.body;
         console.log('Email:', email);   
-        const result = await trpcHandler.verifiedEmail.addVerifiedEmail({ email });
+        const result = await trpcHandler.verifiedEmail.addVerifiedEmail({name, email ,phone_number,college });
         console.log('Result:', result);
         return res.status(200).json(result); 
       }  

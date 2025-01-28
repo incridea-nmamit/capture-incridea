@@ -21,23 +21,23 @@ export const ParallaxHero = () => {
 
   const Logo = useRef(null);
 
-  useGSAP(() => {
-    if (!Logo.current) return;
+  // useGSAP(() => {
+  //   if (!Logo.current) return;
 
-    gsap.from(Logo.current, {
-      delay: 0,
-      duration: 0,
-      scale: 3,
-      opacity: 0.6,
-      zIndex: 9999,
-    });
+  //   gsap.from(Logo.current, {
+  //     delay: 0,
+  //     duration: 0,
+  //     scale: 3,
+  //     opacity: 0.6,
+  //     zIndex: 9999,
+  //   });
 
-    gsap.to(Logo.current, {
-      duration: 2,
-      scale: 1,
-      opacity: 1,
-    });
-  });
+  //   gsap.to(Logo.current, {
+  //     duration: 2,
+  //     scale: 1,
+  //     opacity: 1,
+  //   });
+  // });
 
   return (
     <>
