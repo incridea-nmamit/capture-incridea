@@ -230,9 +230,7 @@ model VerifiedEmail {
   email String
   name String
   phone_number String
-  college CollegeType //internal/external
-
-
+  college CollegeType //internal/externa
 }
 model Playbacks {
   id            Int            @id @default(sequence())
@@ -243,7 +241,6 @@ model Playbacks {
   playbackLog   PlaybackLog[]
   playbackLikes playbackLike[] // Corrected relationship to playbackLike
 }
-
 
 //Likes
 model CaptureLike {
