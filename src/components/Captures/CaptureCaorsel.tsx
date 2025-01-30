@@ -11,16 +11,13 @@ const CaptureCard = () => {
   const [autoPlay] = useState(true);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [emblaRef, embla] = useEmblaCarousel({ 
-    loop: false,
-    dragFree: true,
-    align: "start"
+
   });
   
   const [thumbnailEmblaRef, thumbnailEmbla] = useEmblaCarousel({ 
-    loop: false,
+    loop: true,
     dragFree: true,
     align: "center",
-    containScroll: "keepSnaps"
   });
 
   const handleNext = () => {
