@@ -6,6 +6,9 @@ import { Button } from '~/components/ui/button'
 import { api } from '~/utils/api'
 import Loading from '~/pages/Loading'
 import ReactPlayer from 'react-player'
+import Image from 'next/image'
+import { useSession } from 'next-auth/react'
+import { FaHeart } from 'react-icons/fa'
 
 type VideosProps = {
   id: number;
@@ -14,9 +17,21 @@ type VideosProps = {
   videoPath: string;
 }
 const CulturalPlaybacks = () => {
+  const { data: session } = useSession();
+  const [isSharing, setIsSharing] = useState(false); 
   const { data: Videos = [], isLoading } = api.playbacks.getAllPlaybacks.useQuery()
-
+  const toggleLikes = api.playbacks.toggleLikeForPlayback.useMutation()
   const [selectedVideo, setSelectedVideo] = useState<VideosProps>();
+  const { data: totalLikes, refetch: refetchTotalLikes } = api.playbacks.getTotalPlaybackLikes.useQuery({
+    id: selectedVideo?.id!
+  })
+
+  const { data: isLiked ,refetch:refetchIsliked } = api.playbacks.isLiked.useQuery(
+    {
+      userId: session?.user.id!,
+      playback_Id: selectedVideo?.id!
+    }
+  );
 
   useEffect(() => {
     if (Videos.length > 0) {
@@ -26,9 +41,25 @@ const CulturalPlaybacks = () => {
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
+
+
+  const handleToggleLike = async () => {
+    if (!selectedVideo || !session?.user.id) return;
+    await toggleLikes.mutateAsync({
+      userId: session.user.id,
+      playback_Id: selectedVideo.id
+    });
+    refetchIsliked();
+    refetchTotalLikes();
+  };
+
+
   useEffect(() => {
     videoRef.current?.load();
   }, [selectedVideo]);
+
+ 
+
 
   if (isLoading) {
     return <Loading />
@@ -58,12 +89,23 @@ const CulturalPlaybacks = () => {
             </p>
 
             <div className="flex flex-row items-center w-full justify-start gap-4 mt-2">
-              <Heart className='h-5 w-5' />
-              <Share2 className="h-5 w-5" />
-              <Button className="font-grotesk">
-                Downlode
-              </Button>
+              <button onClick={handleToggleLike} aria-label="Like Button">
+                <FaHeart size={30} color={isLiked ? "red" : "white"} />
+              </button>
+              <span className="flex items-center text-white">
+                {isLoading ? "..." : totalLikes !== null ? totalLikes?.length : "..."}
+              </span>
+              <button >
+                <Share2 className="text-white" />
+              </button>
+              <button
+                className="bg-white rounded-2xl text-black px-6 py-2 hover:scale-105 transition-all"
+
+              >
+                Download
+              </button>
             </div>
+
           </div>
         </div>
         <div className="mb-10 space-y-7">
@@ -81,20 +123,15 @@ const CulturalPlaybacks = () => {
                   onClick={() => setSelectedVideo(video)}
                 >
                   <div className="overflow-hidden h-full w-full">
-                    <ReactPlayer
-                      url={video.videoPath}
-                      playing={false}
-                      muted={false}
-                      controls={false}
-                      width="100%"
-                      height="100%"
-                      style={{ objectFit: "cover" }}
+                    <Image
+                      src={video.thumbnails!}
+                      alt='thumbnail'
+                      width={100}
+                      height={100}
                       className="w-full h-full"
                     />
                   </div>
                 </figure>
-
-
               ))}
             </div>
             <ScrollBar orientation="horizontal" />
@@ -109,3 +146,4 @@ const CulturalPlaybacks = () => {
 }
 
 export default CulturalPlaybacks;
+
