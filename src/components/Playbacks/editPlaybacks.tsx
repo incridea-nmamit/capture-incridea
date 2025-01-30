@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Dialog,
     DialogContent,
@@ -22,10 +22,12 @@ import { Button } from "../ui/button";
 import ReactPlayer from "react-player"; // Import ReactPlayer
 import VideoUploadComponent from "~/components/VideoUploadComponent";
 import UseRefetch from "~/hooks/use-refetch";
+import { UploadButton } from "~/utils/uploadthing";
 
 const schema = z.object({
     name: z.string().min(1, "Required"),
     uplodeurl: z.string().min(1, "Required"),
+    thumbnails: z.string().min(1, "Required"),
     description: z.string().min(1, "Required"),
 });
 
@@ -40,8 +42,9 @@ type Props = {
 export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
     const { data: defaultValue, isLoading, error } = api.playbacks.getPlaybacksDetailsById.useQuery({ id });
     const editPlayBacks = api.playbacks.editPlaybacks.useMutation();
-    const [uploadUrl, setUploadUrl] = useState<string>(defaultValue?.videoPath || ""); 
-    const [edited ,setEdited] =useState(false)
+    const [uploadUrl, setUploadUrl] = useState<string>(defaultValue?.videoPath || "");
+    const [thumbnailUrl, setThumbnailUrl] = useState<string>(defaultValue?.thumbnails || "");
+    const [edited, setEdited] = useState(false)
     const refetch = UseRefetch();
 
     const uploadKey = defaultValue?.videoPath.split("/f/")[1];
@@ -52,12 +55,13 @@ export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
             uplodeurl: uploadKey,
             name: defaultValue?.name || "",
             description: defaultValue?.description || "",
+            thumbnails: defaultValue?.thumbnails || "",
         },
     });
 
     function handleUploadComplete(url: string) {
-        setUploadUrl(url); 
-        form.setValue("uplodeurl", url); 
+        setUploadUrl(url);
+        form.setValue("uplodeurl", url);
         toast.success("Upload successful!");
         setEdited(true)
     }
@@ -74,6 +78,7 @@ export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
                 uploadKey: uploadUrl,
                 name: values.name,
                 description: values.description,
+                thumbnails:values.thumbnails,
             });
 
             setOpen(false);
@@ -82,6 +87,15 @@ export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
         } catch (error) {
             console.error("Form submission error", error);
             toast.error("Failed to submit the form. Please try again.");
+        }
+    }
+
+    function handleThumbnailUploadComplete(res: { url: string }[]) {
+        if (res && res.length > 0) {
+            const uploadedUrl = res[0]?.url || "";
+            setThumbnailUrl(uploadedUrl);
+            form.setValue("thumbnails", uploadedUrl);
+            toast.success("Thumbnail uploaded successfully!");
         }
     }
 
@@ -95,7 +109,7 @@ export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
                     <DialogTitle className="font-Teknaf text-2xl">Edit PlayBacks</DialogTitle>
                 </DialogHeader>
                 <div>
-                    <div>
+                    <div className="flex flex-row space-x-4 items-center justify-center">
                         {defaultValue?.videoPath && (
                             <ReactPlayer
                                 url={`https://utfs.io/f/${uploadUrl || uploadKey}`}
@@ -104,10 +118,13 @@ export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
                                 height={180}
                             />
                         )}
-                        {
-
-                        }
-
+                        {thumbnailUrl && (
+                            <img
+                                src={thumbnailUrl}
+                                alt="Thumbnail"
+                                className="w-32 h-44 object-cover rounded-md border border-gray-500"
+                            />
+                        )}
                     </div>
                     <Form {...form}>
                         <form
@@ -120,7 +137,6 @@ export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
                                 render={() => (
                                     <FormItem>
                                         <FormControl>
-
                                             <VideoUploadComponent
                                                 onUploadComplete={handleUploadComplete}
                                                 resetUpload={() => setUploadUrl("")}
@@ -130,7 +146,23 @@ export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
                                     </FormItem>
                                 )}
                             />
-
+                            <FormField
+                                control={form.control}
+                                name="thumbnails"
+                                render={() => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <UploadButton
+                                                endpoint="imageUploaderCompressed"
+                                                onClientUploadComplete={handleThumbnailUploadComplete}
+                                                onUploadError={() => {
+                                                    toast.error("Failed to upload thumbnail. Please try again.");
+                                                }}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
                             <FormField
                                 control={form.control}
                                 name="name"

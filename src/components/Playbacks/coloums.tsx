@@ -9,6 +9,7 @@ import PlaybacksAction from "./action";
 
 export type Playbacks = {
     id?: number;
+    thumbnails?: string | null;
     name?: string | null;
     videoPath?: string;
     description?: string
@@ -27,10 +28,23 @@ export const Playbackscolumns: ColumnDef<Playbacks>[] = [
         cell: ({ row }) => (
             <div
                 className="truncate max-w-[200px] text-ellipsis whitespace-nowrap overflow-hidden"
-                title={row.original.description} 
+                title={row.original.description}
             >
                 {row.original.description || "mkc"}
             </div>
+        ),
+    },
+    {
+        accessorKey: "thumbnails",
+        header: "Thumbnail",
+        cell: ({ row }) => (
+            <img
+                src={row.original.thumbnails!}
+                alt="Thumbnail"
+                width={120}
+                height={80}
+                className=" rounded-md border border-gray-500"
+            />
         ),
     },
 

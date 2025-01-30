@@ -80,9 +80,6 @@ const CaptureCard = () => {
               <Image src={item.imgSrc} alt={`Slide ${index + 1}`} fill className={styles.image} priority={index === activeIndex} />
             </div>
             <div className={styles.content}>
-              <div className={styles.logo}>
-                <Image src="/images/Logo/capture.png" alt="Logo" width={150} height={80} className={styles.logoImage} />
-              </div>
               <div className={styles.textContent}>
                 <div className={styles.title}>{item.title}</div>
                 <div className={styles.description}>{item.description}</div>

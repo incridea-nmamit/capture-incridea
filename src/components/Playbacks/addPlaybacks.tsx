@@ -22,8 +22,10 @@ import { Button } from "../ui/button";
 import ReactPlayer from "react-player"; // Import ReactPlayer
 import VideoUploadComponent from "~/components/VideoUploadComponent"; // Replace with your upload component's path
 import UseRefetch from "~/hooks/use-refetch";
+import { UploadButton } from "~/utils/uploadthing";
 
 const schema = z.object({
+    thumbnail: z.string().min(1, "Required"),
     name: z.string().min(1, "Required"),
     uplodeurl: z.string().min(1, "Required"),
     description: z.string().min(1, "Required"),
@@ -39,10 +41,12 @@ type Props = {
 export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
     const addPlayback = api.playbacks.addPlaybacks.useMutation();
     const [uploadUrl, setUploadUrl] = useState<string>("");
+    const [isthumbnail, setThumbnail] = useState<boolean>(false);
     const refetch = UseRefetch()
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
+            thumbnail: "",
             uplodeurl: "",
             name: "",
             description: "",
@@ -55,6 +59,8 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
         toast.success("Upload successful!");
     }
 
+
+
     function onSubmit(values: FormValues) {
         try {
             if (!uploadUrl) {
@@ -62,6 +68,7 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
                 return;
             }
             addPlayback.mutate({
+                thumbnails: values.thumbnail,
                 uploadKey: uploadUrl,
                 name: values.name,
                 description: values.description,
@@ -86,7 +93,6 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-8 max-w-3xl mx-auto py-10"
                         >
-
                             <FormField
                                 control={form.control}
                                 name="uplodeurl"
@@ -98,7 +104,7 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
                                                     url={`https://utfs.io/f/${uploadUrl}`}
                                                     controls
                                                     width="100%"
-                                                    height="360px"
+                                                    height="200px"
                                                 />
                                             ) : (
                                                 <VideoUploadComponent
@@ -106,6 +112,39 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
                                                     resetUpload={() => setUploadUrl("")}
                                                 />
                                             )}
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="thumbnail"
+                                render={() => (
+                                    <FormItem>
+                                                                                 
+                                          {isthumbnail && (
+                                                <img
+                                                    src={form.watch("thumbnail")}
+                                                    alt="Thumbnail Preview"
+                                                    className="w-full h-40 object-cover mb-4 rounded-lg border border-gray-500"
+                                                />
+                                            )}
+
+                                        <FormControl>
+                                            <UploadButton
+                                                endpoint="imageUploaderCompressed"
+                                                onClientUploadComplete={(res) => {
+                                                    if (res && res.length > 0) {
+                                                        const uploadedUrl = res && res[0] ? res[0].url : "";
+                                                        setThumbnail(true)
+                                                        form.setValue("thumbnail", uploadedUrl);
+                                                        toast.success("Thumbnail uploaded successfully!");
+                                                    }
+                                                }}
+                                                onUploadError={() => {
+                                                    toast.error("Failed to upload thumbnail. Please try again.");
+                                                }}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
