@@ -79,7 +79,7 @@ const Stories = () => {
 
 
   return (
-    <div className="mt-20 gradient-bg h-full w-full  ">
+    <div className="gradient-bg h-full w-full  ">
       <TitleDescription
         title="Stories"
         description="Capturing community's essence through strategic social media interactions"
