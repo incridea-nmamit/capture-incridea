@@ -76,7 +76,7 @@ const AuthenticatedApp = ({
       <ScrollArea className={` ${fonts.lobster} ${fonts.grotesk} font-roboto flex h-screen min-h-screen w-full flex-1 flex-col`}>
         <div className="font-roboto flex min-h-screen flex-col">
           <Header />
-          <main className="flex-grow mt-10">
+          <main className="flex-grow">
             <Toaster position="top-right" reverseOrder={false} />
             <TrackPageVisits />
             {loading ? <CameraLoading /> : <Component {...pageProps} />}
