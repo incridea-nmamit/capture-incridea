@@ -10,7 +10,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "~/utils/api";
 import UploadComponent from "../../uploadCompressed";
-import UseRefetch from "~/hooks/use-refetch";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
@@ -20,7 +19,7 @@ const schema = z.object({
     event_category: z.string().nonempty("Please select a category"),
     event_name: z.string().optional(),
     author_id: z.preprocess((val) => Number(val), z.number().positive("Please select a valid author")),
-    upload_type: z.enum(["direct", "batch"]),
+    upload_type: z.string().nonempty("Please select a category"),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -47,8 +46,26 @@ export function AddCapturePopUpModel({ isOpen, setOpen }: Props) {
     });
 
     const handleNextStep = (data: FormValues) => {
-        if (step !== 2) setStep(2);
-    };
+        if (step !== 2) {
+            const adjustedData: FormValues = {
+                ...data,
+                event_name: data.event_name, 
+    
+                event_category: data.event_category, 
+    
+                upload_type:
+                    data.upload_type === "batch" && data.event_category === "events"
+                        ? data.event_name || ""
+                        : data.upload_type === "batch" && data.event_category !== "events"
+                        ? data.event_category 
+                        : "direct", 
+            };
+    
+            console.log("Modified Data:", adjustedData);
+            form.reset(adjustedData);
+            setStep(2);
+        }
+    };    
 
     const handlePopupClose = () => {
         setStep(1);
@@ -154,7 +171,7 @@ export function AddCapturePopUpModel({ isOpen, setOpen }: Props) {
                                         <FormMessage />
                                     </FormItem>
                                 )}
-                            />
+                            />                            
 
                             <FormField
                                 name="upload_type"
