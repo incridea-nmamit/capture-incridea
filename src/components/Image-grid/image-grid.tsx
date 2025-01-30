@@ -2,7 +2,6 @@ import { ImageList, ImageListItem } from "@mui/material";
 import useResponsiveColumns from "~/hooks/useResponsiveColumns";
 import { GridCard } from "./grid-card";
 import { useEffect, useRef } from "react";
-import { SkeletonLoader } from "./skeleton-loader";
 
 type CaptureImage = {
     id: number;
@@ -54,28 +53,14 @@ export default function ImagesGrid({
         <div className="container-size pt-8 rounded-t-3xl">
             <ImageList variant="masonry" cols={columnCount} gap={8} className="mb-20">
                 {images.map((image) => (
-                    <ImageListItem
+                    <GridCard
                         key={image.id}
-                        className="grid place-content-center place-items-center rounded-lg bg-gradient-to-b from-slate-400 to-[#ad64ed] p-2"
-                    >
-                        {
-                            isLoading ? (
-                                <SkeletonLoader />
-                            ) : (
-                                <div className="relative h-fit w-fit">
-                                    <GridCard
-                                        imageId={image.id}
-                                        imagePath={image.compressed_path}
-                                        altText="Snaps image"
-                                        onClick={image.onClick}
-                                        prefech
-                                    />
-                                </div>
-                            )
-                        }
-
-
-                    </ImageListItem>
+                        imageId={image.id}
+                        imagePath={image.compressed_path}
+                        altText="Snaps image"
+                        onClick={image.onClick}
+                        prefech
+                    />
                 ))}
             </ImageList>
 

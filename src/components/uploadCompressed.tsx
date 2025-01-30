@@ -10,6 +10,11 @@ type UploadedImage = {
   compressed: string;
 }
 
+
+const isSafari = () => /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+
+
 type UploadComponentProps = {
   name: string;
   category: string;
@@ -30,10 +35,15 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
     },
   });
 
-  const compressImage = (file: File, quality: number = 0.25,  maxWidth: number = 600): Promise<Blob> => {
+  const compressImage = (
+    file: File,
+    quality: number = 0.25,
+    maxWidth: number = 600
+  ): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
+
       reader.onload = (event) => {
         const img = new Image();
         img.src = event.target?.result as string;
@@ -42,31 +52,30 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
           const ctx = canvas.getContext('2d');
 
           if (!ctx) {
-            reject(new Error('Failed to get canvas context'));
-            return;
+            return reject(new Error('Failed to get canvas context'));
           }
+
           const aspectRatio = img.height / img.width;
           canvas.width = maxWidth;
           canvas.height = maxWidth * aspectRatio;
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
+          const outputFormat = isSafari() ? 'image/png' : 'image/webp';
+
           canvas.toBlob(
-            (blob) => {
-              if (blob) {
-                resolve(blob);
-              } else {
-                reject(new Error('Compression failed: Blob is null'));
-              }
-            },
-            'image/jpeg',
+            (blob) => (blob ? resolve(blob) : reject(new Error('Compression failed: Blob is null'))),
+            outputFormat,
             quality
           );
         };
-        img.onerror = (err) => reject(err);
+
+        img.onerror = () => reject(new Error('Failed to load image'));
       };
-      reader.onerror = (err) => reject(err);
+
+      reader.onerror = () => reject(new Error('Failed to read file'));
     });
   };
+
 
   const handleBeforeUploadBegin = async (files: File[]) => {
     const uploads: File[] = [];
@@ -133,7 +142,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
       </p>
       <div className="w-full max-w-md p-6 border-2 border-dashed border-gray-300 rounded-lg bg-neutral-950 hover:border-blue-400 transition-colors space-y-6">
         <UploadButton
-          endpoint="imageUploaderCompressed"
+          endpoint="imageUpl  oaderCompressed"
           onBeforeUploadBegin={handleBeforeUploadBegin}
           onUploadProgress={() => setIsLoading(true)}
           onClientUploadComplete={handleUploadComplete}
@@ -145,10 +154,10 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
             Click to upload
           </span>
         </span>
-     
-    </div>
-    { isLoading && <CameraLoading /> }
-  </div >
+
+      </div>
+      {isLoading && <CameraLoading />}
+    </div >
   );
 };
 
