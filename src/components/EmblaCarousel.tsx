@@ -23,7 +23,7 @@ type PropType = {
 };
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
-  const {slides, options = { loop: true } } = props;
+  const {slides, options = { loop: true,  } } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
