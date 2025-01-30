@@ -40,12 +40,19 @@ export function AddCapturePopUpModel({ isOpen, setOpen }: Props) {
         defaultValues: {
             event_category: "events",
             event_name: "",
-            author_id: 0,
+            author_id: 1,
             upload_type: "direct",
         },
     });
 
     const handleNextStep = (data: FormValues) => {
+        if (data.event_category === "events" && !data.event_name?.trim()) {
+            form.setError("event_name", {
+                type: "manual",
+                message: "Please select an event name",
+            });
+            return;
+        }    
         if (step !== 2) {
             const adjustedData: FormValues = {
                 ...data,
