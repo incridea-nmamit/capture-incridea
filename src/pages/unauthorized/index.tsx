@@ -27,7 +27,7 @@ const NotAuthorized = () => {
       <div className="z-50 flex flex-col items-center justify-center h-full bg-neutral-950 rounded-t-2xl p-4 ">
         <a href="/" className="shadow-2xl bg-black rounded-xl">
           <Image
-            src="/images/Logo/capture-main.png"
+            src="/images/Logo/capture-main.webp"
             alt="Logo"
             width={200}
             height={80}
@@ -37,7 +37,7 @@ const NotAuthorized = () => {
           />
         </a>
         <div className="z-50 text-md md:text-xl leading-relaxed space-y-4 opacity-90 text-left max-w-lg mx-auto px-4 sm:px-6">
-          <h1 className="z-50 text-4xl font-Hunters md:text-5xl font-semibold mb-6 text-shadow-lg text-center">
+          <h1 className="z-50 text-4xl font-cursive md:text-5xl font-semibold mb-6 text-shadow-lg text-center">
             Oops! Your Unauthorized!
           </h1>
           <div className="p-2 font-Trap-Regular">

@@ -43,7 +43,7 @@ const behindincridea = () => {
   const handleClosePopup = () => setSelectedImage(null);
 
   const handleDownload = async (imagePathOg: string) => {
-    await downloadImage(imagePathOg, "capture-incridea.png");
+    await downloadImage(imagePathOg, "capture-incridea.webp");
     await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
   };
 

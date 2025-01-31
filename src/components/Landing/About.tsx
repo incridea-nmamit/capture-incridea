@@ -9,7 +9,7 @@ function About() {
         We capture 📷 what you see ...
       </h3>
 
-      <p className="max-w-3xl  text-justify md:text-center font-Trap-Regular leading-relaxed">
+      <p className="max-w-3xl  text-justify md:text-center  leading-relaxed">
         We transform what you see into extraordinary visuals with
         unmatched creativity and attention to detail. From our early
         beginnings to today, we’ve been committed to excellence in

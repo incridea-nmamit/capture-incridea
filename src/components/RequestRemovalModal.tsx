@@ -180,7 +180,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
             style={{ pointerEvents: "none" }}
           />
           <Image
-            src={imagePath || '/images/fallback.jpg'}
+            src={imagePath || '/images/fallback.webp'}
             alt="Removal Image"
             width={75}
             height={75}

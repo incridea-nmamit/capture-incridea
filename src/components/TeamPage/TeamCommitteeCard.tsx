@@ -35,8 +35,8 @@ const TeamCommitteeCard: React.FC<CardProps> = ({ title, description, imageUrl, 
 
      
         <div className="p-6 text-white mt-24 z-50 space-y-2">
-          <h3 className="text-xl font-semibold font-grotesk">{title}</h3>
-          <p className="text-sm font-grotesk">{description}</p>
+          <h3 className="text-xl font-semibold ">{title}</h3>
+          <p className="text-sm ">{description}</p>
         </div>
       </div>
     </Link>

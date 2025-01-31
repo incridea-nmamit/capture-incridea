@@ -28,7 +28,7 @@ const About = () => {
     <>
       <main className='container-size text-center my-20 space-y-24 lg:py-24 md:py-16 py-8 font-Trap-Regular'>
         <section>
-          <Image src="/images/Logo/nitteLogoWhite.png" width={800} height={300} alt="nmamit logo" className='mx-auto px-4 mb-5' />
+          <Image src="/images/Logo/nitteLogoWhite.webp" width={800} height={300} alt="nmamit logo" className='mx-auto px-4 mb-5' />
 
           <p className=' max-w-4xl mx-auto'> Nitte Mahalinga Adyantaya Memorial Institute of Technology
             (NMAMIT), Nitte, established in 1986 and recognized by the
@@ -61,7 +61,7 @@ const About = () => {
 
         <section className='grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4  font-Trap-Regular'>
           <div className='p-6 border-white'>
-            <Image src="/images/Logo/inc-abt.png" width={600} height={500} alt="capture logo" className='mx-auto h-32  w-full ' />
+            <Image src="/images/Logo/inc-abt.webp" width={600} height={500} alt="capture logo" className='mx-auto h-32  w-full ' />
           </div>
           <div className='space-y-4 max-w-xl'>
             <p>Incridea is a colossal national-level techno-cultural fest with an audience pool spread among 200 colleges all across India.
@@ -80,7 +80,7 @@ const About = () => {
 
         <section className='grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4'>
           <div className='p-6 border-white lg:order-last'>
-            <Image src="/images/Logo/capture.png" width={800} height={300} alt="capture logo" className='mx-auto max-h-44 max-w-96 w-full h-24' />
+            <Image src="/images/Logo/capture.webp" width={800} height={300} alt="capture logo" className='mx-auto max-h-44 max-w-96 w-full h-24' />
           </div>
           <div className=' space-y-4 max-w-xl  font-Trap-Regular'>
             <p>Capture Incridea is the official digital platform curated by the Media-Social Media Team 

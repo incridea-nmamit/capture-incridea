@@ -125,11 +125,11 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
 
   return (
     <div className="flex flex-col items-center justify-center p-6 bg-neutral-900 rounded-lg shadow-md">
-      <h1 className="text-4xl font-Hunters leading-5 font-semibold mb-4 text-white">
+      <h1 className="text-4xl font-cursive leading-5 font-semibold mb-4 text-white">
         Upload Your Images
       </h1>
       <p className="mb-6 font-Trap-Regular text-gray-400 text-sm text-center">
-        Choose and upload high-quality images. Supported formats: JPEG, PNG.
+        Choose and upload high-quality images. Supported formats: JPEG, webp.
       </p>
       <div className="w-full max-w-md p-6 border-2 border-dashed border-gray-300 rounded-lg bg-neutral-950 hover:border-blue-400 transition-colors space-y-6">
         <UploadButton

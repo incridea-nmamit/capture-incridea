@@ -46,7 +46,7 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
                         <div className="flex flex-col items-start space-y-4 justify-start mb-6 ml-0">
                             <a href="/">
                                 <Image
-                                    src="/images/Logo/capture-main.png"
+                                    src="/images/Logo/capture-main.webp"
                                     alt="Logo"
                                     width={150}
                                     height={80}

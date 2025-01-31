@@ -47,7 +47,7 @@
 //       try {
 //         const response = await fetch(selectedImage); // Fetch the image
 //         const blob = await response.blob();
-//         const file = new File([blob], "shared-image.jpg", { type: blob.type }); // Create a File object
+//         const file = new File([blob], "shared-image.webp", { type: blob.type }); // Create a File object
 
 //         await navigator.share({
 //           files: [file]
@@ -112,7 +112,7 @@
 
 //         <div className="flex items-center justify-center p-0 md:p-4">
 //           <Image
-//             src={selectedImage || "/images/fallback.jpg"}
+//             src={selectedImage || "/images/fallback.webp"}
 //             alt="Selected"
 //             className="rounded-lg"
 //             width={450}
@@ -140,7 +140,7 @@
 //                 <div className="relative -ml-10 w-16 h-16 sm:w-20 sm:h-20">
 //                   <div className="rounded-full overflow-hidden w-16 h-16 sm:w-20 sm:h-20 border-2 border-white bg-black">
 //                     <Image
-//                       src={selectedImage || "/images/fallback.jpg"}
+//                       src={selectedImage || "/images/fallback.webp"}
 //                       className="object-cover"
 //                       alt="Selected"
 //                       width={96}
@@ -277,7 +277,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
             try {
                 const response = await fetch(selectedImage);
                 const blob = await response.blob();
-                const file = new File([blob], "shared-image.jpg", { type: blob.type });
+                const file = new File([blob], "shared-image.webp", { type: blob.type });
 
                 await navigator.share({
                     files: [file],
@@ -314,7 +314,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                 {/* Image Section */}
                 <div className="flex items-center justify-center">
                     <Image
-                        src={selectedImage || "/images/fallback.jpg"}
+                        src={selectedImage || "/images/fallback.webp"}
                         alt="Selected"
                         className="rounded-lg"
                         width={450}
@@ -337,7 +337,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                         <div className="relative -ml-10 w-16 h-16 sm:w-20 sm:h-20">
                             <div className="rounded-full overflow-hidden w-16 h-16 sm:w-20 sm:h-20 border-2 border-white bg-black">
                                 <Image
-                                    src={selectedImage || "/images/fallback.jpg"}
+                                    src={selectedImage || "/images/fallback.webp"}
                                     className="object-cover"
                                     alt="Selected"
                                     width={96}

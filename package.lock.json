@@ -881,7 +881,7 @@
       "node_modules/@next/swc-win32-arm64-msvc": {
         "version": "15.0.3",
         "resolved": "https://registry.npmjs.org/@next/swc-win32-arm64-msvc/-/swc-win32-arm64-msvc-15.0.3.tgz",
-        "integrity": "sha512-9TEp47AAd/ms9fPNgtgnT7F3M1Hf7koIYYWCMQ9neOwjbVWJsHZxrFbI3iEDJ8rf1TDGpmHbKxXf2IFpAvheIQ==",
+        "integrity": "sha512-9TEp47AAd/ms9fwebptgnT7F3M1Hf7koIYYWCMQ9neOwjbVWJsHZxrFbI3iEDJ8rf1TDGpmHbKxXf2IFpAvheIQ==",
         "cpu": [
           "arm64"
         ],

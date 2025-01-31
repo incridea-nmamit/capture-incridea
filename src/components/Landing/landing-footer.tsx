@@ -13,7 +13,7 @@ export const LandingFooter = () => {
       return () => clearTimeout(timeout);
     }, [show]);
     return ( 
-      <footer className="absolute bottom-0 flex w-full flex-col gap-2 font-grotesk text-gray-200 md:gap-4">
+      <footer className="absolute bottom-0 flex w-full flex-col gap-2  text-gray-200 md:gap-4">
         {show && (
           <ul className="mb-5 flex flex-1 flex-row flex-wrap items-center justify-center gap-2 whitespace-nowrap text-xs sm:text-xs md:gap-5">
             <li className="text-white transition-colors duration-300 hover:text-gray-300">

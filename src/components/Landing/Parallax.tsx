@@ -3,10 +3,10 @@ import gsap from "gsap";
 import Image from "next/image";
 import Parallax from "parallax-js";
 import { useLayoutEffect, useRef } from "react";
-import Layer1 from "public/images/layers/cam.png";
-import lastLayer from "public/images/layers/struct.png";
-import layer2 from "public/images/layers/ring.png";
-import Background from "public/images/layers/bg.png";
+import Layer1 from "public/images/layers/cam.webp";
+import lastLayer from "public/images/layers/struct.webp";
+import layer2 from "public/images/layers/ring.webp";
+import Background from "public/images/layers/bg.webp";
 
 export const ParallaxHero = () => {
   const sceneRef = useRef<HTMLElement>(null);

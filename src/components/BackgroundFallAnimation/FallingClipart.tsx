@@ -4,7 +4,7 @@ const images = [
   'https://utfs.io/f/0yks13NtToBi4Qu8UcGv1SaXrdI2cpUh9EC5iNOTmMuDkPnw',
   'https://utfs.io/f/0yks13NtToBimGn6KrW4rLdYOgjBIhS01PQMHmAZoRaCfVDK',
   'https://utfs.io/f/0yks13NtToBinjnQQYF56OIDvu2PeYJ4icMh7aBfCbHQRAoq',
-  'https://utfs.io/f/0yks13NtToBiky0ZJV1mUBlZChpNgEAV1rv23iI9YK7HWSfa',
+  'https://utfs.io/f/0yks13NtToBiky0ZJV1mUBlZChwebpEAV1rv23iI9YK7HWSfa',
   'https://utfs.io/f/0yks13NtToBijsrrujtZKfcud6snUA8tzaTQ9hI0kVgWplby',
   'https://utfs.io/f/0yks13NtToBiNSi7MLHjzD2wWm5AylYHcVfipk40e8O9RubF',
   'https://utfs.io/f/0yks13NtToBiraCXvbIUcBmoP98lMs3ZrOe2aL4VD1dpYAwj',

@@ -10,7 +10,7 @@ const LoginComponent = () => {
             <div className=" z-50 flex flex-col items-center justify-center h-full bg-neutral-950 rounded-t-2xl p-4 ">
                 <a href="/" className="shadow-2xl rounded-xl">
                     <Image
-                        src="/images/Logo/capture-main.png"
+                        src="/images/Logo/capture-main.webp"
                         alt="Logo"
                         width={200}
                         height={80}

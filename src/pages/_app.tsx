@@ -19,6 +19,7 @@ import KeyboardShortcut from "~/components/Shortcuts";
 import IntroAnimation from "./Intro";
 import { usePathname } from "next/navigation";
 import SEO from "~/components/SEO";
+import Footer from "~/components/HeaderFooter/Footer";
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -74,14 +75,15 @@ const AuthenticatedApp = ({
   const isExcluded = excludedRoute.some((route) => pathname.startsWith(route));
   if (isExcluded) {
     return (
-      <ScrollArea className={` ${fonts.lobster} ${fonts.grotesk} font-roboto flex h-screen min-h-screen w-full flex-1 flex-col`}>
-        <div className="font-roboto flex min-h-screen flex-col">
+      <ScrollArea className={`font-description flex h-screen min-h-screen w-full flex-1 flex-col`}>
+        <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-grow">
             <Toaster position="top-right" reverseOrder={false} />
             <TrackPageVisits />
             {loading ? <CameraLoading /> : <Component {...pageProps} />}
           </main>
+          <Footer/>
         </div>
       </ScrollArea>
     );

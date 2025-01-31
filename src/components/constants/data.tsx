@@ -27,21 +27,20 @@ import ApproveCaptures from '~/components/ApproveCapture/ApproveCapture';
 import { Role } from '@prisma/client';
 import AdminPlayBacks from "../Playbacks";
 
-
 export const randomSliderImages = [
-  { src: "/images/landing-images/img1.png" },
-  { src: "/images/landing-images/img2.png" },
-  { src: "/images/landing-images/img3.png" },
-  { src: "/images/landing-images/img4.png" },
-  { src: "/images/landing-images/img5.png" },
-  { src: "/images/landing-images/img5.png" },
-  { src: "/images/landing-images/img6.png" },
-  { src: "/images/landing-images/img7.png" },
-  { src: "/images/landing-images/img8.png" },
-  { src: "/images/landing-images/img9.png" },
-  { src: "/images/landing-images/img10.png" },
-  { src: "/images/landing-images/img11.png" },
-  { src: "/images/landing-images/img12.png" },
+  { src: "/images/landing-images/img1.webp" },
+  { src: "/images/landing-images/img2.webp" },
+  { src: "/images/landing-images/img3.webp" },
+  { src: "/images/landing-images/img4.webp" },
+  { src: "/images/landing-images/img5.webp" },
+  { src: "/images/landing-images/img5.webp" },
+  { src: "/images/landing-images/img6.webp" },
+  { src: "/images/landing-images/img7.webp" },
+  { src: "/images/landing-images/img8.webp" },
+  { src: "/images/landing-images/img9.webp" },
+  { src: "/images/landing-images/img10.webp" },
+  { src: "/images/landing-images/img11.webp" },
+  { src: "/images/landing-images/img12.webp" },
 ];// please use the images which are 600x600 cuz its not optimised for mobile view due to gsap
 
 
@@ -52,28 +51,28 @@ export const timeLineData = [
         <div>
           <div className="grid grid-cols-2 gap-4">
             <Image
-              src="/images/2022/DSC08909.png"
+              src="/images/2022/DSC08909.webp"
               alt="startup template"
               width={500}
               height={500}
               className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/images/2022/IMG_0373.png"
+              src="/images/2022/IMG_0373.webp"
               alt="startup template"
               width={500}
               height={500}
               className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/images/2022/IMG_2204.png"
+              src="/images/2022/IMG_2204.webp"
               alt="startup template"
               width={500}
               height={500}
               className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/images/2022/IMG_9452.png"
+              src="/images/2022/IMG_9452.webp"
               alt="startup template"
               width={500}
               height={500}
@@ -89,28 +88,28 @@ export const timeLineData = [
         <div>
           <div className="grid grid-cols-2 gap-4">
             <Image
-              src="/images/2023/IMG_7455.png"
+              src="/images/2023/IMG_7455.webp"
               alt="hero template"
               width={500}
               height={500}
               className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/images/2023/DSC_0300.png"
+              src="/images/2023/DSC_0300.webp"
               alt="feature template"
               width={500}
               height={500}
               className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/images/2023/DSC_1080.png"
+              src="/images/2023/DSC_1080.webp"
               alt="bento template"
               width={500}
               height={500}
               className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/images/2023/IMG_6193.png"
+              src="/images/2023/IMG_6193.webp"
               alt="cards template"
               width={500}
               height={500}
@@ -126,28 +125,28 @@ export const timeLineData = [
         <div>
           <div className="grid grid-cols-2 gap-4">
             <Image
-              src="/images/2024/MVB03544.png"
+              src="/images/2024/MVB03544.webp"
               alt="hero template"
               width={500}
               height={500}
               className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/images/2024/IMG_0162.png"
+              src="/images/2024/IMG_0162.webp"
               alt="feature template"
               width={500}
               height={500}
               className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/images/2024/DSC05653.png"
+              src="/images/2024/DSC05653.webp"
               alt="bento template"
               width={500}
               height={500}
               className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/images/2024/MVB04911.png"
+              src="/images/2024/MVB04911.webp"
               alt="cards template"
               width={500}
               height={500}
@@ -235,7 +234,7 @@ export const timeLineData = [
 
   export const carouselItems = [
     {
-      imgSrc: "images/CapturePage/img1.jpg",
+      imgSrc: "images/CapturePage/img1.webp",
       author: "incredia",
       title: "Pronite",
       route:"/pronite",
@@ -244,7 +243,7 @@ export const timeLineData = [
         officiis unde, eaque optio ratione aliquid assumenda facere ab`,
     },
     {
-      imgSrc: "images/CapturePage/img2.jpg",
+      imgSrc: "images/CapturePage/img2.webp",
       author: "Incridea",
       title: "Cultural",
       route:"/cultural",
@@ -253,7 +252,7 @@ export const timeLineData = [
         officiis unde, eaque optio ratione aliquid assumenda facere ab`,
     },
     {
-      imgSrc: "images/CapturePage/img3.jpg",
+      imgSrc: "images/CapturePage/img3.webp",
       author: "Incridea",
       title: "Playbacks",
       route:"/cultural-playbacks",
@@ -262,7 +261,7 @@ export const timeLineData = [
         officiis unde, eaque optio ratione aliquid assumenda facere ab`,
     },
     {
-      imgSrc: "images/CapturePage/img4.jpg",
+      imgSrc: "images/CapturePage/img4.webp",
       author: "Incridea",
       title: "Events",
       route:"/events",
@@ -272,7 +271,7 @@ export const timeLineData = [
     },
 
     {
-      imgSrc: "images/CapturePage/img5.jpg",
+      imgSrc: "images/CapturePage/img5.webp",
       author: "Stories",
       title: "Stories",
       route:"/stories",
@@ -281,7 +280,7 @@ export const timeLineData = [
         officiis unde, eaque optio ratione aliquid assumenda facere ab`,
     },
     {
-      imgSrc: "images/CapturePage/img5.jpg",
+      imgSrc: "images/CapturePage/img5.webp",
       author: "Stories",
       title: "Snaps",
       route:"/your-snaps",
@@ -290,7 +289,7 @@ export const timeLineData = [
         officiis unde, eaque optio ratione aliquid assumenda facere ab`,
     },
     {
-      imgSrc: "images/CapturePage/img3.jpg",
+      imgSrc: "images/CapturePage/img3.webp",
       author: "Stories",
       title: "Behind Incredia",
       route:"/behindincridea",

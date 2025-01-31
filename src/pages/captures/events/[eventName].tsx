@@ -43,7 +43,7 @@ const EventCaptures = () => {
   const handleClosePopup = () => setSelectedImage(null);
 
   const handleDownload = async (imagePathOg: string) => {
-    await downloadImage(imagePathOg, "capture-incridea.png");
+    await downloadImage(imagePathOg, "capture-incridea.webp");
     await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
   };
 
@@ -89,10 +89,10 @@ const EventCaptures = () => {
   return (
     <div className="mt-32 gradient-bg">
       <div className="mt-20">
-        <h1 className="text-3xl md:text-6xl font-lobster text-white text-center mb-8 mt-4 md:mb-4 md:mt-8">
+        <h1 className="text-3xl md:text-6xl font-cursive text-white text-center mb-8 mt-4 md:mb-4 md:mt-8">
           {formattedEventName} Captures
         </h1>
-        <div className="flex   justify-center mb-10 font-grotesk">
+        <div className="flex   justify-center mb-10 ">
           {event?.description && <p className=" text-justify md:text-center text-gray-400 mb-5 w-3/4">{event.description}</p>}
         </div>
       </div>

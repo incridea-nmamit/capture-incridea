@@ -83,8 +83,8 @@ const CulturalPlaybacks = () => {
             <source src={selectedVideo?.videoPath} type="video/mp4" />
           </video>
           <div className=' gradient-bg shadow-2xl flex flex-col justify-start w-full h-full max-w-[106vh] gap-2 col-span-2 border border-gray-50 p-3 rounded-xl'>
-            <h3 className="text-4xl font-lobster">{selectedVideo?.name}</h3>
-            <p className="font-grotesk">
+            <h3 className="text-4xl font-cursive">{selectedVideo?.name}</h3>
+            <p className="">
               {selectedVideo?.description}
             </p>
 

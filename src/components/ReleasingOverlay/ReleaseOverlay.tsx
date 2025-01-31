@@ -62,7 +62,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
     <FallingClipart />
     <div className="fixed inset-0 flex flex-col items-center justify-center bg-opacity-80 text-white text-center z-20">
       
-      <h1 className="mb-8 text-8xl font-Hunters">Captures</h1>
+      <h1 className="mb-8 text-8xl font-cursive">Captures</h1>
       <p className="mb-8 w-3/4 text-center">
         <p className='font-bold'>Capture Incridea is your ultimate hub for experiencing the vibrant energy of Incridea! </p><br/>
         All the exciting captures from various events and activities happening throughout the day, in your hands on the same day.<br/>

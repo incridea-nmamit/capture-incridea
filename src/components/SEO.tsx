@@ -12,7 +12,7 @@ function SEO() {
             {/* <!-- Global Metadata --> */}
             {/* <meta charset="utf-8" /> */}
             <meta name="viewport" content="width=device-width,initial-scale=1" />
-            <link rel="icon" type="image/png" href={new URL("/images/Logo/i.png",baseUrl).href} />
+            <link rel="icon" type="image/webp" href={new URL("/images/Logo/i.webp",baseUrl).href} />
 
             {/* <!-- Font preloads --> */}
             {/*<link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
@@ -31,8 +31,8 @@ function SEO() {
             <meta property="og:title" content={title} />
             <meta property="og:url" content={baseUrl} />
             <meta property="og:description" content={description} />
-            <meta property="og:image" content={new URL("/images/Logo/i.png", baseUrl).href} />
-            <meta property="og:logo" content={new URL("/images/Logo/i.png", baseUrl).href} />
+            <meta property="og:image" content={new URL("/images/Logo/i.webp", baseUrl).href} />
+            <meta property="og:logo" content={new URL("/images/Logo/i.webp", baseUrl).href} />
 
             {/* <!-- Twitter --> */}
             <meta name="twitter:card" content={description} />
@@ -40,12 +40,9 @@ function SEO() {
             <meta property="twitter:url" content={baseUrl} />
             <meta name="twitter:title" content={title} />
             <meta name="twitter:description" content={description} />
-            <meta name="twitter:image" content={new URL("/images/Logo/i.png", baseUrl).href} />
+            <meta name="twitter:image" content={new URL("/images/Logo/i.webp", baseUrl).href} />
         </Head>
     )
 }
 
 export default SEO;
-
-
-

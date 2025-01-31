@@ -83,13 +83,14 @@
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  font-family: 'Lobster', cursive;
+  @apply font-cursive
 }
 
 .description {
   font-size: 1.2rem;
   max-width: 600px;
   line-height: 1.5;
+  @apply font-description
 }
 
 .ctaButton {

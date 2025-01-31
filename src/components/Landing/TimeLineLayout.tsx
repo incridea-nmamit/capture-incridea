@@ -39,7 +39,7 @@ export const TimelineLayout = ({ data }: { data: TimelineEntry[] }) => {
                 <h2 className="text-3xl md:text-4xl mb-4 text-black line-clamp-1 bg-gray-300 p-2 px-4  rounded-md shadow-md w-fit font-Teknaf font-semibold max-w-4xl">
                     Changelog from my journey
                 </h2>
-                <p className="text-neutral-500 font-Teknaf space-x-3  text-md md:text-base max-w-sm">
+                <p className="text-neutral-500 space-x-3  text-md md:text-base max-w-sm">
                     Capturing the essence of the olden days through nostalgic and timeless images for Incredia, preserving cherished memories and history in a beautifully artistic frame.        </p>
             </div>
 
@@ -53,13 +53,13 @@ export const TimelineLayout = ({ data }: { data: TimelineEntry[] }) => {
                             <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-neutral-200 dark:bg-black flex items-center justify-center">
                                 <div className="h-4 w-4 rounded-full bg-neutral-400 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
                             </div>
-                            <h3 className="hidden md:block text-xl md:pl-20 md:text-5xl font-bold font-Hunters text-neutral-400 dark:text-neutral-200 ">
+                            <h3 className="hidden md:block text-xl font-cursive md:pl-20 md:text-5xl font-bold text-neutral-400 dark:text-neutral-200 ">
                                 {item.title}
                             </h3>
                         </div>
 
                         <div className="relative pl-20 pr-4 md:pl-4 w-full">
-                            <h3 className="md:hidden block text-4xl mb-4 text-left font-bold text-neutral-400 font-Hunters dark:text-neutral-200">
+                            <h3 className="md:hidden block text-4xl mb-4 text-left font-bold text-neutral-400 font-cursive dark:text-neutral-200">
                                 {item.title}
                             </h3>
                             {item.content}{" "}

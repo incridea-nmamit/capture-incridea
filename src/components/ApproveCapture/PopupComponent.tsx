@@ -30,7 +30,7 @@ const PopupComponent: React.FC<PopupProps> = ({
         </div>
         <div className="flex justify-center py-10">
           <Image
-            src={selectedImage || "/images/fallback.jpg"}
+            src={selectedImage || "/images/fallback.webp"}
             alt="Selected"
             width={200}
             height={200}

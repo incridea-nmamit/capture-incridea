@@ -44,7 +44,7 @@
 //           <div className="flex w-full items-center justify-center md:w-auto">
 //             <a href="/" className="mx-auto md:mx-0">
 //               <Image
-//                 src="/images/Logo/capture-main.png"
+//                 src="/images/Logo/capture-main.webp"
 //                 alt="Logo"
 //                 width={150}
 //                 height={80}
@@ -128,7 +128,7 @@
 //         <div className="flex w-full items-center justify-center md:w-auto">
 //           <a href="/" className="mx-auto md:mx-0">
 //             <Image
-//               src="/images/Logo/capture-main.png"
+//               src="/images/Logo/capture-main.webp"
 //               alt="Logo"
 //               width={150}
 //               height={80}
@@ -240,7 +240,7 @@ const Header: FC = () => {
           <div className="flex w-full items-center justify-center md:w-auto">
             <a href="/" className="mx-auto md:mx-0">
               <Image
-                src="/images/Logo/capture.png"
+                src="/images/Logo/capture.webp"
                 alt="Logo"
                 width={150}
                 height={80}

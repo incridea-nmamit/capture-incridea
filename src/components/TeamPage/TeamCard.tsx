@@ -29,7 +29,7 @@ const TeamCard: React.FC<CardProps> = ({
 
       <div className="mt-5 text-center">
         <h2 className="text-xl font-Teknaf leading-relaxed font-bold text-white tracking-wider">{name}</h2>
-        <p className="text-sm text-blue-400 font-grotesk mt-2">{designation}</p>
+        <p className="text-sm text-blue-400  mt-2">{designation}</p>
       </div>
 
       <div className="w-full h-[1px] bg-neutral-400 mt-4"></div>

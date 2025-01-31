@@ -14,7 +14,7 @@ const Footer = () => {
             className="inline-block"
           >
             <Image
-              src="/images/Logo/capture-footer.png"
+              src="/images/Logo/capture-footer.webp"
               alt="Logo"
               width={150}
               height={80}
