@@ -18,6 +18,7 @@ import NotRegistered from "./NotRegistered";
 import KeyboardShortcut from "~/components/Shortcuts";
 import IntroAnimation from "./Intro";
 import { usePathname } from "next/navigation";
+import SEO from "~/components/SEO";
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -120,23 +121,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session}>
-      <Head>
-        <title>Capture Incridea</title>
-        <meta
-          name="description"
-          content="Capture Incridea: Get your event photos and story-worthy moments."
-        />
-        <link
-          rel="icon"
-          href="https://utfs.io/f/0yks13NtToBia9tXha8GMCjeJVFKURvyq263Lgw98YaAfWdx"
-        />
-        <meta property="og:title" content="Capture Incridea" />
-        <meta
-          property="og:description"
-          content="Get your event photos and story-worthy moments. Experience them the same day!"
-        />
-        <meta property="og:url" content="https://captures.incridea.in" />
-      </Head>
+      <SEO/>
       <KeyboardShortcut />
       {showIntro ? (
         <IntroAnimation onAnimationComplete={handleIntroAnimationComplete} />
