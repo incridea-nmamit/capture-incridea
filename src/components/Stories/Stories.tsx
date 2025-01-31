@@ -8,7 +8,7 @@ import { CategoryBox } from '../SMCUploads/addcategory';
 import { Button } from '../ui/button';
 import { X } from 'lucide-react';
 
-const Stories: React.FC = () => {
+const   Stories: React.FC = () => {
   const addStories = api.stories.addStories.useMutation();
   const { data: stories, isLoading, isError, refetch } = api.stories.getAllStories.useQuery();
   const { data: categories, isLoading: categoriesLoading, refetch: refetchCategories } = api.storycat.getAllCategories.useQuery();
@@ -189,6 +189,7 @@ const Stories: React.FC = () => {
                   <ReactPlayer url={`https://utfs.io/f/${uploadUrl}`} controls width="100%" height="250px" />
                 ) : (
                   <VideoUploadComponent
+                    endpoint='storiesUploader'
                     onUploadComplete={handleUploadComplete}
                     resetUpload={() => setUploadUrl('')}
                   />

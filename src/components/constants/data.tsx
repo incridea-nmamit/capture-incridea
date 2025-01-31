@@ -204,7 +204,7 @@ export const timeLineData = [
     },
     {
       name: 'smc',
-      label: 'Stories Uploads',
+      label: 'SMC Uploads',
       icon: ImageUp,
       content: <SMCUploads />,
       roles: [Role.admin, Role.editor, Role.smc],
