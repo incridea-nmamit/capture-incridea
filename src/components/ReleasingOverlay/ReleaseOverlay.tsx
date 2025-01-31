@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import FallingClipart from '../BackgroundFallAnimation/FallingClipart';
+import React, { useEffect, useState } from "react";
 
 interface ReleaseOverlayProps {
-  releaseDate: string; 
+  releaseDate: string;
   onRelease: () => void;
 }
 
-const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease }) => {
-  const [timeLeft, setTimeLeft] = useState<number | null>(null); 
+const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({
+  releaseDate,
+  onRelease,
+}) => {
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -30,7 +32,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
 
     // Check if the releaseDateTime is valid
     if (isNaN(releaseDateTime.getTime())) {
-      console.error('Invalid release date:', releaseDate);
+      console.error("Invalid release date:", releaseDate);
       return 0; // Return 0 if the date is invalid
     }
 
@@ -48,37 +50,55 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
   };
 
   // Helper function to format numbers to two digits
-  const formatTwoDigits = (num: number) => String(num).padStart(2, '0');
+  const formatTwoDigits = (num: number) => String(num).padStart(2, "0");
 
   // Only render the countdown when the component is mounted
   if (!isMounted) {
     return null;
   }
 
-  const timeDisplay = timeLeft !== null ? formatTimeLeft(timeLeft) : { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  const timeDisplay =
+    timeLeft !== null
+      ? formatTimeLeft(timeLeft)
+      : { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
   return (
     <div>
-    <FallingClipart />
-    <div className="fixed inset-0 flex flex-col items-center justify-center bg-opacity-80 text-white text-center z-20">
-      
-      <h1 className="mb-8 text-8xl font-Hunters">Captures</h1>
-      <p className="mb-8 w-3/4 text-center">
-        <p className='font-bold'>Capture Incridea is your ultimate hub for experiencing the vibrant energy of Incridea! </p><br/>
-        All the exciting captures from various events and activities happening throughout the day, in your hands on the same day.<br/>
-        Relive the highlights and immerse yourself in the spirit of our college community as we celebrate the unforgettable moments that make Incridea truly special!
-      </p>
-      <div className="flex items-center justify-center space-x-4 mt-8">
-        {['Days', 'Hours', 'Minutes', 'Seconds'].map((label, index) => (
-          <div key={index} className="bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-lg p-6 shadow-lg transition-transform transform hover:scale-105 w-24">
-            <span className="text-4xl font-bold">{formatTwoDigits(timeDisplay[label.toLowerCase() as keyof typeof timeDisplay])}</span>
-            <div className="text-sm font-semibold">{label}</div>
-          </div>
-        ))}
+      <div className="fixed inset-0 z-20 flex flex-col items-center justify-center bg-opacity-80 text-center text-white">
+        <h1 className="mb-8 font-Hunters text-8xl">Captures</h1>
+        <p className="mb-8 w-3/4 text-center">
+          <p className="font-bold">
+            Capture Incridea is your ultimate hub for experiencing the vibrant
+            energy of Incridea!{" "}
+          </p>
+          <br />
+          All the exciting captures from various events and activities happening
+          throughout the day, in your hands on the same day.
+          <br />
+          Relive the highlights and immerse yourself in the spirit of our
+          college community as we celebrate the unforgettable moments that make
+          Incridea truly special!
+        </p>
+        <div className="mt-8 flex items-center justify-center space-x-4">
+          {["Days", "Hours", "Minutes", "Seconds"].map((label, index) => (
+            <div
+              key={index}
+              className="w-24 transform rounded-lg bg-gradient-to-r from-blue-500 to-green-500 p-6 text-white shadow-lg transition-transform hover:scale-105"
+            >
+              <span className="text-4xl font-bold">
+                {formatTwoDigits(
+                  timeDisplay[label.toLowerCase() as keyof typeof timeDisplay],
+                )}
+              </span>
+              <div className="text-sm font-semibold">{label}</div>
+            </div>
+          ))}
+        </div>
+        <p className="mt-8">
+          Hold tight while we sift through today’s moments to bring you pure
+          captures like never before!
+        </p>
       </div>
-      <p className='mt-8'>Hold tight while we sift through today’s moments to bring you pure captures like never before!</p>
-    </div>
-
     </div>
   );
 };

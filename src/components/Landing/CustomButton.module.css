@@ -1,5 +1,5 @@
 .button {
-  --black-700: hsla(0 0% 12% / 1);
+  --black-700: rgb(2, 14, 41);
   --border_radius: 9999px;
   --transtion: 0.3s ease-in-out;
   --offset: 2px;
