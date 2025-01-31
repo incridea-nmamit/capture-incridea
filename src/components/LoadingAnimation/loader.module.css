@@ -35,7 +35,7 @@
   z-index: 98;
   border-color: rgba(100, 100, 100, 0.8);
   animation-delay: 0.2s;
-  background-image:url('/images/Logo/i-gold.png');
+  background-image: url("/images/Logo/i-gold.png");
   background-position: center;
   background-size: cover;
 }
@@ -100,4 +100,15 @@
   100% {
     fill: var(--logo-color);
   }
+}
+.fullscreen {
+  position: fixed; /* Equivalent to 'fixed' */
+  inset: 0; /* Equivalent to 'inset-0' (top: 0, right: 0, bottom: 0, left: 0) */
+  z-index: 50; /* Equivalent to 'z-50' */
+
+  display: flex; /* Equivalent to 'flex' */
+  align-items: center; /* Equivalent to 'items-center' */
+  justify-content: center;
+  background: radial-gradient(circle at center, #0d1115, #000000),
+    linear-gradient(135deg, #0d1115, #000000); /* Equivalent to 'justify-center' */
 }

@@ -103,18 +103,6 @@ body {
   }
 }
 
-.falling-image {
-  position: absolute;
-  top: 0;
-  opacity: 0.7;
-  /* Slight opacity for the whole animation */
-  animation:
-    fallAndRotate 10s linear infinite,
-    scale 5s alternate infinite;
-  pointer-events: none;
-  /* Disable mouse interaction */
-}
-
 /* Custom class to hide scrollbar */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -139,10 +127,10 @@ body {
 
 body {
   @apply bg-neutral-950 text-white;
-  /* background: radial-gradient(ellipse 70% 90% at 40%,#e6646588 0%, transparent 40%),
-              radial-gradient(ellipse 70% 90% at 60%, #007dff88 0%, transparent 40%),
-              linear-gradient(to bottom, #1c1b2e, #0b0a13); */
-  background-blend-mode: multiply;
+  background: radial-gradient(circle at center, #0d1115, #000000),
+    linear-gradient(135deg, #0d1115, #000000);
+  background-blend-mode: screen, overlay;
+  /* background-blend-mode: multiply; */
 
   @apply font-Trap-Regular;
 }
@@ -296,7 +284,6 @@ body {
   height: 100%;
   position: relative;
 }
-
 
 dialog::backdrop {
   background-color: rgba(32, 31, 31, 0.853);
@@ -733,16 +720,10 @@ dialog[open] {
   }
 }
 
-
 .gradient-bg {
   position: relative;
   overflow: hidden;
-  background: radial-gradient(
-      circle at center,
-      #0d1115,
-      #000000
-
-    ),
-    linear-gradient(135deg,#0d1115, #000000);
+  background: radial-gradient(circle at center, #0d1115, #000000),
+    linear-gradient(135deg, #0d1115, #000000);
   background-blend-mode: screen, overlay;
 }
