@@ -37,6 +37,7 @@
 }
 
 .imageWrapper {
+  opacity: 0.6;
   position: absolute;
   top: 0;
   left: 0;
@@ -69,11 +70,9 @@
 }
 
 .textContent > * {
-  background: rgba(0, 0, 0, 0.2);
   width: auto;
   padding: 2rem;
   border-radius: 1rem;
-  backdrop-filter: blur(2px);
   margin-bottom: 2rem;
   opacity: 0;
   transform: translateY(20px);
@@ -112,7 +111,7 @@
   bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
-  max-width: 40%;
+  max-width: 50%;
   white-space: nowrap;
   justify-content: center;
   gap: 10px;
@@ -120,11 +119,13 @@
 }
 
 .thumbnailTrack {
+  margin: 0 -10px;
   display: flex;
-  gap: 20px;
+  gap: 8px;
 }
 
 .thumbnailSlide {
+  margin: 0 10px;
   flex: 0 0 auto;
   width: 150px;
   height: 220px;
@@ -208,7 +209,6 @@
   transform: scale(1.1);
 }
 
-/* Responsive Styles */
 @media (max-width: 1024px) {
   .title {
     font-size: clamp(2rem, 5vw, 3rem);
@@ -245,7 +245,7 @@
   }
 
   .description {
-    font-size: clamp(0.875rem, 3vw, 1.25rem);
+    font-size: clamp(1rem, 3vw, 1.25rem);
   }
 
   .thumbnailContainer {

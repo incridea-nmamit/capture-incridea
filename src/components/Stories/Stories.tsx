@@ -4,6 +4,9 @@ import toast from 'react-hot-toast';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import VideoUploadComponent from '../VideoUploadComponent';
 import ReactPlayer from 'react-player';
+import { CategoryBox } from '../SMCUploads/addcategory';
+import { Button } from '../ui/button';
+import { X } from 'lucide-react';
 
 const Stories: React.FC = () => {
   const addStories = api.stories.addStories.useMutation();
@@ -19,6 +22,7 @@ const Stories: React.FC = () => {
   const [categoryInput, setCategoryInput] = useState('');
   const addCat = api.storycat.addCat.useMutation();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [Open, setOpen] = useState(false)
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -119,26 +123,12 @@ const Stories: React.FC = () => {
     <div className="p-4">
       <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center">Stories Uploads</h1>
       <div className="flex flex-col-reverse md:grid md:grid-cols-12 gap-4">
-        <div className="col-span-12 md:col-span-11">
+        <div className="col-span-12 md:col-span-10">
           <div>
             {isError ? (
               <div>Error loading uploads. Please try again later.</div>
             ) : (
               <div className="overflow-x-auto flex flex-col gap-10">
-                <table className="min-w-full border border-gray-300 bg-neutral-950 font-Trap-Regular text-sm">
-                  <thead className="bg-white">
-                    <tr>
-                      <th className="text-black py-2 px-4 border-b text-center">Category</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {categories?.map((option) => (
-                      <tr key={option.id} className="hover:bg-gray-600 hover:text-black">
-                        <td className="py-2 px-4 border-b text-center">{option.name}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
                 <table className="min-w-full border border-gray-300 bg-neutral-800 font-Trap-Regular text-sm">
                   <thead className="bg-white">
                     <tr>
@@ -151,7 +141,7 @@ const Stories: React.FC = () => {
                       <tr key={story.id} className="hover:bg-gray-800/90">
                         <td className="py-2 px-4 border-b text-center">{story.category_name}</td>
                         <td className="py-2 px-4 border-b text-center flex justify-center">
-                           <video src={story.video_path} width={120} height={80} controls />
+                          <video src={story.video_path} width={120} height={80} controls />
 
                         </td>
                       </tr>
@@ -162,20 +152,19 @@ const Stories: React.FC = () => {
             )}
           </div>
         </div>
-        <div className="col-span-12 md:col-span-1">
-          <div className="mb-4 flex md:flex-col flex-row  gap-2">
-            <button
+        <div className="col-span-12 md:col-span-2">
+          <div className="mb-4 flex flex-col  gap-2">
+            <Button
               onClick={handleAddEventClick}
-              className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-BebasNeue"
+              className="p-2 border border-slate-700  w-[200px] hover:bg-gray-600  rounded-xl  text-white h-12 bg-neutral-950 font-BebasNeue"
             >
               Add Video
-            </button>
-            <button
-              onClick={handleAddCategoryClick}
-              className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-neutral-950 font-BebasNeue"
+            </Button>
+            <div
+              onClick={() => setOpen(!Open)}
             >
-              Add Category
-            </button>
+              <CategoryBox isOpen={Open} setOpen={setOpen} />
+            </div>
           </div>
         </div>
       </div>
@@ -186,18 +175,18 @@ const Stories: React.FC = () => {
 
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
-          <div className="bg-black p-10 rounded-3xl shadow-lg relative w-96">
+          <div className="bg-black/70 border border-gray-800 p-10 rounded-3xl shadow-lg relative w-96">
             <h2 className="text-2xl font-bold text-white mb-4">Add Story</h2>
             <button
               onClick={handlePopupClose}
               className="absolute top-4 right-4 text-white bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
             >
-              &times;
+               <X className="h-4 w-4" />
             </button>
             <form onSubmit={handleSubmit}>
               {
                 uploadUrl ? (
-                  <ReactPlayer url={`https://utfs.io/f/${uploadUrl}`} controls width="100%" height="360px" />
+                  <ReactPlayer url={`https://utfs.io/f/${uploadUrl}`} controls width="100%" height="250px" />
                 ) : (
                   <VideoUploadComponent
                     onUploadComplete={handleUploadComplete}
@@ -216,7 +205,7 @@ const Stories: React.FC = () => {
                   name="category_name"
                   value={categoryName}
                   onChange={(e) => setCategoryName(e.target.value)}
-                  className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
+                  className="p-2 w-full border border-slate-700 rounded-md bg-black text-white"
                 >
                   <option value="" disabled>
                     Select a category
@@ -239,7 +228,7 @@ const Stories: React.FC = () => {
                     name="author_id"
                     value={authoredId}
                     onChange={(e) => setAuthoredId(Number(e.target.value))}
-                    className="p-2 w-full border border-slate-700 rounded-xl bg-black text-white"
+                    className="p-2 w-full border border-slate-700 rounded-md bg-black text-white"
                   >
                     <option value="" disabled>Select an Author</option>
                     {team?.map((team) => (
