@@ -1,18 +1,3 @@
-<<<<<<< Updated upstream
-import React, { useEffect, useState } from "react";
-
-interface ReleaseOverlayProps {
-  releaseDate: string;
-  onRelease: () => void;
-}
-
-const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({
-  releaseDate,
-  onRelease,
-}) => {
-  const [timeLeft, setTimeLeft] = useState<number | null>(null);
-  const [isMounted, setIsMounted] = useState<boolean>(false);
-=======
 "use client"
 
 import type React from "react"
@@ -20,7 +5,6 @@ import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Spline from "@splinetool/react-spline"
 import { Sparkles } from "lucide-react"
-import FallingClipart from "../BackgroundFallAnimation/FallingClipart"
 
 interface ReleaseOverlayProps {
   releaseDate: string
@@ -30,7 +14,6 @@ interface ReleaseOverlayProps {
 const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease }) => {
   const [timeLeft, setTimeLeft] = useState<number | null>(null)
   const [isMounted, setIsMounted] = useState<boolean>(false)
->>>>>>> Stashed changes
 
   useEffect(() => {
     setIsMounted(true)
@@ -51,13 +34,8 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
     const releaseDateTime = new Date(releaseDate)
 
     if (isNaN(releaseDateTime.getTime())) {
-<<<<<<< Updated upstream
-      console.error("Invalid release date:", releaseDate);
-      return 0; // Return 0 if the date is invalid
-=======
       console.error("Invalid release date:", releaseDate)
       return 0
->>>>>>> Stashed changes
     }
 
     const distance = releaseDateTime.getTime() - now.getTime()
@@ -65,68 +43,6 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
   }
 
   const formatTimeLeft = (time: number) => {
-<<<<<<< Updated upstream
-    const days = Math.floor(time / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((time % (1000 * 60)) / 1000);
-    return { days, hours, minutes, seconds };
-  };
-
-  // Helper function to format numbers to two digits
-  const formatTwoDigits = (num: number) => String(num).padStart(2, "0");
-
-  // Only render the countdown when the component is mounted
-  if (!isMounted) {
-    return null;
-  }
-
-  const timeDisplay =
-    timeLeft !== null
-      ? formatTimeLeft(timeLeft)
-      : { days: 0, hours: 0, minutes: 0, seconds: 0 };
-
-  return (
-    <div>
-      <div className="fixed inset-0 z-20 flex flex-col items-center justify-center bg-opacity-80 text-center text-white">
-        <h1 className="mb-8 font-Hunters text-8xl">Captures</h1>
-        <p className="mb-8 w-3/4 text-center">
-          <p className="font-bold">
-            Capture Incridea is your ultimate hub for experiencing the vibrant
-            energy of Incridea!{" "}
-          </p>
-          <br />
-          All the exciting captures from various events and activities happening
-          throughout the day, in your hands on the same day.
-          <br />
-          Relive the highlights and immerse yourself in the spirit of our
-          college community as we celebrate the unforgettable moments that make
-          Incridea truly special!
-        </p>
-        <div className="mt-8 flex items-center justify-center space-x-4">
-          {["Days", "Hours", "Minutes", "Seconds"].map((label, index) => (
-            <div
-              key={index}
-              className="w-24 transform rounded-lg bg-gradient-to-r from-blue-500 to-green-500 p-6 text-white shadow-lg transition-transform hover:scale-105"
-            >
-              <span className="text-4xl font-bold">
-                {formatTwoDigits(
-                  timeDisplay[label.toLowerCase() as keyof typeof timeDisplay],
-                )}
-              </span>
-              <div className="text-sm font-semibold">{label}</div>
-            </div>
-          ))}
-        </div>
-        <p className="mt-8">
-          Hold tight while we sift through today’s moments to bring you pure
-          captures like never before!
-        </p>
-      </div>
-    </div>
-  );
-};
-=======
     const days = Math.floor(time / (1000 * 60 * 60 * 24))
     const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
     const minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60))
@@ -147,7 +63,6 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
       <div className="absolute inset-0 z-0">
         <Spline scene="https://draft.spline.design/7UcOBlblhk99F78R/scene.splinecode" />
       </div>
-      <FallingClipart />
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -220,5 +135,4 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
 }
 
 export default ReleaseOverlay
->>>>>>> Stashed changes
 
