@@ -1,72 +1,77 @@
 import Image from "next/image";
 import { signIn } from "next-auth/react"; // Make sure to import signIn if you're using NextAuth.js
 import ImageGrid from "~/components/login/imageGrid";
-import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";
 
 const LoginComponent = () => {
-    return (
-        <ImageGrid>
-            <FallingClipart />
-            <div className=" z-50 flex flex-col items-center justify-center h-full bg-neutral-950 rounded-t-2xl p-4 ">
-                <a href="/" className="shadow-2xl rounded-xl">
-                    <Image
-                        src="/images/Logo/capture-main.webp"
-                        alt="Logo"
-                        width={200}
-                        height={80}
-                        className="h-10 w-auto my-10"
-                        onContextMenu={(e) => e.preventDefault()}
-                        onDragStart={(e) => e.preventDefault()}
-                    />
-                </a>
-                <div className="z-50 text-md md:text-xl leading-relaxed space-y-4 opacity-90 text-left max-w-lg mx-auto px-4 sm:px-6">
-                    <h1 className="z-50 text-2xl font-Teknaf md:text-4xl font-semibold mb-6 text-shadow-lg text-center py-2">
-                        Welcome to Capture Incridea!
-                    </h1>
-                    <div className="p-2 font-Trap-Regular text-sm">
-                        <p className="mb-4 text-md">
-                            <strong>We’re delighted to have you here!</strong><br />
-                            Experience the magic of Incridea through stunning moments captured by our amazing team.
-                        </p>
+  return (
+    <ImageGrid>
+      <div className="z-50 flex h-full flex-col items-center justify-center rounded-t-2xl bg-neutral-950 p-4">
+        <a href="/" className="rounded-xl shadow-2xl">
+          <Image
+            src="/images/Logo/capture-main.webp"
+            alt="Logo"
+            width={200}
+            height={80}
+            className="my-10 h-10 w-auto"
+            onContextMenu={(e) => e.preventDefault()}
+            onDragStart={(e) => e.preventDefault()}
+          />
+        </a>
+        <div className="text-md z-50 mx-auto max-w-lg space-y-4 px-4 text-left leading-relaxed opacity-90 sm:px-6 md:text-xl">
+          <h1 className="text-shadow-lg z-50 mb-6 py-2 text-center font-Teknaf text-2xl font-semibold md:text-4xl">
+            Welcome to Capture Incridea!
+          </h1>
+          <div className="p-2 font-Trap-Regular text-sm">
+            <p className="text-md mb-4">
+              <strong>We’re delighted to have you here!</strong>
+              <br />
+              Experience the magic of Incridea through stunning moments captured
+              by our amazing team.
+            </p>
 
-                        <p className="mb-4 font-Trap-Regular">
-                            &#x2022; Log in using the Email Id you registered for Incridea.
-                        </p>
+            <p className="mb-4 font-Trap-Regular">
+              &#x2022; Log in using the Email Id you registered for Incridea.
+            </p>
 
-                        <p className="mb-4 font-Trap-Regular">
-                            &#x2022; If you haven't registered yet, head over to{" "}
-                            <strong>
-                                <a href="https://incridea.in" className="text-white hover:text-blue-700">
-                                    incridea.in
-                                </a>
-                            </strong>
-                            to register and join the experience.
-                        </p>
-
-                        <p className="font-semibold text-white text-sm font-Trap-Regular">
-                            This platform is exclusively for Registered Students & Faculty only.
-                        </p>
-                    </div>
-                </div>
-
-                {/* Log In Button */}
-                <button
-                    onClick={() => signIn()}
-                    className="font-Trap-Regular z-50 px-6 py-3 my-5 text-lg font-bold text-white bg-gradient-to-r from-red-400 via-pink-500 to-red-600 rounded-lg shadow-lg hover:shadow-xl transition transform hover:scale-105 max-w-xs mx-auto"
+            <p className="mb-4 font-Trap-Regular">
+              &#x2022; If you haven't registered yet, head over to{" "}
+              <strong>
+                <a
+                  href="https://incridea.in"
+                  className="text-white hover:text-blue-700"
                 >
-                    Log In
-                </button>
+                  incridea.in
+                </a>
+              </strong>
+              to register and join the experience.
+            </p>
 
-                {/* Footer */}
-                <p className="z-50 font-Trap-Regular text-xs text-center">
-                    If you encounter any issues, <br /> Please feel free to reach out to us at{" "}
-                    <a href="mailto:capture.incridea@nmamit.in" className="text-white">
-                        capture.incridea@nmamit.in
-                    </a>
-                </p>
-            </div>
-        </ImageGrid>
-    );
+            <p className="font-Trap-Regular text-sm font-semibold text-white">
+              This platform is exclusively for Registered Students & Faculty
+              only.
+            </p>
+          </div>
+        </div>
+
+        {/* Log In Button */}
+        <button
+          onClick={() => signIn()}
+          className="z-50 mx-auto my-5 max-w-xs transform rounded-lg bg-gradient-to-r from-red-400 via-pink-500 to-red-600 px-6 py-3 font-Trap-Regular text-lg font-bold text-white shadow-lg transition hover:scale-105 hover:shadow-xl"
+        >
+          Log In
+        </button>
+
+        {/* Footer */}
+        <p className="z-50 text-center font-Trap-Regular text-xs">
+          If you encounter any issues, <br /> Please feel free to reach out to
+          us at{" "}
+          <a href="mailto:capture.incridea@nmamit.in" className="text-white">
+            capture.incridea@nmamit.in
+          </a>
+        </p>
+      </div>
+    </ImageGrid>
+  );
 };
 
-export default LoginComponent ;
+export default LoginComponent;
