@@ -81,7 +81,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, type: "spring" }}
-              className="mb-4 sm:mb-6 text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-bold font-Hunters tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600"
+              className="mb-4 sm:mb-6 text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-bold font-cursive tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600"
             >
               Captures
             </motion.h1>
@@ -135,4 +135,3 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
 }
 
 export default ReleaseOverlay
-
