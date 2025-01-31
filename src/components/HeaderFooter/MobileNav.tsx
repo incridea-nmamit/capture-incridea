@@ -48,7 +48,7 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
       </SheetTrigger>
       <SheetContent
         side="top"
-        className="flex h-full w-full flex-col items-center justify-center bg-black text-white"
+        className="flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_center,#0d1115,#000000),linear-gradient(135deg,#0d1115,#000000)] text-white bg-blend-overlay"
       >
         <SheetHeader>
           <SheetTitle className="mb-6 flex flex-col items-center space-y-4">
