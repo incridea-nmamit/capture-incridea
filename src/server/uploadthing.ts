@@ -30,7 +30,17 @@ export const ourFileRouter = {
     }), 
 
     
-    videoUploader: f({ video: { maxFileSize: "512MB" ,maxFileCount: 1} }) 
+    storiesUploader: f({ video: { maxFileSize: "512MB" ,maxFileCount: 1} , image:{maxFileSize: "8MB" ,maxFileCount: 2     } }) 
+    .middleware(async ({ req, res }) => { 
+      const user = auth(req, res);
+      if (!user) throw new Error("Unauthorized");
+      return { userId: user.id }; 
+    }) 
+    .onUploadComplete(async ({ metadata, file }) => { 
+      return { uploadedBy: metadata.userId }; 
+    }), 
+
+    playbackUploader: f({ video: { maxFileSize: "1024MB" ,maxFileCount: 1} }) 
     .middleware(async ({ req, res }) => { 
       const user = auth(req, res);
       if (!user) throw new Error("Unauthorized");

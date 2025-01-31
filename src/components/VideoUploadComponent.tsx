@@ -5,14 +5,15 @@ import { UploadDropzone } from "tailwind.config";
 interface VideoUploadComponentProps {
   onUploadComplete: (uploadKey: string) => void; // Define the prop type
   resetUpload: () => void; 
+  endpoint: string;
 }
 
-const VideoUploadComponent: React.FC<VideoUploadComponentProps> = ({ onUploadComplete }) => {
+const VideoUploadComponent: React.FC<VideoUploadComponentProps> = ({ onUploadComplete ,endpoint }) => {
   return (
     <div>
       <UploadDropzone
         className="bg-black p-[20px] h-50 ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300"
-        endpoint="videoUploader"
+        endpoint={endpoint as any}
         onClientUploadComplete={(res) => {
           const uploadKey = res?.[0]?.key;
           if (uploadKey) {
