@@ -209,6 +209,7 @@ model VerificationToken {
 model AuditLog {
   id              Int      @id @default(sequence())
   sessionUserName String
+  audit_type      String
   dateTime        DateTime @default(now())
   description     String
 }

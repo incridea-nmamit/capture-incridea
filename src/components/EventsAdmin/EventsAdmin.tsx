@@ -108,7 +108,8 @@ const EventsAdmin: React.FC = () => {
       setUploadUrl('');
       await auditLogMutation.mutateAsync({
         sessionUser: session?.user.name || "Invalid User", 
-        description: `EventManagementAudit - Added a new event ${values.name} having uploadKey ${uploadUrl}`,
+        description: `Added a new event ${values.name} having uploadKey ${uploadUrl}`,
+        audit:'EventManagementAudit'
       });
       toast.success(`Added a new event ${values.name} having uploadKey ${uploadUrl}`);
       void refetch(); // Refetch events after adding
@@ -138,7 +139,8 @@ const EventsAdmin: React.FC = () => {
         void refetch();
         await auditLogMutation.mutateAsync({
           sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
-          description: `EventManagementAudit - Deleted a event ${eventToDelete.name} having eventId ${eventToDelete.id}`,
+          description: `Deleted a event ${eventToDelete.name} having eventId ${eventToDelete.id}`,
+          audit:'EventManagementAudit'
         });
         toast.success(`Deleted a event ${eventToDelete.name} having eventId ${eventToDelete.id}`);
       } catch (error) {
@@ -408,7 +410,8 @@ const EventsAdmin: React.FC = () => {
                             await updateVisibility.mutateAsync({ id });
                             await auditLogMutation.mutateAsync({
                               sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
-                              description: `EventManagementAudit - ${name} visibility set to ${newValue}`,
+                              description: `${name} visibility set to ${newValue}`,
+                              audit:'EventManagementAudit'
                             });
                             toast.success(`${name} visibility set to ${newValue}`);
                             refetch();

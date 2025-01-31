@@ -40,13 +40,12 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
+
     session: async ({ session, user }) => {
       // Retrieve the user's role from the database using Prisma
       const userData = await db.user.findUnique({
         where: { id: user.id },
         select: { role: true, name: true },
-
-        // Select the 'role' field from the database
       });
 
       return {

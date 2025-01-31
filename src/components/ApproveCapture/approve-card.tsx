@@ -6,6 +6,7 @@ import UseRefetch from "~/hooks/use-refetch";
 import { api } from "~/utils/api";
 import PopupComponent from "./PopupComponent";
 import { Button } from "../ui/button";
+import { useSession } from "next-auth/react";
 
 type ApproveCardProps = {
     id: number;
@@ -22,6 +23,7 @@ const ApproveCard: FC<ApproveCardProps> = ({ id, eventName, category, imageUrl }
     const handleRequestDecision = (captureId: number, action: 'approve' | 'decline') => {
         setSelectedCapture({ id: captureId, action });
     };
+    const auditLogMutation = api.audit.log.useMutation();
     const toastStyle = {
         style: {
             borderRadius: '10px',
@@ -29,12 +31,18 @@ const ApproveCard: FC<ApproveCardProps> = ({ id, eventName, category, imageUrl }
             color: 'white',
         },
     };
+    const { data: session } = useSession();
     const handleAction = async () => {
         if (selectedCapture) {
             const newState = selectedCapture.action === 'approve' ? 'approved' : 'declined';
             try {
                 await updateState.mutateAsync({ id: selectedCapture.id, state: newState });
                 toast.success(`Capture ${newState} successfully`, toastStyle);
+                await auditLogMutation.mutateAsync({
+                    sessionUser: session?.user.name || "Invalid User",
+                    description: `Capture with id ${selectedCapture.id} is ${newState}`,
+                    audit:'CaptureManagementAudit'
+                });
                 setSelectedCapture(null);
                 void refetch();
             } catch (error) {

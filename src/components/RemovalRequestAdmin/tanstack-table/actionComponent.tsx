@@ -57,7 +57,8 @@ const ActionComponent = ({ id, email }: { id: number, email: string }) => {
                       
                         await auditLogMutation.mutateAsync({
                             sessionUser: session?.user.name || "Invalid User",
-                            description: `RemovalManagementAudit - Approved mail sent to ${email} for capture ID#${id}`,
+                            description: `Approved mail sent to ${email} for capture ID#${id}`,
+                            audit:'RemovalManagementAudit'
                         });
                     } catch (error) {
                         toast.error('An error occurred while sending the Mail.');
@@ -91,7 +92,8 @@ const ActionComponent = ({ id, email }: { id: number, email: string }) => {
                          
                             await auditLogMutation.mutateAsync({
                                 sessionUser: session?.user.name || "Invalid User",
-                                description: `RemovalManagementAudit - Declined mail sent to ${email} for capture ${id}`,
+                                description: `Declined mail sent to ${email} for capture ${id}`,
+                                audit:'RemovalManagementAudit'
                             });
                         } catch (error) {
                             toast.error('An error occurred while sending the Mail.');

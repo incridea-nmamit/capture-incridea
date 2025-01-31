@@ -6,6 +6,7 @@ export const auditLog = createTRPCRouter({
     .input(
       z.object({
         sessionUser: z.string().min(1, "Session user is required"),
+        audit: z.string().min(1, "Audit is required"), 
         description: z.string().min(1, "Description is required"), 
       })
     )
@@ -13,6 +14,7 @@ export const auditLog = createTRPCRouter({
       const newLog = await ctx.db.auditLog.create({
         data: {
           sessionUserName: input.sessionUser,
+          audit_type: input.audit,
           description: input.description,
           dateTime: new Date(), 
         },
@@ -20,4 +22,10 @@ export const auditLog = createTRPCRouter({
 
       return newLog;
     }),
+
+    getAuditLog: publicProcedure.query(async ({ ctx }) => {
+      const audit = await ctx.db.auditLog.findMany();
+      return audit ?? [];
+    }),
+  
 });
