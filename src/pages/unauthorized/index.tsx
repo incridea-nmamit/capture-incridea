@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { signOut, signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import FallingClipart from '~/components/BackgroundFallAnimation/FallingClipart';
 import ImageGrid from '~/components/login/imageGrid';
 
 const NotAuthorized = () => {
@@ -23,7 +22,6 @@ const NotAuthorized = () => {
 
   return (
     <ImageGrid>
-      <FallingClipart />
       <div className="z-50 flex flex-col items-center justify-center h-full bg-neutral-950 rounded-t-2xl p-4 ">
         <a href="/" className="shadow-2xl bg-black rounded-xl">
           <Image

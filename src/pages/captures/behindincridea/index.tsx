@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { api } from "~/utils/api";
 import downloadImage from "~/utils/downloadUtils";
 import TitleDescription from "~/components/TitleDescription";
-import FallingClipart from "~/components/BackgroundFallAnimation/FallingClipart";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import { useRouter } from "next/router";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
@@ -87,7 +86,6 @@ const behindincridea = () => {
         description="Engaging our audience and building community through strategic social media initiatives"
         imagePath="https://utfs.io/f/0yks13NtToBiR2RImlGmqjGOIgx47y3cAJSCbQ1V82Nitrsf"
       />
-      <FallingClipart />
       <ImagesGrid
         isFetchingNextPage={isFetchingNextPage}
         fetchNextPage={fetchNextPage}

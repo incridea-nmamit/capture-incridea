@@ -1,4 +1,3 @@
-import FallingClipart from '~/components/BackgroundFallAnimation/FallingClipart'
 import { useEffect, useRef, useState } from 'react'
 import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area'
 import { Heart, Share2 } from 'lucide-react'
@@ -68,7 +67,6 @@ const CulturalPlaybacks = () => {
     <div className="gradient-bg h-full w-full  ">
       <div className='!mt-20 container-size '>
         <h1 className="text-5xl font-Teknaf md:text-6xl text-white text-left mb-8" >Playbacks</h1>
-        <FallingClipart />
 
         <div className=' items-start justify-start gap-4 grid lg:grid-cols-8 grid-cols-1 my-6'>
           <video
