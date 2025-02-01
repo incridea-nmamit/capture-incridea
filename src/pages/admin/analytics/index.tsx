@@ -33,7 +33,7 @@ const Analytics = () => {
   const [eventFilter, setEventFilter] = useState<string>("all");
   const { data: events = [], isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
   const { data: logs = [], isLoading } = api.analytics.getAnalytics.useQuery();
-  const { data: dlogs = [] } = api.download.getAllLogs.useQuery();
+  const { data: dlogs = [] } = api.download.getAllDownloadLogs.useQuery();
   const { data: gallery = [], isLoading: galleryLoading } = api.capture.getAllcaptures.useQuery();
   const [graphData, setGraphData] = useState<{ time: string; visits: number; unique: number; viewsPerUnique: number; avgTimeSpent: number }[]>([]);
   const [growthData, setGrowthData] = useState<{ time: string; cumulativeVisits: number }[]>([]);

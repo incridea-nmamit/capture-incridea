@@ -16,7 +16,7 @@ const DownLodeLogs = () => {
     return "download";
   });
 
-  const { data: downloadLogs = [] } = api.download.getAllDownlodeLogs.useQuery();
+  const { data: downloadLogs = [] } = api.download.getAllDownloadLogs.useQuery();
   const { data: storyLogs = [] } = api.stories.getAllStoryLogs.useQuery();
   const { data: playbackLogs = [] } = api.playbacks.getAllPlayBackLogs.useQuery();
 
