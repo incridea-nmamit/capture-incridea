@@ -10,28 +10,41 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Skeleton } from "../ui/skeleton";
 
 interface ImagePopupProps {
-    selectedImage: string | null;
-    selectedImageOg: string | null;
-    selectedImageId: number | null;
-    handleClosePopup: () => void;
-    handleDownload: (imageUrl: string) => void;
-    openRemovalPopup: (imageUrl: string) => void;
-    session_user: string;
-    session_role: string;
-    sessionId: string;
+  selectedImage: string | null;
+  selectedImageOg: string | null;
+  selectedImageId: number | null;
+  handleClosePopup: () => void;
+  handleDownload: (imageUrl: string) => void;
+  openRemovalPopup: (imageUrl: string) => void;
+  session_user: string;
+  session_role: string;
+  sessionId: string;
 }
 
 const ImagePopup: React.FC<ImagePopupProps> = ({
-    selectedImage,
-    selectedImageOg,
-    selectedImageId,
-    handleClosePopup,
-    handleDownload,
-    openRemovalPopup,
-    session_user,
-    session_role,
-    sessionId,
+  selectedImage,
+  selectedImageOg,
+  selectedImageId,
+  handleClosePopup,
+  handleDownload,
+  openRemovalPopup,
+  session_user,
+  session_role,
+  sessionId,
 }) => {
+  const { data: allDownloadLogs, isLoading: isDownloadLogLoading } =
+    api.download.getAllLogs.useQuery();
+  const refetch = UseRefetch();
+
+  const downloadCounts = useMemo(() => {
+    const counts: Record<number, number> = {};
+    if (allDownloadLogs) {
+      allDownloadLogs.forEach((log: any) => {
+        counts[log.image_id] = (counts[log.image_id] || 0) + 1;
+      });
+    }
+    return counts;
+  }, [allDownloadLogs]);
     const { data: allDownloadLogs, isLoading: isDownloadLogLoading } = api.download.getAllLogs.useQuery();
     const refetch = UseRefetch();
     const [isLandscape, setIsLandscape] = useState(true);
@@ -46,45 +59,52 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
         return counts;
     }, [allDownloadLogs]);
 
+  const { data: totalLikes, isLoading } = api.like.getTotalLikes.useQuery({
+    captureId: selectedImageId!,
+  });
+  const { data: hasLiked } = api.like.hasLiked.useQuery({
+    captureId: selectedImageId!,
+  });
+  const toggleLike = api.like.toggleLike.useMutation();
     const { data: totalLikes, isLoading } = api.like.getTotalLikes.useQuery({ captureId: selectedImageId! });
     const { data: hasLiked } = api.like.hasLiked.useQuery({ captureId: selectedImageId! });
     const {data:acthor }=api.capture.getAuthorDetails.useQuery({id:selectedImageId!});
     const toggleLike = api.like.toggleLike.useMutation();
 
-    const handleToggleLike = async () => {
-        if (selectedImageId && hasLiked !== null) {
-            try {
-                await toggleLike.mutateAsync({
-                    galleryId: selectedImageId,
-                    toggle: !hasLiked,
-                });
-                refetch();
-            } catch (error) {
-                console.error("Error toggling like:", error);
-            }
-        }
-    };
+  const handleToggleLike = async () => {
+    if (selectedImageId && hasLiked !== null) {
+      try {
+        await toggleLike.mutateAsync({
+          galleryId: selectedImageId,
+          toggle: !hasLiked,
+        });
+        refetch();
+      } catch (error) {
+        console.error("Error toggling like:", error);
+      }
+    }
+  };
 
-    const handleShare = async () => {
-        if (navigator.share && selectedImage) {
-            try {
-                const response = await fetch(selectedImage);
-                const blob = await response.blob();
-                const file = new File([blob], "shared-image.webp", { type: blob.type });
+  const handleShare = async () => {
+    if (navigator.share && selectedImage) {
+      try {
+        const response = await fetch(selectedImage);
+        const blob = await response.blob();
+        const file = new File([blob], "shared-image.webp", { type: blob.type });
 
-                await navigator.share({
-                    files: [file],
-                });
-                console.log("Image shared successfully");
-            } catch (error) {
-                console.error("Error sharing image:", error);
-            }
-        } else {
-            alert("Sharing files is not supported on your device.");
-        }
-    };
+        await navigator.share({
+          files: [file],
+        });
+        console.log("Image shared successfully");
+      } catch (error) {
+        console.error("Error sharing image:", error);
+      }
+    } else {
+      alert("Sharing files is not supported on your device.");
+    }
+  };
 
-    if (!selectedImage) return null;
+  if (!selectedImage) return null;
 
 
     const handleImageLoad = (event: any) => {
@@ -126,6 +146,19 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                     </div>
                 </div>
 
+        {/* Image Section */}
+        <div className="flex items-center justify-center">
+          <Image
+            src={selectedImage || "/images/fallback.webp"}
+            alt="Selected"
+            className="rounded-lg"
+            width={450}
+            height={200}
+            layout="intrinsic"
+            onContextMenu={(e) => e.preventDefault()}
+            onDragStart={(e) => e.preventDefault()}
+          />
+        </div>
                 <div className="flex items-center justify-center">
                     {isLoadings && (
                         <Skeleton
@@ -152,6 +185,22 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
 
 
 
+        {/* Footer Section */}
+        <div className="text-center">
+          <p className="mx-auto mb-4 max-w-lg text-xs text-white sm:text-sm">
+            Note: If you prefer this capture not to be public or have any
+            issues. We’ll verify your request and work on it soon.
+          </p>
+          <button
+            className="rounded-2xl bg-white px-6 py-2 text-black transition-all hover:scale-105"
+            onClick={() => {
+              handleClosePopup();
+              openRemovalPopup(selectedImage);
+            }}
+          >
+            Request Removal
+          </button>
+        </div>
                 {/* Footer Section */}
                 <div className="text-center">
                     <p className="text-xs sm:text-sm mx-auto max-w-lg  text-white">
@@ -160,6 +209,27 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
 
                 </div>
 
+        {/* Action Buttons */}
+        <div className="mt-4 flex justify-center gap-4">
+          <button onClick={handleToggleLike} aria-label="Like Button">
+            <FaHeart size={30} color={hasLiked ? "red" : "white"} />
+          </button>
+          <span className="flex items-center text-white">
+            {isLoading ? "..." : totalLikes !== null ? totalLikes : "..."}
+          </span>
+          <button onClick={handleShare}>
+            <Share2 className="text-white" />
+          </button>
+          <button
+            className="rounded-2xl bg-white px-6 py-2 text-black transition-all hover:scale-105"
+            onClick={() => handleDownload(selectedImageOg || selectedImage)}
+          >
+            Download
+          </button>
+        </div>
+      </div>
+    </div>
+  );
                 {/* Action Buttons */}
                 <div className="flex justify-center gap-2  items-center">
                     <button onClick={handleToggleLike} aria-label="Like Button">

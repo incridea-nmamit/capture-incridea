@@ -1,12 +1,78 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Allura";
+  src: url("/fonts/Allura.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Silkscreen";
+  src: url("/fonts/Silkscreen.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BebasNeue";
+  src: url("/fonts/BebasNeue.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ClubHouse";
+  src: url("/fonts/ClubHouse.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Velocista";
+  src: url("/fonts/Velocista.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Trap-Regular";
+  src: url("/fonts/Trap-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Trap-Black";
+  src: url("/fonts/Trap-Black.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Teknaf";
+  src: url("/fonts/Teknaf.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Hunters";
+  src: url("/fonts/Hunters.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 
 html,
 body {
   margin: 0;
   padding: 0;
-  /* overflow-x: hidden; */
+  background: radial-gradient(circle at center, #0d1115, #000000),
+    linear-gradient(135deg, #0d1115, #000000);
+  background-blend-mode: screen, overlay;
   color-scheme: dark;
   @apply dark;
 }
@@ -63,10 +129,11 @@ body {
 
 body {
   @apply bg-neutral-950 text-white;
-  /* background: radial-gradient(ellipse 70% 90% at 40%,#e6646588 0%, transparent 40%),
-              radial-gradient(ellipse 70% 90% at 60%, #007dff88 0%, transparent 40%),
-              linear-gradient(to bottom, #1c1b2e, #0b0a13); */
-  background-blend-mode: multiply;
+  background: radial-gradient(circle at center, #0d1115, #000000),
+    linear-gradient(135deg, #0d1115, #000000);
+  background-blend-mode: screen, overlay;
+
+  @apply font-Trap-Regular;
 }
 
 /* Golden Fade Animation Inside Text */
@@ -77,11 +144,11 @@ body {
   }
 
   100% {
-    color: gold;
+    color: rgb(252, 252, 252);
     text-shadow:
-      0 0 10px gold,
-      0 0 20px gold,
-      0 0 30px gold;
+      0 0 10px rgb(250, 250, 250),
+      0 0 20px rgb(255, 255, 255),
+      0 0 30px rgb(255, 255, 255);
   }
 }
 
@@ -129,6 +196,8 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --font-grotesk: "Space Grotesk", sans-serif;
+    --font-lobster: "Lobster", sans-serif;
   }
 
   .dark {
@@ -377,14 +446,14 @@ dialog[open] {
 */
 #foglayer_01 .image01,
 #foglayer_01 .image02 {
-  background: url("https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog1.webp")
+  background: url("https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog1.png")
     center center/cover no-repeat transparent;
 }
 #foglayer_02 .image01,
 #foglayer_02 .image02,
 #foglayer_03 .image01,
 #foglayer_03 .image02 {
-  background: url("https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog2.webp")
+  background: url("https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog2.png")
     center center/cover no-repeat transparent;
 }
 
@@ -659,55 +728,3 @@ dialog[open] {
     linear-gradient(135deg, #0d1115, #000000);
   background-blend-mode: screen, overlay;
 }
-
-
-
-/*****************  FONTS ******************/
-
-@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
-
-@font-face {
-  font-family: "Trap-Regular";
-  src: url("/fonts/Trap-Regular.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-/* @font-face {
-  font-family: "Trap-Black";
-  src: url("/fonts/Trap-Black.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-} */
-
-@font-face {
-  font-family: "Teknaf";
-  src: url("/fonts/Teknaf.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Hunters";
-  src: url("/fonts/Hunters.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-/* .font-title{
-  font-family: "Teknaf", sans-serif;
-}
-
-
-.font-description{
-  font-family: "Trap-Regular", sans-serif;
-}
-  */
-
-.font-cursive{
-  font-family: "Hunters", sans-serif;
-}
-
-/*********************************************************/
-
-
