@@ -13,21 +13,21 @@ export const capturesRouter = createTRPCRouter({
     return captures ?? [];
   }),
 
-    getApproveCaptures: publicProcedure.query(async ({ ctx }) => {
-      const captures = await ctx.db.captures.findMany({
-        orderBy: {
-          date_time: "desc"
+  getApproveCaptures: publicProcedure.query(async ({ ctx }) => {
+    const captures = await ctx.db.captures.findMany({
+      orderBy: {
+        date_time: "desc"
+      },
+      where: {
+        state: "pending",
+        upload_type: {
+          not: "deleted",
         },
-        where:{
-          state: "pending",
-          upload_type: {
-            not: "deleted",
-          },
-        }
-  
-      });
-      return captures ?? [];
-    }),
+      }
+
+    });
+    return captures ?? [];
+  }),
 
   getAllActivecapturesforAdmin: publicProcedure.query(async ({ ctx }) => {
     const captures = await ctx.db.captures.findMany({
@@ -231,6 +231,7 @@ export const capturesRouter = createTRPCRouter({
           upload_type: "deleted",
         }
       });
+      
       return { message: "Image deleted successfully" };
     }),
 
@@ -268,6 +269,38 @@ export const capturesRouter = createTRPCRouter({
           upload_type
         },
       });
-    })
+    }),
+
+  getAuthorDetails: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, "Author ID is required"),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const author = await ctx.db.captures.findUnique({
+        where: {
+          id: input.id,
+        },
+        select: {
+          captured_by: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
+        },
+      });
+
+      if (!author) {
+        throw new Error("Author not found");
+      }
+
+      return {
+        name: author.captured_by.name,
+        image: author.captured_by.image,
+      };
+    }),
+
 
 });

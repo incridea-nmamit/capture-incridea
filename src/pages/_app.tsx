@@ -20,6 +20,7 @@ import IntroAnimation from "./Intro";
 import { usePathname } from "next/navigation";
 import SEO from "~/components/SEO";
 import Footer from "~/components/HeaderFooter/Footer";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -69,10 +70,11 @@ const AuthenticatedApp = ({
     sessionData?.user?.role === "admin";
 
   if (!isEmailVerified) return <NotRegistered />;
-
+  
   const excludedRoute = ["/LoginComponent", "/NotRegistered", "/"];
   const pathname = usePathname();
   const isExcluded = excludedRoute.some((route) => pathname.startsWith(route));
+    const queryClient = new QueryClient();
   if (isExcluded) {
     return (
       <ScrollArea className={`font-description flex h-screen min-h-screen w-full flex-1 flex-col`}>
@@ -89,6 +91,7 @@ const AuthenticatedApp = ({
     );
   } else {
     return (
+      <QueryClientProvider client={queryClient}>
       <ScrollArea className="font-roboto flex h-screen min-h-screen w-full flex-1 flex-col">
         <div className="font-roboto flex min-h-screen flex-col">
           <Header />
@@ -99,6 +102,7 @@ const AuthenticatedApp = ({
           </main>
         </div>
       </ScrollArea>
+      </QueryClientProvider>
     );
   }
 };

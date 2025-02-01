@@ -4,6 +4,10 @@ import { api } from '~/utils/api';
 import { UploadButton } from '~/utils/uploadthing';
 import CameraLoading from '~/components/LoadingAnimation/CameraLoading';
 import toast from 'react-hot-toast';
+// Adjust the import path as necessary
+
+import { useQueryClient } from '@tanstack/react-query';
+
 
 type UploadedImage = {
   original: string;
@@ -19,8 +23,10 @@ type UploadComponentProps = {
 }
 
 const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type, authorid, handleClosePopup }) => {
+  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const mutation = api.capture.addImage.useMutation({
+
     onSuccess: () => {
       toast.success('Image added successfully!');
 
@@ -30,7 +36,8 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
     },
   });
 
-  const compressImage = (file: File, quality: number = 0.25,  maxWidth: number = 600): Promise<Blob> => {
+
+  const compressImage = (file: File, quality: number = 0.25, maxWidth: number = 600): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -113,6 +120,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
       });
       setIsLoading(false);
       handleClosePopup();
+
     } else {
       setIsLoading(false);
       toast.error('Could not retrieve upload URLs.');
@@ -145,10 +153,10 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
             Click to upload
           </span>
         </span>
-     
-    </div>
-    { isLoading && <CameraLoading /> }
-  </div >
+
+      </div>
+      {isLoading && <CameraLoading />}
+    </div >
   );
 };
 

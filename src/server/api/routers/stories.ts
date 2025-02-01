@@ -43,4 +43,9 @@ export const storiesRouter = createTRPCRouter({
       return deleteStory;
     }),
 
+    getAllStoryLogs: protectedProcedure.query(async ({ ctx }) => {
+      const logs = await ctx.db.storyLog.findMany({});
+      return logs ?? [];
+    }),
+
 });

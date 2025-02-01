@@ -106,6 +106,7 @@ model StoryLog {
   story_id     Int
   story      Stories  @relation(fields: [story_id], references: [id])
 }
+
 model Captures {
   id              Int           @id @default(sequence())
   image_path      String
