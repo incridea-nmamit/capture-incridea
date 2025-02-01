@@ -40,6 +40,8 @@ const Analytics = () => {
   const [eventFilter, setEventFilter] = useState<string>("all");
   const { data: events = [], isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
   const { data: analyticslog = [], isLoading } = api.analytics.getAnalytics.useQuery();
+  const { data: users = [], isLoading: usersLoading } = api.user.getAllUsers.useQuery();
+  const { data: verifiedusers = [], isLoading: verfiedUsersLoading } = api.user.getAllVerifiedUsers.useQuery();
   const { data: dlogs = [] } = api.download.getAllDownloadLogs.useQuery();
   const { data: slogs = [] } = api.stories.getAllStoryLogs.useQuery();
   const { data: plogs = [] } = api.playbacks.getAllPlayBackLogs.useQuery();
@@ -657,6 +659,21 @@ const radarData = {
       <div className="overflow-x-auto">
         <table className="min-w-full text-white font-Trap-Regular">
           <tbody>
+          <tr>
+              <td className="py-2 px-4 border-b">Total Users Logged</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{users.length}</td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Verfied Users</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{verifiedusers.length}</td>
+            </tr>
+            <tr>
+              <td className="py-6"></td>
+              <td className="py-6"></td>
+              <td className="py-6"></td>
+            </tr>
             <tr>
               <td className="py-2 px-4 border-b">Total Web Visits</td>
               <td className="py-2 px-4 border-b"></td>
