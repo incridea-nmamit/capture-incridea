@@ -79,6 +79,7 @@ export function ChangeRolePopUP({
                     auditLogMutation.mutateAsync({
                         sessionUser: session?.user.name || 'Invalid User',
                         description: `RoleManagementAudit - Changed the role of ${existingRole} to ${values.role}`,
+                        audit: 'RoleManagementAudit'
                     }, {
                         onSuccess: () => {
                             toast.success("Audit logged")
