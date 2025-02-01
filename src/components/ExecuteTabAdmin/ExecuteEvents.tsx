@@ -48,7 +48,8 @@ const ExecuteEvents = () => {
                       await updateVisibility.mutateAsync({ cardName, newValue });
                       await auditLogMutation.mutateAsync({
                         sessionUser: session?.user.name || 'Invalid User',
-                        description: `CaptureCardManagementAudit - ${name} is set to ${newValue}`,
+                        description: `${name} is set to ${newValue}`,
+                        audit:'CaptureCardManagementAudit'
                       });
                       toast.success(`${name} visibility set to ${newValue}`);
                       refetch();

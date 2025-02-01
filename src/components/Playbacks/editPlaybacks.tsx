@@ -138,6 +138,7 @@ export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
                                     <FormItem>
                                         <FormControl>
                                             <VideoUploadComponent
+                                                endpoint='playbackUploader'
                                                 onUploadComplete={handleUploadComplete}
                                                 resetUpload={() => setUploadUrl("")}
                                             />
@@ -153,7 +154,7 @@ export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
                                     <FormItem>
                                         <FormControl>
                                             <UploadButton
-                                                endpoint="imageUploaderCompressed"
+                                                endpoint='imageUploader'
                                                 onClientUploadComplete={handleThumbnailUploadComplete}
                                                 onUploadError={() => {
                                                     toast.error("Failed to upload thumbnail. Please try again.");

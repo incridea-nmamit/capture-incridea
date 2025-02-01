@@ -84,6 +84,7 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
             await auditLogMutation.mutateAsync({
                 sessionUser: session?.user.name || "Unknown User",
                 description: `Added team member ${data.name} for ${data.committee} as ${data.designation} with say ${data.say}`,
+                audit:'TeamManagementAudit'
             })
 
             toast.success(`Added team member ${data.name}`)

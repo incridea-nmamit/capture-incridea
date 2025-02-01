@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
-import { Line } from "react-chartjs-2";
+import { Bar, Doughnut, Line, Radar } from "react-chartjs-2";
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  ArcElement,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
+  RadialLinearScale,
 } from "chart.js";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 
@@ -20,10 +24,13 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
+  BarElement,
   LineElement,
+  ArcElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  RadialLinearScale
 );
 
 const Analytics = () => {
@@ -32,9 +39,15 @@ const Analytics = () => {
   const [customDate, setCustomDate] = useState<string | null>(null);
   const [eventFilter, setEventFilter] = useState<string>("all");
   const { data: events = [], isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
-  const { data: logs = [], isLoading } = api.analytics.getAnalytics.useQuery();
-  const { data: dlogs = [] } = api.download.getAllLogs.useQuery();
-  const { data: gallery = [], isLoading: galleryLoading } = api.capture.getAllcaptures.useQuery();
+  const { data: analyticslog = [], isLoading } = api.analytics.getAnalytics.useQuery();
+  const { data: users = [], isLoading: usersLoading } = api.user.getAllUsers.useQuery();
+  const { data: verifiedusers = [], isLoading: verfiedUsersLoading } = api.user.getAllVerifiedUsers.useQuery();
+  const { data: dlogs = [] } = api.download.getAllDownloadLogs.useQuery();
+  const { data: slogs = [] } = api.stories.getAllStoryLogs.useQuery();
+  const { data: plogs = [] } = api.playbacks.getAllPlayBackLogs.useQuery();
+  const { data: captures = [], isLoading: galleryLoading } = api.capture.getAllcaptures.useQuery();
+  const { data: playbacks = [], isLoading: playbacksLoading } = api.playbacks.getAllPlaybacks.useQuery();
+  const { data: stories = [], isLoading: storiesLoading } = api.stories.getAllStories.useQuery();
   const [graphData, setGraphData] = useState<{ time: string; visits: number; unique: number; viewsPerUnique: number; avgTimeSpent: number }[]>([]);
   const [growthData, setGrowthData] = useState<{ time: string; cumulativeVisits: number }[]>([]);
   const router = useRouter();
@@ -53,22 +66,22 @@ const Analytics = () => {
       
     }, [session, status, router]);
   // Hardcoded dates for Day 1, Day 2, and Day 3
-  const dateReferences: Record<string, Date> = {
-    day1: new Date('2024-12-22'),
-    day2: new Date('2024-12-23'),
-    day3: new Date('2024-12-24'),
-  };
-
-  // Change to this during production
-  // const dateReferences: Record<string, Date> = { 
-  //   day1: new Date('2025-02-27'),
-  //   day2: new Date('2025-02-28'),
-  //   day3: new Date('2025-03-01'),
+  // const dateReferences: Record<string, Date> = {
+  //   day1: new Date('2024-12-22'),
+  //   day2: new Date('2024-12-23'),
+  //   day3: new Date('2024-12-24'),
   // };
+
+
+  const dateReferences: Record<string, Date> = { 
+    day1: new Date('2025-02-27'),
+    day2: new Date('2025-02-28'),
+    day3: new Date('2025-03-01'),
+  };
 
   const filteredLogs =
   filter === "all"
-    ? logs.filter(
+    ? analyticslog.filter(
         (log) =>
           log.routePath.includes("/") &&
           log.isChecked === "yes" &&
@@ -76,11 +89,11 @@ const Analytics = () => {
           log.session_user !== null
       )
     : filter === "custom" && customDate
-    ? logs.filter((log) => {
+    ? analyticslog.filter((log) => {
         const logDate = new Date(log.startPing).toISOString().split("T")[0];
         return logDate === customDate;
       })
-    : logs.filter((log) => {
+    : analyticslog.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
@@ -92,30 +105,109 @@ const Analytics = () => {
           log.session_user !== null
         );
       });
+      const deviceCounts = filteredLogs.reduce(
+        (acc, log) => {
+          acc[log.device as keyof typeof acc] = (acc[log.device as keyof typeof acc] || 0) + 1;
+          return acc;
+        },
+        { tablet: 0, desktop: 0, mobile: 0 }
+      );
+      
+      const data = {
+        labels: ["Tablet", "Desktop", "Mobile"],
+        datasets: [
+          {
+            data: [deviceCounts.tablet, deviceCounts.desktop, deviceCounts.mobile],
+            backgroundColor: ["#B0B0B0", "#707070", "#303030"], // Light gray, medium gray, dark gray
+            hoverBackgroundColor: ["#A0A0A0", "#606060", "#202020"], // Slightly darker shades on hover
+          },
+        ],
+      };
+      const options = {
+        plugins: {
+          legend: {
+            labels: {
+              color: "#FFFFFF", // White text for legend
+            },
+          },
+          tooltip: {
+            titleColor: "#FFFFFF", // White tooltip title
+            bodyColor: "#FFFFFF", // White tooltip text
+          },
+        },
+      };
+      
+      
 
-      const filtereddLogs =
-      filter === "all"
-        ? dlogs.filter(
-            (log) =>
-              log.session_user !== "" &&
-              log.session_user !== null
-          )
-          : filter === "custom" && customDate
-          ? dlogs.filter((log) => {
-              const logDate = new Date(log.date_time).toISOString().split("T")[0];
-              return logDate === customDate;
-            })
-        : dlogs.filter((log) => {
-            const logDate = new Date(log.date_time);
-            const dateReferenceKey = `day${filter}`;
-            const dateReference = dateReferences[dateReferenceKey];
-            return (
-              dateReference &&
-              logDate.toDateString() === dateReference.toDateString() &&
-              log.session_user !== "" &&
-              log.session_user !== null
-            );
-          });
+  const filtereddLogs =
+  filter === "all"
+    ? dlogs.filter(
+        (log) =>
+          log.session_user !== "" &&
+          log.session_user !== null
+      )
+      : filter === "custom" && customDate
+      ? dlogs.filter((log) => {
+          const logDate = new Date(log.date_time).toISOString().split("T")[0];
+          return logDate === customDate;
+        })
+    : dlogs.filter((log) => {
+        const logDate = new Date(log.date_time);
+        const dateReferenceKey = `day${filter}`;
+        const dateReference = dateReferences[dateReferenceKey];
+        return (
+          dateReference &&
+          logDate.toDateString() === dateReference.toDateString() &&
+          log.session_user !== "" &&
+          log.session_user !== null
+        );
+      });
+  const filteredsLogs =
+  filter === "all"
+    ? slogs.filter(
+        (log) =>
+          log.session_user !== "" &&
+          log.session_user !== null
+      )
+      : filter === "custom" && customDate
+      ? slogs.filter((log) => {
+          const logDate = new Date(log.date_time).toISOString().split("T")[0];
+          return logDate === customDate;
+        })
+    : slogs.filter((log) => {
+        const logDate = new Date(log.date_time);
+        const dateReferenceKey = `day${filter}`;
+        const dateReference = dateReferences[dateReferenceKey];
+        return (
+          dateReference &&
+          logDate.toDateString() === dateReference.toDateString() &&
+          log.session_user !== "" &&
+          log.session_user !== null
+        );
+      });
+    const filteredpLogs =
+    filter === "all"
+      ? plogs.filter(
+          (log) =>
+            log.session_user !== "" &&
+            log.session_user !== null
+        )
+        : filter === "custom" && customDate
+        ? plogs.filter((log) => {
+            const logDate = new Date(log.date_time).toISOString().split("T")[0];
+            return logDate === customDate;
+          })
+      : plogs.filter((log) => {
+          const logDate = new Date(log.date_time);
+          const dateReferenceKey = `day${filter}`;
+          const dateReference = dateReferences[dateReferenceKey];
+          return (
+            dateReference &&
+            logDate.toDateString() === dateReference.toDateString() &&
+            log.session_user !== "" &&
+            log.session_user !== null
+          );
+        });
 
 
   const totalTimeSpent = filteredLogs.reduce((total, log) => total + (log.timer || 0), 0);
@@ -129,8 +221,27 @@ const Analytics = () => {
 
   const filteredGallery =
     filter === "all"
-      ? gallery
-      : gallery.filter((galleryItem: any) => {
+      ? captures
+      : captures.filter((galleryItem: any) => {
+          const galleryItemDate = new Date(galleryItem.date_time);
+          const dateReferenceKey = `day${filter}`;
+          const dateReference = dateReferences[dateReferenceKey];
+          return dateReference && galleryItemDate.toDateString() === dateReference.toDateString();
+        });
+  const filteredPlaybacks =
+  filter === "all"
+    ? playbacks
+    : playbacks.filter((galleryItem: any) => {
+        const galleryItemDate = new Date(galleryItem.date_time);
+        const dateReferenceKey = `day${filter}`;
+        const dateReference = dateReferences[dateReferenceKey];
+        return dateReference && galleryItemDate.toDateString() === dateReference.toDateString();
+      });
+
+    const filteredStories=
+    filter === "all"
+      ? stories
+      : stories.filter((galleryItem: any) => {
           const galleryItemDate = new Date(galleryItem.date_time);
           const dateReferenceKey = `day${filter}`;
           const dateReference = dateReferences[dateReferenceKey];
@@ -138,7 +249,7 @@ const Analytics = () => {
         });
 
   const filteredCaptures = captureFilter === "all"
-    ? logs.filter((log) => {
+    ? filteredLogs.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
@@ -162,7 +273,7 @@ const Analytics = () => {
           log.isChecked === "yes"
         );
       })
-    : logs.filter((log) => {
+    : filteredLogs.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
@@ -201,7 +312,7 @@ const Analytics = () => {
   const uniqueRouteIDs = new Set(filteredCaptures.filter(log => log.isChecked === "yes").map((entry) => entry.session_user)).size;
 
   const filteredEvents = eventFilter === "all"
-    ? logs.filter((log) => {
+    ? filteredLogs.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
@@ -210,7 +321,7 @@ const Analytics = () => {
           (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
         );
       })
-    : logs.filter((log) => {
+    : filteredLogs.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
@@ -345,6 +456,98 @@ const Analytics = () => {
     setCustomDate(selectedDate);
     setFilter("custom");
   };
+  // Grouping by routePath
+  const routeCounts = filteredLogs.reduce((acc, log) => {
+    acc[log.routePath] = (acc[log.routePath] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  // Time spent (sum of timers) per device
+  const deviceTimeSpent = filteredLogs.reduce((acc, log) => {
+    acc[log.device] = (acc[log.device] || 0) + (log.timer || 0);
+    return acc;
+  }, {} as Record<string, number>);
+
+  const devices = Object.keys(deviceCounts);
+  const counts = Object.values(deviceCounts);
+  const timeSpent = Object.values(deviceTimeSpent);
+  const routes = Object.keys(routeCounts);
+  const routeSessionCounts = Object.values(routeCounts);
+
+  // Pie Chart: Device Distribution
+  const pieData = {
+    labels: devices,
+    datasets: [{
+      label: 'Device Distribution',
+      data: counts,
+      backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#F2F533'], // Add more colors as needed
+    }],
+  };
+
+  // Bar Chart: Sessions by Device
+  const barData = {
+    labels: devices,
+    datasets: [{
+      label: 'Sessions by Device',
+      data: counts,
+      backgroundColor: '#4D73D9',
+    }],
+  };
+
+  // Line Chart: Timer Over Time for Each Device
+  const lineData = {
+    labels: filteredLogs.map(log => new Date(log.startPing).toLocaleString()),
+    datasets: devices.map(device => ({
+      label: device,
+      data: filteredLogs.filter(log => log.device === device).map(log => log.timer ?? 0),
+      borderColor: '#FF5733',
+      backgroundColor: 'rgba(255, 87, 51, 0.2)',
+      fill: true,
+    })),
+  };
+
+  // Doughnut Chart: Time Spent per Device
+  const doughnutData = {
+    labels: devices,
+    datasets: [{
+      label: 'Time Spent per Device (ms)',
+      data: timeSpent,
+      backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#F2F533'],
+    }],
+  };
+
+ // Define the type if not imported
+ interface AnalyticsLog {
+  id: number;
+  session_user: string;
+  uniqueId: string;
+  routePath: string;
+  device: string;
+  timer: number | null; // Change from `number | undefined` to `number | null`
+  isChecked: string;
+  startPing: Date;
+  lastPing: Date;
+}
+
+
+// Radar Chart: Average Time per Device by Route
+const radarData = {
+  labels: routes,
+  datasets: devices.map(device => ({
+    label: device,
+    data: routes.map(route => {
+      const deviceRouteLogs = filteredLogs.filter((log: AnalyticsLog) => log.device === device && log.routePath === route);
+      const totalTime = deviceRouteLogs.reduce((acc: number, log: AnalyticsLog) => acc + (log.timer || 0), 0);
+      return totalTime / (deviceRouteLogs.length > 0 ? deviceRouteLogs.length : 1); // Avoid division by zero
+    }),
+    borderColor: '#FF5733',
+    backgroundColor: 'rgba(255, 87, 51, 0.2)',
+    fill: true,
+  })),
+};
+
+  
+
 
   if (isLoading || galleryLoading || eventsLoading) {
     return <CameraLoading />;
@@ -352,7 +555,7 @@ const Analytics = () => {
 
 
   return (
-    <div className="p-6 mb-20">
+    <div className="p-6 mt-20 mb-20">
       <h1 className="text-center text-4xl font-Teknaf mb-8 text-white">Detailed Admin Analytics</h1>
       <div className="flex justify-center gap-2">
         <div className="flex justify-center mb-4 ">
@@ -381,48 +584,7 @@ const Analytics = () => {
           )}
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full text-white font-Trap-Regular">
-          <tbody>
-            <tr>
-              <td className="py-2 px-4 border-b">Total Web Visits</td>
-              <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{filteredLogs.length}</td>
-            </tr>
-            <tr>
-              <td className="py-2 px-4 border-b">Total Unique Visitors</td>
-              <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{new Set(filteredLogs.map((entry) => entry.session_user)).size}</td>
-            </tr>
-            <tr>
-              <td className="py-2 px-4 border-b">Total Time Spent</td>
-              <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{thours} hours {tminutes} minutes {tseconds} seconds</td> 
-            </tr>
-            <tr>
-              <td className="py-2 px-4 border-b">Average Time Spent</td>
-              <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{hours} hours {minutes} minutes {seconds} seconds</td> 
-            </tr>
-            <tr>
-              <td className="py-2 px-4 border-b">Total Captures</td>
-              <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{filteredGallery.length}</td> 
-            </tr>
-            <tr>
-              <td className="py-2 px-4 border-b">Total Downloads</td>
-              <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{filtereddLogs.length}</td> 
-            </tr>
-            <tr>
-              <td className="py-2 px-4 border-b">Unique Download ID's</td>
-              <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{new Set(filtereddLogs.map((entry) => entry.session_user)).size}</td> 
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      
+            
       <div className="overflow-x-auto mt-5 font-Trap-Regular">
         <table className="min-w-full text-white">
           <thead className="bg-gray-700">
@@ -460,7 +622,7 @@ const Analytics = () => {
         </table>
         </div>
 
-        <div className="overflow-x-auto mt-5">
+        <div className="overflow-x-auto mt-5 mb-5">
         <table className="min-w-full text-white font-Trap-Regular">
           <thead className="bg-gray-700">
             <tr>
@@ -494,6 +656,109 @@ const Analytics = () => {
           </tbody>
         </table>
         </div>
+      <div className="overflow-x-auto">
+        <table className="min-w-full text-white font-Trap-Regular">
+          <tbody>
+          <tr>
+              <td className="py-2 px-4 border-b">Total Users Logged</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{users.length}</td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Verfied Users</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{verifiedusers.length}</td>
+            </tr>
+            <tr>
+              <td className="py-6"></td>
+              <td className="py-6"></td>
+              <td className="py-6"></td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Web Visits</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{filteredLogs.length}</td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Unique Visitors</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{new Set(filteredLogs.map((entry) => entry.session_user)).size}</td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Time Spent</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{thours} hours {tminutes} minutes {tseconds} seconds</td> 
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Average Time Spent</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{hours} hours {minutes} minutes {seconds} seconds</td> 
+            </tr>
+            <tr>
+              <td className="py-6"></td>
+              <td className="py-6"></td>
+              <td className="py-6"></td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Captures</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{filteredGallery.length}</td> 
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Captures Downloads</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{filtereddLogs.length}</td> 
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Unique Captures Download ID's</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{new Set(filtereddLogs.map((entry) => entry.session_user)).size}</td> 
+            </tr>
+                        <tr>
+              <td className="py-6"></td>
+              <td className="py-6"></td>
+              <td className="py-6"></td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Stories</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{filteredStories.length}</td> 
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Stories Downloads</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{filteredsLogs.length}</td> 
+            </tr>
+            
+            <tr>
+              <td className="py-2 px-4 border-b">Unique Stories Download ID's</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{new Set(filteredsLogs.map((entry) => entry.session_user)).size}</td> 
+            </tr>
+            <tr>
+              <td className="py-6"></td>
+              <td className="py-6"></td>
+              <td className="py-6"></td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Playbacks</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{filteredPlaybacks.length}</td> 
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Playbacks Downloads</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{filteredpLogs.length}</td> 
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Unique Playbacks Download ID's</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{new Set(filteredpLogs.map((entry) => entry.session_user)).size}</td> 
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl font-Trap-Regular">
         <h3 className="text-center text-2xl text-white mb-4">Visits Growth Rate</h3>
         <Line data={growthGraphData} options={chartOptions} />
@@ -517,6 +782,27 @@ const Analytics = () => {
       <div className="mt-20 w-full h-56 mx-auto p-4 rounded-2xl font-Trap-Regular">
         <h3 className="text-center text-2xl text-white mb-4">Views per Unique Visitor Over Time</h3>
         <Line data={viewsPerUniqueGraphData} options={chartOptions} />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 place-items-center py-20 gap-20">
+        {/* Bar Chart - Full Width */}
+        <div className="col-span-1 md:col-span-2 w-full max-w-4xl">
+          <Bar data={barData} options={options}/>
+        </div>
+
+        {/* Line Chart - Full Width */}
+        <div className="col-span-1 md:col-span-2 w-full max-w-4xl">
+          <Line data={lineData} />
+        </div>
+
+        {/* Pie Chart (Half Width) */}
+        <div className="col-span-1 w-full max-w-sm">
+          <Pie data={pieData} options={options}/>
+        </div>
+
+        {/* Doughnut Chart (Half Width) */}
+        <div className="col-span-1 w-full max-w-sm">
+          <Doughnut data={doughnutData} />
+        </div>
       </div>
     </div>
   );

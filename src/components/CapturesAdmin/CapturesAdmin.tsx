@@ -4,7 +4,7 @@ import { api } from '~/utils/api';
 import { DataTable } from './capture-data-table';
 import { deletedCapturecolumns } from './columns/deleted-capture-columns';
 import { activeCapturecolumns } from './columns/active-capture-columns';
-import GalleryBatchUpload from './BatchUpload';
+import GalleryBatchUpload from './batchUplode/BatchUpload';
 import UseRefetch from '~/hooks/use-refetch';
 
 const CapturesAdmin: React.FC = () => {
@@ -13,12 +13,12 @@ const CapturesAdmin: React.FC = () => {
   const initialState = sessionStorage.getItem('capture') || 'active';
   const [captureState, setCaptureState] = useState<string>(initialState);
 
-  const { data: activeGalleryData = [], refetch: refetchActive } = 
+  const { data: activeGalleryData = [], refetch: refetchActive } =
     api.capture.getAllActivecapturesforAdmin.useQuery(undefined, {
       enabled: captureState === 'active',
     });
 
-  const { data: deletedGalleryData = [], refetch: refetchDeleted } = 
+  const { data: deletedGalleryData = [], refetch: refetchDeleted } =
     api.capture.getAllDeletedcapturesforAdmin.useQuery(undefined, {
       enabled: captureState === 'deleted',
     });
@@ -52,9 +52,15 @@ const CapturesAdmin: React.FC = () => {
         </button>
       </div>
 
-      <DataTable columns={columns} data={galleryData} />
+      <div className="grid grid-cols-1 gap-4  md:grid-cols-2">
+        <div className="gap-4  mt-3">
+          <GalleryBatchUpload />
+        </div>
+        <div className="  gap-4">
+          <DataTable columns={columns} data={galleryData} />
+        </div>
+      </div>
 
-      <GalleryBatchUpload />
     </div>
   );
 };

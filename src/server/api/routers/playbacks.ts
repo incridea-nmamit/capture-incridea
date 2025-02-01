@@ -147,6 +147,8 @@ export const playbacksRouter = createTRPCRouter({
 
         });
     }),
-
-
+    getAllPlayBackLogs: protectedProcedure.query(async ({ ctx }) => {
+        const logs = await ctx.db.playbackLog.findMany({});
+        return logs ?? [];
+    }),
 })

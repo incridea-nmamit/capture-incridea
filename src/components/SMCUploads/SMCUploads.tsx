@@ -68,7 +68,7 @@ const SMCUploads: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center"> Stories Uploads</h1>
+      <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center"> SMC Uploads</h1>
       <div className="flex flex-col-reverse md:grid md:grid-cols-12 gap-4">
         <div className="col-span-12 md:col-span-11">
           <div>
@@ -137,6 +137,7 @@ const SMCUploads: React.FC = () => {
                   <ReactPlayer url={`https://utfs.io/f/${uploadUrl}`} controls width="100%" height="360px" />
                 ) : (
                   <VideoUploadComponent
+                    endpoint='storiesUploader'
                     onUploadComplete={handleUploadComplete}
                     resetUpload={() => setUploadUrl('')}
                   />

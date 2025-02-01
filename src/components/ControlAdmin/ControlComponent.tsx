@@ -48,7 +48,8 @@ const ControlComponent: React.FC = () => {
       });
       await auditLogMutation.mutateAsync({
         sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
-        description: `ControlManagementAudit - ${variable.key} set to ${variable.value}`,
+        description: `${variable.key} set to ${variable.value}`,
+        audit:'ControlManagementAudit'
       });
       toast.success(`${variable.key} set to ${variable.value}`)
       setEditId(null);
@@ -145,7 +146,8 @@ const ControlComponent: React.FC = () => {
                           });
                           await auditLogMutation.mutateAsync({
                             sessionUser: session?.user.name || "Invalid User",
-                            description: `ControlManagementAudit - Capture Auto-Request set to ${newValue}`,
+                            description: `Capture Auto-Request set to ${newValue}`,
+                            audit:'ControlManagementAudit'
                           });
                           toast.success(
                             `Capture Auto-Request set to ${newValue}`

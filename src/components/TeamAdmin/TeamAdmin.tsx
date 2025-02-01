@@ -58,7 +58,8 @@ const TeamAdmin: React.FC = () => {
         void refetch();
         await auditLogMutation.mutateAsync({
           sessionUser: session?.user.name || "Invalid User", //Invalid user is not reachable
-          description: `TeamManagementAudit - Deleted a team member ${teamToDelete.name}`,
+          description: `Deleted a team member ${teamToDelete.name}`,
+          audit:'TeamManagementAudit'
         });
       } catch (error) {
         toast.error(`Error deleting team member ${teamToDelete.name}`);

@@ -8,6 +8,11 @@ export const userRouter = createTRPCRouter({
     return users;
   }),
 
+  getAllVerifiedUsers: protectedProcedure.query(async ({ ctx }) => {
+    const users = await ctx.db.verifiedEmail.findMany();
+    return users;
+  }),
+
   //getUserRolebyId Query
   getUserRoleById: protectedProcedure.input(
     z.object({

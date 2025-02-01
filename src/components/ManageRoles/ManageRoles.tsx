@@ -3,7 +3,7 @@ import { api } from '~/utils/api';
 import { User } from '@prisma/client';
 import ScrollableContainer from '../ScrollableDiv';
 import SearchInput from '../ui/search-input';
-import { ChangeRolePopUP } from './chnageRolePopup';
+import { ChangeRolePopUP } from './changeRolePopup';
 
 // Define a type for roles
 type Role = 'admin' | 'manager' | 'smc' | 'editor' | 'user';

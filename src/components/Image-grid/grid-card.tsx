@@ -27,7 +27,7 @@ export const GridCard: React.FC<GridCardProps> = ({
 
   return (
     <ImageListItem
-      className={`grid place-content-center place-items-center rounded-lg  p-2 ${isLoading ? "bg-gradient-to-b from-slate-400 to-[#ad64ed]" : "bg-transparent"}`}
+      className={`grid place-content-center place-items-center rounded-lg  p-2 ${isLoading ? "bg-gradient-to-b from-indigo-400 to-indigo-900" : "bg-transparent"}`}
     >
       <div className="relative h-fit w-fit">
         <div
@@ -48,7 +48,7 @@ export const GridCard: React.FC<GridCardProps> = ({
           {prefech && (
             <link rel="prefetch" href={imagePath} as="image" className="hidden" />
           )}
-          <div className="absolute -bottom-1 right-0 flex gap-1 rounded-tl-3xl bg-gradient-to-b from-slate-400 to-[#ad64ed]  px-4 py-2 text-white">
+          <div className="absolute -bottom-1 right-0 flex gap-1 rounded-tl-3xl bg-gradient-to-b from-indigo-400 to-indigo-900 px-4 py-2 text-white">
             <FcLike size={20} />
             {totalLikes}
           </div>

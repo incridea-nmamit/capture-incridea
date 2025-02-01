@@ -2,25 +2,24 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/
 import { z } from "zod";
 
 export const downloadLogRouter = createTRPCRouter({
-  getAllDownloadLogs: protectedProcedure.query(async ({ ctx }) => {
-    const logs = await ctx.db.downloadLog.findMany({
-    });
+  getAllLogs: protectedProcedure.query(async ({ ctx }) => {
+    const logs = await ctx.db.playbackLog.findMany({});
     return logs ?? [];
   }),
 
   logDownload: publicProcedure
     .input(
       z.object({
-        image_id: z.number().min(1, "File path is required"),
+        playback_id: z.number().min(1, "File path is required"),
         session_user: z.string().min(1, "Session is required"),
       })
     )
     .mutation(async ({ ctx, input }) => {
       // Log the download
-      const newLog = await ctx.db.downloadLog.create({
+      const newLog = await ctx.db.playbackLog.create({
         data: {
           session_user: input.session_user,
-          image_id: input.image_id,
+          playback_id: input.playback_id,
         },
       });
 
@@ -30,13 +29,13 @@ export const downloadLogRouter = createTRPCRouter({
   getDownloadLog: protectedProcedure
     .input(
       z.object({
-        image_id: z.number().min(1, "File path is required"),
+        playback_id: z.number().min(1, "File path is required"),
       })
     )
     .query(async ({ ctx, input }) => {
-      const logs = await ctx.db.downloadLog.findMany({
+      const logs = await ctx.db.playbackLog.findMany({
         where: {
-          image_id: input.image_id,
+            playback_id: input.playback_id,
         },
       });
       return logs ?? [];
@@ -45,13 +44,13 @@ export const downloadLogRouter = createTRPCRouter({
     getDownloadLogCount: protectedProcedure
   .input(
     z.object({
-      image_id: z.number().min(1, "File path is required"),
+        playback_id: z.number().min(1, "File path is required"),
     })
   )
   .query(async ({ ctx, input }) => {
-    const count = await ctx.db.downloadLog.count({
+    const count = await ctx.db.playbackLog.count({
       where: {
-        image_id: input.image_id,
+        playback_id: input.playback_id,
       },
     });
     return count;

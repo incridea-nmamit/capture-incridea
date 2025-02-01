@@ -108,6 +108,7 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
                                                 />
                                             ) : (
                                                 <VideoUploadComponent
+                                                    endpoint="playbackUploader"
                                                     onUploadComplete={handleUploadComplete}
                                                     resetUpload={() => setUploadUrl("")}
                                                 />

@@ -41,7 +41,8 @@ export function DeleteCapturePopUpModel({ isOpen, setOpen, captureId }: Props) {
                 refetch();
                 await auditLogMutation.mutateAsync({
                     sessionUser: session?.user.name || "Invalid User",
-                    description: `CaptureManagementAudit - Deleted a capture with id ${captureId} as disagreement`,
+                    description: `Deleted a capture with id ${captureId} as disagreement`,
+                    audit: 'CaptureManagementAudit'
                 });
                 setLoading(false)
                 toast.success('Successfully deleted the capture', toastStyle);

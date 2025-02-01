@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { ReactNode, type FC } from "react";
 import Link from "next/link";
 
 interface NavLinkProps {
@@ -7,6 +7,7 @@ interface NavLinkProps {
   active: boolean;
   onClick?: () => void;
   className?: string;
+  children?: ReactNode;
 }
 
 const NavLink: FC<NavLinkProps> = ({

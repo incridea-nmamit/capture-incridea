@@ -41,7 +41,8 @@ export function DeletePlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
                         try {
                             await auditLogMutation.mutateAsync({
                                 sessionUser: session?.user.name || "Invalid User",
-                                description: `playbacksAudit - Deleted a PlayBack with id ${id} as disagreement`,
+                                description: `Deleted a PlayBack with id ${id} as disagreement`,
+                                audit:'PlaybacksAudit'
                             });
                             refetch();
                             toast.success('Successfully deleted the PlayBack', toastStyle);

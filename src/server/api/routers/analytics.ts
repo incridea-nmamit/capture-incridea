@@ -8,10 +8,11 @@ export const analyticsRouter = createTRPCRouter({
         session_user: z.string(),
         uniqueId: z.string(),
         routePath: z.string(),
+        device:z.string()
       })
     )
     .mutation(async ({ input }) => {
-      const { session_user, uniqueId, routePath } = input;
+      const { session_user, uniqueId, routePath,device} = input;
       const currentDateAndTime = new Date();
       await db.webAnalytics.create({
         data: {
@@ -19,6 +20,7 @@ export const analyticsRouter = createTRPCRouter({
           uniqueId: uniqueId,
           routePath: routePath,
           isChecked: "no",
+          device:device,
           timer: 0,
           startPing: currentDateAndTime,
           lastPing: currentDateAndTime,
