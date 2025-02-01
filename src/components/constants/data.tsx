@@ -253,7 +253,6 @@ export const tabs = [
 export const carouselItems = [
   {
     imgSrc: "images/CapturePage/img1.webp",
-    author: "incredia",
     title: "Pronite",
     route: "/pronite",
     description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
@@ -262,7 +261,6 @@ export const carouselItems = [
   },
   {
     imgSrc: "images/CapturePage/img2.webp",
-    author: "Incridea",
     title: "Cultural",
     route: "/cultural",
     description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
@@ -271,7 +269,6 @@ export const carouselItems = [
   },
   {
     imgSrc: "images/CapturePage/img3.webp",
-    author: "Incridea",
     title: "Playbacks",
     route: "/cultural-playbacks",
     description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
@@ -280,7 +277,6 @@ export const carouselItems = [
   },
   {
     imgSrc: "images/CapturePage/img4.webp",
-    author: "Incridea",
     title: "Events",
     route: "/events",
     description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
@@ -290,7 +286,6 @@ export const carouselItems = [
 
   {
     imgSrc: "images/CapturePage/img5.webp",
-    author: "Stories",
     title: "Stories",
     route: "/stories",
     description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
@@ -299,8 +294,7 @@ export const carouselItems = [
   },
   {
     imgSrc: "images/CapturePage/img5.webp",
-    author: "Stories",
-    title: "Snaps",
+    title: "Abode of Memories",
     route: "/your-snaps",
     description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
         sequi, rem magnam nesciunt minima placeat, itaque eum neque
@@ -308,7 +302,6 @@ export const carouselItems = [
   },
   {
     imgSrc: "images/CapturePage/img3.webp",
-    author: "Stories",
     title: "Behind Incredia",
     route: "/behindincridea",
     description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
