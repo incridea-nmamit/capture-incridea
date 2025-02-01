@@ -247,7 +247,7 @@ const Analytics = () => {
         });
 
   const filteredCaptures = captureFilter === "all"
-    ? analyticslog.filter((log) => {
+    ? filteredLogs.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
@@ -271,7 +271,7 @@ const Analytics = () => {
           log.isChecked === "yes"
         );
       })
-    : analyticslog.filter((log) => {
+    : filteredLogs.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
@@ -310,7 +310,7 @@ const Analytics = () => {
   const uniqueRouteIDs = new Set(filteredCaptures.filter(log => log.isChecked === "yes").map((entry) => entry.session_user)).size;
 
   const filteredEvents = eventFilter === "all"
-    ? analyticslog.filter((log) => {
+    ? filteredLogs.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
@@ -319,7 +319,7 @@ const Analytics = () => {
           (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
         );
       })
-    : analyticslog.filter((log) => {
+    : filteredLogs.filter((log) => {
         const logDate = new Date(log.startPing);
         const dateReferenceKey = `day${filter}`;
         const dateReference = dateReferences[dateReferenceKey];
@@ -454,20 +454,14 @@ const Analytics = () => {
     setCustomDate(selectedDate);
     setFilter("custom");
   };
-  // Grouping data by device
-  const deviceCount = analyticslog.reduce((acc, log) => {
-    acc[log.device] = (acc[log.device] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
-
   // Grouping by routePath
-  const routeCounts = analyticslog.reduce((acc, log) => {
+  const routeCounts = filteredLogs.reduce((acc, log) => {
     acc[log.routePath] = (acc[log.routePath] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
   // Time spent (sum of timers) per device
-  const deviceTimeSpent = analyticslog.reduce((acc, log) => {
+  const deviceTimeSpent = filteredLogs.reduce((acc, log) => {
     acc[log.device] = (acc[log.device] || 0) + (log.timer || 0);
     return acc;
   }, {} as Record<string, number>);
@@ -500,10 +494,10 @@ const Analytics = () => {
 
   // Line Chart: Timer Over Time for Each Device
   const lineData = {
-    labels: analyticslog.map(log => new Date(log.startPing).toLocaleString()),
+    labels: filteredLogs.map(log => new Date(log.startPing).toLocaleString()),
     datasets: devices.map(device => ({
       label: device,
-      data: analyticslog.filter(log => log.device === device).map(log => log.timer ?? 0),
+      data: filteredLogs.filter(log => log.device === device).map(log => log.timer ?? 0),
       borderColor: '#FF5733',
       backgroundColor: 'rgba(255, 87, 51, 0.2)',
       fill: true,
@@ -540,7 +534,7 @@ const radarData = {
   datasets: devices.map(device => ({
     label: device,
     data: routes.map(route => {
-      const deviceRouteLogs = analyticslog.filter((log: AnalyticsLog) => log.device === device && log.routePath === route);
+      const deviceRouteLogs = filteredLogs.filter((log: AnalyticsLog) => log.device === device && log.routePath === route);
       const totalTime = deviceRouteLogs.reduce((acc: number, log: AnalyticsLog) => acc + (log.timer || 0), 0);
       return totalTime / (deviceRouteLogs.length > 0 ? deviceRouteLogs.length : 1); // Avoid division by zero
     }),
@@ -772,28 +766,27 @@ const radarData = {
         <h3 className="text-center text-2xl text-white mb-4">Views per Unique Visitor Over Time</h3>
         <Line data={viewsPerUniqueGraphData} options={chartOptions} />
       </div>
-<div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center mt-20">
-  {/* Bar Chart - Full Width */}
-  <div className="col-span-1 md:col-span-2 w-full max-w-4xl">
-    <Bar data={barData} />
-  </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 place-items-center py-20 gap-20">
+        {/* Bar Chart - Full Width */}
+        <div className="col-span-1 md:col-span-2 w-full max-w-4xl">
+          <Bar data={barData} options={options}/>
+        </div>
 
-  {/* Line Chart - Full Width */}
-  <div className="col-span-1 md:col-span-2 w-full max-w-4xl">
-    <Line data={lineData} />
-  </div>
+        {/* Line Chart - Full Width */}
+        <div className="col-span-1 md:col-span-2 w-full max-w-4xl">
+          <Line data={lineData} />
+        </div>
 
-  {/* Pie Chart (Half Width) */}
-  <div className="col-span-1 w-full max-w-sm">
-    <Pie data={pieData} />
-  </div>
+        {/* Pie Chart (Half Width) */}
+        <div className="col-span-1 w-full max-w-sm">
+          <Pie data={pieData} options={options}/>
+        </div>
 
-  {/* Doughnut Chart (Half Width) */}
-  <div className="col-span-1 w-full max-w-sm">
-    <Doughnut data={doughnutData} />
-  </div>
-</div>
-
+        {/* Doughnut Chart (Half Width) */}
+        <div className="col-span-1 w-full max-w-sm">
+          <Doughnut data={doughnutData} />
+        </div>
+      </div>
     </div>
   );
 };
