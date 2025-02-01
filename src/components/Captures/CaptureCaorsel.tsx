@@ -5,6 +5,7 @@ import styles from "./carousel.module.css";
 import { carouselItems } from "../constants/data";
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
 import { Button } from "../ui/button";
+import { api } from "~/utils/api";
 
 const CaptureCard = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -13,12 +14,21 @@ const CaptureCard = () => {
   const [emblaRef, embla] = useEmblaCarousel({ 
 
   });
+  const { data: cardStates, isLoading, refetch } = api.capturecard.getCards.useQuery();
   
   const [thumbnailEmblaRef, thumbnailEmbla] = useEmblaCarousel({ 
     loop: true,
     dragFree: true,
     align: "center",
   });
+  const sortedCards = carouselItems
+    .map((carouselItems) => {
+      const cardState = cardStates?.find((state) => state.cardName === carouselItems.title);
+      return {
+        ...carouselItems,
+        cardState: cardState?.cardState,
+      };
+    })
 
   const handleNext = () => {
     setActiveIndex((prev) => {
@@ -68,7 +78,7 @@ const CaptureCard = () => {
   return (
     <div className={styles.carousel}>
       <div className={styles.list}>
-        {carouselItems.map((item, index) => (
+        {sortedCards.map((item, index) => (
           <div
             key={index}
             className={`${styles.item} ${index === activeIndex ? styles.active : ""}`}
@@ -92,7 +102,7 @@ const CaptureCard = () => {
 
       <div className={styles.thumbnailContainer} ref={thumbnailEmblaRef}>
         <div className={styles.thumbnailTrack}>
-          {carouselItems.map((thumb, index) => (
+          {sortedCards.map((thumb, index) => (
             <div 
               key={index} 
               className={`${styles.thumbnailSlide} ${index === activeIndex ? styles.activeThumbnail : ""}`} 
