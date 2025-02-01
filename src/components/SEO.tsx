@@ -3,7 +3,7 @@ import Head from 'next/head'
 function SEO() {
     const title = '	Capture Incridea';
     const description = 'Get your event photos and story-worthy moments. Experience them the same day!';
-    const baseUrl =process.env.BASE_URL
+    const baseUrl =process.env.NEXT_PUBLIC_BASE_URL ?? ""
     console.log("base url : ",baseUrl)
 
     return (
