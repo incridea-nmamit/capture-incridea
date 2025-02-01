@@ -80,7 +80,7 @@ model webAnalytics {
   timer        Int?
   startPing    DateTime
   lastPing     DateTime
-  divice       String ?
+  device       String ?
 }
 
 model downloadLog {
