@@ -7,155 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Status {
-  pending
-  declined
-  approved
-}
-
-model RemovalRequest {
-  id          Int    @id @default(sequence())
-  name        String
-  idcard      String
-  description String
-  image_path  String
-  email       String
-  status      Status @default(pending)
-}
-
-model events {
-  id               Int       @id @default(sequence())
-  name             String    @unique
-  description      String
-  shortDescription String // New field for short description
-  image            String
-  type             EventType
-  day              Day
-  visibility       Boolean @default(false)
-}
-
-enum EventType {
-  core
-  technical
-  nontechnical
-  special
-}
-
-enum Day {
-  day1
-  day2
-  day3
-}
-
-
-enum Teamgroup {
-  media
-  socialmedia
-  developer
-  none
-}
-
-enum CollegeType {
-  internal
-  external
-}
-
-model team {
-  id          Int       @id @default(sequence())
-  name        String
-  committee   Teamgroup
-  designation String
-  image       String
-  say         String
-  captures    Captures[]
-  stories     Stories[]
-}
-
-model webAnalytics {
-  id           Int      @id @default(sequence())
-  session_user String
-  uniqueId     String
-  routePath    String
-  isChecked    String
-  timer        Int?
-  startPing    DateTime
-  lastPing     DateTime
-  device       String
-}
-
-model downloadLog {
-  id           Int      @id @default(sequence())
-  session_user String
-  date_time    DateTime @default(now())
-  image_id     Int
-  Captures      Captures  @relation(fields: [image_id], references: [id])
-}
-
-model PlaybackLog {
-  id           Int      @id @default(sequence())
-  session_user String
-  date_time    DateTime @default(now())
-  playback_id     Int
-  playback      Playbacks  @relation(fields: [playback_id], references: [id])
-}
-
-model StoryLog {
-  id           Int      @id @default(sequence())
-  session_user String
-  date_time    DateTime @default(now())
-  story_id     Int
-  story      Stories  @relation(fields: [story_id], references: [id])
-}
-
-model Captures {
-  id              Int           @id @default(sequence())
-  image_path      String
-  compressed_path String
-  event_name      String?
-  event_category  String
-  captured_by_id     Int   
-  captured_by team @relation(fields: [captured_by_id],references: [id])
-  
-  upload_type     String
-  state           Status
-  date_time       DateTime      @default(now())
-  downloadLog     downloadLog[]
-  captureLikes    CaptureLike[]
-}
-
-model Smcuploads {
-  id          Int      @id @default(sequence())
-  video_path  String
-  description String
-  author      String
-  date_time   DateTime @default(now())
-}
-
-model Stories {
-  id            Int      @id @default(sequence())
-  video_path    String
-  captured_by_id     Int   
-  captured_by team @relation(fields: [captured_by_id],references: [id])
-  date_time     DateTime @default(now())
-  category_name String
-  category     storycategories   @relation(fields: [category_name], references: [name])
-  storyLog StoryLog[]
-  storyLikes StoryLike[]
-
-}
-
-model storycategories {
-  id   Int    @id @default(sequence())
-  name String @unique
-  stories Stories[]
-}
-
-enum Role {
-  admin
-  manager
-  editor
-  user
-  smc
+// User model
+model User {
+  id            String         @id @default(cuid())
+  name          String?
+  email         String?        @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  role          Role           @default(user)
+  captureLikes  CaptureLike[] // Add this reciprocal relation
+  storyLikes    StoryLike[]
+  playbackLikes playbackLike[]
 }
 
 model Account {
@@ -185,26 +49,182 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model User {
-  id            String        @id @default(cuid())
-  name          String?
-  email         String?       @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  role          Role          @default(user)
-  captureLikes  CaptureLike[] // Add this reciprocal relation
-  storyLikes StoryLike[]
-  playbackLikes playbackLike[]
-}
-
 model VerificationToken {
   identifier String
   token      String   @unique
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model VerifiedEmail {
+  id           Int         @id @default(sequence())
+  email        String
+  name         String
+  phone_number String
+  college      CollegeType //internal/externa
+}
+
+//Capture model
+model Captures {
+  id              Int     @id @default(sequence())
+  image_path      String
+  compressed_path String
+  event_name      String?
+  event_category  String
+  captured_by_id  Int
+  captured_by     team    @relation(fields: [captured_by_id], references: [id])
+
+  upload_type  String
+  state        Status
+  date_time    DateTime      @default(now())
+  downloadLog  downloadLog[]
+  captureLikes CaptureLike[]
+}
+
+model downloadLog {
+  id           Int      @id @default(sequence())
+  session_user String
+  date_time    DateTime @default(now())
+  image_id     Int
+  Captures     Captures @relation(fields: [image_id], references: [id])
+}
+
+model CaptureLike {
+  id          String   @id @default(cuid())
+  userId      String
+  captures_id Int
+  liked       Boolean  @default(true)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Captures    Captures @relation(fields: [captures_id], references: [id], onDelete: Cascade)
+
+  @@unique([userId, captures_id])
+}
+
+model CaptureCard {
+  id        Int     @id @default(sequence())
+  cardName  String
+  cardState Boolean @default(false)
+}
+
+//Stories model
+model Stories {
+  id             Int             @id @default(sequence())
+  video_path     String
+  captured_by_id Int
+  captured_by    team            @relation(fields: [captured_by_id], references: [id])
+  date_time      DateTime        @default(now())
+  category_name  String
+  category       storycategories @relation(fields: [category_name], references: [name])
+  storyLog       StoryLog[]
+  storyLikes     StoryLike[]
+}
+
+model storycategories {
+  id      Int       @id @default(sequence())
+  name    String    @unique
+  stories Stories[]
+}
+
+model StoryLog {
+  id           Int      @id @default(sequence())
+  session_user String
+  date_time    DateTime @default(now())
+  story_id     Int
+  story        Stories  @relation(fields: [story_id], references: [id])
+}
+
+model StoryLike {
+  id       String  @id @default(cuid())
+  userId   String
+  story_id Int
+  liked    Boolean @default(true)
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Story    Stories @relation(fields: [story_id], references: [id], onDelete: Cascade)
+
+  @@unique([userId, story_id])
+}
+
+model team {
+  id          Int        @id @default(sequence())
+  name        String
+  committee   Teamgroup
+  designation String
+  image       String
+  say         String
+  captures    Captures[]
+  stories     Stories[]
+}
+
+//Playbacks model
+model Playbacks {
+  id            Int            @id @default(sequence())
+  thumbnails    String?
+  videoPath     String
+  name          String
+  description   String
+  playbackLog   PlaybackLog[]
+  playbackLikes playbackLike[]
+}
+
+model PlaybackLog {
+  id           Int       @id @default(sequence())
+  session_user String
+  date_time    DateTime  @default(now())
+  playback_id  Int
+  playback     Playbacks @relation(fields: [playback_id], references: [id])
+}
+
+model playbackLike {
+  id          String    @id @default(cuid())
+  userId      String
+  playback_id Int
+  liked       Boolean   @default(true)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  playback    Playbacks @relation(fields: [playback_id], references: [id], onDelete: Cascade)
+
+  @@unique([userId, playback_id])
+}
+
+model RemovalRequest {
+  id          Int    @id @default(sequence())
+  name        String
+  idcard      String
+  description String
+  image_path  String
+  email       String
+  status      Status @default(pending)
+}
+
+model events {
+  id               Int       @id @default(sequence())
+  name             String    @unique
+  description      String
+  shortDescription String // New field for short description
+  image            String
+  type             EventType
+  day              Day
+  visibility       Boolean   @default(false)
+}
+
+model webAnalytics {
+  id           Int      @id @default(sequence())
+  session_user String
+  uniqueId     String
+  routePath    String
+  isChecked    String
+  timer        Int?
+  startPing    DateTime
+  lastPing     DateTime
+  device       String
+}
+
+model Smcuploads {
+  id          Int      @id @default(sequence())
+  video_path  String
+  description String
+  author      String
+  date_time   DateTime @default(now())
 }
 
 model AuditLog {
@@ -215,66 +235,47 @@ model AuditLog {
   description     String
 }
 
-model CaptureCard {
-  id        Int    @id @default(sequence())
-  cardName  String
-  cardState Boolean @default(false)
-}
-
 model Variables {
   id    Int    @id @default(sequence())
   key   String @unique
   value String
 }
 
-model VerifiedEmail {
-  id    Int    @id @default(sequence())
-  email String
-  name String
-  phone_number String
-  college CollegeType //internal/externa
-}
-model Playbacks {
-  id            Int            @id @default(sequence())
-  thumbnails    String?
-  videoPath     String
-  name          String
-  description   String
-  playbackLog   PlaybackLog[]
-  playbackLikes playbackLike[] // Corrected relationship to playbackLike
+enum Status {
+  pending
+  declined
+  approved
 }
 
-//Likes
-model CaptureLike {
-  id        String  @id @default(cuid())
-  userId    String // Required
-  captures_id Int // Required
-  liked     Boolean @default(true)
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Captures   Captures @relation(fields: [captures_id], references: [id], onDelete: Cascade)
-
-  @@unique([userId, captures_id]) // Ensures a user can only like a captures entry once
+enum EventType {
+  core
+  technical
+  nontechnical
+  special
 }
 
-model StoryLike {
-  id        String  @id @default(cuid())
-  userId    String // Required
-  story_id Int // Required
-  liked     Boolean @default(true)
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Story   Stories @relation(fields: [story_id], references: [id], onDelete: Cascade)
-
-  @@unique([userId, story_id]) // Ensures a user can only like a captures entry once
+enum Day {
+  day1
+  day2
+  day3
 }
 
-model playbackLike {
-  id           String     @id @default(cuid())
-  userId       String     // Required
-  playback_id  Int        // Required
-  liked        Boolean    @default(true)
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  playback     Playbacks  @relation(fields: [playback_id], references: [id], onDelete: Cascade)
-
-  @@unique([userId, playback_id]) // Ensures a user can only like a playback once
+enum Teamgroup {
+  media
+  socialmedia
+  developer
+  none
 }
 
+enum CollegeType {
+  internal
+  external
+}
+
+enum Role {
+  admin
+  manager
+  editor
+  user
+  smc
+}

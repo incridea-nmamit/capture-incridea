@@ -46,9 +46,9 @@ const stories = () => {
   const handleDownload = async (imagePathOg: string) => {
     await downloadImage(imagePathOg, "capture-incridea.webp");
     await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
-    refetch();
+
   };
-  const { refetch } = api.download.getAllLogs.useQuery();
+
 
 
   const [isModalOpen, setIsModalOpen] = useState(false);
