@@ -49,7 +49,6 @@ export const moreInfoRouter = createTRPCRouter({
 
                     return {
                         id: log.id,
-                        email: log.session_user,
                         username: user?.name || "Unknown",
                         imageUrl: user?.image || null,
                     };
@@ -118,7 +117,6 @@ export const moreInfoRouter = createTRPCRouter({
 
                     return {
                         id: log.id,
-                        email: log.session_user,
                         username: user?.name || "Unknown",
                         imageUrl: user?.image || null,
                     };
@@ -132,9 +130,9 @@ export const moreInfoRouter = createTRPCRouter({
             }));
 
             return {
-                totalPlayBacksDownloads: downloadUsers.length,
+                totalDownloads: downloadUsers.length,
                 downloadUsers,
-                totalPlayBacksLikes: likeUsers.length,
+                totalLikes: likeUsers.length,
                 likeUsers,
             };
         }),
@@ -185,7 +183,6 @@ export const moreInfoRouter = createTRPCRouter({
 
                     return {
                         id: log.id,
-                        email: log.session_user,
                         username: user?.name || "Unknown",
                         imageUrl: user?.image || null,
                     };
@@ -199,9 +196,9 @@ export const moreInfoRouter = createTRPCRouter({
             }));
 
             return {
-                totalStoriesDownloads: downloadUsers.length,
+                totalDownloads: downloadUsers.length,
                 downloadUsers,
-                totalStoriesLikes: likeUsers.length,
+                totalLikes: likeUsers.length,
                 likeUsers,
             };
         }),
