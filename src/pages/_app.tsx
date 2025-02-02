@@ -129,11 +129,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <SEO/>
       <KeyboardShortcut />
-      {showIntro ? (
+      {/* {showIntro ? (
         <IntroAnimation onAnimationComplete={handleIntroAnimationComplete} />
       ) : (
         <AuthenticatedApp Component={Component} pageProps={pageProps} />
-      )}
+      )} */}
+      <AuthenticatedApp Component={Component} pageProps={pageProps} />
     </SessionProvider>
   );
 };

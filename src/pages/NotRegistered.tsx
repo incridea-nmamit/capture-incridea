@@ -6,22 +6,29 @@ const NotRegistered = () => {
   return (
     <ImageGrid>
       <div className="z-50 flex h-full flex-col items-center justify-center rounded-t-2xl bg-neutral-950 p-4">
-        <a href="/" className="rounded-xl shadow-2xl">
+      <Image
+            src="/images/Logo/inc-abt.webp"
+            alt="Logo"
+            width={100}
+            height={80}
+            className="mt-6 h-7 w-auto"
+            onContextMenu={(e) => e.preventDefault()}
+            onDragStart={(e) => e.preventDefault()}
+          />
           <Image
             src="/images/Logo/capture-main.webp"
             alt="Logo"
             width={200}
             height={80}
-            className=""
+            className="mb-10 h-10 w-auto"
             onContextMenu={(e) => e.preventDefault()}
             onDragStart={(e) => e.preventDefault()}
           />
-        </a>
         <div className="text-md z-50 mx-auto max-w-lg space-y-4 px-4 text-left leading-relaxed opacity-90 sm:px-6 md:text-xl">
-          <h1 className="text-shadow-lg z-50 mb-6 text-center font-Hunters text-4xl font-semibold md:text-5xl">
+          <h1 className="text-shadow-lg z-50 mb-6 text-center font-Hunters text-2xl font-semibold md:text-3xl">
             Oops, Not Registered Yet!
           </h1>
-          <div className="p-2 font-Trap-Regular">
+          <div className="p-2 font-Trap-Regular text-sm">
             <p className="text-md mb-4">
               <strong>Oops, it seems like you're not registered yet!</strong>
               <br />
@@ -30,12 +37,12 @@ const NotRegistered = () => {
             </p>
 
             <p className="mb-4">
-              &#x2022; If you have an account, please log in with the email you
+            &rarr; If you have an account, please log in with the email you
               registered.
             </p>
 
             <p className="mb-4">
-              &#x2022; If you haven’t registered yet, please visit{" "}
+            &rarr; If you haven’t registered yet, please visit{" "}
               <strong>
                 <a
                   href="https://incridea.in"
@@ -57,7 +64,7 @@ const NotRegistered = () => {
         {/* Register Button */}
         <button
           onClick={() => (window.location.href = "https://incridea.in")} // Redirecting to the registration page
-          className="z-50 mx-auto my-5 max-w-xs transform rounded-lg bg-gradient-to-r from-red-400 via-pink-500 to-red-600 px-6 py-3 font-Trap-Regular text-lg font-bold text-white shadow-lg transition hover:scale-105 hover:shadow-xl"
+          className="z-50 mx-auto my-10 max-w-xs w-52 transform rounded-full bg-gradient-to-br from-gray-900 via-blue-800 to-gray-900 px-6 py-3 font-Trap-Regular text-md font-bold text-white shadow-lg transition hover:scale-105 hover:shadow-xl border-1 border-white"
         >
           Register Now
         </button>
