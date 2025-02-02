@@ -6,6 +6,7 @@ const privacypolicy = () => {
       <h1 className="mb-4 text-3xl font-bold">
         Capture Incridea 2025 Privacy Policy
       </h1>
+
       <p className="mb-4">
         Welcome to Capture Incridea, the official media platform for Incridea,
         the renowned techno-cultural fest of NMAM Institute of Technology. Our
