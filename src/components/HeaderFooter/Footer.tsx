@@ -1,11 +1,11 @@
-import React from 'react';
-import { Youtube, Instagram, Linkedin } from 'lucide-react';
-import Image from 'next/image';
+import React from "react";
+import { Youtube, Instagram, Linkedin } from "lucide-react";
+import Image from "next/image";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-black via-neutral-950 to-black text-white py-8">
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer className="bg-gradient-to-r from-black via-neutral-950 to-black py-8 text-white">
+      <div className="container mx-auto grid grid-cols-1 gap-8 px-4 md:grid-cols-3">
         {/* Left Section */}
         <div className="flex justify-center md:justify-start">
           <a
@@ -24,22 +24,25 @@ const Footer = () => {
         </div>
 
         {/* Center Section */}
-        <div className="text-center flex flex-col md:flex-row justify-center items-center font-Trap-Regular text-sm space-y-2 md:space-y-0 md:space-x-4">
-          <a href="#" className="text-gray-400 hover:text-white">
+        <div className="flex flex-col items-center justify-center space-y-2 text-center font-Trap-Regular text-sm md:flex-row md:space-x-4 md:space-y-0">
+          <a href="/privacy-policy" className="text-gray-400 hover:text-white">
             Privacy Policy
           </a>
           <span className="hidden md:inline">|</span>
-          <a href="#" className="text-gray-400 hover:text-white">
+          <a
+            href="/terms-and-conditions"
+            className="text-gray-400 hover:text-white"
+          >
             Terms & Conditions
           </a>
           <span className="hidden md:inline">|</span>
-          <a href="#" className="text-gray-400 hover:text-white">
+          <a href="/contact" className="text-gray-400 hover:text-white">
             Contact Us
           </a>
         </div>
 
         {/* Right Section */}
-        <div className="text-center md:text-right text-sm font-Trap-Regular space-y-4">
+        <div className="space-y-4 text-center font-Trap-Regular text-sm md:text-right">
           {/* Links */}
           <div className="space-y-1">
             <p className="text-gray-400">
@@ -51,7 +54,7 @@ const Footer = () => {
           </div>
 
           {/* Social Media Icons */}
-          <div className="flex justify-center md:justify-end space-x-4">
+          <div className="flex justify-center space-x-4 md:justify-end">
             <a
               href="https://www.youtube.com/@incrideanmamit"
               target="_blank"
@@ -84,9 +87,9 @@ const Footer = () => {
       </div>
 
       {/* Bottom Section */}
-      <div className="border-t border-gray-700 mt-8 pt-4 text-center font-Trap-Regular">
-        <p className="text-xs text-gray-500 shining-text">
-          © Capture Incridea 2025 &nbsp; | &nbsp;{' '}
+      <div className="mt-8 border-t border-gray-700 pt-4 text-center font-Trap-Regular">
+        <p className="shining-text text-xs text-gray-500">
+          © Capture Incridea 2025 &nbsp; | &nbsp;{" "}
           <a href="/our-team/developers" className="hover:underline">
             Made with ❤️ by Capture Incridea Developers
           </a>
