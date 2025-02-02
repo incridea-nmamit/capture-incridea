@@ -102,23 +102,23 @@ const CaptureCard = () => {
       {/* Thumbnail Component */}
       <div className={styles.thumbnailContainer} ref={thumbnailEmblaRef}>
         <div className={styles.thumbnailTrack}>
-          {sortedCards.map((thumb, index) => (
+          {sortedCards.map((item, index) => (
             <div
               key={index}
               className={`${styles.thumbnailSlide} ${index === activeIndex ? styles.activeThumbnail : ""}`}
               onClick={() => handleThumbnailClick(index)}
             >
-              <div className={`${styles.thumbnailImageWrapper} ${!thumb.cardState ? styles.grayscale : ""}`}>
-                <Image src={thumb.imgSrc} alt={`Thumbnail ${index + 1}`} fill className={styles.thumbnailImage} />
+              <div className={`${styles.thumbnailImageWrapper} ${!item.cardState ? styles.grayscale : ""}`}>
+                <Image src={item.imgSrc} alt={`Thumbnail ${index + 1}`} fill className={styles.thumbnailImage} />
                 {/* Render the padlock icon if the item is greyscaled */}
-                {!thumb.cardState && (
+                {!item.cardState && (
                   <div className={styles.lockIcon}>
                     <Lock size={24} color="white" />
                   </div>
                 )}
               </div>
               <div className={styles.thumbnailOverlay}>
-                <div className={styles.thumbnailTitle}>{thumb.title}</div>
+                <div className={styles.thumbnailTitle}>{item.title}</div>
               </div>
             </div>
           ))}
