@@ -1,67 +1,66 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useEffect, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import Spline from "@splinetool/react-spline"
-import { Sparkles } from "lucide-react"
+import React, { useEffect, useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Spline from "@splinetool/react-spline";
+import { Sparkles } from "lucide-react";
 
 interface ReleaseOverlayProps {
-  releaseDate: string
-  onRelease: () => void
+  releaseDate: string;
+  onRelease: () => void;
 }
 
 const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease }) => {
-  const [timeLeft, setTimeLeft] = useState<number | null>(null)
-  const [isMounted, setIsMounted] = useState<boolean>(false)
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsMounted(true)
-    const interval = setInterval(() => {
-      const newTimeLeft = getTimeLeft(releaseDate)
-      setTimeLeft(newTimeLeft)
-      if (newTimeLeft <= 0) {
-        clearInterval(interval)
-        onRelease()
+    setIsMounted(true);
+
+    const getTimeLeft = (): number => {
+      const now = new Date();
+      const releaseDateTime = new Date(releaseDate);
+      if (isNaN(releaseDateTime.getTime())) {
+        console.error("Invalid release date:", releaseDate);
+        return 0;
       }
-    }, 1000)
+      return Math.max(releaseDateTime.getTime() - now.getTime(), 0);
+    };
 
-    return () => clearInterval(interval)
-  }, [releaseDate, onRelease])
+    const interval = setInterval(() => {
+      const newTimeLeft = getTimeLeft();
+      setTimeLeft(newTimeLeft);
+      if (newTimeLeft <= 0) {
+        clearInterval(interval);
+        onRelease();
+      }
+    }, 1000);
 
-  function getTimeLeft(releaseDate: string): number {
-    const now = new Date()
-    const releaseDateTime = new Date(releaseDate)
+    return () => clearInterval(interval);
+  }, [releaseDate, onRelease]);
 
-    if (isNaN(releaseDateTime.getTime())) {
-      console.error("Invalid release date:", releaseDate)
-      return 0
-    }
+  const formatTimeLeft = (time: number) => ({
+    days: Math.floor(time / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+    minutes: Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)),
+    seconds: Math.floor((time % (1000 * 60)) / 1000),
+  });
 
-    const distance = releaseDateTime.getTime() - now.getTime()
-    return distance > 0 ? distance : 0
-  }
+  const formatTwoDigits = (num: number) => String(num).padStart(2, "0");
 
-  const formatTimeLeft = (time: number) => {
-    const days = Math.floor(time / (1000 * 60 * 60 * 24))
-    const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-    const minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60))
-    const seconds = Math.floor((time % (1000 * 60)) / 1000)
-    return { days, hours, minutes, seconds }
-  }
-
-  const formatTwoDigits = (num: number) => String(num).padStart(2, "0")
+  const timeDisplay = useMemo(
+    () => (timeLeft !== null ? formatTimeLeft(timeLeft) : { days: 0, hours: 0, minutes: 0, seconds: 0 }),
+    [timeLeft]
+  );
 
   if (!isMounted) {
-    return null
+    return null;
   }
-
-  const timeDisplay = timeLeft !== null ? formatTimeLeft(timeLeft) : { days: 0, hours: 0, minutes: 0, seconds: 0 }
 
   return (
     <div className="relative min-h-screen overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <Spline scene="https://draft.spline.design/fyoCd-S4Etr3G5Hv/scene.splinecode" />
+        <Spline scene="https://draft.spline.design/7bkQ9atSXshr5SlV/scene.splinecode" />
       </div>
       <AnimatePresence>
         <motion.div
@@ -131,8 +130,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
         </motion.div>
       </AnimatePresence>
     </div>
-  )
-}
+  );
+};
 
-export default ReleaseOverlay
-
+export default ReleaseOverlay;
