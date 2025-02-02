@@ -106,6 +106,7 @@
 }
 
 .thumbnailContainer {
+  user-select: none;
   padding: 10px;
   overflow: hidden;
   position: absolute;
@@ -117,6 +118,13 @@
   justify-content: center;
   gap: 10px;
   z-index: 100;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 5%,
+    black 90%,
+    transparent 100%
+  );
 }
 
 .thumbnailTrack {
@@ -126,12 +134,13 @@
 }
 
 .thumbnailSlide {
+  text-align: center;
   margin: 0 10px;
   flex: 0 0 auto;
-  width: 150px;
+  width: 200px;
   height: 220px;
   border-radius: 20px;
-  cursor: pointer;
+  cursor:pointer;
   position: relative;
   overflow: hidden;
 }
@@ -210,13 +219,13 @@
   transform: scale(1.1);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1366px) {
   .title {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(2rem, 5vw, 5rem);
   }
 
   .description {
-    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-size: clamp(1rem, 3vw, 1rem);
   }
 
   .thumbnailContainer {
@@ -225,7 +234,7 @@
   }
 
   .thumbnailSlide {
-    width: 120px ;
+    width: 150px ;
     height: 180px;
   }
 

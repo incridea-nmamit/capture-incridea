@@ -61,7 +61,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
   return (
     <div className="relative min-h-screen overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <Spline scene="https://draft.spline.design/7UcOBlblhk99F78R/scene.splinecode" />
+        <Spline scene="https://draft.spline.design/fyoCd-S4Etr3G5Hv/scene.splinecode" />
       </div>
       <AnimatePresence>
         <motion.div
@@ -75,13 +75,13 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="bg-white/10 backdrop-blur-md rounded-3xl p-6 sm:p-8 w-full max-w-4xl"
+            className="bg-white/10 backdrop-blur-md rounded-3xl p-6 sm:p-8 w-full max-w-4xl pointer-events-none"
           >
             <motion.h1
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, type: "spring" }}
-              className="mb-4 sm:mb-6 text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-bold font-cursive tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600"
+              className="mb-4 sm:mb-6 text-6xl sm:text-5xl md:text-6xl lg:text-8xl font-bold font-cursive tracking-wider bg-clip-text"
             >
               Captures
             </motion.h1>
@@ -91,7 +91,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
               transition={{ delay: 0.2, duration: 0.5 }}
               className="mb-6 sm:mb-8 w-full text-center text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed text-white"
             >
-              <span className="font-bold text-purple-300">
+              <span className="font-bold text-blue-300">
                 Capture Incridea is your ultimate hub for experiencing the vibrant energy of Incridea!
               </span>
               <br />
@@ -109,7 +109,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.1 * index, duration: 0.5 }}
-                  className="bg-gradient-to-br from-purple-600 to-pink-600 text-white rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 w-full sm:w-28 md:w-32 lg:w-36"
+                  className="bg-gradient-to-br from-blue-800 to-cyan-700 text-white rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 w-full sm:w-28 md:w-32 lg:w-36"
                 >
                   <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">
                     {formatTwoDigits(timeDisplay[label.toLowerCase() as keyof typeof timeDisplay])}
@@ -122,7 +122,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.5 }}
-              className="mt-6 sm:mt-8 md:mt-10 text-sm sm:text-base md:text-lg lg:text-xl font-medium text-purple-200 flex items-center justify-center"
+              className="mt-6 sm:mt-8 md:mt-10 text-sm sm:text-base md:text-lg lg:text-xl font-medium text-blue-200 flex items-center justify-center"
             >
               <Sparkles className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               Hold tight while we sift through today's moments to bring you pure captures like never before!
@@ -135,3 +135,4 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
 }
 
 export default ReleaseOverlay
+
