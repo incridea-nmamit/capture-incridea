@@ -10,6 +10,7 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Skeleton } from "../ui/skeleton";
 import { useSession } from "next-auth/react";
 import { MoreInfo } from "../MoreInfoDrawer/more-infoPopup";
+import { Badge } from "../ui/badge";
 
 interface ImagePopupProps {
     selectedImage: string | null;
@@ -89,40 +90,36 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
     return (
         <>
             <div
-                className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-50"
+                className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col  items-center justify-center z-50"
                 role="dialog"
                 aria-modal="true"
                 onClick={handleClosePopup}
             >
 
                 <div
-                    className="   md:w-auto max-h-[98vh]  w-full h-fit  md:h-full bg-gradient-to-tl from-neutral-950/90 via-neutral-800 to-neutral-950/90 grid grid-cols-1 gap-4 rounded-3xl  p-4 md:p-5 border-[4px] border-gray-600"
+                    className="   md:w-auto max-h-[98vh]  w-full h-fit space-y-10 bg-gradient-to-tl from-neutral-950/90 via-neutral-800 to-neutral-950/90 grid grid-cols-1 gap-4 rounded-3xl  p-4 md:p-5 border-[4px] border-gray-600"
                     onClick={(e) => e.stopPropagation()}
                 >
 
+<div className="relative w-full mb-4">
+  <div className="absolute right-0 flex items-end shadow-2xl border border-gray-800 rounded-full w-fit bg-white px-0 shadow space-x-3">
+
+    <div className="w-[50px] relative z-50 h-[52px] border border-gray-500 rounded-full flex items-center justify-center overflow-hidden">
+      <Avatar className="w-full h-full">
+        <AvatarImage src={acthor?.image || "https://github.com/shadcn.png"} alt={acthor?.name || "User"} />
+      </Avatar>
+    </div>
 
 
-                    <div className="flex flex-col sm:flex-row items-center gap-1 w-full m-2  ">
-                        <div className="flex items-center justify-between border border-white rounded-full  w-full bg-neutral-950 p-1">
-                            <div className="flex flex-col  bg-neutral-700 rounded-2xl p-2 items-center shadow-2xl w-full md:w-[40%]">
-                                <div className="text-white  text-[10px] sm:text-xs px-2 py-0.5">
-                                    Captured By
-                                </div>
-                            </div>
+    <div className="ml-2 flex flex-col text-left px-3 py-2">
+      <span className="text-[10px] font-bold text-black">Captured By</span>
+      <span className="text-[10px] font-semibold text-black">{acthor?.name || "Username"}</span>
+    </div>
+  </div>
+</div>
 
 
-                            <div className="relative border border-gray-700 p-1 rounded-full ">
-                                <Avatar>
-                                    <AvatarImage src={acthor?.image} alt="@shadcn" />
-                                </Avatar>
-                            </div>
-
-                            <div className="text-white bg-neutral-700 rounded-2xl text-[10px] sm:text-xs p-2 w-full shadow-2xl md:w-[45%] text-center sm:text-left">
-                                <span className="text-white  text-[10px] sm:text-xs px-2 py-0.5">{acthor?.name}</span>
-                            </div>
-                        </div>
-                    </div>
-
+ 
                     <div className="flex items-center justify-center">
                         {isLoadings && (
                             <Skeleton
@@ -181,7 +178,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                             Request Removal
                         </Button>
                         <button
-                        onClick={() => setOpenMoreInfor(true)}
+                            onClick={() => setOpenMoreInfor(true)}
                         >
                             <Info className="text-white" />
                         </button>

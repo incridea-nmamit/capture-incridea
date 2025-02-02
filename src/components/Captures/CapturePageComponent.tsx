@@ -1,5 +1,5 @@
 import React from "react";
-import CaptureCard from "./CaptureCaorsel";
+import CaptureCard from "./CaptureCard";
 
 const CapturePageComponent = () => {
   return (
