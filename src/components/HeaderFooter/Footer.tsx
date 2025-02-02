@@ -45,10 +45,10 @@ const Footer = () => {
         <div className="space-y-4 text-center font-Trap-Regular text-sm md:text-right">
           {/* Links */}
           <div className="space-y-1">
-            <p className="text-gray-400">
+            <p className="text-gray-400 hover:text-white">
               <a href="https://incridea.in">incredia.in</a>
             </p>
-            <p className="text-gray-400">
+            <p className="text-gray-400 hover:text-white">
               <a href="https://merch.incridea.in">merch.incridea.in</a>
             </p>
           </div>

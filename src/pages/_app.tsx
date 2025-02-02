@@ -74,6 +74,7 @@ const AuthenticatedApp = ({
   const excludedRoute = ["/LoginComponent", "/NotRegistered", "/"];
   const pathname = usePathname();
   const isExcluded = excludedRoute.some((route) => pathname.startsWith(route));
+  const isCapturesPath = pathname === "/captures";
     const queryClient = new QueryClient();
   if (isExcluded) {
     return (
@@ -85,7 +86,7 @@ const AuthenticatedApp = ({
             <TrackPageVisits />
             {loading ? <CameraLoading /> : <Component {...pageProps} />}
           </main>
-          <Footer/>
+          {!isCapturesPath && <Footer />}
         </div>
       </ScrollArea>
     );
