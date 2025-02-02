@@ -117,7 +117,7 @@
   white-space: nowrap;
   justify-content: center;
   gap: 10px;
-  z-index: 100;
+  z-index: 1;
   mask-image: linear-gradient(
     to right,
     transparent 0%,
@@ -146,12 +146,11 @@
 }
 
 .thumbnailSlide:hover {
-  transform: scale(1.1);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .activeThumbnail {
-  border: 3px solid #f1683a;
+  transform: scale(1.1);
 }
 
 .thumbnailImageWrapper {
@@ -351,4 +350,21 @@
 .embla__slide:hover {
   transform: scale(1.2);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.grayscale {
+  filter: grayscale(100%);
+  cursor:auto;
+}
+
+.lockIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* Ensure it appears above the image */
+}
+
+.hide {
+  display: none;
 }
