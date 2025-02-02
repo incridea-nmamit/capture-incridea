@@ -71,7 +71,7 @@
 
 .textContent > * {
   width: auto;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 1rem;
   margin-bottom: 2rem;
   opacity: 0;
