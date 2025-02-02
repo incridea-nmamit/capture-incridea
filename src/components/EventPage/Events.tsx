@@ -46,7 +46,7 @@ const Events: FC = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="border border-gray-100 rounded-lg py-2 pl-10 pr-4 w-full bg-transparent text-white"
           />
-          <AiOutlineSearch className=" text-white absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+          <AiOutlineSearch className=" text-white absolute left-3 top-1/2 transform -translate-y-1/2 " />
         </div>
         <div className="flex flex-row gap-4 w-fit md:w-auto">
           <select

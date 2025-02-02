@@ -250,38 +250,38 @@ export const tabs = [
 export const carouselItems = [
   {
     imgSrc: "images/CapturePage/img1.webp",
-    title: "PRONITE",
+    title: "Pronite",
     route: "/pronite",
     description: `Brace yourselves for an electrifying night of live performances by some of the biggest stars in entertainment!",`,
   },
   {
     imgSrc: "images/CapturePage/img2.webp",
-    title: "CULTURAL",
+    title: "Cultural",
     route: "/cultural",
     description: `Feast your eyes to the glorious display of traditional brilliance paired alongside the glitzy, modern era`,
   },
   {
     imgSrc: "images/CapturePage/img3.webp",
-    title: "PLAYBACKS",
+    title: "Playbacks",
     route: "/cultural-playbacks",
     description: `When your life needs some playbacks!`,
   },
   {
     imgSrc: "images/CapturePage/img4.webp",
-    title: "EVENTS",
+    title: "Events",
     route: "/events",
     description: `Dive into a thrilling world of exciting events and competitions, tailored for every interest, at Incridea!`,
   },
 
   {
     imgSrc: "images/CapturePage/img5.webp",
-    title: "STORIES",
+    title: "Stories",
     route: "/stories",
     description: `Stories captured for you`,
   },
   {
     imgSrc: "images/CapturePage/img5.webp",
-    title: "ABODE OF MEMORIES",
+    title: "Abode Of Memories",
     route: "/your-snaps",
     description: `The memories all so sweet, with moments cherished for life. Here lies the moments cherished with ones we love to cross paths by`,
   },

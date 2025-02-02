@@ -74,6 +74,7 @@ const CaptureCard = () => {
   };
 
   return (
+    <div className=" bg-secondary">
     <div className={styles.carousel}>
       {/* Main Page Carousel */}
       <div className={styles.list}>
@@ -136,6 +137,7 @@ const CaptureCard = () => {
         </button>
       </div>
     </div>
+  </div>
   );
 };
 

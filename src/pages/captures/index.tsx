@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CapturesComponent from "~/components/Captures/CapturePageComponent";
+import CapturesComponent from "~/components/Captures/CapturePage";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import ReleaseOverlay from "~/components/ReleasingOverlay/ReleaseOverlay";
 import { api } from "~/utils/api";
