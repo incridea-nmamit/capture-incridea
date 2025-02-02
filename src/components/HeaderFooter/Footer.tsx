@@ -36,7 +36,7 @@ const Footer = () => {
             Terms & Conditions
           </a>
           <span className="hidden md:inline">|</span>
-          <a href="#" className="text-gray-400 hover:text-white">
+          <a href="/contact" className="text-gray-400 hover:text-white">
             Contact Us
           </a>
         </div>
