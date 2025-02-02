@@ -2,9 +2,9 @@ import React from "react";
 
 const TermsAndConditions: React.FC = () => {
   return (
-    <div className="container mx-auto max-w-4xl p-6 pt-24">
-      <h1 className="mb-4 text-3xl font-bold">Terms and Conditions</h1>
-      <p className="mb-4">
+    <div className="container mx-auto max-w-6xl p-6 pt-24 mb-20">
+      <h1 className="text-3xl md:text-5xl font-Teknaf text-center my-20">Terms and Conditions</h1>
+      <p className="mb-4 text-center font-Trap-Regular ">
         Welcome to Capture Incridea, the official media platform of Incridea,
         the techno-cultural fest of NMAM Institute of Technology. By accessing
         or using this website, you agree to comply with the following terms and
@@ -14,7 +14,7 @@ const TermsAndConditions: React.FC = () => {
         prohibited and subject to legal consequences.
       </p>
 
-      <h2 className="mt-6 text-2xl font-semibold">
+      <h2 className="mt-10 text-xl font-semibold">
         Media Ownership & Protection
       </h2>
       <p className="mb-4">
@@ -26,7 +26,7 @@ const TermsAndConditions: React.FC = () => {
         circumvent security measures is a violation of these terms.
       </p>
 
-      <h2 className="mt-6 text-2xl font-semibold">Watermark Integrity </h2>
+      <h2 className="mt-10 text-2xl font-semibold">Watermark Integrity </h2>
       <p className="mb-4">
         All downloaded images and videos contain an encrypted watermark. Any
         attempt to remove, alter, or obscure the watermark is a direct violation
@@ -34,7 +34,7 @@ const TermsAndConditions: React.FC = () => {
         traced even if the media is edited or modified.
       </p>
 
-      <h2 className="mt-6 text-2xl font-semibold">
+      <h2 className="mt-10 text-2xl font-semibold">
         Encrypted Tracking & Unauthorized Use{" "}
       </h2>
       <p className="mb-4">
@@ -45,18 +45,8 @@ const TermsAndConditions: React.FC = () => {
         without explicit written permission from the Incridea Organising
         Committee is strictly prohibited and may result in legal enforcement.
       </p>
-
-      <h2 className="mt-6 text-2xl font-semibold">Legal Enforcement </h2>
-      <p className="mb-4">
-        Users agree not to remove, modify, or tamper with any watermark or
-        security features embedded in Capture Incridea media. Any unauthorized
-        use of content may result in immediate legal action, including but not
-        limited to fines, reporting violations to relevant authorities, or other
-        disciplinary measures. The Incridea Organizing Committee reserves the
-        right to take necessary legal steps to protect its copyrighted content.
-      </p>
-
-      <h2 className="mt-6 text-2xl font-semibold">
+ 
+      <h2 className="mt-10 text-2xl font-semibold">
         Digital Security & Access Control
       </h2>
       <p className="mb-4">
@@ -67,14 +57,14 @@ const TermsAndConditions: React.FC = () => {
         these security measures constitutes a breach of our digital policy and
         will be subject to appropriate legal and administrative actions.
       </p>
-      <h2 className="mt-6 text-2xl font-semibold">Modification of Terms</h2>
+      <h2 className="mt-10 text-2xl font-semibold">Modification of Terms</h2>
       <p className="mb-4">
         Capture Incridea reserves the right to update, modify, or implement
         additional measures to these terms at any time to enhance security and
         ensure compliance. Continued use of the platform after modifications to
         these terms implies acceptance of the latest version.
       </p>
-      <h2 className="mt-6 text-2xl font-semibold">
+      <h2 className="mt-10 text-2xl font-semibold">
         Contact & Dispute Resolution{" "}
       </h2>
       <p className="mb-4">

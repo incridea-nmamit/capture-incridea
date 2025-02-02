@@ -2,12 +2,12 @@ import React from "react";
 
 const privacypolicy = () => {
   return (
-    <div className="container mx-auto max-w-4xl p-24">
-      <h1 className="mb-4 text-3xl font-bold">
-        Capture Incridea 2025 Privacy Policy
+    <div className="container mx-auto max-w-6xl p-24">
+      <h1 className="text-3xl md:text-5xl font-Teknaf text-center my-20">
+        Privacy Policy
       </h1>
 
-      <p className="mb-4">
+      <p className="mb-4 text-center">
         Welcome to Capture Incridea, the official media platform for Incridea,
         the renowned techno-cultural fest of NMAM Institute of Technology. Our
         platform is dedicated to securely preserving and protecting the vibrant
@@ -18,7 +18,7 @@ const privacypolicy = () => {
         protocols.
       </p>
 
-      <h2 className="mt-6 text-2xl font-semibold">Consent </h2>
+      <h2 className="mt-10 text-xl font-semibold">Consent </h2>
       <p className="mb-4">
         By accessing or using Capture Incridea, you consent to the collection,
         storage, and use of your information as outlined in this privacy policy.
@@ -27,7 +27,7 @@ const privacypolicy = () => {
         the content. .
       </p>
 
-      <h2 className="mt-6 text-2xl font-semibold">Use of Information </h2>
+      <h2 className="mt-10 text-xl font-semibold">Use of Information </h2>
       <p className="mb-4">
         The information we collect is used to facilitate your access to media,
         track and record media downloads for accountability and traceability,
@@ -37,7 +37,7 @@ const privacypolicy = () => {
         violation of our terms and may result in legal action.
       </p>
 
-      <h2 className="mt-6 text-2xl font-semibold">Sharing of Information </h2>
+      <h2 className="mt-10 text-xl font-semibold">Sharing of Information </h2>
       <p className="mb-4">
         The media hosted on Capture Incridea is encrypted and safeguarded to
         prevent unauthorized access or misuse. Any media downloaded from the
@@ -49,7 +49,7 @@ const privacypolicy = () => {
         unless required by law.
       </p>
 
-      <h2 className="mt-6 text-2xl font-semibold">
+      <h2 className="mt-10 text-xl font-semibold">
         Your Control Over Information
       </h2>
       <p className="mb-4">
@@ -61,7 +61,7 @@ const privacypolicy = () => {
         directly.
       </p>
 
-      <h2 className="mt-6 text-2xl font-semibold">Security Measures </h2>
+      <h2 className="mt-10 text-xl font-semibold">Security Measures </h2>
       <p className="mb-4">
         The security of your data and the media hosted on Capture Incridea is
         our top priority. Media files are protected with advanced encryption to
@@ -70,14 +70,14 @@ const privacypolicy = () => {
         information, including user data, is encrypted during both transmission
         and storage, with access restricted to authorized personnel only.
       </p>
-      <h2 className="mt-6 text-2xl font-semibold">Media Protection</h2>
+      <h2 className="mt-10 text-xl font-semibold">Media Protection</h2>
       <p className="mb-4">
         All captured media downloads are closely monitored and tracked to
         prevent misuse. Unauthorized use is strictly prohibited, and advanced
         encryption along with watermarking technologies is implemented to ensure
         the security, authenticity, and integrity of the files.
       </p>
-      <h2 className="mt-6 text-2xl font-semibold">Changes to Privacy Policy</h2>
+      <h2 className="mt-10 text-xl font-semibold">Changes to Privacy Policy</h2>
       <p className="mb-4">
         Capture Incridea reserves the right to update or modify this privacy
         policy at any time. Any changes will be effective immediately upon
@@ -88,7 +88,7 @@ const privacypolicy = () => {
         top priority. Any misuse of media, including unauthorized sharing, will
         be traceable and subject to enforcement.
       </p>
-      <h2 className="mt-6 text-2xl font-semibold">Commitment to Privacy</h2>
+      <h2 className="mt-10 text-xl font-semibold">Commitment to Privacy</h2>
       <p className="mb-4">
         At Capture Incridea, we prioritize the security and integrity of all
         media captured during Incridea. Our platform employs state-of-the-art
@@ -102,7 +102,7 @@ const privacypolicy = () => {
         queries, please feel free to contact us via the details provided on our
         website. Thank you for trusting Capture Incridea.
       </p>
-      <p>Thank you for trusting "Capture Incridea".</p>
+      <p className="text-center">Thank you for trusting "Capture Incridea".</p>
     </div>
   );
 };

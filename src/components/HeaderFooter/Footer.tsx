@@ -25,17 +25,18 @@ const Footer = () => {
 
         {/* Center Section */}
         <div className="flex flex-col items-center justify-center space-y-2 text-center font-Trap-Regular text-sm md:flex-row md:space-x-4 md:space-y-0">
+          <a
+              href="/terms-and-conditions"
+              className="text-gray-400 hover:text-white"
+            >
+              Terms & Conditions
+            </a>
+          <span className="hidden md:inline">|</span>
           <a href="/privacy-policy" className="text-gray-400 hover:text-white">
             Privacy Policy
           </a>
           <span className="hidden md:inline">|</span>
-          <a
-            href="/terms-and-conditions"
-            className="text-gray-400 hover:text-white"
-          >
-            Terms & Conditions
-          </a>
-          <span className="hidden md:inline">|</span>
+
           <a href="/contact" className="text-gray-400 hover:text-white">
             Contact Us
           </a>

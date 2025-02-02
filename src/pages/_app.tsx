@@ -55,10 +55,30 @@ const AuthenticatedApp = ({
   const { data: sessionData, status: sessionStatus } = useSession();
   const { data: verifiedEmailData, isLoading: isVerifiedEmailLoading } =
     api.verifiedEmail.getEmail.useQuery();
+  const pathname = usePathname();
 
-  if (sessionStatus === "loading" || isVerifiedEmailLoading)
-    return <CameraLoading />;
+  // Define unrestricted routes
+  const unrestrictedRoutes = ["/privacy-policy", "/terms-and-conditions", "/contact"];
 
+  // Allow access to public routes without authentication
+  if (unrestrictedRoutes.includes(pathname)) {
+    return (
+      <ScrollArea className="font-description flex h-screen min-h-screen w-full flex-1 flex-col">
+        <div className="flex min-h-screen flex-col">
+          <Header />
+          <main className="flex-grow">
+            <Toaster position="top-right" reverseOrder={false} />
+            <TrackPageVisits />
+            {loading ? <CameraLoading /> : <Component {...pageProps} />}
+          </main>
+          <Footer />
+        </div>
+      </ScrollArea>
+    );
+  }
+
+  // Normal authentication check for other routes
+  if (sessionStatus === "loading" || isVerifiedEmailLoading) return <CameraLoading />;
   if (!sessionData) return <LoginComponent />;
 
   const isEmailVerified =
@@ -70,15 +90,16 @@ const AuthenticatedApp = ({
     sessionData?.user?.role === "admin";
 
   if (!isEmailVerified) return <NotRegistered />;
-  
-  const excludedRoute = ["/LoginComponent", "/NotRegistered", "/"];
-  const pathname = usePathname();
-  const isExcluded = excludedRoute.some((route) => pathname.startsWith(route));
+
+  // Define excluded routes
+  const excludedRoutes = ["/LoginComponent", "/NotRegistered", "/"];
+  const isExcluded = excludedRoutes.some((route) => pathname.startsWith(route));
   const isCapturesPath = pathname === "/captures";
-    const queryClient = new QueryClient();
+  const queryClient = new QueryClient();
+
   if (isExcluded) {
     return (
-      <ScrollArea className={`font-description flex h-screen min-h-screen w-full flex-1 flex-col`}>
+      <ScrollArea className="font-description flex h-screen min-h-screen w-full flex-1 flex-col">
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-grow">
@@ -93,20 +114,21 @@ const AuthenticatedApp = ({
   } else {
     return (
       <QueryClientProvider client={queryClient}>
-      <ScrollArea className="font-roboto flex h-screen min-h-screen w-full flex-1 flex-col">
-        <div className="font-roboto flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-grow">
-            <Toaster position="top-right" reverseOrder={false} />
-            <TrackPageVisits />
-            {loading ? <CameraLoading /> : <Component {...pageProps} />}
-          </main>
-        </div>
-      </ScrollArea>
+        <ScrollArea className="font-roboto flex h-screen min-h-screen w-full flex-1 flex-col">
+          <div className="font-roboto flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-grow">
+              <Toaster position="top-right" reverseOrder={false} />
+              <TrackPageVisits />
+              {loading ? <CameraLoading /> : <Component {...pageProps} />}
+            </main>
+          </div>
+        </ScrollArea>
       </QueryClientProvider>
     );
   }
 };
+
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
