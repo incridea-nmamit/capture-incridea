@@ -308,4 +308,12 @@ export const carouselItems = [
         sequi, rem magnam nesciunt minima placeat, itaque eum neque
         officiis unde, eaque optio ratione aliquid assumenda facere ab`,
   },
+  {
+    imgSrc: "images/CapturePage/img3.webp",
+    title: "Accolades",
+    route: "/accolades",
+    description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut
+        sequi, rem magnam nesciunt minima placeat, itaque eum neque
+        officiis unde, eaque optio ratione aliquid assumenda facere ab`,
+  },
 ];
