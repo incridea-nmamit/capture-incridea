@@ -10,10 +10,11 @@ const CustomButton: React.FC = () => {
   };
 
   return (
-    <button className={styles.button} onClick={handleClick}>
-      <div className={styles.dots_border}></div>
-
-      <span className={styles.text_button}>Go to Captures</span>
+    <button
+      className="text-md border-1 z-50 mx-auto my-10 w-52 max-w-xs transform rounded-full border-white bg-gradient-to-br from-gray-900 via-blue-800 to-gray-900 px-6 py-3 font-Trap-Regular font-bold text-white shadow-lg transition hover:scale-105 hover:shadow-xl"
+      onClick={handleClick}
+    >
+      <span>Go to Captures</span>
     </button>
   );
 };
