@@ -28,7 +28,7 @@ const About = () => {
     <>
       <main className='container-size text-center my-20 space-y-24 lg:py-24 md:py-16 py-8 font-Trap-Regular'>
         <section>
-          <Image src="/images/Logo/nitteLogoWhite.webp" width={800} height={300} alt="nmamit logo" className='mx-auto px-4 mb-5' />
+          <Image src="/images/Logo/nitteLogoWhite.webp" width={800} height={300} alt="nmamit logo" className='mx-auto px-4 my-14' />
 
           <p className=' max-w-4xl mx-auto'> Nitte Mahalinga Adyantaya Memorial Institute of Technology
             (NMAMIT), Nitte, established in 1986 and recognized by the

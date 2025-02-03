@@ -26,7 +26,7 @@ const TermsAndConditions: React.FC = () => {
         circumvent security measures is a violation of these terms.
       </p>
 
-      <h2 className="mt-10 text-2xl font-semibold">Watermark Integrity </h2>
+      <h2 className="mt-10 text-xl font-semibold">Watermark Integrity </h2>
       <p className="mb-4">
         All downloaded images and videos contain an encrypted watermark. Any
         attempt to remove, alter, or obscure the watermark is a direct violation
@@ -34,7 +34,7 @@ const TermsAndConditions: React.FC = () => {
         traced even if the media is edited or modified.
       </p>
 
-      <h2 className="mt-10 text-2xl font-semibold">
+      <h2 className="mt-10 text-xl font-semibold">
         Encrypted Tracking & Unauthorized Use{" "}
       </h2>
       <p className="mb-4">
@@ -46,7 +46,7 @@ const TermsAndConditions: React.FC = () => {
         Committee is strictly prohibited and may result in legal enforcement.
       </p>
  
-      <h2 className="mt-10 text-2xl font-semibold">
+      <h2 className="mt-10 text-xl font-semibold">
         Digital Security & Access Control
       </h2>
       <p className="mb-4">
@@ -57,14 +57,14 @@ const TermsAndConditions: React.FC = () => {
         these security measures constitutes a breach of our digital policy and
         will be subject to appropriate legal and administrative actions.
       </p>
-      <h2 className="mt-10 text-2xl font-semibold">Modification of Terms</h2>
+      <h2 className="mt-10 text-xl font-semibold">Modification of Terms</h2>
       <p className="mb-4">
         Capture Incridea reserves the right to update, modify, or implement
         additional measures to these terms at any time to enhance security and
         ensure compliance. Continued use of the platform after modifications to
         these terms implies acceptance of the latest version.
       </p>
-      <h2 className="mt-10 text-2xl font-semibold">
+      <h2 className="mt-10 text-xl font-semibold">
         Contact & Dispute Resolution{" "}
       </h2>
       <p className="mb-4">
