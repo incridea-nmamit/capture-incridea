@@ -252,7 +252,10 @@ export const carouselItems = [
     imgSrc: "images/CapturePage/img1.webp",
     title: "Pronite",
     route: "/pronite",
-    description: `Brace yourselves for an electrifying night of live performances by some of the biggest stars in entertainment!",`,
+    description: `
+Brace yourself for a night of electrifying live performances,
+featuring top stars, high-energy music, and an unforgettable atmosphere.
+Grab your tickets now and be part of the excitement!",`,
   },
   {
     imgSrc: "images/CapturePage/img2.webp",
