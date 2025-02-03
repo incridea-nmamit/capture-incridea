@@ -266,7 +266,7 @@ Grab your tickets now and be part of the excitement!",`,
   {
     imgSrc: "images/CapturePage/img3.webp",
     title: "Playbacks",
-    route: "/cultural-playbacks",
+    route: "/playbacks",
     description: `When your life needs some playbacks!`,
   },
   {
