@@ -2,8 +2,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { RefreshCcw } from "lucide-react";
 import Image from "next/image";
-import { randomSliderImages } from './../constants/data';
-
+import { randomSliderImages } from "./../constants/data";
 
 function Images() {
   const repeatDelay = 1;
@@ -44,42 +43,43 @@ function Images() {
 
     imageElements.forEach((element) => {
       // Ensure images array is not empty and access the src properly
-      const randomImage = randomSliderImages [Math.floor(Math.random() * randomSliderImages .length)];
+      const randomImage =
+        randomSliderImages[
+          Math.floor(Math.random() * randomSliderImages.length)
+        ];
       if (randomImage && randomImage.src) {
         element.setAttribute("src", randomImage.src);
       }
     });
   }
 
-
-
   return (
-    <section className="relative flex h-fit flex-col items-center space-y-8 overflow-hidden text-center bg-neutral-950">
+    <section className="relative flex h-fit flex-col items-center space-y-8 overflow-hidden text-center">
+      {/*bg-neutral-950*/}
       <br />
       <h3 className="mb-12 text-center font-Teknaf text-3xl md:text-4xl lg:text-5xl">
         "Let’s cherish memories by sharing them with all."
       </h3>
-      <div className="flex w-full  items-center justify-center gap-2 md:gap-6 overflow-hidden">
+      <div className="flex w-full items-center justify-center gap-2 overflow-hidden md:gap-6">
         <img
           src="https://placehold.co/400x600"
           alt=""
-          className="slide-image  h-[27vh] md:h-full w-[50%] rounded-lg object-cover"
+          className="slide-image h-[27vh] w-[50%] rounded-lg object-cover md:h-full"
         />
         <img
           src="https://placehold.co/400x600"
           alt=""
-          className="slide-image h-[27vh] md:h-full  w-[50%] rounded-lg"
+          className="slide-image h-[27vh] w-[50%] rounded-lg md:h-full"
         />
         <img
           src="https://placehold.co/400x600"
           alt=""
-          className="slide-image h-[27vh] md:h-full  w-[50%] rounded-lg"
+          className="slide-image h-[27vh] w-[50%] rounded-lg md:h-full"
         />
       </div>
 
-
       <button
-        className="absolute md:right-1/3 right-3 top-24 md:top-20 z-10 grid aspect-square h-12 cursor-pointer place-content-center rounded-full bg-white/30 p-2 text-white backdrop-blur-sm transition hover:rotate-[24deg] md:h-24 md:p-6"
+        className="absolute right-3 top-24 z-10 grid aspect-square h-12 cursor-pointer place-content-center rounded-full bg-white/30 p-2 text-white backdrop-blur-sm transition hover:rotate-[24deg] md:right-1/3 md:top-20 md:h-24 md:p-6"
         onClick={() => {
           if (!tl.reversed()) {
             tl.repeatDelay(0);
