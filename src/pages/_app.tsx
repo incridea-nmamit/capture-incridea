@@ -53,50 +53,38 @@ const AuthenticatedApp = ({
 }) => {
   const loading = useRouteLoading();
   const { data: sessionData, status: sessionStatus } = useSession();
-  const { data: verifiedEmailData, isLoading: isVerifiedEmailLoading } =
-    api.verifiedEmail.getEmail.useQuery();
-  const pathname = usePathname();
+  
+  const [verifiedEmailData, setVerifiedEmailData] = useState<{ email: string }[] | null>(null);
+  const { data: fetchedEmailData, isLoading: isVerifiedEmailLoading } =
+    api.verifiedEmail.getEmail.useQuery(undefined, {
+      enabled: !verifiedEmailData, // Run only if data is null
+    });
 
-  // Define unrestricted routes
-  const unrestrictedRoutes = ["/privacy-policy", "/terms-and-conditions", "/contact"];
+  useEffect(() => {
+    if (fetchedEmailData && !verifiedEmailData) {
+      setVerifiedEmailData(fetchedEmailData); // Store the verified email data once
+    }
+  }, [fetchedEmailData, verifiedEmailData]);
 
-  // Allow access to public routes without authentication
-  if (unrestrictedRoutes.includes(pathname)) {
-    return (
-      <ScrollArea className="font-description flex h-screen min-h-screen w-full flex-1 flex-col">
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-grow">
-            <Toaster position="top-right" reverseOrder={false} />
-            <TrackPageVisits />
-            {loading ? <CameraLoading /> : <Component {...pageProps} />}
-          </main>
-          <Footer />
-        </div>
-      </ScrollArea>
-    );
-  }
+  if (sessionStatus === "loading" || (isVerifiedEmailLoading && !verifiedEmailData))
+    return <CameraLoading />;
 
-  // Normal authentication check for other routes
-  if (sessionStatus === "loading" || isVerifiedEmailLoading) return <CameraLoading />;
   if (!sessionData) return <LoginComponent />;
 
   const isEmailVerified =
     verifiedEmailData?.some(
-      (emailEntry: { email: string }) =>
-        emailEntry.email === sessionData?.user?.email,
+      (emailEntry) => emailEntry.email === sessionData?.user?.email
     ) ||
     sessionData?.user?.email?.endsWith("nitte.edu.in") ||
     sessionData?.user?.role === "admin";
 
   if (!isEmailVerified) return <NotRegistered />;
 
-  // Define excluded routes
-  const excludedRoutes = ["/LoginComponent", "/NotRegistered", "/"];
-  const isExcluded = excludedRoutes.some((route) => pathname.startsWith(route));
-  const isCapturesPath = pathname === "/captures";
+  const excludedRoute = ["/LoginComponent", "/NotRegistered", "/"];
+  const pathname = usePathname();
+  const isExcluded = excludedRoute.some((route) => pathname.startsWith(route));
   const queryClient = new QueryClient();
-
+  const isCapturesPath = pathname === "/captures";
   if (isExcluded) {
     return (
       <ScrollArea className="font-description flex h-screen min-h-screen w-full flex-1 flex-col">

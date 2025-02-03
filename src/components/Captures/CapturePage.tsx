@@ -24,15 +24,17 @@ const CaptureCard = () => {
     align: "center",
   });
 
-  const sortedCards = carouselItems.map((carouselItems) => {
+  const sortedCards = carouselItems.map((carouselItem) => {
     const cardState = cardStates?.find(
-      (state) => state.cardName === carouselItems.title,
-    );
+      (state) => state.cardName === carouselItem.title
+    )?.cardState ?? true; // Default to true if cardState is undefined
+  
     return {
-      ...carouselItems,
-      cardState: cardState?.cardState,
+      ...carouselItem,
+      cardState,
     };
   });
+  
 
   const handleNext = () => {
     setActiveIndex((prev) => {

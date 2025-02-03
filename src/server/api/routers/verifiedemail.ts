@@ -8,14 +8,14 @@ import { CollegeType } from "@prisma/client";
 const t = initTRPC.context<Context>().create();
 
 export const verifiedEmail = t.router({
-  addVerifiedEmail: t.procedure.input(z.object({ email: z.string().email(), phone_number:z.string(),name:z.string(),college:z.nativeEnum(CollegeType) }))
+  addVerifiedEmail: t.procedure.input(z.object({ email: z.string().email(), phone_number:z.string(),name:z.string()}))
     .mutation(async ({ ctx, input }) => {
       const newEmail = await ctx.db.verifiedEmail.create({
         data: {
           email: input.email,
           name:input.name,
           phone_number:input.phone_number,
-          college:input.college
+          college:input.email.endsWith("nmamit.in")?CollegeType.internal:CollegeType.external,
         },
       });
       return newEmail;

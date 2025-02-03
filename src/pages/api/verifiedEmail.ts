@@ -3,6 +3,7 @@ import Cors from 'cors';
 import { initTRPC } from '@trpc/server';
 import { verifiedEmail } from '~/server/api/routers/verifiedemail';
 import { createContext } from '~/server/context';
+import { z } from 'zod';
 const t = initTRPC.create();
 const appRouter = t.router({
   verifiedEmail,
@@ -25,16 +26,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log(`Received ${req.method} request`);   
     try {
       await runMiddleware(req, res, cors);
-      const apiKey = req.headers['x-api-key'];
-      if (apiKey !== process.env.CAPTURE_API_KEY) {
+      const apiKey = req.headers['authorization'] as string | undefined;
+      if (!apiKey || !apiKey.startsWith('Bearer ')) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      if (apiKey.split(' ')[1] !== process.env.CAPTURE_API_KEY) {
         return res.status(401).json({ error: 'Unauthorized' });
       }  
       if (req.method === 'POST') {
         console.log('Handling POST request');   
         const trpcHandler = appRouter.createCaller(createContext({ req }));
-        const { email, name,phone_number,college } = req.body;
+        const {success,data,error}=z.object({
+          email: z.string(),
+          name: z.string(),
+          phoneNumber: z.string(),
+        }).safeParse(JSON.parse(req.body));
+        if (!success) { 
+          return res.status(400).json({ error: error}); 
+        }
+        const { email, name,phoneNumber } = data;
         console.log('Email:', email);   
-        const result = await trpcHandler.verifiedEmail.addVerifiedEmail({name, email ,phone_number,college });
+        const result = await trpcHandler.verifiedEmail.addVerifiedEmail({name, email ,phone_number:phoneNumber });
         console.log('Result:', result);
         return res.status(200).json(result); 
       }  
