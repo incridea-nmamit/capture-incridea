@@ -33,6 +33,9 @@ export const moreInfoRouter = createTRPCRouter({
                                 },
                             },
                         },
+                        where: {
+                            liked: true
+                        }
                     },
                 },
             });
@@ -101,6 +104,9 @@ export const moreInfoRouter = createTRPCRouter({
                                 },
                             },
                         },
+                        where:{
+                            liked: true,
+                        }
                     },
                 },
             });
@@ -167,6 +173,9 @@ export const moreInfoRouter = createTRPCRouter({
                                 },
                             },
                         },
+                        where: {
+                            liked: true
+                        }
                     },
                 },
             });

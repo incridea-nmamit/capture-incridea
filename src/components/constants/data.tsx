@@ -263,7 +263,7 @@ export const carouselItems = [
   {
     imgSrc: "images/CapturePage/img3.webp",
     title: "Playbacks",
-    route: "/cultural-playbacks",
+    route: "/playbacks",
     description: `When your life needs some playbacks!`,
   },
   {
