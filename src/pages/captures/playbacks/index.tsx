@@ -1,47 +1,44 @@
-import { useEffect, useRef, useState } from 'react'
-import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area'
-import { Heart, Share2 } from 'lucide-react'
-import { Button } from '~/components/ui/button'
-import { api } from '~/utils/api'
-import Loading from '~/pages/Loading'
-import ReactPlayer from 'react-player'
-import Image from 'next/image'
-import { useSession } from 'next-auth/react'
-import { FaHeart } from 'react-icons/fa'
-import { MoreInfo } from '~/components/MoreInfoDrawer/more-infoPopup'
+
+import { useEffect, useRef, useState } from 'react';
+import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area';
+import { Info, Share2 } from 'lucide-react';
+import { api } from '~/utils/api';
+import Loading from '~/pages/Loading';
+import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import { FaHeart } from 'react-icons/fa';
+import { MoreInfo } from '~/components/MoreInfoDrawer/more-infoPopup';
+import { Button } from '~/components/ui/button';
 
 type VideosProps = {
   id: number;
   name: string;
   description: string;
   videoPath: string;
-}
+  thumbnails: string;
+};
+
 const CulturalPlaybacks = () => {
   const { data: session } = useSession();
   const [isSharing, setIsSharing] = useState(false);
-  const { data: Videos = [], isLoading } = api.playbacks.getAllPlaybacks.useQuery()
-  const toggleLikes = api.playbacks.toggleLikeForPlayback.useMutation()
-  const [selectedVideo, setSelectedVideo] = useState<VideosProps>();
-  const { data: totalLikes, refetch: refetchTotalLikes } = api.playbacks.getTotalPlaybackLikes.useQuery({
-    id: selectedVideo?.id!
-  })
+  const { data: Videos = [], isLoading } = api.playbacks.getAllPlaybacks.useQuery();
+  const toggleLikes = api.playbacks.toggleLikeForPlayback.useMutation();
+  const [selectedVideo, setSelectedVideo] = useState<VideosProps | null>(null);
+  const { data: totalLikes, refetch: refetchTotalLikes } = api.playbacks.getTotalPlaybackLikes.useQuery(
+    { id: selectedVideo?.id! }
+  );
   const [openMoreInfo, setOpenMoreInfor] = useState(false);
   const { data: isLiked, refetch: refetchIsliked } = api.playbacks.isLiked.useQuery(
-    {
-      userId: session?.user.id!,
-      playback_Id: selectedVideo?.id!
-    }
+    { userId: session?.user.id!, playback_Id: selectedVideo?.id! }
   );
 
   useEffect(() => {
-    if (Videos.length > 0) {
-      setSelectedVideo(Videos[0] as VideosProps)
+    if (Videos.length > 0 && !selectedVideo) {
+      setSelectedVideo(Videos[0] as VideosProps);
     }
   }, [Videos]);
 
   const videoRef = useRef<HTMLVideoElement>(null);
-
-
 
   const handleToggleLike = async () => {
     if (!selectedVideo || !session?.user.id) return;
@@ -53,24 +50,24 @@ const CulturalPlaybacks = () => {
     refetchTotalLikes();
   };
 
-
   useEffect(() => {
-    videoRef.current?.load();
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch(() => { });
+    }
   }, [selectedVideo]);
 
-
-
-
   if (isLoading) {
-    return <Loading />
+    return <Loading />;
   }
-  return (
-    <>
-      <div className="gradient-bg h-full w-full  ">
-        <div className='!mt-20 container-size '>
-          <h1 className="text-5xl font-Teknaf md:text-6xl text-white text-left mb-8" >Playbacks</h1>
 
-          <div className=' items-start justify-start gap-4 grid lg:grid-cols-8 grid-cols-1 my-6'>
+  return (
+    <div className="gradient-bg h-full w-full">
+      <div className='!mt-24 container-size'>
+        <h1 className="text-5xl font-Teknaf md:text-6xl text-white text-left mb-8">Playbacks</h1>
+
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 my-6">
+          <div className="col-span-12 lg:col-span-9">
             <video
               ref={videoRef}
               autoPlay
@@ -78,88 +75,72 @@ const CulturalPlaybacks = () => {
               muted
               playsInline
               controls
-              className="w-full aspect-video h-auto object-cover col-span-6 rounded-lg"
+              key={selectedVideo?.id}
+              className="w-full aspect-video h-auto object-cover rounded-lg"
             >
               <source src={selectedVideo?.videoPath} type="video/mp4" />
             </video>
-            <div className=' gradient-bg shadow-2xl flex flex-col justify-start w-full h-full max-w-[106vh] gap-2 col-span-2 border border-gray-50 p-3 rounded-xl'>
-              <h3 className="text-4xl font-cursive">{selectedVideo?.name}</h3>
-              <p className="">
-                {selectedVideo?.description}
-              </p>
+          </div>
 
+          <div className="col-span-12 lg:col-span-3 flex flex-col gap-4">
+            <div className="gradient-bg shadow-2xl flex flex-col justify-start w-full h-full gap-2 border border-gray-50 p-4 rounded-xl">
+              <div className="flex items-center justify-between">
+                <h3 className="text-4xl font-cursive">{selectedVideo?.name}</h3>
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <button><Share2 className="text-white" /></button>
+                  <button onClick={() => setOpenMoreInfor(!openMoreInfo)}><Info className="text-white" /></button>
+                </div>
+              </div>
+              <p className="text-white">{selectedVideo?.description}</p>
               <div className="flex flex-row items-center w-full justify-start gap-4 mt-2">
                 <button onClick={handleToggleLike} aria-label="Like Button">
                   <FaHeart size={30} color={isLiked ? "red" : "white"} />
                 </button>
-                <span className="flex items-center text-white">
-                  {isLoading ? "..." : totalLikes !== null ? totalLikes?.length : "..."}
-                </span>
-                <button >
-                  <Share2 className="text-white" />
-                </button>
-                <button
-                  className="bg-white rounded-2xl text-black px-6 py-2 hover:scale-105 transition-all"
-                >
-                  Download
-                </button>
+                <span className="flex items-center text-white">{isLoading ? "..." : totalLikes?.length ?? "..."}</span>
+                <Button className="bg-white rounded-xl w-full text-black px-6 py-2 hover:scale-105 transition-all">Download</Button>
               </div>
-              <button
-                className="bg-white rounded-2xl text-black px-6 py-2 hover:scale-105 transition-all"
-                onClick={() => setOpenMoreInfor(!openMoreInfo)}
-              >
-                Analytics
-              </button>
-
             </div>
           </div>
-          <div className="mb-10 space-y-7">
-            <h1 className="text-xl md:text-3xl font-Teknaf">
-              Recently uploded Playbacks
-            </h1>
-            <ScrollArea className="whitespace-nowrap rounded-md border-2 lg:overflow-x-auto h-full gradient-bg">
-
-              <div className="flex lg:w-max h-max p-4 flex-wrap gap-4 items-center justify-center">
-                {Videos.map((video) => (
-                  <figure
-                    key={video.id}
-                    className={`shrink-0 cursor-pointer rounded-md max-h-48 h-full overflow-hidden max-w-full aspect-video ${selectedVideo?.id == video.id ? "border-4 border-white p-1" : ""
-                      }`}
-                    onClick={() => setSelectedVideo(video)}
-                  >
-                    <div className="overflow-hidden h-full w-full">
-                      <Image
-                        src={video.thumbnails!}
-                        alt='thumbnail'
-                        width={100}
-                        height={100}
-                        className="w-full h-full"
-                      />
-                    </div>
-                  </figure>
-                ))}
-              </div>
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          </div>
-
         </div>
 
+        <div className="mb-10 space-y-7">
+          <h1 className="text-xl md:text-3xl font-Teknaf">Recently Uploaded Playbacks</h1>
+          <ScrollArea className="whitespace-nowrap rounded-md border-2 lg:overflow-x-auto h-full gradient-bg">
+            <div className="flex lg:w-max h-max p-4 flex-wrap gap-4 items-center justify-center">
+              {Videos.map((video) => (
+                <div key={video.id} className="flex flex-col items-center">
+                  <div
+                    className={`relative shrink-0 cursor-pointer rounded-md max-h-52 h-full overflow-hidden max-w-full aspect-video ${selectedVideo?.id === video.id ? "border-4 border-white p-1" : ""}`}
+                    onClick={() => setSelectedVideo(video as VideosProps)}
+                  >
+                    <Image
+                      src={video.thumbnails!}
+                      alt="thumbnail"
+                      width={100}
+                      height={100}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-0 left-0 w-full bg-gradient-to-b from-transparent to-black/80 text-white text-sm md:text-base font-semibold px-2 py-1 text-start z-10">
+                      {video.name}
+                    </div>
+
+                  </div>
+                </div>
+
+
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        </div>
       </div>
 
-      {
-        openMoreInfo && (
-          <MoreInfo
-            isOpen={openMoreInfo}
-            setOpen={setOpenMoreInfor}
-            id={selectedVideo?.id!}
-            apiTobeCalled="playbacks"
-          />
-        )
-      }
-    </>
-  )
-}
+      {openMoreInfo && (
+        <MoreInfo isOpen={openMoreInfo} setOpen={setOpenMoreInfor} id={selectedVideo?.id!} apiTobeCalled="playbacks" />
+      )}
+    </div>
+  );
+};
 
 export default CulturalPlaybacks;
 
