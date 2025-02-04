@@ -3,33 +3,32 @@ import { z } from "zod";
 import { Teamgroup } from "@prisma/client";
 
 export const teamRouter = createTRPCRouter({
-  // Add Team Mutation
+
+
   addTeam: protectedProcedure
-  .input(
-    z.object({
-      name: z.string(),
-      committee: z.nativeEnum(Teamgroup),
-      designation: z.string(), 
-      uploadKey: z.string().min(1, "Upload key is required"),
-      say: z.string().optional(),
-    })
-  )
-  .mutation(async ({ ctx, input }) => {
-    const imageUrl = `https://utfs.io/f/${input.uploadKey}`;
-    const newTeam = await ctx.db.team.create({
-      data: {
-        name: input.name,
-        committee: input.committee,
-        designation: input.designation,
-        image: imageUrl,
-        say: input.say || "", // Handle optional fields correctly
-      },
-    });
-    return newTeam;
-  }),
+    .input(
+      z.object({
+        name: z.string(),
+        committee: z.nativeEnum(Teamgroup),
+        designation: z.string(),
+        uploadKey: z.string().min(1, "Upload key is required"),
+        say: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const imageUrl = `https://utfs.io/f/${input.uploadKey}`;
+      const newTeam = await ctx.db.team.create({
+        data: {
+          name: input.name,
+          committee: input.committee,
+          designation: input.designation,
+          image: imageUrl,
+          say: input.say || "",
+        },
+      });
+      return newTeam;
+    }),
 
-
-  // Update Team Mutation
   updateTeam: protectedProcedure
     .input(
       z.object({
@@ -42,28 +41,34 @@ export const teamRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const updates: Partial<{
-        name: string;
-        committee: Teamgroup;
-        designation: string;
-        image: string;
-        say: string;
-      }> = {};
+      const { id, uploadKey, ...rest } = input;
 
-      if (input.name) updates.name = input.name;
-      if (input.committee) updates.committee = input.committee;
-      if (input.designation) updates.designation = input.designation;
-      if (input.uploadKey) updates.image = `https://utfs.io/f/${input.uploadKey}`;
-      if (input.say) updates.say = input.say;
+      const updates = {
+        ...rest,
+        ...(uploadKey && { image: `https://utfs.io/f/${uploadKey}` }),
+      };
 
-      const updatedTeam = await ctx.db.team.update({
-        where: { id: input.id },
+      return ctx.db.team.update({
+        where: { id },
         data: updates,
       });
-      return updatedTeam;
     }),
 
-  // Delete Team Mutation
+  getTeamDetailsById: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, "Team ID is required")
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const team = await ctx.db.team.findUnique({
+        where: {
+          id: input.id
+        }
+      })
+      return team
+    }),
+
   deleteTeam: protectedProcedure
     .input(
       z.object({
@@ -77,9 +82,14 @@ export const teamRouter = createTRPCRouter({
       return deletedTeam;
     }),
 
-  // Get All Teams Query
+
   getAllTeams: publicProcedure.query(async ({ ctx }) => {
-    const teams = await ctx.db.team.findMany();
+    const teams = await ctx.db.team.findMany({
+      orderBy: {
+        id: "desc"
+      }
+    });
     return teams;
   }),
+
 });

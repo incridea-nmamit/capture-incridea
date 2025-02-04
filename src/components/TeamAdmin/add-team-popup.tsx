@@ -97,7 +97,7 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
 
     return (
         <Dialog open={isPopupOpen} onOpenChange={setIsPopupOpen}>
-            <DialogContent className="bg-black p-10 rounded-3xl shadow-lg text-center w-96">
+            <DialogContent className="bg-neutral-900  border border-gray-100 p-10 rounded-3xl shadow-lg text-center w-96">
                 <DialogHeader>
                     <DialogTitle className="text-white">Add Team Member</DialogTitle>
                 </DialogHeader>

@@ -101,25 +101,25 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                     onClick={(e) => e.stopPropagation()}
                 >
 
-<div className="relative w-full mb-4">
-  <div className="absolute right-0 flex items-end shadow-2xl border border-gray-800 rounded-full w-fit bg-white px-0 shadow space-x-3">
+                    <div className="relative w-full mb-4">
+                        <div className="absolute right-0 flex items-end shadow-2xl border border-gray-800 rounded-full w-fit bg-white px-0  space-x-3">
 
-    <div className="w-[50px] relative z-50 h-[52px] border border-gray-500 rounded-full flex items-center justify-center overflow-hidden">
-      <Avatar className="w-full h-full">
-        <AvatarImage src={acthor?.image || "https://github.com/shadcn.png"} alt={acthor?.name || "User"} />
-      </Avatar>
-    </div>
-
-
-    <div className="ml-2 flex flex-col text-left px-3 py-2">
-      <span className="text-[10px] font-bold text-black">Captured By</span>
-      <span className="text-[10px] font-semibold text-black">{acthor?.name || "Username"}</span>
-    </div>
-  </div>
-</div>
+                            <div className="w-[50px] relative z-50 h-[52px] border border-gray-500 rounded-full flex items-center justify-center overflow-hidden">
+                                <Avatar className="w-full h-full">
+                                    <AvatarImage src={acthor?.image || "https://github.com/shadcn.png"} alt={acthor?.name || "User"} />
+                                </Avatar>
+                            </div>
 
 
- 
+                            <div className="ml-2 flex flex-col text-left px-3 py-2">
+                                <span className="text-[10px] font-bold text-black">Captured By</span>
+                                <span className="text-[10px] font-semibold text-black">{acthor?.name || "Username"}</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                     <div className="flex items-center justify-center">
                         {isLoadings && (
                             <Skeleton
