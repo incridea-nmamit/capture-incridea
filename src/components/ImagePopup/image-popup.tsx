@@ -1,3 +1,4 @@
+
 import { Share2, Info } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -10,196 +11,221 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Skeleton } from "../ui/skeleton";
 import { useSession } from "next-auth/react";
 import { MoreInfo } from "../MoreInfoDrawer/more-infoPopup";
-import { Badge } from "../ui/badge";
+import QRCode from "react-qr-code";
 
 interface ImagePopupProps {
-    selectedImage: string | null;
-    selectedImageOg: string | null;
-    selectedImageId: number | null;
-    handleClosePopup: () => void;
-    handleDownload: (imageUrl: string) => void;
-    openRemovalPopup: (imageUrl: string) => void;
-    session_user: string;
-    session_role: string;
-    sessionId: string;
+  selectedImage: string | null;
+  selectedImageOg: string | null;
+  selectedImageId: number | null;
+  handleClosePopup: () => void;
+  handleDownload: (imageUrl: string) => void;
+  openRemovalPopup: (imageUrl: string) => void;
+  session_user: string;
+  session_role: string;
+  sessionId: string;
 }
 
 const ImagePopup: React.FC<ImagePopupProps> = ({
-    selectedImage,
-    selectedImageOg,
-    selectedImageId,
-    handleClosePopup,
-    handleDownload,
-    openRemovalPopup,
-    session_user,
-    session_role,
-    sessionId,
+  selectedImage,
+  selectedImageOg,
+  selectedImageId,
+  handleClosePopup,
+  handleDownload,
+  openRemovalPopup,
+  session_user,
+  session_role,
+  sessionId,
 }) => {
-    const refetch = UseRefetch();
-    const [isLandscape, setIsLandscape] = useState(true);
-    const [isLoadings, setIsLoading] = useState(true);
-    const [openMoreInfo, setOpenMoreInfor] = useState(false);
-    const { data: session } = useSession();
-    const { data: totalLikes, isLoading } = api.like.getTotalLikes.useQuery({ captureId: selectedImageId! });
-    const { data: hasLiked } = api.like.hasLiked.useQuery({ captureId: selectedImageId! });
-    const { data: acthor } = api.capture.getAuthorDetails.useQuery({ id: selectedImageId! });
-    const toggleLike = api.like.toggleLike.useMutation();
+  const refetch = UseRefetch();
+  const [isLandscape, setIsLandscape] = useState(true);
+  const [isLoadings, setIsLoading] = useState(true);
+  const [openMoreInfo, setOpenMoreInfor] = useState(false);
+  const [animating, setAnimating] = useState(false);
+  const { data: session } = useSession();
+  const { data: totalLikes, isLoading } = api.like.getTotalLikes.useQuery({ captureId: selectedImageId! });
+  const { data: hasLiked } = api.like.hasLiked.useQuery({ captureId: selectedImageId! });
+  const { data: acthor } = api.capture.getAuthorDetails.useQuery({ id: selectedImageId! });
+  const toggleLike = api.like.toggleLike.useMutation();
+  const playLikeSound = () => {
+    const audio = new Audio("/sound/like.wav");
+    audio.play();
+  };
+  const handleToggleLike = async () => {
+    if (selectedImageId && hasLiked !== null) {
+      try {
+        await toggleLike.mutateAsync({
+          galleryId: selectedImageId,
+          toggle: !hasLiked,
+        });
+        refetch();
+        setAnimating(true);
+        playLikeSound();
+        setTimeout(() => setAnimating(false), 300);
+      } catch (error) {
+        console.error("Error toggling like:", error);
+      }
+    }
+  };
+  const QrLink = `${process.env.NEXT_PUBLIC_QRCODELINK}/${selectedImageId}`;
+  const handleShare = async () => {
+    if (navigator.share && selectedImage) {
+      try {
+        const response = await fetch(selectedImage);
+        const blob = await response.blob();
+        const file = new File([blob], "shared-image.webp", { type: blob.type });
 
-    const handleToggleLike = async () => {
-        if (selectedImageId && hasLiked !== null) {
-            try {
-                await toggleLike.mutateAsync({
-                    galleryId: selectedImageId,
-                    toggle: !hasLiked,
-                });
-                refetch();
-            } catch (error) {
-                console.error("Error toggling like:", error);
-            }
-        }
-    };
+        await navigator.share({
+          files: [file],
+        });
+        console.log("Image shared successfully");
+      } catch (error) {
+        console.error("Error sharing image:", error);
+      }
+    } else {
+      alert("Sharing files is not supported on your device.");
+    }
+  };
 
-    const handleShare = async () => {
-        if (navigator.share && selectedImage) {
-            try {
-                const response = await fetch(selectedImage);
-                const blob = await response.blob();
-                const file = new File([blob], "shared-image.webp", { type: blob.type });
-
-                await navigator.share({
-                    files: [file],
-                });
-                console.log("Image shared successfully");
-            } catch (error) {
-                console.error("Error sharing image:", error);
-            }
-        } else {
-            alert("Sharing files is not supported on your device.");
-        }
-    };
-
-    if (!selectedImage) return null;
-
-
-    const handleImageLoad = (event: any) => {
-        const { naturalWidth, naturalHeight } = event.target;
-        setIsLandscape(naturalWidth > naturalHeight);
-        setIsLoading(false);
-    };
-
-    return (
-        <>
-            <div
-                className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col  items-center justify-center z-50"
-                role="dialog"
-                aria-modal="true"
-                onClick={handleClosePopup}
-            >
-
-                <div
-                    className="   md:w-auto max-h-[98vh]  w-full h-fit space-y-10 bg-gradient-to-tl from-neutral-950/90 via-neutral-800 to-neutral-950/90 grid grid-cols-1 gap-4 rounded-3xl  p-4 md:p-5 border-[4px] border-gray-600"
-                    onClick={(e) => e.stopPropagation()}
-                >
-
-                    <div className="relative w-full mb-4">
-                        <div className="absolute right-0 flex items-end shadow-2xl border border-gray-800 rounded-full w-fit bg-white px-0  space-x-3">
-
-                            <div className="w-[50px] relative z-50 h-[52px] border border-gray-500 rounded-full flex items-center justify-center overflow-hidden">
-                                <Avatar className="w-full h-full">
-                                    <AvatarImage src={acthor?.image || "https://github.com/shadcn.png"} alt={acthor?.name || "User"} />
-                                </Avatar>
-                            </div>
+  if (!selectedImage) return null;
 
 
-                            <div className="ml-2 flex flex-col text-left px-3 py-2">
-                                <span className="text-[10px] font-bold text-black">Captured By</span>
-                                <span className="text-[10px] font-semibold text-black">{acthor?.name || "Username"}</span>
-                            </div>
-                        </div>
-                    </div>
+  const handleImageLoad = (event: any) => {
+    const { naturalWidth, naturalHeight } = event.target;
+    setIsLandscape(naturalWidth > naturalHeight);
+    setIsLoading(false);
+  };
 
-
-
-                    <div className="flex items-center justify-center">
-                        {isLoadings && (
-                            <Skeleton
-                                className={`rounded-lg border-[3px] border-gray-700 shadow-2xl ${isLandscape ? "w-[500px] h-[350px]" : "w-[300px] h-[400px]"
-                                    }`}
-                            />
-                        )}
-
-                        <Image
-                            src={selectedImage || "/images/fallback.webp"}
-                            alt="Selected"
-                            className={`rounded-lg border-[3px] border-gray-700 shadow-2xl transition-opacity ${isLoading ? "opacity-0" : "opacity-100"
-                                }`}
-                            width={isLandscape ? 500 : 300}
-                            height={isLandscape ? 350 : 400}
-                            layout="intrinsic"
-                            onLoad={handleImageLoad}
-                            onContextMenu={(e) => e.preventDefault()}
-                            onDragStart={(e) => e.preventDefault()}
-                        />
-                    </div>
-                    <div className="text-center">
-                        <p className="text-xs sm:text-sm mx-auto max-w-lg  text-white">
-                            Note: If you prefer this capture not to be public or have any issues. We’ll verify your request and work on it soon.Press on Request Removal
-                        </p>
-
-                    </div>
-
-
-                    <div className="flex justify-center gap-2  items-center">
-                        <button onClick={handleToggleLike} aria-label="Like Button">
-                            <FaHeart size={24} color={hasLiked ? "red" : "white"} />
-                        </button>
-
-                        <span className="flex items-center text-white text-sm">
-                            {isLoading ? "..." : totalLikes !== null ? totalLikes : "..."}
-                        </span>
-
-                        <Button onClick={handleShare} className="flex items-center">
-                            <Share2 className="text-white w-5 h-5" />
-                        </Button>
-
-                        <Button
-                            className="bg-white rounded-xl text-black p-3 text-sm hover:scale-105 transition-all"
-                            onClick={() => handleDownload(selectedImageOg || selectedImage)}
-                        >
-                            Download
-                        </Button>
-                        <Button
-                            className="bg-white rounded-xl  text-bold text-black p-3 text-sm hover:scale-105 transition-all"
-                            onClick={() => {
-                                handleClosePopup();
-                                openRemovalPopup(selectedImage);
-                            }}
-                        >
-                            Request Removal
-                        </Button>
-                        <button
-                            onClick={() => setOpenMoreInfor(true)}
-                        >
-                            <Info className="text-white" />
-                        </button>
-
-                    </div>
+  return (
+    <>
+      <div
+        className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col  items-center justify-center z-50"
+        role="dialog"
+        aria-modal="true"
+        onClick={handleClosePopup}
+      >
+        <div
+          className="max-h-[98vh] w-full md:w-[60%]  h-auto space-y-10 gradient-bg grid grid-cols-1 gap-4 rounded-l-2xl"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex flex-col md:flex-row w-full h-full">
+            <div className="relative flexjustify-center items-center w-full md:w-1/2  rounded-l-2xl">
+              <Image
+                src={selectedImage || "/images/fallback.webp"}
+                alt="Selected"
+                className="rounded-[10px] shadow-2xl transition-opacity overflow-hiddden"
+                layout="fill"
+                objectFit="cover"
+                onLoad={handleImageLoad}
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
+              />
+            </div>
+            <div className="w-full md:w-1/2 h-full p-8 ">
+              <div className="flex justify-between gap-2 items-center">
+                <div>
+                  <Image
+                    src="/images/Logo/capture.webp"
+                    alt="Logo"
+                    width={150}
+                    height={80}
+                    className="h-auto w-auto max-w-24"
+                    onContextMenu={(e) => e.preventDefault()}
+                    onDragStart={(e) => e.preventDefault()}
+                  />
+                </div>
+                <div className="flex flex-row items-center justify-center gap-5">
+                  <Button onClick={handleShare} className="flex items-center">
+                    <Share2 className="text-white w-6 h-6" />
+                  </Button>
+                  
+                  {session?.user?.role === "admin" && (
+                    <Button onClick={() => setOpenMoreInfor(true)} className="flex items-center">
+                      <Info className="text-white w-6 h-6" />
+                    </Button>
+                  )}
 
                 </div>
-            </div>
-            {
-                openMoreInfo && (
-                    <MoreInfo
-                        isOpen={openMoreInfo}
-                        setOpen={setOpenMoreInfor}
-                        id={selectedImageId!}
-                        apiTobeCalled="capture"
-                    />
-                )
-            }
+              </div>
+              <div className="flex flex-col justify-center items-center h-full w-full  space-y-5 md:space-y-6 font-Trap-Regular gap-5 text-white text-md md:text-xl tracking-widest text-center px-4 ">
+                <div className="flex justify-center items-center">
+                  <div className="hidden md:flex justify-center items-center m-5 w-[200px] rounded-2xl relative group">
+                    <div className="w-2/3 flex justify-center items-center">
+                      <QRCode
+                        size={100}
+                        style={{ height: "auto", width: "100%" }}
+                        value={QrLink}
+                        viewBox="0 0 150 150"
+                        className="my-5"
+                      />
+                    </div>
+                    <div className=" absolute w-full top-[-30px]  border right-0 transform shadow-2xl -translate-x-1/2 bg-black text-white text-sm rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      You can scan this to download the image on your phone
+                    </div>
+                  </div>
+                </div>
 
-        </>
-    );
+                <div className="flex justify-center gap-2 items-center">
+                  <button onClick={handleToggleLike} aria-label="Like Button">
+                    <FaHeart size={28} color={hasLiked ? "red" : "white"} className={`${animating ? "animate-pop" : ""}`} />
+                  </button>
+                  <span className="text-white text-lg  font-Trap-Regular">
+                    {isLoading ? "..." : totalLikes !== null ? totalLikes : "Loading..."}
+                  </span>
+
+                  <Button
+                    className="bg-white rounded-xl text-black px-7 py-2 mx-5 font-Trap-Regular text-sm hover:scale-105 transition-all"
+                    onClick={() => handleDownload(selectedImageOg || selectedImage)}
+                  >
+                    Download Original
+                  </Button>
+                </div>
+
+
+                <div className="flex items-center justify-center w-full text-center font-Trap-Regular text-xs">
+                  <span>
+                    NIf you prefer this capture not to be public or have any issues,&nbsp;
+                    <button
+                      className="underline hover:no-underline text-blue-400 hover:text-blue-500 transition duration-200"
+                      onClick={() => {
+                        handleClosePopup();
+                        openRemovalPopup(selectedImage);
+                      }}
+                    >
+                      Request Removal 
+                    </button>
+                    &nbsp;We’ll verify your request and work on it soon.
+                  </span>
+                </div>
+
+
+                <div className="flex items-center justify-center gap-4 text-xs">
+                  <span>Captured By</span>
+                  <div className="w-8  h-8  flex items-center justify-center overflow-hidden">
+                    <Avatar className="w-full h-full">
+                      <AvatarImage src={acthor?.image || "https://github.com/shadcn.png"} alt={acthor?.name || "User"} />
+                    </Avatar>
+                  </div>
+                  <span>{acthor?.name || "Loading..."}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      {
+        openMoreInfo && (
+          <MoreInfo
+            isOpen={openMoreInfo}
+            setOpen={setOpenMoreInfor}
+            id={selectedImageId!}
+            apiTobeCalled="capture"
+          />
+        )
+      }
+
+    </>
+  );
 };
 
 export default ImagePopup;
