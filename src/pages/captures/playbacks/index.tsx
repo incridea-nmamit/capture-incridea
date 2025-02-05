@@ -1,4 +1,4 @@
-
+import Plyr from 'plyr-react';
 import { useEffect, useRef, useState } from 'react';
 import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area';
 import { Info, Share2 } from 'lucide-react';
@@ -9,7 +9,8 @@ import { useSession } from 'next-auth/react';
 import { FaHeart } from 'react-icons/fa';
 import { MoreInfo } from '~/components/MoreInfoDrawer/more-infoPopup';
 import { Button } from '~/components/ui/button';
-
+import ReactPlayer from 'react-player';
+import VideoPlayer from '~/components/Videoplayer';
 type VideosProps = {
   id: number;
   name: string;
@@ -64,32 +65,22 @@ const CulturalPlaybacks = () => {
   return (
     <div className="gradient-bg h-full w-full">
       <div className='!mt-24 container-size'>
-        <h1 className="text-5xl font-Teknaf md:text-6xl text-white text-left mb-8">Playbacks</h1>
-
+        <h1 className="text-5xl font-Teknaf md:text-5xl text-center text-white my-20">Playbacks</h1>
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 my-6">
           <div className="col-span-12 lg:col-span-9">
-            <video
-              ref={videoRef}
-              autoPlay
-              loop
-              muted
-              playsInline
-              controls
-              key={selectedVideo?.id}
-              className="w-full aspect-video h-auto object-cover rounded-lg"
-            >
-              <source src={selectedVideo?.videoPath} type="video/mp4" />
-            </video>
+          <VideoPlayer url={selectedVideo?.videoPath ?? ''} />
           </div>
 
-          <div className="col-span-12 lg:col-span-3 flex flex-col gap-4">
+          <div className="col-span-12 lg:col-span-3 flex flex-col gap-">
             <div className="gradient-bg shadow-2xl flex flex-col justify-start w-full h-full gap-2 border border-gray-50 p-4 rounded-xl">
               <div className="flex items-center justify-between">
                 <h3 className="text-4xl font-cursive">{selectedVideo?.name}</h3>
                 <div className="flex flex-col items-center justify-center gap-2">
                   <button><Share2 className="text-white" /></button>
+                  {session?.user?.role === "admin" && (
                   <button onClick={() => setOpenMoreInfor(!openMoreInfo)}><Info className="text-white" /></button>
-                </div>
+                  )}
+                  </div>
               </div>
               <p className="text-white">{selectedVideo?.description}</p>
               <div className="flex flex-row items-center w-full justify-start gap-4 mt-2">
@@ -123,11 +114,8 @@ const CulturalPlaybacks = () => {
                     <div className="absolute bottom-0 left-0 w-full bg-gradient-to-b from-transparent to-black/80 text-white text-sm md:text-base font-semibold px-2 py-1 text-start z-10">
                       {video.name}
                     </div>
-
                   </div>
                 </div>
-
-
               ))}
             </div>
             <ScrollBar orientation="horizontal" />

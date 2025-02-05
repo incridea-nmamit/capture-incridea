@@ -6,7 +6,6 @@ import UseRefetch from "~/hooks/use-refetch";
 import { api } from "~/utils/api";
 import { Button } from "react-bootstrap";
 import { useSession } from "next-auth/react";
-import QRCode from "react-qr-code";
 import { MoreInfo } from "~/components/MoreInfoDrawer/more-infoPopup";
 import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { useRouter } from "next/router";
@@ -160,9 +159,10 @@ const ImagePopup = () => {
                   <Button onClick={handleShare} className="flex items-center">
                     <Share2 className="text-white w-5 h-5" />
                   </Button>
+                  {session?.user?.role === "admin" && (
                   <Button onClick={() => setOpenMoreInfo(true)} className="flex items-center">
                     <Info className="text-white w-5 h-5" />
-                  </Button>
+                  </Button>)}
                 </div>
               </div>
 
@@ -241,10 +241,8 @@ const ImagePopup = () => {
           />
         )
       }
-
-
-
     </div>
+    
   );
 };
 

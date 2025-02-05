@@ -10,7 +10,7 @@ import {
 import { HiOutlineLogout } from "react-icons/hi";
 import { BiSolidDashboard } from "react-icons/bi";
 import { GoHomeFill } from "react-icons/go";
-import { MdCamera } from "react-icons/md";
+import { MdCamera, MdLogout } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi";
 import NavLink from "./NavLink";
@@ -87,14 +87,14 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
             </SheetClose>
           ))}
 
-          {!session && isAdminRoute && (
-            <button
-              onClick={() => signIn()}
-              className="flex items-center gap-3 text-center"
-            >
-              <HiOutlineLogout /> SignIn
-            </button>
-          )}
+            {session && !isAdminRoute && (
+              <button
+                onClick={() => signIn()}
+                className="flex text-xl text-white justify-center items-center"
+              >
+                <div><MdLogout size={24}/></div>
+              </button>
+            )}
           {session && isAdminRoute && session.user?.role === "admin" && (
             <button
               onClick={() => signOut()}

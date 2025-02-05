@@ -59,7 +59,6 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
         });
         refetch();
         setAnimating(true);
-        playLikeSound();
         setTimeout(() => setAnimating(false), 300);
       } catch (error) {
         console.error("Error toggling like:", error);
@@ -104,11 +103,11 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
         onClick={handleClosePopup}
       >
         <div
-          className="max-h-[98vh] w-full md:w-[60%]  h-auto space-y-10 gradient-bg grid grid-cols-1 gap-4 rounded-l-2xl"
+          className="max-h-[98vh] w-full md:w-[60%]  h-auto space-y-10 gradient-bg grid grid-cols-1 gap-4 rounded-3xl"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex flex-col md:flex-row w-full h-full">
-            <div className="relative flexjustify-center items-center w-full md:w-1/2  rounded-l-2xl">
+            <div className="relative flexjustify-center items-center w-full md:w-1/2  rounded-l-3xl">
               <Image
                 src={selectedImage || "/images/fallback.webp"}
                 alt="Selected"
@@ -120,7 +119,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                 onDragStart={(e) => e.preventDefault()}
               />
             </div>
-            <div className="w-full md:w-1/2 h-full p-8 ">
+            <div className="w-full md:w-1/2 h-full p-8">
               <div className="flex justify-between gap-2 items-center">
                 <div>
                   <Image
@@ -150,13 +149,12 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                 <div className="flex justify-center items-center">
                   <div className="hidden md:flex justify-center items-center m-5 w-[200px] rounded-2xl relative group">
                     <div className="w-2/3 flex justify-center items-center">
-                    <div style={{ background: 'white', padding: '16px' }}>
+                    <div className="bg-white rounded-2xl p-4">
                       <QRCode
                         size={100}
                         style={{ height: "auto", width: "100%" }}
                         value={QrLink}
                         viewBox="0 0 150 150"
-                        className="my-5"
                       />
                       </div>
                     </div>
@@ -175,7 +173,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                   </span>
 
                   <Button
-                    className="bg-white rounded-xl text-black px-7 py-2 mx-5 font-Trap-Regular text-sm hover:scale-105 transition-all"
+                    className="bg-white rounded-xl text-black px-7 py-2 mx-5 font-Trap-Regular text-xs hover:scale-105 transition-all"
                     onClick={() => handleDownload(selectedImageOg || selectedImage)}
                   >
                     Download Original
