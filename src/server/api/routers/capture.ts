@@ -231,7 +231,7 @@ export const capturesRouter = createTRPCRouter({
           upload_type: "deleted",
         }
       });
-      
+
       return { message: "Image deleted successfully" };
     }),
 
@@ -303,4 +303,38 @@ export const capturesRouter = createTRPCRouter({
     }),
 
 
+  getCaptureDetailsForQrScanById: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, "Capture ID is required"),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const captureDetails = await ctx.db.captures.findUnique({
+        where: { id: input.id },
+        select: {
+          id: true,
+          image_path: true,
+          compressed_path: true,
+          event_name: true,
+          event_category: true,
+          upload_type: true,
+          state: true,
+          date_time: true,
+          captured_by: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
+        },
+      });
+
+
+      if (!captureDetails) {
+        throw new Error("Capture not found");
+      }
+
+      return captureDetails;
+    }),
 });
