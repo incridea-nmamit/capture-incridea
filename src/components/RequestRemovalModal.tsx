@@ -169,12 +169,12 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
       role="dialog"
       aria-modal="true"
     >
-<div className="relative bg-black p-6 rounded-3xl shadow-lg w-full max-w-sm sm:max-w-md lg:max-w-xl xl:max-w-2xl h-auto lg:h-[500px] xl:h-[600px] flex flex-col items-center justify-center mx-auto z-50 font-Trap-Regular">        <h2 className="text-2xl text-white text-center mb-4">Request Removal</h2>
+      <div className="relative gradient-bg border border-gray-500 shadow-2xl p-6 rounded-3xl w-fit h-fit flex flex-col items-center justify-center mx-auto z-50 font-Trap-Regular">        <h2 className="text-2xl text-white text-center mb-4">Request Removal</h2>
         <button onClick={handleModalClose} className="absolute top-1 right-6 text-2xl text-white p-5">
           &times;
         </button>
         <div className="flex justify-center">
-          {/* Transparent overlay */}
+
           <div
             className="absolute inset-0 bg-transparent z-10"
             style={{ pointerEvents: "none" }}
