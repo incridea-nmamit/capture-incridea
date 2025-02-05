@@ -28,7 +28,8 @@ import ApproveCaptures from "~/components/ApproveCapture/ApproveCapture";
 import { Role } from "@prisma/client";
 import AdminPlayBacks from "../Playbacks";
 import AuditLogs from "../AuditLogs";
-import DownLodeLogs from "../downlodeLogs";
+import DownloadLogs from "../downlodeLogs";
+
 
 export const randomSliderImages = [
   { src: "/images/landing-images/img1.webp" },
@@ -239,10 +240,10 @@ export const tabs = [
     roles: [Role.admin, Role.manager],
   },
   {
-    name: "downlodelogs",
-    label: "Downlode Logs",
+    name: "downloadlogs",
+    label: "Download Logs",
     icon: Download,
-    content: <DownLodeLogs />,
+    content: <DownloadLogs />,
     roles: [Role.admin, Role.manager],
   },
 ];

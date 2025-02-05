@@ -1,11 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
-import { downlodeLogColumns, StoryLogColumns, PlayBacksLogColumns } from "./coloums";
+import { StoryLogColumns, PlayBacksLogColumns, downloadLogColumns } from "./coloums";
 import { DataTable } from "./datatable";
 import { LogChartComponent } from "./chart";
 
-const DownLodeLogs = () => {
+const DownloadLogs = () => {
   type LogType = "download" | "story" | "playback";
 
   const [logType, setLogType] = useState<LogType>(() => {
@@ -29,7 +29,7 @@ const DownLodeLogs = () => {
   return (
     <div className="p-3">
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">DownLode Logs</h1>
+        <h1 className="text-2xl font-semibold">DownLoad Logs</h1>
         <select
           className="border rounded-md p-2"
           value={logType}
@@ -42,7 +42,7 @@ const DownLodeLogs = () => {
       </div>
 
       {logType === "download" && (
-        <DataTable columns={downlodeLogColumns} data={downloadLogs} />
+        <DataTable columns={downloadLogColumns} data={downloadLogs} />
       )}
       {logType === "story" && (
         <DataTable columns={StoryLogColumns} data={storyLogs} />
@@ -57,4 +57,4 @@ const DownLodeLogs = () => {
   );
 };
 
-export default DownLodeLogs;
+export default DownloadLogs;

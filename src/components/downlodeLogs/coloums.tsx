@@ -3,7 +3,7 @@ import { ArrowUpDown } from "lucide-react";
 import { Button } from "../ui/button";
 
 // Define types for your logs
-export type DownlodeLog = {
+export type DownloadLog = {
   id: number;
   session_user: string;
   date_time: Date;
@@ -83,7 +83,7 @@ export const PlayBacksLogColumns: ColumnDef<PlayBacksLog>[] = [
   },
 ];
 
-export const downlodeLogColumns: ColumnDef<DownlodeLog>[] = [
+export const downloadLogColumns: ColumnDef<DownloadLog>[] = [
   {
     accessorKey: "session_user",
     header: "User Name",

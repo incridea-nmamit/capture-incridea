@@ -66,7 +66,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
       }
     }
   };
-  const QrLink = `${process.env.NEXT_PUBLIC_QRCODELINK}/${selectedImageId}`;
+  const  QrLink = `${process.env.NEXT_PUBLIC_QRCODELINK}/${selectedImageId}`;
   const handleShare = async () => {
     if (navigator.share && selectedImage) {
       try {
@@ -150,6 +150,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                 <div className="flex justify-center items-center">
                   <div className="hidden md:flex justify-center items-center m-5 w-[200px] rounded-2xl relative group">
                     <div className="w-2/3 flex justify-center items-center">
+                    <div style={{ background: 'white', padding: '16px' }}>
                       <QRCode
                         size={100}
                         style={{ height: "auto", width: "100%" }}
@@ -157,6 +158,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                         viewBox="0 0 150 150"
                         className="my-5"
                       />
+                      </div>
                     </div>
                     <div className=" absolute w-full top-[-30px]  border right-0 transform shadow-2xl -translate-x-1/2 bg-black text-white text-sm rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       You can scan this to download the image on your phone
