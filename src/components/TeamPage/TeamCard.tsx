@@ -18,7 +18,8 @@ const TeamCard: React.FC<CardProps> = ({
         <Image
           src={imageSrc}
           alt={name}
-          layout="fill"
+          width={300}
+          height={300}
           objectFit="cover"
           objectPosition="top left"
           className="rounded-t-2xl"

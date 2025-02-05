@@ -46,10 +46,6 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   const { data: hasLiked } = api.like.hasLiked.useQuery({ captureId: selectedImageId! });
   const { data: acthor } = api.capture.getAuthorDetails.useQuery({ id: selectedImageId! });
   const toggleLike = api.like.toggleLike.useMutation();
-  const playLikeSound = () => {
-    const audio = new Audio("/sound/like.wav");
-    audio.play();
-  };
   const handleToggleLike = async () => {
     if (selectedImageId && hasLiked !== null) {
       try {

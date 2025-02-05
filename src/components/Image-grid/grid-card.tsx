@@ -3,6 +3,7 @@ import { api } from "~/utils/api";
 import { FcLike } from "react-icons/fc";
 import Image from "next/image";
 import { ImageListItem } from "@mui/material";
+import { FaHeart } from "react-icons/fa";
 
 interface GridCardProps {
   imageId: number;
@@ -27,7 +28,7 @@ export const GridCard: React.FC<GridCardProps> = ({
 
   return (
     <ImageListItem
-      className={`grid place-content-center place-items-center rounded-lg  p-2 ${isLoading ? "bg-gradient-to-b from-indigo-400 to-indigo-900" : "bg-transparent"}`}
+      className={`grid place-content-center place-items-center rounded-lg  p-1 ${isLoading ? "bg-gradient-to-b from-[#343434] to-[#0d1115]" : "bg-transparent"}`}
     >
       <div className="relative h-fit w-fit">
         <div
@@ -48,8 +49,8 @@ export const GridCard: React.FC<GridCardProps> = ({
           {prefech && (
             <link rel="prefetch" href={imagePath} as="image" className="hidden" />
           )}
-          <div className="absolute -bottom-1 right-0 flex gap-1 rounded-tl-3xl bg-gradient-to-b from-indigo-400 to-indigo-900 px-4 py-2 text-white">
-            <FcLike size={20} />
+          <div className="absolute -bottom-1 right-0 flex gap-1 rounded-tl-3xl bg-gradient-to-b from-[#343434] to-[#0d1115] px-4 py-2 text-white">
+          <FaHeart  size={18} />
             {totalLikes}
           </div>
         </div>

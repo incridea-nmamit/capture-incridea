@@ -46,7 +46,7 @@ const Header: FC = () => {
                 alt="Logo"
                 width={150}
                 height={80}
-                className="h-auto w-auto max-w-32"
+                className="h-auto w-auto max-w-28"
                 onContextMenu={(e) => e.preventDefault()}
                 onDragStart={(e) => e.preventDefault()}
               />

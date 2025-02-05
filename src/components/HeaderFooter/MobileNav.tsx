@@ -58,7 +58,7 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
                 alt="Logo"
                 width={150}
                 height={80}
-                className="h-auto w-auto max-w-32"
+                className="h-auto w-auto max-w-24"
                 onContextMenu={(e) => e.preventDefault()}
                 onDragStart={(e) => e.preventDefault()}
               />
