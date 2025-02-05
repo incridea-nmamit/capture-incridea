@@ -5,12 +5,12 @@ import { UploadDropzone } from "tailwind.config";
 
 interface UploadComponentProps {
   onUploadComplete: (uploadKey: string) => void; // Define the prop type
-  resetUpload: () => void; 
+  resetUpload: () => void;
   onUploadBegin?: () => void;
   onUploadProgress?: (p:number) => void;
 }
 
-const UploadComponent: React.FC<UploadComponentProps> = ({ 
+const UploadComponent: React.FC<UploadComponentProps> = ({
   onUploadComplete,
   onUploadBegin,
   onUploadProgress
@@ -20,8 +20,10 @@ const UploadComponent: React.FC<UploadComponentProps> = ({
       <UploadDropzone
         className="bg-black p-[20px] h-50 ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300"
         endpoint="imageUploader"
-        onUploadBegin={onUploadBegin}
-        onUploadProgress={onUploadProgress}
+        onUploadBegin={(f) => {onUploadBegin?.()
+          console.log("Am running man", f)
+        }}
+        onUploadProgress={(p)=> {onUploadProgress?.(p); console.log("Something not wrong no man", p)}}
         onClientUploadComplete={(res) => {
           const uploadKey = res?.[0]?.key;
           if (uploadKey) {
