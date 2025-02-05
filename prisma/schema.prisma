@@ -120,6 +120,7 @@ model Stories {
   storyLikes     StoryLike[]
 }
 
+
 model storycategories {
   id      Int       @id @default(sequence())
   name    String    @unique

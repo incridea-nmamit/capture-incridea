@@ -29,7 +29,7 @@ const NavLink: FC<NavLinkProps> = ({
     >
       {label}
       <span
-        className="bg-gold absolute bottom-0 left-0 h-[2px] w-0 transition-all duration-300 group-hover:w-full"
+        className="absolute bottom-0 left-0 h-[2px] w-0 bg-white transition-all duration-300 group-hover:w-full"
         aria-hidden="true"
       ></span>
     </Link>
