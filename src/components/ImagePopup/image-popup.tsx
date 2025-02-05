@@ -41,6 +41,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   const [isLoadings, setIsLoading] = useState(true);
   const [openMoreInfo, setOpenMoreInfor] = useState(false);
   const [animating, setAnimating] = useState(false);
+  const { data: session } = useSession();
   const { data: totalLikes, isLoading } = api.like.getTotalLikes.useQuery({ captureId: selectedImageId! });
   const { data: hasLiked } = api.like.hasLiked.useQuery({ captureId: selectedImageId! });
   const { data: acthor } = api.capture.getAuthorDetails.useQuery({ id: selectedImageId! });
@@ -102,14 +103,12 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
         aria-modal="true"
         onClick={handleClosePopup}
       >
-
         <div
-          className="    max-h-[98vh] w-full md:w-[60%]  h-auto space-y-10 gradient-bg grid grid-cols-1 gap-4 rounded-[30px]   border-[4px] border-indigo-700"
+          className="max-h-[98vh] w-full md:w-[60%]  h-auto space-y-10 gradient-bg grid grid-cols-1 gap-4 rounded-l-2xl"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex flex-col md:flex-row w-full h-full ">
-
-            <div className="relative flex bg-indigo-700 justify-center items-center w-full md:w-1/2 border-[5px] md:border-r-[12px] border-indigo-700 rounded-[20px]">
+          <div className="flex flex-col md:flex-row w-full h-full">
+            <div className="relative flexjustify-center items-center w-full md:w-1/2  rounded-l-2xl">
               <Image
                 src={selectedImage || "/images/fallback.webp"}
                 alt="Selected"
@@ -121,10 +120,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                 onDragStart={(e) => e.preventDefault()}
               />
             </div>
-
-
-            <div className="w-full md:w-1/2 h-full p-10 ">
-
+            <div className="w-full md:w-1/2 h-full p-8 ">
               <div className="flex justify-between gap-2 items-center">
                 <div>
                   <Image
@@ -132,35 +128,36 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                     alt="Logo"
                     width={150}
                     height={80}
-                    className="h-auto w-auto max-w-32"
+                    className="h-auto w-auto max-w-24"
                     onContextMenu={(e) => e.preventDefault()}
                     onDragStart={(e) => e.preventDefault()}
                   />
                 </div>
                 <div className="flex flex-row items-center justify-center gap-5">
                   <Button onClick={handleShare} className="flex items-center">
-                    <Share2 className="text-white w-5 h-5" />
+                    <Share2 className="text-white w-6 h-6" />
                   </Button>
-                  <Button onClick={() => setOpenMoreInfor(true)} className="flex items-center">
-                    <Info className="text-white w-5 h-5" />
-                  </Button>
+                  
+                  {session?.user?.role === "admin" && (
+                    <Button onClick={() => setOpenMoreInfor(true)} className="flex items-center">
+                      <Info className="text-white w-6 h-6" />
+                    </Button>
+                  )}
+
                 </div>
               </div>
-
-
-
-
-
-              <div className="flex flex-col justify-center items-center h-full w-full  space-y-5 md:space-y-6 font-cursive text-white text-md md:text-xl tracking-widest text-center px-4 ">
+              <div className="flex flex-col justify-center items-center h-full w-full  space-y-5 md:space-y-6 font-Trap-Regular gap-5 text-white text-md md:text-xl tracking-widest text-center px-4 ">
                 <div className="flex justify-center items-center">
-                  <div className="hidden md:block w-[200px] border border-white p-1 rounded-2xl relative group">
-                    <QRCode
-                      size={200}
-                      style={{ height: "auto", width: "100%" }}
-                      value={QrLink}
-                      viewBox="0 0 200 200"
-                    />
-
+                  <div className="hidden md:flex justify-center items-center m-5 w-[200px] rounded-2xl relative group">
+                    <div className="w-2/3 flex justify-center items-center">
+                      <QRCode
+                        size={100}
+                        style={{ height: "auto", width: "100%" }}
+                        value={QrLink}
+                        viewBox="0 0 150 150"
+                        className="my-5"
+                      />
+                    </div>
                     <div className=" absolute w-full top-[-30px]  border right-0 transform shadow-2xl -translate-x-1/2 bg-black text-white text-sm rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       You can scan this to download the image on your phone
                     </div>
@@ -169,24 +166,24 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
 
                 <div className="flex justify-center gap-2 items-center">
                   <button onClick={handleToggleLike} aria-label="Like Button">
-                    <FaHeart size={24} color={hasLiked ? "red" : "white"} className={`${animating ? "animate-pop" : ""}`} />
+                    <FaHeart size={28} color={hasLiked ? "red" : "white"} className={`${animating ? "animate-pop" : ""}`} />
                   </button>
-                  <span className="text-white text-sm">
+                  <span className="text-white text-lg  font-Trap-Regular">
                     {isLoading ? "..." : totalLikes !== null ? totalLikes : "Loading..."}
                   </span>
 
                   <Button
-                    className="bg-white rounded-xl text-black px-7 py-2 text-xl hover:scale-105 transition-all"
+                    className="bg-white rounded-xl text-black px-7 py-2 mx-5 font-Trap-Regular text-sm hover:scale-105 transition-all"
                     onClick={() => handleDownload(selectedImageOg || selectedImage)}
                   >
-                    Download
+                    Download Original
                   </Button>
                 </div>
 
 
-                <div className="flex items-center justify-center w-full text-center">
+                <div className="flex items-center justify-center w-full text-center font-Trap-Regular text-xs">
                   <span>
-                    Note: If you prefer this capture not to be public or have any issues,
+                    NIf you prefer this capture not to be public or have any issues,&nbsp;
                     <button
                       className="underline hover:no-underline text-blue-400 hover:text-blue-500 transition duration-200"
                       onClick={() => {
@@ -194,16 +191,16 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                         openRemovalPopup(selectedImage);
                       }}
                     >
-                      Request Removal
+                      Request Removal 
                     </button>
-                    , we’ll verify your request and work on it soon.
+                    &nbsp;We’ll verify your request and work on it soon.
                   </span>
                 </div>
 
 
-                <div className="flex items-center justify-center gap-4">
+                <div className="flex items-center justify-center gap-4 text-xs">
                   <span>Captured By</span>
-                  <div className="w-12 h-12 border border-gray-500 rounded-full flex items-center justify-center overflow-hidden">
+                  <div className="w-8  h-8  flex items-center justify-center overflow-hidden">
                     <Avatar className="w-full h-full">
                       <AvatarImage src={acthor?.image || "https://github.com/shadcn.png"} alt={acthor?.name || "User"} />
                     </Avatar>
