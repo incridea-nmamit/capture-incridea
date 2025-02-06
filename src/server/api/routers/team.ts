@@ -3,8 +3,6 @@ import { z } from "zod";
 import { Teamgroup } from "@prisma/client";
 
 export const teamRouter = createTRPCRouter({
-
-
   addTeam: protectedProcedure
     .input(
       z.object({
@@ -12,6 +10,10 @@ export const teamRouter = createTRPCRouter({
         committee: z.nativeEnum(Teamgroup),
         designation: z.string(),
         uploadKey: z.string().min(1, "Upload key is required"),
+        github: z.string().optional(),
+        linkedin: z.string().optional(),
+        instagram: z.string().optional(),
+        behance: z.string().optional(),
         say: z.string().optional(),
       })
     )
@@ -24,10 +26,15 @@ export const teamRouter = createTRPCRouter({
           designation: input.designation,
           image: imageUrl,
           say: input.say || "",
+          github: input.github || "",
+          linkedin: input.linkedin || "",
+          instagram: input.instagram || "",
+          behance: input.behance || "",
         },
       });
       return newTeam;
     }),
+
 
   updateTeam: protectedProcedure
     .input(
@@ -37,6 +44,10 @@ export const teamRouter = createTRPCRouter({
         committee: z.nativeEnum(Teamgroup).optional(),
         designation: z.string().optional(),
         uploadKey: z.string().optional(),
+        github: z.string().optional(),
+        linkedin: z.string().optional(),
+        instagram: z.string().optional(),
+        behance: z.string().optional(),
         say: z.string().optional(),
       })
     )

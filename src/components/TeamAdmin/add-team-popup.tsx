@@ -11,20 +11,23 @@ import { Button } from "~/components/ui/button"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "~/components/ui/dialog"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "~/components/ui/select"
-import { Textarea } from "~/components/ui/textarea"
+import { Github, Linkedin, Instagram } from 'lucide-react';
+import Image from "next/image"
 import UploadComponent from "../UploadComponent"
 import toast from "react-hot-toast"
 import { Teamgroup } from "@prisma/client"
-import Image from "next/image"
-
+import { Textarea } from "../ui/textarea"
 
 const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
     committee: z.nativeEnum(Teamgroup),
     designation: z.string().min(1, "Designation is required"),
     say: z.string().min(1, "Say is required"),
-    uploadKey: z.string().min(1, "Please upload an image") // Added uploadKey validation
+    uploadKey: z.string().min(1, "Please upload an image"),
+    github: z.string().optional(),
+    linkedin: z.string().optional(),
+    instagram: z.string().optional(),
+    behance: z.string().optional(),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -55,7 +58,11 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
             committee: "none",
             designation: "",
             say: "",
-            uploadKey: uploadUrl
+            uploadKey: uploadUrl,
+            github: "",
+            linkedin: "",
+            instagram: "",
+            behance: "",
         },
     })
 
@@ -84,7 +91,7 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
             await auditLogMutation.mutateAsync({
                 sessionUser: session?.user.name || "Unknown User",
                 description: `Added team member ${data.name} for ${data.committee} as ${data.designation} with say ${data.say}`,
-                audit:'TeamManagementAudit'
+                audit: 'TeamManagementAudit'
             })
 
             toast.success(`Added team member ${data.name}`)
@@ -97,68 +104,104 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
 
     return (
         <Dialog open={isPopupOpen} onOpenChange={setIsPopupOpen}>
-            <DialogContent className="bg-neutral-900  border border-gray-100 p-10 rounded-3xl shadow-lg text-center w-96">
+            <DialogContent className="bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950 border border-gray-100 p-10 rounded-3xl shadow-lg text-center w-full max-w-4xl">
                 <DialogHeader>
                     <DialogTitle className="text-white">Add Team Member</DialogTitle>
                 </DialogHeader>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-left">
-                   
-                    <div>
-                        <Label className="text-white">Name</Label>
-                        <Input
-                            {...register("name")}
-                            className="bg-black text-white"
-                            placeholder="Enter team member name"
-                        />
-                        {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+
+                <form onSubmit={handleSubmit(onSubmit)} className="flex md:flex-row flex-col  justify-between gap-6 mt-6">
+
+                    <div className="md:w-1/2 w-full space-y-4 text-left">
+                        <div>
+                            <Input
+                                {...register("name")}
+                                className="bg-black text-white border border-gray-700"
+                                placeholder="Enter team member name"
+                            />
+                            {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+                        </div>
+
+                        <div>
+                            <Textarea
+                                {...register("say")}
+                                className="bg-black text-white border border-gray-700"
+                                placeholder="Enter a quote or saying"
+                            />
+                            {errors.say && <p className="text-red-500 text-sm">{errors.say.message}</p>}
+                        </div>
+
+                        <div>
+                            <Input
+                                {...register("designation")}
+                                className="bg-black text-white border border-gray-700"
+                                placeholder="Enter designation"
+                            />
+                            {errors.designation && <p className="text-red-500 text-sm">{errors.designation.message}</p>}
+                        </div>
+
+                        <div>
+                            <select {...register("committee")} className="w-full p-2 bg-black border border-neutral-700">
+                                <option value="media">Media</option>
+                                <option value="socialmedia">Social Media</option>
+                                <option value="developer">Developer</option>
+                            </select>
+                            {errors.committee && <p className="text-red-500 text-sm">{errors.committee.message}</p>}
+                        </div>
+                        <div className="relative">
+                            <Github className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+                            <Input
+                                {...register("github")}
+                                className="bg-black text-white pl-10 border border-gray-700"
+                                placeholder="Enter GitHub URL"
+                            />
+                            {errors.github && <p className="text-red-500 text-sm">{errors.github.message}</p>}
+                        </div>
+
+                        <div className="relative">
+                            <Linkedin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+                            <Input
+                                {...register("linkedin")}
+                                className="bg-black text-white pl-10 border border-gray-700"
+                                placeholder="Enter LinkedIn URL"
+                            />
+                            {errors.linkedin && <p className="text-red-500 text-sm">{errors.linkedin.message}</p>}
+                        </div>
+
+                        <div className="relative">
+                            <Instagram className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+                            <Input
+                                {...register("instagram")}
+                                className="bg-black text-white pl-10 border border-gray-700"
+                                placeholder="Enter Instagram URL"
+                            />
+                            {errors.instagram && <p className="text-red-500 text-sm">{errors.instagram.message}</p>}
+                        </div>
+
+                        <div className="relative">
+                            <Instagram className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+                            <Input
+                                {...register("behance")}
+                                className="bg-black text-white pl-10 border border-gray-700"
+                                placeholder="Enter Behance URL"
+                            />
+                            {errors.behance && <p className="text-red-500 text-sm">{errors.behance.message}</p>}
+                        </div>
                     </div>
 
-                   
-                    <div>
-                        <Label className="text-white">Say</Label>
-                        <Textarea
-                            {...register("say")}
-                            className="bg-black text-white"
-                            placeholder="Enter a quote or saying"
-                        />
-                        {errors.say && <p className="text-red-500 text-sm">{errors.say.message}</p>}
-                    </div>
-
-               
-                    <div>
-                        <label htmlFor="committee" className="text-white">Committee</label>
-                        <select {...register("committee")} className="w-full p-2  bg-black border border-neutral-700">
-                            <option value="" disabled>Select a committee</option>
-                            <option value="media">Media</option>
-                            <option value="socialmedia">Social Media</option>
-                            <option value="developer">Developer</option>
-                        </select>
-                        {errors.committee && <p className="text-red-500 text-sm">{errors.committee.message}</p>}
-                    </div>
-
-
-
-                    <div>
-                        <Label className="text-white">Designation</Label>
-                        <Input
-                            {...register("designation")}
-                            className="bg-black text-white"
-                            placeholder="Enter designation"
-                        />
-                        {errors.designation && <p className="text-red-500 text-sm">{errors.designation.message}</p>}
-                    </div>
-                    <div>
+                    <div className="md:w-1/2 w-full flex flex-col items-center justify-center space-y-4">
                         {uploadUrl ? (
                             <>
                                 <Label className="text-white">Uploaded Image</Label>
-
                                 <Image
                                     src={`https://utfs.io/f/${uploadUrl}`}
                                     alt="Uploaded Image"
-                                    width={150}
+                                    width={300}
                                     height={150}
-                                    className="object-cover"
+                                    className="object-cover rounded-xl"
                                 />
+                                <Button variant="outline" onClick={() => setUploadUrl("")} className="mt-2 text-white">
+                                    Remove Image
+                                </Button>
                             </>
                         ) : (
                             <>
@@ -166,20 +209,24 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
                                 <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl("")} />
                             </>
                         )}
-                    </div>          
-                    <DialogFooter>
-                        <Button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-full bg-white text-black text-xl rounded-xl font-Trap-Regular font-bold"
-                        >
-                            {isSubmitting ? "Submitting..." : "Submit"}
-                        </Button>
-                    </DialogFooter>
+                    </div>
+
                 </form>
+
+                <DialogFooter className="mt-6">
+                    <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full bg-white text-black text-xl rounded-xl font-Trap-Regular font-bold"
+                        onClick={handleSubmit(onSubmit)}
+                    >
+                        {isSubmitting ? "Submitting..." : "Submit"}
+                    </Button>
+                </DialogFooter>
             </DialogContent>
         </Dialog>
     )
 }
 
 export default AddTeamPopUpModel
+
