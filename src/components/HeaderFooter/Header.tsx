@@ -9,7 +9,7 @@ import { MdCamera, MdLogout } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi";
 import Image from "next/image";
-import MobileNav from "./MobileNav"; 
+import MobileNav from "./MobileNav";
 const adminLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: <BiSolidDashboard /> },
   { href: "/", label: "MainPage", icon: <GoHomeFill /> },
@@ -19,7 +19,7 @@ const userLinks = [
   { href: "/", label: "Home", icon: <GoHomeFill /> },
   { href: "/captures", label: "Captures", icon: <MdCamera /> },
   { href: "/about", label: "About", icon: <HiInformationCircle /> },
-  { href: "/our-team", label: "Our Team", icon: <RiTeamFill /> },
+  { href: "/our-team", label: "Team", icon: <RiTeamFill /> },
 ];
 
 const Header: FC = () => {
@@ -79,9 +79,11 @@ const Header: FC = () => {
             {session && !isAdminRoute && (
               <button
                 onClick={() => signIn()}
-                className="flex text-xl text-white justify-center items-center"
+                className="flex items-center justify-center text-xl text-white"
               >
-                <div><MdLogout /></div>
+                <div>
+                  <MdLogout />
+                </div>
               </button>
             )}
             {session && isAdminRoute && session.user?.role === "admin" && (

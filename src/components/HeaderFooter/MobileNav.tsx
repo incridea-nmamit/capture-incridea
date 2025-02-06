@@ -18,6 +18,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import SplitText from "./SplitText";
 
 const adminLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: <BiSolidDashboard /> },
@@ -34,6 +35,10 @@ const userLinks = [
 type MobileNavProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const handleAnimationComplete = () => {
+  console.log("All letters have animated!");
 };
 
 const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
@@ -70,11 +75,26 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
           {(session && isAdminRoute && session.user?.role === "admin"
             ? adminLinks
             : userLinks
-          ).map((link) => (
+          ).map((link, index) => (
             <SheetClose asChild key={link.href}>
               <NavLink
                 href={link.href}
-                label={link.label}
+                label={
+                  <SplitText
+                    text={link.label}
+                    className="text-center text-2xl font-semibold"
+                    delay={150 * index}
+                    animationFrom={{
+                      opacity: 0,
+                      transform: "translateY(20px)",
+                    }}
+                    animationTo={{ opacity: 1, transform: "translateY(0)" }}
+                    easing="easeOutCubic"
+                    threshold={0.2}
+                    rootMargin="-50px"
+                    onLetterAnimationComplete={handleAnimationComplete}
+                  />
+                }
                 active={
                   link.href === "/"
                     ? pathname === link.href
@@ -82,19 +102,21 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
                 }
                 className="flex items-center gap-3 text-center"
               >
-                <span>{link.icon}</span> {link.label}
+                <span>{link.icon}</span>
               </NavLink>
             </SheetClose>
           ))}
 
-            {session && !isAdminRoute && (
-              <button
-                onClick={() => signIn()}
-                className="flex text-xl text-white justify-center items-center"
-              >
-                <div><MdLogout size={24}/></div>
-              </button>
-            )}
+          {session && !isAdminRoute && (
+            <button
+              onClick={() => signIn()}
+              className="flex items-center justify-center text-xl text-white"
+            >
+              <div>
+                <MdLogout size={24} />
+              </div>
+            </button>
+          )}
           {session && isAdminRoute && session.user?.role === "admin" && (
             <button
               onClick={() => signOut()}
