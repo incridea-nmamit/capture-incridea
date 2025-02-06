@@ -20,7 +20,7 @@ const EventCard: FC<EventCardProps> = ({ name, type, description, day, backgroun
 
   return (
     <div
-      className="relative gradient-bg cursor-pointer overflow-hidden w-80 h-full bg-neutral-900 text-gray-50 rounded-lg shadow-md hover:border border-gray-700 hover:shadow-lg hover:border-gray-100 transition duration-300 hover:scale-105 "
+      className="relative gradient-bg cursor-pointer border border-gray-600 overflow-hidden w-80 h-full bg-neutral-900 text-gray-50 rounded-lg shadow-md hover:border border-gray-700 hover:shadow-lg hover:border-gray-100 transition duration-300 hover:scale-105 "
       onClick={handleCardClick}
     >
       {/* Image Section */}

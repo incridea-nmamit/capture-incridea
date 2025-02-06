@@ -42,7 +42,7 @@ export function CustomUsersTable({
               <div className="p-4">
                 <h4 className="mb-4 text-sm font-medium leading-none">Downloads</h4>
                 {downloadUsers?.map((user) => (
-                  <div key={user.id} className="flex items-center space-x-4 text-sm bg-neutral-950 p-2 rounded-xl shadow-2xl">
+                  <div key={user.id} className="flex items-center mt-2 space-x-4 text-sm bg-neutral-950 p-2 rounded-xl shadow-2xl">
                     <Avatar>
                       <AvatarImage
                         src={user.imageUrl || "https://github.com/shadcn.png"}
@@ -62,7 +62,7 @@ export function CustomUsersTable({
               <div className="p-4">
                 <h4 className="mb-4 text-sm font-medium leading-none">Likes</h4>
                 {likeUsers?.map((user) => (
-                  <div key={user.id} className="flex items-center space-x-4 text-sm bg-neutral-950 p-2 rounded-xl shadow-2xl">
+                  <div key={user.id} className="flex mt-2 items-center space-x-4 text-sm bg-neutral-950 p-2 rounded-xl shadow-2xl">
                     <Avatar>
                       <AvatarImage
                         src={user.imageUrl || "https://github.com/shadcn.png"}
