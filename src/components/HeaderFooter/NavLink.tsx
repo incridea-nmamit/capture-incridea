@@ -3,7 +3,7 @@ import Link from "next/link";
 
 interface NavLinkProps {
   href: string;
-  label: string;
+  label: ReactNode;
   active: boolean;
   onClick?: () => void;
   className?: string;

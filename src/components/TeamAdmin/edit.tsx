@@ -153,23 +153,23 @@ const EditTeamPopupModel = ({ isPopupOpen, setIsPopupOpen, id }: Props) => {
               </div>
 
               
-              {["github", "linkedin", "instagram", "behance"].map((field) => (
-                <div key={field} className="relative">
-                  {field === "github" && <Github className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />}
-                  {field === "linkedin" && <Linkedin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />}
-                  {(field === "instagram" || field === "behance") && (
-                    <Instagram className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
-                  )}
-                  <Input
-                    {...register(field)}
-                    className="bg-black text-white pl-10 border border-gray-700"
-                    placeholder={`Enter ${field.charAt(0).toUpperCase() + field.slice(1)} URL`}
-                  />
-                  {errors[field as keyof FormData] && (
-                    <p className="text-red-500 text-sm">{errors[field as keyof FormData]?.message}</p>
-                  )}
-                </div>
-              ))}
+              {(["github", "linkedin", "instagram", "behance"] as const).map((field) => (
+  <div key={field} className="relative">
+    {field === "github" && <Github className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />}
+    {field === "linkedin" && <Linkedin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />}
+    {(field === "instagram" || field === "behance") && (
+      <Instagram className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+    )}
+    <Input
+      {...register(field)}
+      className="bg-black text-white pl-10 border border-gray-700"
+      placeholder={`Enter ${field.charAt(0).toUpperCase() + field.slice(1)} URL`}
+    />
+    {errors[field] && (
+      <p className="text-red-500 text-sm">{errors[field]?.message}</p>
+    )}
+  </div>
+))}
             </div>
 
          
