@@ -120,7 +120,6 @@ model Stories {
   storyLikes     StoryLike[]
 }
 
-
 model storycategories {
   id      Int       @id @default(sequence())
   name    String    @unique
@@ -153,6 +152,10 @@ model team {
   designation String
   image       String
   say         String
+  github      String?
+  linkedin    String?
+  instagram   String?
+  behance     String?
   captures    Captures[]
   stories     Stories[]
 }
