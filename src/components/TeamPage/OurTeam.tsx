@@ -5,7 +5,7 @@ import TeamCommitteeCard from "./TeamCommitteeCard";
 const OurTeam = () => {
   const teams = [
     {
-      title: "Technical Team",
+      title: "Developers Team & Editors",
       description: "Developing for your convenience.",
       imageUrl:
         "https://utfs.io/f/0yks13NtToBiNX5DnCjzD2wWm5AylYHcVfipk40e8O9RubFS",

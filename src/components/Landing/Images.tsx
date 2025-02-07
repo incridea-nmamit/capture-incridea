@@ -61,17 +61,17 @@ function Images() {
         "Let’s cherish memories by sharing them with all."
       </h3>
       <div className="flex w-full items-center justify-center gap-2 overflow-hidden md:gap-6">
-        <img
+        <Image
           src="https://placehold.co/400x600"
           alt=""
           className="slide-image h-[27vh] w-[50%] rounded-lg object-cover md:h-full"
         />
-        <img
+        <Image
           src="https://placehold.co/400x600"
           alt=""
           className="slide-image h-[27vh] w-[50%] rounded-lg md:h-full"
         />
-        <img
+        <Image
           src="https://placehold.co/400x600"
           alt=""
           className="slide-image h-[27vh] w-[50%] rounded-lg md:h-full"

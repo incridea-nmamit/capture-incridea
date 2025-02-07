@@ -14,7 +14,7 @@ const TeamCommitteeCard: React.FC<CardProps> = ({ title, description, imageUrl, 
 
   const renderIcon = (title:string) => {
     switch (title) {
-      case "Technical Team":
+      case "Developers Team & Editors":
         return <Computer size={32} className="text-white" />;
       case "Media Team":
         return <Camera size={32} className="text-white" />;
