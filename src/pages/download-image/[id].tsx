@@ -148,14 +148,13 @@ const ImagePopup = () => {
                     onDragStart={(e) => e.preventDefault()}
                   />
                 </div>
-                <div className="flex flex-row items-center justify-center gap-5">
+                <div className="flex flex-row items-center justify-center gap-5">                  
                   <Button onClick={handleShare} className="flex items-center">
                     <Share2 className="text-white w-5 h-5" />
                   </Button>
                 </div>
               </div>
-              <div className="flex flex-col justify-center items-center h-full w-full  space-y-5 md:space-y-6 font-cursive text-white text-md md:text-xl tracking-widest text-center px-4 ">
-
+              <div className="flex flex-col justify-center items-center h-full w-full  space-y-5 md:space-y-6 font-cursive text-white text-md md:text-xl tracking-widest text-center px-4 md:py-36">
                 <div className="flex justify-center gap-2 items-center">
                   <button onClick={handleToggleLike} aria-label="Like Button">
                     <FaHeart size={20} color={hasLiked ? "red" : "white"} />
