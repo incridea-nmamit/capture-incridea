@@ -1,4 +1,3 @@
-
 import { Share2, Info } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -44,7 +43,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   const { data: session } = useSession();
   const { data: totalLikes, isLoading } = api.like.getTotalLikes.useQuery({ captureId: selectedImageId! });
   const { data: hasLiked } = api.like.hasLiked.useQuery({ captureId: selectedImageId! });
-  const { data: acthor } = api.capture.getAuthorDetails.useQuery({ id: selectedImageId! });
+  const { data: author } = api.capture.getAuthorDetails.useQuery({ id: selectedImageId! });
   const toggleLike = api.like.toggleLike.useMutation();
   const handleToggleLike = async () => {
     if (selectedImageId && hasLiked !== null) {
@@ -103,11 +102,11 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex flex-col md:flex-row w-full h-full">
-            <div className="relative flexjustify-center items-center w-full md:w-1/2  rounded-l-3xl">
+            <div className="relative flex justify-center items-center w-full md:w-1/2 aspect-square rounded-l-3xl">
               <Image
                 src={selectedImage || "/images/fallback.webp"}
                 alt="Selected"
-                className="rounded-[10px] shadow-2xl transition-opacity overflow-hiddden"
+                className="rounded-[10px] shadow-2xl transition-opacity overflow-hidden"
                 layout="fill"
                 objectFit="cover"
                 onLoad={handleImageLoad}
@@ -193,16 +192,17 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                   </span>
                 </div>
 
-
-                <div className="flex items-center justify-center gap-4 text-xs">
-                  <span>Captured By</span>
-                  <div className="w-8  h-8  flex items-center justify-center overflow-hidden">
-                    <Avatar className="w-full h-full">
-                      <AvatarImage src={acthor?.image || "https://github.com/shadcn.png"} alt={acthor?.name || "User"} />
-                    </Avatar>
+                <a href="/our-team">
+                  <div className="flex items-center justify-center gap-4 text-xs">
+                    <span>Captured By</span>
+                    <div className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center overflow-hidden">
+                      <Avatar className="w-full h-full">
+                        <AvatarImage src={author?.image || "https://github.com/shadcn.png"} alt={author?.name || "User"} />
+                      </Avatar>
+                    </div>
+                    <span>{author?.name || "Loading..."}</span>
                   </div>
-                  <span>{acthor?.name || "Loading..."}</span>
-                </div>
+                </a>
               </div>
             </div>
 
