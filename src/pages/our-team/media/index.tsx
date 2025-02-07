@@ -40,19 +40,22 @@ const MediaCommittee: React.FC = () => {
         if (designation.includes("head")) {
           return 1;
         }
+        if (designation.includes("multimedia")) {
+          return 3;
+        }
         if (
           designation.includes("video") ||
           designation.includes("videography")
         ) {
-          return 3;
+          return 4;
         }
         if (
           designation.includes("photo") ||
           designation.includes("photography")
         ) {
-          return 4;
+          return 5;
         }
-        return 5;
+        return 6;
       };
 
       const priorityA = designationPriority(aDesignation);

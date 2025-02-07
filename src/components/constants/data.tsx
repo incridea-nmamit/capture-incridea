@@ -301,4 +301,10 @@ Grab your tickets now and be part of the excitement!",`,
     route: "/accolades",
     description: `Accolades – More than just trophies. They’re the celebration of grit, passion, and those unforgettable moments when hard work meets success`,
   },
+  {
+    imgSrc: "images/CapturePage/img3.webp",
+    title: "Faculty",
+    route: "/faculty",
+    description: `Curated captures for the faculty`,
+  },
 ];
