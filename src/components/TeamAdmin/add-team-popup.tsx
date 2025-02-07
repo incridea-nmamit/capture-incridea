@@ -17,6 +17,7 @@ import UploadComponent from "../UploadComponent"
 import toast from "react-hot-toast"
 import { Teamgroup } from "@prisma/client"
 import { Textarea } from "../ui/textarea"
+import { FaBehance } from "react-icons/fa"
 
 const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -178,7 +179,7 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
                         </div>
 
                         <div className="relative">
-                            <Instagram className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+                            <FaBehance className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
                             <Input
                                 {...register("behance")}
                                 className="bg-black text-white pl-10 border border-gray-700"

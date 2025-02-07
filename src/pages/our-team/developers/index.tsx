@@ -75,6 +75,10 @@ const MediaCommittee: React.FC = () => {
             name={member.name}
             designation={member.designation}
             say={member.say}
+            github={member.github!}
+            linkedin={member.linkedin!}
+            instagram={member.instagram!}
+            behance={member.behance!}
           />
         ))}
       </div>

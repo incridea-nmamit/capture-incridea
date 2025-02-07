@@ -5,7 +5,7 @@ import TeamCommitteeCard from "./TeamCommitteeCard";
 const OurTeam = () => {
   const teams = [
     {
-      title: "Capture Incridea Developers & Team",
+      title: "Technical Team",
       description: "Developing for your convenience.",
       imageUrl:
         "https://utfs.io/f/0yks13NtToBiNX5DnCjzD2wWm5AylYHcVfipk40e8O9RubFS",

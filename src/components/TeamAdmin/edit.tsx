@@ -18,6 +18,7 @@ import UploadComponent from "../UploadComponent";
 import toast from "react-hot-toast";
 import { Teamgroup } from "@prisma/client";
 import Image from "next/image";
+import { FaBehance } from "react-icons/fa";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -157,11 +158,10 @@ const EditTeamPopupModel = ({ isPopupOpen, setIsPopupOpen, id }: Props) => {
                 <div key={field} className="relative">
                   {field === "github" && <Github className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />}
                   {field === "linkedin" && <Linkedin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />}
-                  {(field === "instagram" || field === "behance") && (
-                    <Instagram className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
-                  )}
+                  {field === "instagram" && <Instagram  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />}
+                  {field === "behance" && <FaBehance className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />}
                   <Input
-                    {...register(field)}
+                    {...register(field as keyof FormData)}
                     className="bg-black text-white pl-10 border border-gray-700"
                     placeholder={`Enter ${field.charAt(0).toUpperCase() + field.slice(1)} URL`}
                   />
