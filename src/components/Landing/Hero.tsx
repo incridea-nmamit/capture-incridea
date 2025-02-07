@@ -13,7 +13,7 @@ function Hero() {
         >
           <source src="/videos/VidCom.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
         <div className="relative z-10 flex h-full flex-col items-center justify-end pb-24 sm:pb-28 md:pb-32">
           <div className="flex w-full flex-col gap-2 px-6 text-left text-white md:text-center">
             <h1 className="mb-4 w-full font-Teknaf text-5xl font-semibold md:text-6xl lg:text-6xl">

@@ -21,6 +21,7 @@ import { usePathname } from "next/navigation";
 import SEO from "~/components/SEO";
 import Footer from "~/components/HeaderFooter/Footer";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Script from "next/script";
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -140,6 +141,25 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <SEO/>
       <KeyboardShortcut />
+      <Script
+        strategy="afterInteractive"
+        src="https://www.googletagmanager.com/gtag/js?id=G-QRVG032QD4"
+      />
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-QRVG032QD4', {
+              page_path: window.location.pathname,
+            });
+          `,
+        }}
+      />
+      
       {/* {showIntro ? (
         <IntroAnimation onAnimationComplete={handleIntroAnimationComplete} />
       ) : (
