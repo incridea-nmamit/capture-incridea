@@ -101,19 +101,19 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
               Immerse yourself in the spirit of our college community as we celebrate the unforgettable moments that
               make Incridea truly special!
             </motion.p>
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-3 sm:gap-4 mt-4 sm:mt-6">
+            <div className="flex flex-row items-center justify-center gap-2 sm:flex sm:flex-wrap sm:gap-4 mt-4 sm:mt-6 overflow-x-auto">
               {["Days", "Hours", "Minutes", "Seconds"].map((label, index) => (
                 <motion.div
                   key={index}
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.1 * index, duration: 0.5 }}
-                  className="bg-gradient-to-br from-blue-800 to-cyan-700 text-white rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 w-full sm:w-28 md:w-32 lg:w-36"
+                  className="bg-gradient-to-br from-blue-800 to-cyan-700 text-white rounded-2xl p-2 sm:p-4 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 w-[4.5rem] sm:w-28 md:w-32 lg:w-36"
                 >
-                  <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">
+                  <span className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold">
                     {formatTwoDigits(timeDisplay[label.toLowerCase() as keyof typeof timeDisplay])}
                   </span>
-                  <div className="text-xs sm:text-sm md:text-base font-semibold mt-1">{label}</div>
+                  <div className="text-[0.6rem] sm:text-sm md:text-base font-semibold mt-1">{label}</div>
                 </motion.div>
               ))}
             </div>
