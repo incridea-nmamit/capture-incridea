@@ -1,5 +1,5 @@
 import { api } from "~/utils/api";
-import React, { useMemo } from "react";
+import React from "react";
 import TeamCard from "~/components/TeamPage/TeamCard";
 
 import TitleSection from "~/components/TeamPage/TeamTitle";
@@ -26,45 +26,43 @@ const SocialMediaPage: React.FC = () => {
     return <div className="text-white">No media team members found.</div>;
   }
 
-  const sortedTeamMembers = useMemo(() => {
-    return teamMembers
-      ?.filter((member) => member.committee === "socialmedia")
-      .sort((a, b) => {
-        const aDesignation = a.designation.toLowerCase();
-        const bDesignation = b.designation.toLowerCase();
+  const sortedTeamMembers = teamMembers
+    .filter((member) => member.committee === "socialmedia")
+    .sort((a, b) => {
+      const aDesignation = a.designation.toLowerCase();
+      const bDesignation = b.designation.toLowerCase();
 
-        const designationPriority = (designation: string) => {
-          if (designation.includes("co-head")) {
-            return 2;
-          }
-          if (designation.includes("head")) {
-            return 1;
-          }
-          if (
-            designation.includes("video") ||
-            designation.includes("videography")
-          ) {
-            return 3;
-          }
-          if (
-            designation.includes("photo") ||
-            designation.includes("photography")
-          ) {
-            return 4;
-          }
-          return 5;
-        };
-
-        const priorityA = designationPriority(aDesignation);
-        const priorityB = designationPriority(bDesignation);
-
-        if (priorityA === priorityB) {
-          return a.id - b.id;
+      const designationPriority = (designation: string) => {
+        if (designation.includes("co-head")) {
+          return 2;
         }
+        if (designation.includes("head")) {
+          return 1;
+        }
+        if (
+          designation.includes("video") ||
+          designation.includes("videography")
+        ) {
+          return 3;
+        }
+        if (
+          designation.includes("photo") ||
+          designation.includes("photography")
+        ) {
+          return 4;
+        }
+        return 5;
+      };
 
-        return priorityA - priorityB;
-      }) || [];
-  }, [teamMembers]);
+      const priorityA = designationPriority(aDesignation);
+      const priorityB = designationPriority(bDesignation);
+
+      if (priorityA === priorityB) {
+        return a.id - b.id;
+      }
+
+      return priorityA - priorityB;
+    });
 
   return (
     <div className="gradient-bg flex flex-col items-center">
