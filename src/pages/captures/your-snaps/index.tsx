@@ -30,7 +30,7 @@ const YourSnapsPage: React.FC = () => {
   }, [cardState, router]);
 
 
-  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.capture.getApprovedImagesByCategory.useInfiniteQuery({ category: "pronite", includeDownloadCount: session?.user.role === "admin" }, {
+  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.capture.getApprovedImagesByCategory.useInfiniteQuery({ category: "snaps", includeDownloadCount: session?.user.role === "admin" }, {
     getNextPageParam: (lastPage:any) => lastPage.nextCursor,
   },);
 

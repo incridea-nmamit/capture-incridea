@@ -257,6 +257,8 @@ const Analytics = () => {
         const validRoutes = [
           "pronite", 
           "your-snaps", 
+          "accolades",
+          "faculty",
           "our-team", 
           "about", 
           "events", 
@@ -607,6 +609,8 @@ const radarData = {
                   <option value="captures">Captures</option>
                   <option value="events">Events</option>
                   <option value="pronite">Pronite</option>
+                  <option value="accolades">Accolades</option>
+                  <option value="faculty">Faculty</option>
                   <option value="your-snaps">Your Snaps</option>
                   <option value="behindincridea">Behind Incridea</option>
                   <option value="our-team">Our Team</option>

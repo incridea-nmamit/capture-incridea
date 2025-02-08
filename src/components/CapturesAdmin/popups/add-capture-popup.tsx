@@ -111,6 +111,8 @@ export function AddCapturePopUpModel({ isOpen, setOpen }: Props) {
                                                 <option value="events">Events</option>
                                                 <option value="pronite">Pronite</option>
                                                 <option value="snaps">Snaps</option>
+                                                <option value="accolades">Accolades</option>
+                                                <option value="faculty">Faculty</option>
                                                 <option value="behindincridea">Behind Incridea</option>
                                             </select>
                                         </FormControl>

@@ -24,7 +24,7 @@ const Faculty = () => {
     }
   }, [cardState, router]);
 
-  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.capture.getApprovedImagesByCategory.useInfiniteQuery({ category: "accolades", includeDownloadCount: session?.user.role === "admin" }, {
+  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.capture.getApprovedImagesByCategory.useInfiniteQuery({ category: "faculty", includeDownloadCount: session?.user.role === "admin" }, {
     getNextPageParam: (lastPage:any) => lastPage.nextCursor,
   },);
 

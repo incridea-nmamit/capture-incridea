@@ -82,7 +82,7 @@ const accolades = () => {
   return (
     <div className="gradient-bg">
       <TitleDescription
-        title="Behind Incridea"
+        title="Accolades"
         description="Engaging our audience and building community through strategic social media initiatives"
         imagePath="https://utfs.io/f/0yks13NtToBiR2RImlGmqjGOIgx47y3cAJSCbQ1V82Nitrsf"
       />
