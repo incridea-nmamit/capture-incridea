@@ -1,10 +1,6 @@
 import { Share2, Info } from "lucide-react";
 import Image from "next/image";
-<<<<<<< Updated upstream
-import { useState, useCallback } from "react";
-=======
 import { useEffect, useState } from "react";
->>>>>>> Stashed changes
 import { FaHeart } from "react-icons/fa";
 
 import UseRefetch from "~/hooks/use-refetch";
@@ -45,28 +41,6 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   const [openMoreInfo, setOpenMoreInfor] = useState(false);
   const [animating, setAnimating] = useState(false);
   const { data: session } = useSession();
-<<<<<<< Updated upstream
-  const { data: totalLikes, isLoading } = api.like.getTotalLikes.useQuery(
-    { captureId: selectedImageId! },
-    { enabled: selectedImageId !== null }
-  );
-  
-  const { data: hasLiked } = api.like.hasLiked.useQuery(
-    { captureId: selectedImageId! },
-    { enabled: selectedImageId !== null }
-  );
-  
-  const { data: author } = api.capture.getAuthorDetails.useQuery(
-    { id: selectedImageId! },
-    { enabled: selectedImageId !== null }
-  );
-
-  const toggleLike = api.like.toggleLike.useMutation();
-  const handleToggleLike = useCallback(async () => {
-    if (!selectedImageId) return;
-    
-    if (hasLiked !== undefined) {
-=======
 
 
   const [totalLikes, setTotalLikes] = useState<number>(0);
@@ -99,7 +73,6 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
       setTotalLikes((prevLikes) => prevLikes + (newLikeStatus ? 1 : -1));
       setAnimating(true);
 
->>>>>>> Stashed changes
       try {
         await toggleLike.mutateAsync({
           galleryId: selectedImageId,
@@ -114,17 +87,11 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
         setTimeout(() => setAnimating(false), 300);
       }
     }
-<<<<<<< Updated upstream
-  }, [selectedImageId, hasLiked, toggleLike, refetch]);
-  const  QrLink = `${process.env.NEXT_PUBLIC_QRCODELINK}/${selectedImageId}`;
-  const handleShare = useCallback(async () => {
-=======
   };
 
 
   const QrLink = `${process.env.NEXT_PUBLIC_QRCODELINK}/${selectedImageId}`;
   const handleShare = async () => {
->>>>>>> Stashed changes
     if (navigator.share && selectedImage) {
       try {
         const response = await fetch(selectedImage);
@@ -141,7 +108,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
     } else {
       alert("Sharing files is not supported on your device.");
     }
-  }, [selectedImage]);
+  };
 
   if (!selectedImage) return null;
   const handleImageLoad = (event: any) => {
@@ -173,7 +140,6 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                 onLoad={handleImageLoad}
                 onContextMenu={(e) => e.preventDefault()}
                 onDragStart={(e) => e.preventDefault()}
-                loading="lazy" // added lazy loading
               />
             </div>
             <div className="w-full md:w-1/2 h-full p-8">
@@ -187,7 +153,6 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                     className="h-auto w-auto max-w-24"
                     onContextMenu={(e) => e.preventDefault()}
                     onDragStart={(e) => e.preventDefault()}
-                    loading="lazy" // added lazy loading
                   />
                 </div>
                 <div className="flex flex-row items-center justify-center gap-5">
@@ -227,11 +192,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                     <FaHeart size={28} color={hasLiked ? "red" : "white"} className={`${animating ? "animate-pop" : ""}`} />
                   </button>
                   <span className="text-white text-lg  font-Trap-Regular">
-<<<<<<< Updated upstream
-                    {isLoading || totalLikes === undefined ? "..." : totalLikes}
-=======
                     {totalLikesLoading ? "..." : totalLikes !== null ? totalLikes : "Loading..."}
->>>>>>> Stashed changes
                   </span>
 
                   <Button
