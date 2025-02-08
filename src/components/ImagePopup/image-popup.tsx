@@ -1,6 +1,6 @@
 import { Share2, Info } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { FaHeart } from "react-icons/fa";
 
 import UseRefetch from "~/hooks/use-refetch";
@@ -41,12 +41,26 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   const [openMoreInfo, setOpenMoreInfor] = useState(false);
   const [animating, setAnimating] = useState(false);
   const { data: session } = useSession();
-  const { data: totalLikes, isLoading } = api.like.getTotalLikes.useQuery({ captureId: selectedImageId! });
-  const { data: hasLiked } = api.like.hasLiked.useQuery({ captureId: selectedImageId! });
-  const { data: author } = api.capture.getAuthorDetails.useQuery({ id: selectedImageId! });
+  const { data: totalLikes, isLoading } = api.like.getTotalLikes.useQuery(
+    { captureId: selectedImageId! },
+    { enabled: selectedImageId !== null }
+  );
+  
+  const { data: hasLiked } = api.like.hasLiked.useQuery(
+    { captureId: selectedImageId! },
+    { enabled: selectedImageId !== null }
+  );
+  
+  const { data: author } = api.capture.getAuthorDetails.useQuery(
+    { id: selectedImageId! },
+    { enabled: selectedImageId !== null }
+  );
+
   const toggleLike = api.like.toggleLike.useMutation();
-  const handleToggleLike = async () => {
-    if (selectedImageId && hasLiked !== null) {
+  const handleToggleLike = useCallback(async () => {
+    if (!selectedImageId) return;
+    
+    if (hasLiked !== undefined) {
       try {
         await toggleLike.mutateAsync({
           galleryId: selectedImageId,
@@ -59,9 +73,9 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
         console.error("Error toggling like:", error);
       }
     }
-  };
+  }, [selectedImageId, hasLiked, toggleLike, refetch]);
   const  QrLink = `${process.env.NEXT_PUBLIC_QRCODELINK}/${selectedImageId}`;
-  const handleShare = async () => {
+  const handleShare = useCallback(async () => {
     if (navigator.share && selectedImage) {
       try {
         const response = await fetch(selectedImage);
@@ -78,7 +92,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
     } else {
       alert("Sharing files is not supported on your device.");
     }
-  };
+  }, [selectedImage]);
 
   if (!selectedImage) return null;
 
@@ -112,6 +126,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                 onLoad={handleImageLoad}
                 onContextMenu={(e) => e.preventDefault()}
                 onDragStart={(e) => e.preventDefault()}
+                loading="lazy" // added lazy loading
               />
             </div>
             <div className="w-full md:w-1/2 h-full p-8">
@@ -125,6 +140,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                     className="h-auto w-auto max-w-24"
                     onContextMenu={(e) => e.preventDefault()}
                     onDragStart={(e) => e.preventDefault()}
+                    loading="lazy" // added lazy loading
                   />
                 </div>
                 <div className="flex flex-row items-center justify-center gap-5">
@@ -164,7 +180,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                     <FaHeart size={28} color={hasLiked ? "red" : "white"} className={`${animating ? "animate-pop" : ""}`} />
                   </button>
                   <span className="text-white text-lg  font-Trap-Regular">
-                    {isLoading ? "..." : totalLikes !== null ? totalLikes : "Loading..."}
+                    {isLoading || totalLikes === undefined ? "..." : totalLikes}
                   </span>
 
                   <Button

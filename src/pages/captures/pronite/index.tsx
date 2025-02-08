@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { api } from "~/utils/api";
 import downloadImage from "~/utils/downloadUtils";
 import TitleDescription from "~/components/TitleDescription";
@@ -35,33 +35,34 @@ const pronite = () => {
 
   const images = data?.pages.map((page:any) => page.images).flat() || []
 
-  const handleImageClick = (imagePath: string, imagePathOg: string, imageId: number) => {
+  const handleImageClick = useCallback((imagePath: string, imagePathOg: string, imageId: number) => {
     setSelectedImage(imagePath);
     setSelectedImageOg(imagePathOg);
     setSelectedImageId(imageId);
-  };
-  const handleClosePopup = () => setSelectedImage(null);
+  }, []);
 
-  const handleDownload = async (imagePathOg: string) => {
-    await downloadImage(imagePathOg, "capture-incridea.webp");
-    await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
-   
-  };
-  
+  const handleClosePopup = useCallback(() => setSelectedImage(null), []);
 
+  const handleDownload = useCallback(
+    async (imagePathOg: string) => {
+      await downloadImage(imagePathOg, "capture-incridea.webp");
+      await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
+    },
+    [selectedImageId, logDownload, session_user]
+  );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openRemovalPopup = (imagePath: string) => {
+  const openRemovalPopup = useCallback((imagePath: string) => {
     setRemovalImage(imagePath);
     setIsModalOpen(true);
-  };
-
-  const closeRemovalPopup = () => {
+  }, []);
+  
+  const closeRemovalPopup = useCallback(() => {
     setRemovalImage(null);
     setIsModalOpen(false);
-  };
+  }, []);
 
-  const handleRemovalSubmit = async (data: {
+  const handleRemovalSubmit = useCallback(async (data: {
     name: string;
     email: string;
     description: string;
@@ -79,7 +80,7 @@ const pronite = () => {
     } catch (error) {
       console.error("Error submitting removal request:", error);
     }
-  };
+  }, [submitRemovalRequest]);
 
   if (isLoading) return <CameraLoading />;
   if (error) return <p className="text-white text-center">Error loading images.</p>;

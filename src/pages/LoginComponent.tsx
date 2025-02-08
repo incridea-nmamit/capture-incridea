@@ -14,6 +14,7 @@ const LoginComponent = () => {
             className="mt-6 h-7 w-auto"
             onContextMenu={(e) => e.preventDefault()}
             onDragStart={(e) => e.preventDefault()}
+            loading="lazy"
           />
           <Image
             src="/images/Logo/capture-main.webp"
@@ -23,6 +24,7 @@ const LoginComponent = () => {
             className="mb-10 h-10 w-auto"
             onContextMenu={(e) => e.preventDefault()}
             onDragStart={(e) => e.preventDefault()}
+            loading="lazy"
           />
         <div className="text-md text-left z-50 mx-auto max-w-lg space-y-4 px-4 leading-relaxed opacity-90 sm:px-6 md:text-xl">
           <div className="p-2 font-Trap-Regular text-sm">

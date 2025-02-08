@@ -14,6 +14,7 @@ const NotRegistered = () => {
             className="mt-6 h-7 w-auto"
             onContextMenu={(e) => e.preventDefault()}
             onDragStart={(e) => e.preventDefault()}
+            loading="lazy" // added lazy loading
           />
           <Image
             src="/images/Logo/capture-main.webp"
@@ -23,6 +24,7 @@ const NotRegistered = () => {
             className="mb-10 h-10 w-auto"
             onContextMenu={(e) => e.preventDefault()}
             onDragStart={(e) => e.preventDefault()}
+            loading="lazy" // added lazy loading
           />
         <div className="text-md z-50 mx-auto max-w-lg space-y-4 px-4 text-left leading-relaxed opacity-90 sm:px-6 md:text-xl">
           <h1 className="text-shadow-lg z-50 mb-6 text-center font-Hunters text-2xl font-semibold md:text-3xl">

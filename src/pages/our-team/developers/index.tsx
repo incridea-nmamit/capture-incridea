@@ -1,7 +1,7 @@
 import { api } from "~/utils/api";
 import TeamCard from "~/components/TeamPage/TeamCard"; // Adjust path if needed
 import TitleSection from "~/components/TeamPage/TeamTitle";
-
+import React, { useMemo } from "react";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 
 const MediaCommittee: React.FC = () => {
@@ -26,37 +26,39 @@ const MediaCommittee: React.FC = () => {
   }
 
   // Sort team members by designation priority
-  const sortedTeamMembers = teamMembers
-    .filter((member) => member.committee === "developer")
-    .sort((a, b) => {
-      const aDesignation = a.designation.toLowerCase();
-      const bDesignation = b.designation.toLowerCase();
+  const sortedTeamMembers = useMemo(() => {
+    return teamMembers
+      ?.filter((member) => member.committee === "developer")
+      .sort((a, b) => {
+        const aDesignation = a.designation.toLowerCase();
+        const bDesignation = b.designation.toLowerCase();
 
-      const designationPriority = (designation: string) => {
-        if (designation.includes("lead")) {
-          return 1;
-        }
-        if (designation.includes("full")) {
-          return 2;
-        }
-        if (designation.includes("front")) {
-          return 3;
-        }
-        if (designation.includes("back")) {
-          return 4;
-        }
-        return 5;
-      };
+        const designationPriority = (designation: string) => {
+          if (designation.includes("lead")) {
+            return 1;
+          }
+          if (designation.includes("full")) {
+            return 2;
+          }
+          if (designation.includes("front")) {
+            return 3;
+          }
+          if (designation.includes("back")) {
+            return 4;
+          }
+          return 5;
+        };
 
-      const priorityA = designationPriority(aDesignation);
-      const priorityB = designationPriority(bDesignation);
+        const priorityA = designationPriority(aDesignation);
+        const priorityB = designationPriority(bDesignation);
 
-      if (priorityA === priorityB) {
-        return a.id - b.id;
-      }
+        if (priorityA === priorityB) {
+          return a.id - b.id;
+        }
 
-      return priorityA - priorityB;
-    });
+        return priorityA - priorityB;
+      }) || [];
+  }, [teamMembers]);
 
   return (
     <div className="gradient-bg z-20 flex flex-col items-center">

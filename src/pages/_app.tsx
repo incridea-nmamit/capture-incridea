@@ -4,8 +4,6 @@ import { type AppType } from "next/app";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
-import Head from "next/head";
-import { fonts } from "~/fonts";
 import "~/styles/globals.css";
 import "~/styles/embla.css";
 import Header from "~/components/HeaderFooter/Header";
@@ -16,12 +14,12 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import LoginComponent from "./LoginComponent";
 import NotRegistered from "./NotRegistered";
 import KeyboardShortcut from "~/components/Shortcuts";
-import IntroAnimation from "./Intro";
 import { usePathname } from "next/navigation";
-import SEO from "~/components/SEO";
 import Footer from "~/components/HeaderFooter/Footer";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Script from "next/script";
+import dynamic from "next/dynamic";
+import SEO from "~/components/SEO";
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -142,12 +140,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <SEO/>
       <KeyboardShortcut />
       <Script
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         src="https://www.googletagmanager.com/gtag/js?id=G-QRVG032QD4"
       />
       <Script
         id="google-analytics"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
@@ -160,12 +158,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
         }}
       />
       
-      {/* {showIntro ? (
-        <IntroAnimation onAnimationComplete={handleIntroAnimationComplete} />
-      ) : (
+
         <AuthenticatedApp Component={Component} pageProps={pageProps} />
-      )} */}
-      <AuthenticatedApp Component={Component} pageProps={pageProps} />
+
     </SessionProvider>
   );
 };

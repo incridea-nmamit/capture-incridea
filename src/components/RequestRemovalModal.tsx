@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 
 import UploadComponent from '~/components/UploadComponent';
 import toast from 'react-hot-toast';
@@ -38,7 +38,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
     return Math.floor(1000 + Math.random() * 9000).toString();
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (!name || !email || !description) {
       toast.error('Please fill all fields.');
       return;
@@ -72,9 +72,9 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
     setEmailVerified(false);
 
     onClose();
-  };
+  }, [name, email, description, uploadUrl, imagePath, emailVerified, onSubmit, onClose]);
 
-  const handleEmailVerification = async () => {
+  const handleEmailVerification = useCallback(async () => {
     const generatedOtp = generateOtp();
     setOtp(generatedOtp);
     try {
@@ -102,7 +102,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
       alert('An error occurred while sending the OTP.');
       setOtpSent(false);
     }
-  };
+  }, [email]);
 
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const value = e.target.value;
@@ -126,7 +126,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
     }
   };
 
-  const handleOtpVerification = () => {
+  const handleOtpVerification = useCallback(() => {
     const enteredOtp = otpEntered.join('');
     if (enteredOtp === '') {
       setOtpStatus('Please enter the OTP.');
@@ -142,11 +142,11 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
       toast.error('Invaild OTP, Please Enter again!')
       setEmailVerified(false);
     }
-  };
-  const handleResendOtp = async () => {
+  }, [otp, otpEntered]);
+  const handleResendOtp = useCallback(async () => {
     setOtpStatus('');
     await handleEmailVerification();
-  };
+  }, [handleEmailVerification]);
 
 
   const handleModalClose = () => {
@@ -185,6 +185,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
             width={75}
             height={75}
             className="rounded mb-4"
+            loading="lazy"
           />
           {/* Disable right-click globally with Tailwind */}
           <div className="absolute inset-0 pointer-events-none" />

@@ -49,8 +49,8 @@ export const GridCard: React.FC<GridCardProps> = ({
           {prefech && (
             <link rel="prefetch" href={imagePath} as="image" className="hidden" />
           )}
-          <div className="absolute -bottom-1 right-0 flex gap-1 rounded-tl-3xl bg-gradient-to-b from-[#343434] to-[#0d1115] px-4 py-2 text-white">
-          <FaHeart  size={18} />
+          <div className="absolute -bottom-1 justify-center items-center right-0 flex gap-1 rounded-tl-3xl bg-gradient-to-b from-[#343434] to-[#0d1115] px-4 py-1 text-white text-xs">
+          <div><FaHeart  size={14} /></div>
             {totalLikes}
           </div>
         </div>

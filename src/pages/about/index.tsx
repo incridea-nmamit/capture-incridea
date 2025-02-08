@@ -1,11 +1,17 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import SEO from "~/components/SEO/index";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 const About = () => {
   return (
     <>
+      <SEO 
+        title="About | Capture Incridea"
+        description="Learn about NMAMIT, Incridea, and Capture Incridea - the official digital gallery platform showcasing the vibrant moments of the annual techno-cultural fest."
+        url="https://capture.incridea.in/about"
+      />
       <main className="container-size my-20 space-y-24 py-8 text-center font-Trap-Regular md:py-16 lg:py-24">
         <section>
           <Image
