@@ -154,7 +154,7 @@ const ImagePopup = () => {
                   </Button>
                 </div>
               </div>
-              <div className="flex flex-col justify-center items-center h-full w-full  space-y-5 md:space-y-6 font-cursive text-white text-md md:text-xl tracking-widest text-center px-4 md:py-36">
+              <div className="flex flex-col justify-center items-center h-full w-full  space-y-5 md:space-y-6 font-Teknaf text-white text-md md:text-xl tracking-widest text-center px-4 md:py-36">
                 <div className="flex justify-center gap-2 items-center">
                   <button onClick={handleToggleLike} aria-label="Like Button">
                     <FaHeart size={20} color={hasLiked ? "red" : "white"} />

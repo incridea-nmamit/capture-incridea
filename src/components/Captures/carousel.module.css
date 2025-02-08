@@ -82,8 +82,8 @@
 .title {
   font-size: 3.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
-  @apply font-cursive
+  margin-bottom: 0rem;
+  @apply font-Teknaf
 }
 
 .description {

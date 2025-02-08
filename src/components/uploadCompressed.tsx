@@ -133,7 +133,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
 
   return (
     <div className="flex flex-col items-center justify-center p-6 bg-neutral-900 rounded-lg shadow-md">
-      <h1 className="text-4xl font-cursive leading-5 font-semibold mb-4 text-white">
+      <h1 className="text-4xl font-Teknaf leading-5 font-semibold mb-4 text-white">
         Upload Your Images
       </h1>
       <p className="mb-6 font-Trap-Regular text-gray-400 text-sm text-center">

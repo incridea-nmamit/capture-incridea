@@ -37,7 +37,7 @@ const EventCard: FC<EventCardProps> = ({ name, type, description, day, backgroun
 
       <div className="p-4 space-y-3 ">
         <div className=" flex flex-row justify-between items-center gap-2">
-          <h2 className="text-xl md:text-2xl font-bold text-white font-cursive tracking-wider">{name}</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-white font-Teknaf tracking-wider">{name}</h2>
           <span className="border border-gray-200 text-gray-200 px-2 py-1 rounded-md ">
             {type}
           </span>

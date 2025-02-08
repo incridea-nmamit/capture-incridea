@@ -80,7 +80,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, type: "spring" }}
-              className="mb-4 sm:mb-6 text-6xl sm:text-5xl md:text-6xl lg:text-8xl font-bold font-cursive tracking-wider bg-clip-text"
+              className="mb-4 sm:mb-6 text-6xl sm:text-5xl md:text-6xl lg:text-8xl font-bold font-Teknaf tracking-wider bg-clip-text"
             >
               Captures
             </motion.h1>
