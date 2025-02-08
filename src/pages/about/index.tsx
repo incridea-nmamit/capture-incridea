@@ -113,21 +113,6 @@ const About = () => {
             </p>
           </div>
         </section>
-
-        {/* Video Section */}
-        <section className="relative h-[512px] max-h-screen w-full shrink-0 overflow-hidden">
-          <div className="flex h-full w-full items-center justify-stretch md:h-screen md:max-h-[525px] md:min-h-[396px] lg:h-screen lg:max-h-[640px] lg:min-h-[620px] xl:h-screen xl:max-h-[780px] xl:min-h-[720px] 2xl:h-[800px]">
-            <ReactPlayer
-              url="https://vimeo.com/883551016?share=copy"
-              playing
-              loop
-              muted
-              controls={false}
-              width="100%"
-              height="100%"
-            />
-          </div>
-        </section>
       </main>
     </>
   );
