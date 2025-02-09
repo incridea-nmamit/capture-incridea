@@ -29,7 +29,7 @@ const Faculty = () => {
   },);
 
   const images = data?.pages.map((page:any) => page.images).flat() || []
-
+  const isFaculty = session?.user.email?.endsWith("nitte.edu.in");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
   const [selectedImageOg, setSelectedImageOg] = useState<string | null>(null);
@@ -86,37 +86,48 @@ const Faculty = () => {
         description="Engaging our audience and building community through strategic social media initiatives"
         imagePath="/images/CapturePage/faculty.webp"
       />
-      <ImagesGrid
-        isFetchingNextPage={isFetchingNextPage}
-        fetchNextPage={fetchNextPage}
-        nextCursor={data?.pages.at(-1)?.nextCursor}
-        isLoading={isLoading}
-        images={images.map((image:any) => ({
-          id: image.id,
-          compressed_path: image.compressed_path,
-          image_path: image.image_path,
-          onClick: () => handleImageClick(image.compressed_path, image.image_path, image.id),
-          downloadCount: image._count?.downloadLog,
-        }))} />
+      
+      {isFaculty ? (
+        <>
+          <ImagesGrid
+            isFetchingNextPage={isFetchingNextPage}
+            fetchNextPage={fetchNextPage}
+            nextCursor={data?.pages.at(-1)?.nextCursor}
+            isLoading={isLoading}
+            images={images.map((image:any) => ({
+              id: image.id,
+              compressed_path: image.compressed_path,
+              image_path: image.image_path,
+              onClick: () => handleImageClick(image.compressed_path, image.image_path, image.id),
+              downloadCount: image._count?.downloadLog,
+            }))} />
 
-      <ImagePopup
-        selectedImage={selectedImage}
-        selectedImageOg={selectedImageOg}
-        selectedImageId={selectedImageId}
-        handleClosePopup={handleClosePopup}
-        handleDownload={handleDownload}
-        openRemovalPopup={openRemovalPopup}
-        session_user={session_user}
-        session_role={session?.user.role || 'user'}
-        sessionId={session?.user.id || ""}
-      />
+          <ImagePopup
+            selectedImage={selectedImage}
+            selectedImageOg={selectedImageOg}
+            selectedImageId={selectedImageId}
+            handleClosePopup={handleClosePopup}
+            handleDownload={handleDownload}
+            openRemovalPopup={openRemovalPopup}
+            session_user={session_user}
+            session_role={session?.user.role || 'user'}
+            sessionId={session?.user.id || ""}
+          />
 
-      <RequestRemovalModal
-        isOpen={isModalOpen}
-        imagePath={removalImage}
-        onClose={closeRemovalPopup}
-        onSubmit={handleRemovalSubmit}
-      />
+          <RequestRemovalModal
+            isOpen={isModalOpen}
+            imagePath={removalImage}
+            onClose={closeRemovalPopup}
+            onSubmit={handleRemovalSubmit}
+          />
+        </>
+      ) : (
+        <div className="text-white font-Trap-Regular text-center p-8 text-lg my-20">
+          <h2 className="text-2xl font-bold mb-4">Oops! Faculty-Only Zone </h2>
+          Sorry, this page is for faculty eyes only! <br/>
+          But hey, don't worry—there's plenty of other awesome stuff to explore! 🚀
+        </div>
+      )}
     </div>
   )
 }
