@@ -43,6 +43,11 @@ const seed = async () => {
       cardState: true,
 
     },
+    {
+      cardName: "Faculty",
+      cardState: true,
+
+    },
   ];
 
   for (const card of cards) {

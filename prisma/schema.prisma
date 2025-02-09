@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "cockroachdb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -58,7 +58,7 @@ model VerificationToken {
 }
 
 model VerifiedEmail {
-  id           Int         @id @default(sequence())
+  id           Int         @id @default(autoincrement())
   email        String
   name         String
   phone_number String
@@ -67,7 +67,7 @@ model VerifiedEmail {
 
 //Capture model
 model Captures {
-  id              Int     @id @default(sequence())
+  id              Int     @id @default(autoincrement())
   image_path      String
   compressed_path String
   event_name      String?
@@ -83,7 +83,7 @@ model Captures {
 }
 
 model downloadLog {
-  id           Int      @id @default(sequence())
+  id           Int      @id @default(autoincrement())
   session_user String
   date_time    DateTime @default(now())
   image_id     Int
@@ -102,14 +102,14 @@ model CaptureLike {
 }
 
 model CaptureCard {
-  id        Int     @id @default(sequence())
+  id        Int     @id @default(autoincrement())
   cardName  String
   cardState Boolean @default(false)
 }
 
 //Stories model
 model Stories {
-  id             Int             @id @default(sequence())
+  id             Int             @id @default(autoincrement())
   video_path     String
   captured_by_id Int
   captured_by    team            @relation(fields: [captured_by_id], references: [id])
@@ -121,13 +121,13 @@ model Stories {
 }
 
 model storycategories {
-  id      Int       @id @default(sequence())
+  id      Int       @id @default(autoincrement())
   name    String    @unique
   stories Stories[]
 }
 
 model StoryLog {
-  id           Int      @id @default(sequence())
+  id           Int      @id @default(autoincrement())
   session_user String
   date_time    DateTime @default(now())
   story_id     Int
@@ -146,7 +146,7 @@ model StoryLike {
 }
 
 model team {
-  id          Int        @id @default(sequence())
+  id          Int        @id @default(autoincrement())
   name        String
   committee   Teamgroup
   designation String
@@ -162,7 +162,7 @@ model team {
 
 //Playbacks model
 model Playbacks {
-  id            Int            @id @default(sequence())
+  id            Int            @id @default(autoincrement())
   thumbnails    String?
   videoPath     String
   name          String
@@ -172,7 +172,7 @@ model Playbacks {
 }
 
 model PlaybackLog {
-  id           Int       @id @default(sequence())
+  id           Int       @id @default(autoincrement())
   session_user String
   date_time    DateTime  @default(now())
   playback_id  Int
@@ -191,7 +191,7 @@ model playbackLike {
 }
 
 model RemovalRequest {
-  id          Int    @id @default(sequence())
+  id          Int    @id @default(autoincrement())
   name        String
   idcard      String
   description String
@@ -201,7 +201,7 @@ model RemovalRequest {
 }
 
 model events {
-  id               Int       @id @default(sequence())
+  id               Int       @id @default(autoincrement())
   name             String    @unique
   description      String
   shortDescription String // New field for short description
@@ -212,7 +212,7 @@ model events {
 }
 
 model webAnalytics {
-  id           Int      @id @default(sequence())
+  id           Int      @id @default(autoincrement())
   session_user String
   uniqueId     String
   routePath    String
@@ -224,7 +224,7 @@ model webAnalytics {
 }
 
 model Smcuploads {
-  id          Int      @id @default(sequence())
+  id          Int      @id @default(autoincrement())
   video_path  String
   description String
   author      String
@@ -232,7 +232,7 @@ model Smcuploads {
 }
 
 model AuditLog {
-  id              Int      @id @default(sequence())
+  id              Int      @id @default(autoincrement())
   sessionUserName String
   audit_type      String
   dateTime        DateTime @default(now())
@@ -240,7 +240,7 @@ model AuditLog {
 }
 
 model Variables {
-  id    Int    @id @default(sequence())
+  id    Int    @id @default(autoincrement())
   key   String @unique
   value String
 }
