@@ -25,17 +25,42 @@ import GlobeLoader from '~/components/LoadingAnimation/GlobeLoader'
 
 const items = [
   {
-    image: 'https://picsum.photos/300/300',
+    image: '/images/general/s1.webp',
   },
   {
-    image: 'https://picsum.photos/400/400',
+    image: '/images/general/s12.webp',
   },
   {
-    image: 'https://picsum.photos/500/500',
+    image: '/images/general/s11.webp',
   },
   {
-    image: 'https://picsum.photos/600/600',
-  }
+    image: '/images/general/s10.webp',
+  },
+  {
+    image: '/images/general/s7.webp',
+  },
+  {
+    image: '/images/general/s9.webp',
+  },
+  {
+    image: '/images/general/s8.webp',
+  },
+  {
+    image: '/images/general/s5.webp',
+  },
+  {
+    image: '/images/general/s6.webp',
+  },
+  {
+    image: '/images/general/s2.webp',
+  },
+  {
+    image: '/images/general/s4.webp',
+  },
+  {
+    image: '/images/general/s3.webp',
+  },
+
 ];
 
 
@@ -70,33 +95,41 @@ const AuthenticatedApp = ({
 }) => {
   const loading = useRouteLoading();
   const { data: sessionData, status: sessionStatus } = useSession();
+  const [showIntro, setShowIntro] = useState(true);
   
   const [verifiedEmailData, setVerifiedEmailData] = useState<{ email: string }[] | null>(null);
   const { data: fetchedEmailData, isLoading: isVerifiedEmailLoading } =
     api.verifiedEmail.getEmail.useQuery(undefined, {
-      enabled: !verifiedEmailData, // Run only if data is null
+      enabled: sessionStatus === "authenticated", // Only run when session is available
     });
 
   useEffect(() => {
     if (fetchedEmailData && !verifiedEmailData) {
-      setVerifiedEmailData(fetchedEmailData); // Store the verified email data once
+      setVerifiedEmailData(fetchedEmailData);
     }
   }, [fetchedEmailData, verifiedEmailData]);
 
-  const [showIntro,setShowIntro]  = useState(true);
+  useEffect(() => {
+    const hasSeenIntro = sessionStorage.getItem("hasSeenIntro");
+    if (hasSeenIntro === "true") {
+      setShowIntro(false);
+    } else {
+      const timer = setTimeout(() => {
+        setShowIntro(false);
+        sessionStorage.setItem("hasSeenIntro", "true");
+      }, 6000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
-  useEffect(()=>{
-    const interval = setInterval(()=>{
-      if (sessionStatus === "loading" || (isVerifiedEmailLoading && !verifiedEmailData)){
-        setShowIntro(false)
-        clearInterval(interval)
-      }
-    },6000)
-  },[])
+  // Show loading state while checking session or email verification
+  if (sessionStatus === "loading" || (sessionStatus === "authenticated" && isVerifiedEmailLoading)) {
+    return <CameraLoading />;
+  }
 
-  if(showIntro) return <GlobeLoader items={items}/>;
+  if (showIntro) return <GlobeLoader items={items} />;
 
-  if (!sessionData) return <LoginComponent />;
+  if (sessionStatus === "unauthenticated") return <LoginComponent />;
 
   const isEmailVerified =
     verifiedEmailData?.some(
@@ -149,20 +182,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-  const [showIntro, setShowIntro] = useState(true); // Initially, show intro animation
-
-  useEffect(() => {
-    const hasSeenIntro = sessionStorage.getItem("hasSeenIntro");
-    if (hasSeenIntro === "true") {
-      setShowIntro(false); // Skip intro if it's already seen
-    }
-  }, []);
-
-  const handleIntroAnimationComplete = () => {
-    setShowIntro(false); // Once the intro completes, show the main app
-    sessionStorage.setItem("hasSeenIntro", "true"); // Store that intro has been seen
-  };
-
   return (
     <SessionProvider session={session}>
       <SEO/>
