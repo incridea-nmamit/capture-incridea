@@ -7,7 +7,20 @@ import { ArrowLeftCircle, ArrowRightCircle, Lock } from "lucide-react"; // Impor
 import { Button } from "../ui/button";
 import { api } from "~/utils/api";
 
+/**
+ * CaptureCard Component
+ * Interactive carousel display for capture categories
+ * Features:
+ * - Auto-playing carousel
+ * - Thumbnail navigation
+ * - Lock/unlock states for categories
+ * - Responsive controls
+ */
+
 const CaptureCard = () => {
+  /**
+   * State management for carousel
+   */
   const [activeIndex, setActiveIndex] = useState(0);
   const [autoPlay] = useState(true);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -35,7 +48,9 @@ const CaptureCard = () => {
     };
   });
   
-
+  /**
+   * Carousel control functions
+   */
   const handleNext = () => {
     setActiveIndex((prev) => {
       const nextIndex = (prev + 1) % carouselItems.length;
@@ -63,6 +78,9 @@ const CaptureCard = () => {
     }
   };
 
+  /**
+   * Auto-play management
+   */
   useEffect(() => {
     if (autoPlay) {
       timeoutRef.current = setTimeout(handleNext, 7000);

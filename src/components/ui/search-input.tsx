@@ -1,6 +1,15 @@
+/**
+ * Search Input Component
+ * A styled search input with an icon
+ * Features:
+ * - Built-in search icon
+ * - Custom styling for dashboard
+ * - Responsive design
+ */
 import { FaSearch } from "react-icons/fa";
 import { cn } from "~/lib/utils";
 
+// Main search input component with icon
 const SearchInput: React.FC<React.ComponentPropsWithoutRef<'input'>> = ({ children,className,placeholder, ...rest }) => {
     return <div className="relative w-full dashboard-search">
         <input

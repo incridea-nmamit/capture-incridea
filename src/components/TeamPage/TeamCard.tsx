@@ -1,3 +1,7 @@
+/**
+ * Team Member Card Component
+ * Displays individual team member information with social links
+ */
 import { Github, InstagramIcon, Linkedin } from "lucide-react";
 import Image from "next/image";
 import { FaBehance } from "react-icons/fa";
@@ -23,10 +27,12 @@ const TeamCard: React.FC<CardProps> = ({
   instagram,
   behance,
 }) => {
-  const hasSocialLinks = github || linkedin || instagram || behance
+  // Check if member has any social links
+  const hasSocialLinks = github || linkedin || instagram || behance;
+
   return (
     <div className="relative w-72 md:w-80 gradient-bg rounded-3xl p-4 md:p-6 border hover:shadow-xl transform transition-transform duration-300 hover:scale-105 bg-neutral-800">
-      {/* Image Section */}
+      {/* Image Section with protection */}
       <div className="relative w-full h-60 overflow-hidden rounded-tr-2xl">
         <Image
           src={imageSrc}
@@ -41,7 +47,7 @@ const TeamCard: React.FC<CardProps> = ({
         />
       </div>
 
-      {/* Content Section */}
+      {/* Member information */}
       <div className="mt-4 text-center">
         <h2 className="text-xl font-bold text-white tracking-wider">{name}</h2>
         <p className="text-sm text-blue-400 mt-1">{designation}</p>
@@ -55,6 +61,7 @@ const TeamCard: React.FC<CardProps> = ({
         <p className="text-md text-white text-center italic">❝ {say} ❞</p>
       </div>
 
+      {/* Social links */}
       {hasSocialLinks && (
       <div className="flex items-center justify-center gap-4 p-2 mt-4 rounded-xl ">
         {github && (

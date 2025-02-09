@@ -1,8 +1,8 @@
-
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { type FC } from "react";
 
+// Interface for EventCard props
 interface EventCardProps {
   name: string;
   type: string;
@@ -11,16 +11,18 @@ interface EventCardProps {
   background: string;
 }
 
+// Component for displaying individual event cards
 const EventCard: FC<EventCardProps> = ({ name, type, description, day, background }) => {
   const router = useRouter();
 
+  // Handle card click navigation
   const handleCardClick = () => {
     router.push(`/captures/events/${name.replace(/\s+/g, '-')}`);
   };
 
   return (
     <div
-      className="relative gradient-bg cursor-pointer border border-gray-600 overflow-hidden w-80 h-full bg-neutral-900 text-gray-50 rounded-lg shadow-md hover:border border-gray-700 hover:shadow-lg hover:border-gray-100 transition duration-300 hover:scale-105 "
+      className="relative gradient-bg cursor-pointer border  overflow-hidden w-80 h-full bg-neutral-900 text-gray-50 rounded-lg shadow-md hover:border border-gray-700 hover:shadow-lg hover:border-gray-100 transition duration-300 hover:scale-105 "
       onClick={handleCardClick}
     >
       {/* Image Section */}

@@ -22,21 +22,27 @@ import {
 
 } from "~/components/ui/dropdown-menu";
 
+// Interface for DataTable props
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
 }
 
+/**
+ * DataTable Component
+ * Generic table component with sorting, filtering, and pagination
+ */
 export function DataTable<TData extends Record<string, any>, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
+    // State management for table features
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
-
+    // Table configuration and state management
     const table = useReactTable({
         data,
         columns,

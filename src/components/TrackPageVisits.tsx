@@ -1,3 +1,12 @@
+/**
+ * Component for tracking user page visits and analytics
+ * Handles:
+ * - Page visit logging
+ * - Visit duration tracking
+ * - Device type detection 
+ * - Timer synchronization
+ */
+
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
@@ -6,12 +15,14 @@ import { useSession } from "next-auth/react";
 import { isMobile, isTablet, isDesktop } from "react-device-detect";
 
 const TrackPageVisits = () => {
+  // API mutation hooks for analytics operations
   const logVisitMutation = api.analytics.logVisit.useMutation();
   const updateVisitMutation = api.analytics.updateVisit.useMutation();
   const updateNullEntriesMutation = api.analytics.updateNullEntries.useMutation();
   const syncTimerMutation = api.analytics.updateVisit.useMutation();
 
   const router = useRouter();
+  // Refs for tracking visit state
   const timerRef = useRef<number>(0);
   const uniqueIdRef = useRef<string | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -22,7 +33,9 @@ const TrackPageVisits = () => {
   // State to track device readiness
   const [deviceType, setDeviceType] = useState<string | null>(null);
 
+  // Device type detection effect
   useEffect(() => {
+    // Device type detection logic
     const determineDeviceType = () => {
       if (isMobile) return "mobile";
       if (isTablet) return "tablet";
@@ -34,10 +47,18 @@ const TrackPageVisits = () => {
     setDeviceType(determineDeviceType());
   }, []);
 
+  // Main tracking logic effect
   useEffect(() => {
     // Ensure deviceType is determined before proceeding
     if (!deviceType) return;
 
+    /**
+     * Handles new page visit initialization
+     * - Generates unique visit ID
+     * - Updates null entries
+     * - Starts visit timer
+     * - Sets up sync intervals
+     */
     const handlePageVisit = () => {
       const routePath = router.asPath;
       const allowedPaths = ["/captures", "/about", "/our-team"];
@@ -87,7 +108,13 @@ const TrackPageVisits = () => {
       }, 20000);
     };
 
+    /**
+     * Handles cleanup on page exit
+     * - Updates final visit duration
+     * - Clears intervals
+     */
     const handlePageExit = () => {
+      // Handle page exit logic
       if (uniqueIdRef.current) {
         updateVisitMutation.mutate({
           uniqueId: uniqueIdRef.current,
@@ -98,6 +125,7 @@ const TrackPageVisits = () => {
       if (syncIntervalRef.current) clearInterval(syncIntervalRef.current);
     };
 
+    // Event listener setup and cleanup
     if (document.readyState === "complete") {
       handlePageVisit();
     } else {
@@ -106,6 +134,7 @@ const TrackPageVisits = () => {
 
     window.addEventListener("beforeunload", handlePageExit);
     return () => {
+      // Cleanup
       handlePageExit();
       window.removeEventListener("load", handlePageVisit);
       window.removeEventListener("beforeunload", handlePageExit);

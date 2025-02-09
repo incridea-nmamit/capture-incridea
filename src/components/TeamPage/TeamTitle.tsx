@@ -1,4 +1,7 @@
-// ~/components/TitleSection.tsx
+/**
+ * Title Section Component
+ * Renders a hero section with background image, title and description
+ */
 import React from 'react';
 
 interface TitleSectionProps {

@@ -5,6 +5,16 @@ import { api } from '~/utils/api';
 import BatchCard from './batch-card';
 import { ScrollArea } from "~/components/ui/scroll-area"
 
+/**
+ * GalleryBatchUpload Component
+ * Handles batch upload functionality for captures.
+ * Features:
+ * - Batch selection
+ * - Approval status checking
+ * - Batch processing
+ * - Persistent batch selection
+ */
+
 type GalleryItem = {
   id: number;
   event_name: string | null;
@@ -43,6 +53,10 @@ const GalleryBatchUpload = () => {
     }
   }, [gallery, selectedBatch]);
 
+  /**
+   * Handles the batch upload process
+   * Validates approval status before proceeding
+   */
   const handleBatchUpload = async () => {
     if (filteredGallery.some((item) => item.state !== 'approved')) {
       toast.error('There are unapproved captures. Please request approval.', {

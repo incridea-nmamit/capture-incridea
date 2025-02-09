@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 
+/**
+ * SplitText Component Props
+ */
 type SplitTextProps = {
   text: string;
   className?: string;
@@ -12,6 +15,10 @@ type SplitTextProps = {
   onLetterAnimationComplete?: () => void;
 };
 
+/**
+ * SplitText Component
+ * Animates text by splitting it into individual characters
+ */
 const SplitText: React.FC<SplitTextProps> = ({
   text,
   className,
@@ -20,6 +27,7 @@ const SplitText: React.FC<SplitTextProps> = ({
   animationTo = { opacity: 1, transform: "translateY(0)" },
   onLetterAnimationComplete,
 }) => {
+  // Animation state management
   const [animated, setAnimated] = useState<boolean[]>(
     new Array(text.length).fill(false),
   );

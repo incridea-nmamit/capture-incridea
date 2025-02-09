@@ -1,7 +1,11 @@
+// Import necessary dependencies
 import Image from "next/image";
 import BlurFade from "./blurFade";
 
+// Array of image paths for the grid
+// Contains a mix of local and remote images from different years
 const images = [
+    // Landing page images
     "images/landing-images/img1.webp",
     "images/landing-images/img2.webp",
     "images/landing-images/img3.webp",
@@ -23,12 +27,19 @@ const images = [
     "images/2024/MVB04911.webp",
 ] as const;
 
+/**
+ * ImageGrid Component
+ * Displays a responsive grid of images with fade-in animation effects
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Child elements to render at the bottom of the grid
+ */
 const ImageGrid = ({ children }: { children: React.ReactNode }) => {
     return (
-        <div className=" h-screen max-w-9xl relative">
-
-            <div className="relative h-screen overflow-hidden z-10 ">
+        <div className="h-screen max-w-9xl relative">
+            {/* Image grid container with overflow control */}
+            <div className="relative h-screen overflow-hidden z-10">
                 <section id="photos" className="h-screen overflow-hidden">
+                    {/* Responsive column layout for images */}
                     <div className="columns-3 gap-1 p-1 md:columns-5">
                         {images.map((src, idx) => (
                             <BlurFade key={src} delay={0.25 + idx * 0.05} inView>
@@ -45,14 +56,13 @@ const ImageGrid = ({ children }: { children: React.ReactNode }) => {
                 </section>
             </div>
 
-
+            {/* Gradient overlay for better text visibility */}
             <div className="z-40 absolute inset-0 bg-gradient-to-t from-black to-transparent" />
 
-
+            {/* Bottom container for child elements */}
             <div className="z-50 absolute inset-x-0 bottom-0 flex justify-center items-center">
                 {children}
             </div>
-
         </div>
     );
 };

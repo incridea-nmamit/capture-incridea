@@ -3,8 +3,16 @@ import { DeleteCapturePopUpModel } from '../popups/delete-capture-popup'
 import { Trash } from 'lucide-react'
 
 
+/**
+ * DeleteComponent
+ * Handles deletion of active captures.
+ * Features:
+ * - Delete confirmation modal
+ * - Visual feedback
+ */
+
 type Props = {
-    id: number
+    id: number; // ID of the capture to delete
 }
 const DeleteComponent = ({
     id

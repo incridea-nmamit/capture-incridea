@@ -1,5 +1,9 @@
 import React from "react";
 
+/**
+ * Hero Component
+ * Main landing page section with video background and headline
+ */
 function Hero() {
   return (
     <section className="w-full mx-auto flex h-screen items-center justify-center overflow-hidden">

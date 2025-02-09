@@ -5,9 +5,15 @@ import { StoryLogColumns, PlayBacksLogColumns, downloadLogColumns } from "./colo
 import { DataTable } from "./datatable";
 import { LogChartComponent } from "./chart";
 
+/**
+ * DownloadLogs Component
+ * Displays logs for downloads, stories, and playbacks with filtering and visualization
+ */
 const DownloadLogs = () => {
+  // Type definition for log categories
   type LogType = "download" | "story" | "playback";
 
+  // State management with session storage persistence
   const [logType, setLogType] = useState<LogType>(() => {
     if (typeof window !== "undefined") {
       const storedLogType = sessionStorage.getItem("logType");
@@ -16,6 +22,7 @@ const DownloadLogs = () => {
     return "download";
   });
 
+  // API queries for different log types
   const { data: downloadLogs = [] } = api.download.getAllDownloadLogs.useQuery();
   const { data: storyLogs = [] } = api.stories.getAllStoryLogs.useQuery();
   const { data: playbackLogs = [] } = api.playbacks.getAllPlayBackLogs.useQuery();

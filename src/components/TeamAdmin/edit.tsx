@@ -1,3 +1,7 @@
+/**
+ * Edit Team Member Modal Component
+ * Allows administrators to modify existing team member information
+ */
 "use client";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -19,6 +23,7 @@ import { Teamgroup } from "@prisma/client";
 import Image from "next/image";
 import { FaBehance } from "react-icons/fa";
 
+// Form validation schema using Zod
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   committee: z.nativeEnum(Teamgroup),
@@ -33,13 +38,14 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-type Props = {
+interface Props {
   isPopupOpen: boolean;
   setIsPopupOpen: (open: boolean) => void;
   id: number;
-};
+}
 
 const EditTeamPopupModel = ({ isPopupOpen, setIsPopupOpen, id }: Props) => {
+  // State and API hooks
   const { data: session } = useSession();
   const [uploadUrl, setUploadUrl] = useState<string>("");
   const { refetch } = api.team.getAllTeams.useQuery();

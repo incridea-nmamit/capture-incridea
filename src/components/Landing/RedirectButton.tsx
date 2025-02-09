@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./CustomButton.module.css";
 import { useRouter } from "next/router";
 
+/**
+ * CustomButton Component
+ * Navigation button with gradient styling and hover effects
+ */
 const CustomButton: React.FC = () => {
   const router = useRouter();
 
+  // Navigation handler
   const handleClick = () => {
     router.push("/captures"); // Navigates to the 'captures' page
   };
@@ -17,6 +22,22 @@ const CustomButton: React.FC = () => {
       <span>Go to Captures</span>
     </button>
   );
+};
+
+/**
+ * LandingFooter Component
+ * Alternating footer with links and credits
+ */
+export const LandingFooter = () => {
+  // Toggle state for footer content
+  const [show, setShow] = useState(true);
+
+  // Toggle effect
+  useEffect(() => {
+    // ...existing code...
+  }, [show]);
+
+  // ...existing code...
 };
 
 export default CustomButton;

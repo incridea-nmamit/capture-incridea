@@ -12,6 +12,9 @@ import { useSession } from "next-auth/react";
 import { MoreInfo } from "../MoreInfoDrawer/more-infoPopup";
 import QRCode from "react-qr-code";
 
+/**
+ * ImagePopup Props Interface
+ */
 interface ImagePopupProps {
   selectedImage: string | null;
   selectedImageOg: string | null;
@@ -24,6 +27,10 @@ interface ImagePopupProps {
   sessionId: string;
 }
 
+/**
+ * ImagePopup Component
+ * Displays a modal with image details, download options, and social features
+ */
 const ImagePopup: React.FC<ImagePopupProps> = ({
   selectedImage,
   selectedImageOg,
@@ -35,6 +42,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   session_role,
   sessionId,
 }) => {
+  // State management for likes and UI
   const refetch = UseRefetch();
   const [isLandscape, setIsLandscape] = useState(true);
   const [isLoadings, setIsLoading] = useState(true);

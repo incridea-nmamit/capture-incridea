@@ -1,3 +1,8 @@
+/**
+ * Sheet Component
+ * A dialog that slides in from the edge of the screen
+ * Built using Radix UI Dialog primitive with custom animations
+ */
 "use client"
 
 import * as React from "react"
@@ -7,6 +12,7 @@ import { X } from "lucide-react"
 
 import { cn } from "~/lib/utils"
 
+// Core sheet components
 const Sheet = SheetPrimitive.Root
 
 const SheetTrigger = SheetPrimitive.Trigger
@@ -30,6 +36,7 @@ const SheetOverlay = React.forwardRef<
 ))
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
+// Sheet variants for different positions
 const sheetVariants = cva(
   "fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out",
   {

@@ -1,9 +1,20 @@
+/**
+ * About Page Component
+ * Displays information about NMAMIT, Incridea, and Capture Incridea
+ */
+
 import React from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import SEO from "~/components/SEO/index";
+
+// Dynamically import ReactPlayer to avoid SSR issues
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
+/**
+ * About component
+ * Renders three main sections: NMAMIT, Incridea, and Capture Incridea
+ */
 const About = () => {
   return (
     <>
@@ -12,7 +23,9 @@ const About = () => {
         description="Learn about NMAMIT, Incridea, and Capture Incridea - the official digital gallery platform showcasing the vibrant moments of the annual techno-cultural fest."
         url="https://capture.incridea.in/about"
       />
+      {/* Main content container */}
       <main className="container-size my-20 space-y-24 py-8 text-center font-Trap-Regular md:py-16 lg:py-24">
+        {/* NMAMIT Section */}
         <section>
           <Image
             src="/images/Logo/nitteLogoWhite.webp"
@@ -51,6 +64,7 @@ const About = () => {
           </p>
         </section>
 
+        {/* Incridea Section */}
         <section className="grid grid-cols-1 place-items-center gap-4 font-Trap-Regular lg:grid-cols-2">
           <div className="border-white p-6">
             <Image
@@ -84,6 +98,7 @@ const About = () => {
           </div>
         </section>
 
+        {/* Capture Incridea Section */}
         <section className="grid grid-cols-1 place-items-center gap-4 lg:grid-cols-2">
           <div className="border-white p-6 lg:order-last">
             <Image

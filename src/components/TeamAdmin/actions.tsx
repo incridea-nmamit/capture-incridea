@@ -1,3 +1,9 @@
+/**
+ * Team Actions Component
+ * Provides action buttons and handlers for team member management
+ * @module TeamActions
+ */
+
 import React, { useState } from 'react'
 import { MoreHorizontal } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '~/components/ui/dropdown-menu'
@@ -5,16 +11,25 @@ import { Button } from '~/components/ui/button'
 import { DeleteTeamPopUpModel } from './delete'
 import EditTeamPopupModel from './edit'
 
-
-type Props = {
-    id: number
-    name: string
+/**
+ * Props interface for TeamAction component
+ */
+interface ActionProps {
+    id: number;
+    name: string;
 }
+
+/**
+ * TeamAction Component
+ * Renders dropdown menu with edit and delete actions
+ * @param {ActionProps} props Component properties
+ * @returns {JSX.Element} Action buttons and modals
+ */
 const TeamAction = ({
     id,
     name
-}: Props) => {
-
+}: ActionProps) => {
+    // Modal visibility state
     const [isDelete, setIsDelete] = useState(false)
     const [isEdit, setIsEdit] = useState(false)
 
@@ -58,4 +73,4 @@ const TeamAction = ({
     )
 }
 
-export default TeamAction 
+export default TeamAction

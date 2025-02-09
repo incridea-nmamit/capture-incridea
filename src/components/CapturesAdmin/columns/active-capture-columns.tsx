@@ -1,12 +1,19 @@
 "use client"
 
+/**
+ * Column definitions for active captures table
+ * Includes event name, category, image preview, and delete action
+ */
+
 import { Status } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table"
 import { Button } from "../../ui/button";
 import { ArrowUpDown, } from "lucide-react";
 import DeleteComponent from "../_components/delete-component";
 
-
+/**
+ * Type definition for capture data structure
+ */
 export type Capture = {
     state?: Status;
     id?: number;
@@ -18,6 +25,11 @@ export type Capture = {
     clicked_by_id?: number;
     date_time?: Date;
 }
+
+/**
+ * Column configurations for active captures
+ * Includes sortable columns and image preview
+ */
 export const activeCapturecolumns: ColumnDef<Capture>[] = [
     {
         accessorKey: "event_name",

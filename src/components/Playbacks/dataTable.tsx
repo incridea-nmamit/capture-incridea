@@ -24,22 +24,30 @@ import {
 import { AddPlayBacksPopUpModel } from "./addPlaybacks";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
-
+/**
+ * Props interface for DataTable component
+ */
 interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[];
-    data: TData[];
+    columns: ColumnDef<TData, TValue>[];  // Table column definitions
+    data: TData[];                        // Data to display
 }
 
+/**
+ * DataTable Component
+ * Renders a feature-rich table with sorting, filtering, and pagination
+ */
 export function DataTable<TData extends Record<string, any>, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
+    // State management
     const [isOpen, setOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
 
+    // Table configuration
     const table = useReactTable({
         data,
         columns,
@@ -61,6 +69,7 @@ export function DataTable<TData extends Record<string, any>, TValue>({
 
     return (
         <>
+            {/* Search and Controls */}
             <div className="p-4 space-y-2">
                 <Input
                     value={globalFilter}
@@ -69,7 +78,6 @@ export function DataTable<TData extends Record<string, any>, TValue>({
                     className="border px-4 py-2 rounded-md w-auto md:w-full mb-2"
                 />
                 <div className="flex flex-row items-start justify-between gap-10">
-               
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline">
@@ -104,10 +112,11 @@ export function DataTable<TData extends Record<string, any>, TValue>({
                         Add PlayBacks
                     </Button>
                 </div>
-
             </div>
-            <ScrollArea className="w-96 md:w-full whitespace-nowrap  ">
-                <div className="rounded-md border p-4 ">
+
+            {/* Table Content */}
+            <ScrollArea className="w-96 md:w/full whitespace-nowrap">
+                <div className="rounded-md border p-4">
                     <Table>
                         <TableHeader className="bg-white text-black">
                             {table.getHeaderGroups().map((headerGroup) => (
@@ -146,6 +155,7 @@ export function DataTable<TData extends Record<string, any>, TValue>({
                 <ScrollBar orientation="horizontal" />
             </ScrollArea>
 
+            {/* Pagination Controls */}
             <div className="flex items-center justify-start space-x-2 py-4">
                 <Button
                     variant="outline"
@@ -167,13 +177,11 @@ export function DataTable<TData extends Record<string, any>, TValue>({
                     Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
                 </span>
             </div>
-            {
-                isOpen && (
-                    <AddPlayBacksPopUpModel isOpen={isOpen} setOpen={setOpen} />
-                )
-            }
+
+            {/* Add Playbacks Modal */}
+            {isOpen && (
+                <AddPlayBacksPopUpModel isOpen={isOpen} setOpen={setOpen} />
+            )}
         </>
-
-
     );
 }

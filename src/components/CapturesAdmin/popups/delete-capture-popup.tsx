@@ -13,13 +13,25 @@ import UseRefetch from "~/hooks/use-refetch";
 
 import { api } from "~/utils/api";
 
+/**
+ * DeleteCapturePopUpModel Component
+ * Modal dialog for soft deletion of captures with audit logging
+ * Features:
+ * - Confirmation dialog
+ * - Loading state
+ * - Audit logging
+ * - Success/Error notifications
+ * - Session user tracking
+ */
+
 type Props = {
-    isOpen: boolean;
-    setOpen: (open: boolean) => void;
-    captureId: number;
+    isOpen: boolean;          // Controls dialog visibility
+    setOpen: (open: boolean) => void;  // Dialog state setter
+    captureId: number;        // ID of capture to delete
 }
 
 export function DeleteCapturePopUpModel({ isOpen, setOpen, captureId }: Props) {
+    // Mutation hooks for delete operation and audit logging
     const deleteImage = api.capture.deleteImage.useMutation();
     const auditLogMutation = api.audit.log.useMutation();
     const [loading, setLoading] = useState(false)
@@ -33,6 +45,10 @@ export function DeleteCapturePopUpModel({ isOpen, setOpen, captureId }: Props) {
         },
     };
 
+    /**
+     * Handles the deletion confirmation process
+     * Includes audit logging and error handling
+     */
     const confirmDelete = async () => {
         if (captureId) {
             try {

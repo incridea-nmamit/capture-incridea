@@ -1,3 +1,8 @@
+/**
+ * Analytics Dashboard Component
+ * Provides comprehensive analytics visualization with charts and data tables
+ */
+
 import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
 import { Bar, Doughnut, Line, Radar } from "react-chartjs-2";
@@ -33,7 +38,12 @@ ChartJS.register(
   RadialLinearScale
 );
 
+/**
+ * Main Analytics component
+ * Handles data fetching, filtering, and visualization
+ */
 const Analytics = () => {
+  // State management for filters and data
   const [filter, setFilter] = useState<string>("all");
   const [captureFilter, setCaptureFilter] = useState<string>("all");
   const [customDate, setCustomDate] = useState<string | null>(null);
@@ -336,6 +346,10 @@ const Analytics = () => {
   const eventVisits = filteredEvents.length;
   const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.session_user)).size;
 
+  /**
+   * Effect hook for graph data processing
+   * Processes and formats data for various charts
+   */
   useEffect(() => {
     const visitData = filteredLogs.reduce<{ [key: string]: { visits: number; uniqueIPs: Set<string>; totalTime: number } }>(
       (acc, log) => {

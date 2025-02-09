@@ -1,3 +1,8 @@
+/**
+ * Admin Dashboard Component
+ * Provides role-based navigation and content management interface
+ */
+
 import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -8,26 +13,41 @@ import {
 } from 'lucide-react';
 import { tabs } from '~/components/constants/data';
 
+interface TabState {
+  activeTab: string;
+  pendingCount: number;
+  sidebarOpen: boolean;
+}
+
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState<string>('');
-  const [pendingCount, setPendingCount] = useState<number>(0);
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  // State management for tabs and sidebar
+  const [state, setState] = useState<TabState>({
+    activeTab: '',
+    pendingCount: 0,
+    sidebarOpen: false
+  });
 
   const router = useRouter();
   const { data: session, status } = useSession();
   const { data: removalRequests } = api.request.getPendingCount.useQuery();
 
+  /**
+   * Effect hook to restore active tab from session storage
+   */
   useEffect(() => {
     const savedTab = sessionStorage.getItem('activeTab');
     if (savedTab) {
-      setActiveTab(savedTab);
+      setState((prevState) => ({ ...prevState, activeTab: savedTab }));
     }
   }, []);
 
   useEffect(() => {
-    setPendingCount(removalRequests || 0);
+    setState((prevState) => ({ ...prevState, pendingCount: removalRequests || 0 }));
   }, [removalRequests]);
 
+  /**
+   * Effect hook for authentication and role checks
+   */
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/unauthorized');
@@ -36,15 +56,22 @@ const Dashboard = () => {
     }
   }, [session, status, router]);
 
+  /**
+   * Handles tab selection and state persistence
+   * @param name - Name of the selected tab
+   */
   const handleTabClick = (name: string) => {
-    setActiveTab(name);
+    setState((prevState) => ({ ...prevState, activeTab: name, sidebarOpen: false }));
     sessionStorage.setItem('activeTab', name);
-    setSidebarOpen(false);
   };
 
+  /**
+   * Renders the navigation sidebar
+   * @returns JSX for sidebar navigation
+   */
   const renderSidebar = () => (
     <div
-      className={`absolute mt-16 lg:relative bg-neutral-950   max-w-48 transition-all ${sidebarOpen ? '-ml-48  ' : ''
+      className={`absolute mt-16 lg:relative bg-neutral-950   max-w-48 transition-all ${state.sidebarOpen ? '-ml-48  ' : ''
         } z-20`}
     >
       <div className="relative p-4">
@@ -57,18 +84,18 @@ const Dashboard = () => {
                 key={name}
                 onClick={() =>{
                   handleTabClick(name)
-                  setSidebarOpen(true)
+                  setState((prevState) => ({ ...prevState, sidebarOpen: true }));
                 }}
                 
-                className={`relative flex items-center text-md h-16 gap-2 p-2 rounded-lg ${activeTab === name
+                className={`relative flex items-center text-md h-16 gap-2 p-2 rounded-lg ${state.activeTab === name
                   ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
                   : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
                   }`}
               >
                 <div className="flex-1">{label}</div>
-                {name === 'removalrequest' && pendingCount > 0 && (
+                {name === 'removalrequest' && state.pendingCount > 0 && (
                   <span className="bg-yellow-300 text-black text-xs rounded-full aspect-square w-5 grid place-content-center">
-                    {pendingCount}
+                    {state.pendingCount}
                   </span>
                 )}
                 <Icon size={18} />
@@ -77,17 +104,21 @@ const Dashboard = () => {
           )}
         </div>
         <button
-          onClick={() => setSidebarOpen((prev) => !prev)}
+          onClick={() => setState((prevState) => ({ ...prevState, sidebarOpen: !prevState.sidebarOpen }))}
           className="absolute right-0 translate-x-full h-20 bg-gray-800 p-1 md:p-2 grid place-content-center rounded top-1/2 -translate-y-1/2"
         >
-          {sidebarOpen ? <ChevronRight /> : <ChevronLeft />}
+          {state.sidebarOpen ? <ChevronRight /> : <ChevronLeft />}
         </button>
       </div>
     </div>
   );
 
+  /**
+   * Renders the main content area based on active tab
+   * @returns JSX for main content
+   */
   const renderContent = () => {
-    const activeTabData = tabs.find((tab) => tab.name === activeTab);
+    const activeTabData = tabs.find((tab) => tab.name === state.activeTab);
     return activeTabData ? (
       activeTabData.content
     ) : (

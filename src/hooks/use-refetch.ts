@@ -1,14 +1,17 @@
-import { useQueryClient } from '@tanstack/react-query'
-import React from 'react'
+import { useQueryClient } from '@tanstack/react-query';
 
+/**
+ * Custom hook to refetch all active queries
+ * @returns {Function} Function to trigger refetch of all active queries
+ */
 const UseRefetch = () => {
-    const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-    return async () => {
-        await queryClient.refetchQueries({
-            type: 'active'
-        })
-    }
-}
+  return async () => {
+    await queryClient.refetchQueries({
+      type: 'active'
+    });
+  };
+};
 
-export default UseRefetch
+export default UseRefetch;

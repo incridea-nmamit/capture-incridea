@@ -1,13 +1,19 @@
 "use client"
 
+/**
+ * Column definitions for deleted captures table
+ * Includes event details, image preview, and restore/delete actions
+ */
+
 import { Status } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table"
 import { Button } from "../../ui/button";
 import { ArrowUpDown,  } from "lucide-react";
 import ActionComponent  from "../_components/action-component";
 
-
-
+/**
+ * Type definition for capture data structure
+ */
 export type Capture = {
     state?: Status;
     id?: number;
@@ -20,6 +26,10 @@ export type Capture = {
     date_time?: Date;
 }
 
+/**
+ * Column configurations for deleted captures
+ * Includes restore and permanent delete actions
+ */
 export const deletedCapturecolumns: ColumnDef<Capture>[] = [
     {
         accessorKey: "event_name",

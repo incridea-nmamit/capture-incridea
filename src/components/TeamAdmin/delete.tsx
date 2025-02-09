@@ -1,3 +1,7 @@
+/**
+ * Delete Team Member Modal
+ * Handles team member deletion with confirmation dialog
+ */
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -13,19 +17,22 @@ import UseRefetch from "~/hooks/use-refetch";
 
 import { api } from "~/utils/api";
 
-type Props = {
+interface DeleteTeamProps {
     isOpen: boolean;
     setOpen: (open: boolean) => void;
     id: number;
     name: string;
 }
 
-export function DeleteTeamPopUpModel({ isOpen, setOpen, id, name, }: Props) {
+export function DeleteTeamPopUpModel({ isOpen, setOpen, id, name }: DeleteTeamProps) {
+    // Mutation and state hooks
     const deleteTeam = api.team.deleteTeam.useMutation();
     const auditLogMutation = api.audit.log.useMutation();
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
     const { data: session } = useSession();
-    const refetch = UseRefetch()
+    const refetch = UseRefetch();
+
+    // Toast configuration
     const toastStyle = {
         style: {
             borderRadius: '10px',
@@ -33,6 +40,11 @@ export function DeleteTeamPopUpModel({ isOpen, setOpen, id, name, }: Props) {
             color: 'white',
         },
     };
+
+    /**
+     * Handle delete confirmation
+     * Deletes team member and logs audit entry
+     */
     const confirmDelete = async () => {
         if (id) {
             try {
@@ -61,8 +73,6 @@ export function DeleteTeamPopUpModel({ isOpen, setOpen, id, name, }: Props) {
             }
         }
     };
-
-
 
     const cancelDelete = () => {
         toast.error(`Process Deleted ${name}`);

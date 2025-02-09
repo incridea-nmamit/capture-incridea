@@ -23,31 +23,29 @@ import {
     DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 
-
-
+/**
+ * DataTable Props Interface
+ */
 interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[];
-    data: TData[];
-
-
+    columns: ColumnDef<TData, TValue>[];  // Column definitions
+    data: TData[];                        // Table data
 }
 
-
+/**
+ * DataTable Component
+ * Renders a feature-rich table with sorting, filtering, and pagination
+ */
 export function DataTable<TData extends Record<string, any>, TValue>({
     columns,
     data,
-
-
 }: DataTableProps<TData, TValue>) {
+    // Table state management
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
 
-
-
-
-
+    // Table configuration
     const table = useReactTable({
         data,
         columns,
@@ -67,23 +65,16 @@ export function DataTable<TData extends Record<string, any>, TValue>({
         },
     });
 
-
-
-
-
-
     return (
         <div>
+            {/* Search and Column Visibility Controls */}
             <div className="flex flex-col md:flex-row items-center justify-start gap-4 md:gap-8 mb-4">
-
                 <Input
                     value={globalFilter}
                     onChange={(e) => setGlobalFilter(e.target.value)}
                     placeholder="Global search"
                     className="border px-4 py-2 rounded-md w-full md:w-full"
                 />
-
-
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="w-full md:w-fit">
@@ -108,8 +99,8 @@ export function DataTable<TData extends Record<string, any>, TValue>({
                 </DropdownMenu>
             </div>
 
-
-            <ScrollArea className=" w-screen md:w-full whitespace-nowrap">
+            {/* Table Content */}
+            <ScrollArea className="w-screen md:w-full whitespace-nowrap">
                 <div className="rounded-md border">
                     <Table >
                         <TableHeader className="bg-white text-black">
@@ -146,7 +137,6 @@ export function DataTable<TData extends Record<string, any>, TValue>({
                         </TableBody>
                     </Table>
 
-
                     <div className="flex items-center justify-start space-x-2 py-4">
                         <Button
                             variant="outline"
@@ -168,11 +158,9 @@ export function DataTable<TData extends Record<string, any>, TValue>({
                             Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
                         </span>
                     </div>
-
                 </div>
                 <ScrollBar orientation="horizontal" />
             </ScrollArea>
         </div>
-
     );
 }

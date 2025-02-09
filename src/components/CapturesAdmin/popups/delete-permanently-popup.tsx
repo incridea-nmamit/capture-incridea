@@ -1,3 +1,13 @@
+/**
+ * DeleteCapturePopUpModel Component
+ * Modal dialog for permanent deletion of captures
+ * Features:
+ * - Confirmation dialog
+ * - Loading state handling
+ * - Success/Error toast notifications
+ * - Automatic refetch after deletion
+ */
+
 import {  useState } from "react";
 import toast from "react-hot-toast";
 import {
@@ -17,18 +27,17 @@ import UseRefetch from "~/hooks/use-refetch";
 import { api } from "~/utils/api";
 
 type Props = {
-  isOpen: boolean;
-  setOpen: (open: boolean) => void;
-  captureId: number;
+  isOpen: boolean;          // Controls dialog visibility
+  setOpen: (open: boolean) => void;  // Dialog state setter
+  captureId: number;        // ID of capture to delete
 }
 
 export default function DeleteCapturePopUpModel({
   isOpen,
   setOpen,
   captureId
-}
-  : Props
-) {
+}: Props) {
+  // Mutation hook for permanent deletion
   const restoreImage = api.capture.deletecapturesPermanently.useMutation();
   const [loading, setLoading] = useState(false)
   const refetch = UseRefetch()

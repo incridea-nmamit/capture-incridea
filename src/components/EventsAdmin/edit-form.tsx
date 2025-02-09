@@ -26,11 +26,7 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import UseRefetch from "~/hooks/use-refetch";
 
-type Props={
-    id:number;
-    closeDialog: () => void;
-}
-
+// Form validation schema for editing events
 const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
     shortDescription: z
@@ -41,7 +37,13 @@ const formSchema = z.object({
     day: z.enum(["day1", "day2", "day3"]),
 });
 
-export default function EditForm({ id,closeDialog}:Props) {
+// Props interface for EditForm component
+type Props = {
+    id: number;
+    closeDialog: () => void;
+}
+
+export default function EditForm({ id, closeDialog }: Props) {
     if (!id) {
         return <div className="items-center justify-center mx-auto">Loading</div>;
     }

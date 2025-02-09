@@ -1,7 +1,17 @@
+/**
+ * Admin Page Component
+ * Handles authentication, role-based access, and displays welcome message
+ */
+
 import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
+/**
+ * Creates a typewriter effect animation
+ * @param text - Text to animate
+ * @param delay - Delay between each character
+ */
 const typewriterEffect = (text: string, delay: number) => {
   return new Promise<void>((resolve) => {
     let index = 0;
@@ -16,11 +26,19 @@ const typewriterEffect = (text: string, delay: number) => {
   });
 };
 
+/**
+ * Main Admin component
+ * Handles session management and renders appropriate content based on user role
+ */
 function Admin() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [welcomeText, setWelcomeText] = useState('');
 
+  /**
+   * Effect hook for authentication and welcome message
+   * Handles routing based on authentication status and user role
+   */
   useEffect(() => {
     const welcomeMessage = `${session?.user?.name}!`;
     const typingDelay = 0; 
@@ -44,13 +62,15 @@ function Admin() {
     }
   }, [session, status, router]);
 
-  
-
+  // Loading state
   if (status === 'loading') {
     return <div className="text-white">Loading...</div>;
   }
 
-
+  /**
+   * Render authenticated user content
+   * Shows welcome message and dashboard access button
+   */
   if (session) {
     return (
       <div className="flex items-center justify-center min-h-screen  bg-neutral-950 text-white bg-cover">
@@ -77,7 +97,6 @@ function Admin() {
       </div>
     );
   }
-
 }
 
 export default Admin;

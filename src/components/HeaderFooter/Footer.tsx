@@ -2,11 +2,16 @@ import React from "react";
 import { Youtube, Instagram, Linkedin } from "lucide-react";
 import Image from "next/image";
 
+/**
+ * Footer Component
+ * Main footer with social links, copyright, and navigation
+ */
 const Footer = () => {
   return (
     <footer className="bg-gradient-to-r from-black via-neutral-950 to-black py-8 text-white">
+      {/* Layout sections */}
       <div className="container mx-auto grid grid-cols-1 gap-8 px-4 md:grid-cols-3">
-        {/* Left Section */}
+        {/* Logo Section */}
         <div className="flex justify-center md:justify-start">
           <a
             href="https://incridea.in"
@@ -23,7 +28,7 @@ const Footer = () => {
           </a>
         </div>
 
-        {/* Center Section */}
+        {/* Navigation Links */}
         <div className="flex flex-col items-center justify-center space-y-2 text-center font-Trap-Regular text-sm md:flex-row md:space-x-4 md:space-y-0">
           <a
               href="/terms-and-conditions"
@@ -42,7 +47,7 @@ const Footer = () => {
           </a>
         </div>
 
-        {/* Right Section */}
+        {/* Social Media Links */}
         <div className="space-y-4 text-center font-Trap-Regular text-sm md:text-right">
           {/* Links */}
           <div className="space-y-1">
@@ -87,7 +92,7 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom Section */}
+      {/* Copyright Section */}
       <div className="mt-8 border-t border-gray-700 pt-4 text-center font-Trap-Regular">
         <p className="shining-text text-xs text-gray-500">
           © Capture Incridea 2025 &nbsp; | &nbsp;{" "}

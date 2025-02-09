@@ -4,7 +4,13 @@ import { RefreshCcw } from "lucide-react";
 import Image from "next/image";
 import { randomSliderImages } from "./../constants/data";
 
+/**
+ * Images Component
+ * Creates an animated image slider with GSAP animations
+ * Includes random image selection and transition effects
+ */
 function Images() {
+  // Animation timeline setup
   const repeatDelay = 1;
   const tl = gsap.timeline({
     repeat: -1,
@@ -38,6 +44,7 @@ function Images() {
     tl.play();
   }, []);
 
+  // Image update function
   function updateImage() {
     const imageElements = document.querySelectorAll(".slide-image");
 

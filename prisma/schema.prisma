@@ -1,3 +1,10 @@
+/**
+ * Prisma Schema for Capture Incridea Application
+ * Main database configuration and model definitions
+ * Using CockroachDB as the database provider
+ */
+
+// Database configuration and client generation
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,21 +14,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User model
+/**
+ * Core Models
+ * Primary models for user authentication and session management
+ */
+
+// User model with OAuth and role-based access
 model User {
   id            String         @id @default(cuid())
   name          String?
   email         String?        @unique
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
+  accounts      Account[]      // OAuth accounts associated with user
+  sessions      Session[]      // Active sessions for user
   role          Role           @default(user)
-  captureLikes  CaptureLike[] // Add this reciprocal relation
-  storyLikes    StoryLike[]
-  playbackLikes playbackLike[]
+  captureLikes  CaptureLike[]  // User's liked captures
+  storyLikes    StoryLike[]    // User's liked stories
+  playbackLikes playbackLike[] // User's liked playbacks
 }
 
+// OAuth account connections
 model Account {
   id                       String  @id @default(cuid())
   userId                   String
@@ -65,21 +78,26 @@ model VerifiedEmail {
   college      CollegeType //internal/externa
 }
 
-//Capture model
-model Captures {
-  id              Int     @id @default(sequence())
-  image_path      String
-  compressed_path String
-  event_name      String?
-  event_category  String
-  captured_by_id  Int
-  captured_by     team    @relation(fields: [captured_by_id], references: [id])
+/**
+ * Media Management Models
+ * Models for handling different types of media content
+ */
 
-  upload_type  String
-  state        Status
-  date_time    DateTime      @default(now())
-  downloadLog  downloadLog[]
-  captureLikes CaptureLike[]
+// Captures model for managing images
+model Captures {
+  id              Int           @id @default(sequence())
+  image_path      String        // Path to original image
+  compressed_path String        // Path to compressed version
+  event_name      String?       // Optional event reference
+  event_category  String        // Category classification
+  captured_by_id  Int           // Photographer reference
+  upload_type     String        // Upload method identifier
+  state           Status        // Current approval state
+  date_time       DateTime      @default(now())
+  // Relations
+  captured_by     team          @relation(fields: [captured_by_id], references: [id])
+  downloadLog     downloadLog[] // Download tracking
+  captureLikes    CaptureLike[] // Like tracking
 }
 
 model downloadLog {
@@ -107,7 +125,12 @@ model CaptureCard {
   cardState Boolean @default(false)
 }
 
-//Stories model
+/**
+ * Story and Playback Models
+ * Models for video content management
+ */
+
+// Stories model for short-form video content
 model Stories {
   id             Int             @id @default(sequence())
   video_path     String
@@ -145,19 +168,25 @@ model StoryLike {
   @@unique([userId, story_id])
 }
 
+/**
+ * Team and Event Management
+ * Models for managing team members and event information
+ */
+
+// Team member model with social links and responsibilities
 model team {
   id          Int        @id @default(sequence())
   name        String
-  committee   Teamgroup
-  designation String
-  image       String
-  say         String
-  github      String?
+  committee   Teamgroup  // Team category
+  designation String     // Role in team
+  image       String     // Profile image
+  say         String     // Team member quote
+  github      String?    // Social links
   linkedin    String?
   instagram   String?
   behance     String?
-  captures    Captures[]
-  stories     Stories[]
+  captures    Captures[] // Captures by team member
+  stories     Stories[]  // Stories by team member
 }
 
 //Playbacks model
@@ -204,23 +233,29 @@ model events {
   id               Int       @id @default(sequence())
   name             String    @unique
   description      String
-  shortDescription String // New field for short description
+  shortDescription String    // New field for short description
   image            String
   type             EventType
   day              Day
   visibility       Boolean   @default(false)
 }
 
+/**
+ * Analytics and Logging Models
+ * Models for tracking user activity and system events
+ */
+
+// Web analytics tracking
 model webAnalytics {
   id           Int      @id @default(sequence())
-  session_user String
-  uniqueId     String
-  routePath    String
-  isChecked    String
-  timer        Int?
-  startPing    DateTime
-  lastPing     DateTime
-  device       String
+  session_user String   // User session info
+  uniqueId     String   // Unique visitor ID
+  routePath    String   // Page accessed
+  isChecked    String   // Verification status
+  timer        Int?     // Time spent
+  startPing    DateTime // Session start
+  lastPing     DateTime // Last activity
+  device       String   // User device info
 }
 
 model Smcuploads {
@@ -231,12 +266,13 @@ model Smcuploads {
   date_time   DateTime @default(now())
 }
 
+// Audit logging for system actions
 model AuditLog {
   id              Int      @id @default(sequence())
-  sessionUserName String
-  audit_type      String
+  sessionUserName String   // User performing action
+  audit_type      String   // Type of audit entry
   dateTime        DateTime @default(now())
-  description     String
+  description     String   // Audit details
 }
 
 model Variables {
@@ -245,10 +281,25 @@ model Variables {
   value String
 }
 
+/**
+ * Enums and Types
+ * Consistent data types across the application
+ */
+
+// Status states for content approval
 enum Status {
   pending
   declined
   approved
+}
+
+// User role definitions
+enum Role {
+  admin    // Full system access
+  manager  // Content management access
+  editor   // Content editing access
+  user     // Basic user access
+  smc      // Social media team access
 }
 
 enum EventType {
@@ -274,12 +325,4 @@ enum Teamgroup {
 enum CollegeType {
   internal
   external
-}
-
-enum Role {
-  admin
-  manager
-  editor
-  user
-  smc
 }

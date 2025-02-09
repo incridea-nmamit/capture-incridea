@@ -1,3 +1,8 @@
+/**
+ * Email Verification API Handler
+ * Handles verification of emails with API key authentication
+ */
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import Cors from 'cors';
 import { initTRPC } from '@trpc/server';
@@ -8,10 +13,21 @@ const t = initTRPC.create();
 const appRouter = t.router({
   verifiedEmail,
 });
+
+/**
+ * CORS middleware configuration
+ */
 const cors = Cors({
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
 });
+
+/**
+ * Middleware runner utility
+ * @param req - Next.js API request
+ * @param res - Next.js API response
+ * @param fn - Middleware function to run
+ */
 function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: any) {
   return new Promise((resolve, reject) => {
     fn(req, res, (result: any) => {
@@ -22,6 +38,11 @@ function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: any) {
     });
   });
 }
+
+/**
+ * Main API handler for email verification
+ * Validates API key and processes verification requests
+ */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     console.log(`Received ${req.method} request`);   
     try {
@@ -58,4 +79,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(500).json({ error: (error as Error).message }); 
     }
   }
-  

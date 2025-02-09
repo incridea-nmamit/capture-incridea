@@ -1,3 +1,12 @@
+/**
+ * Modal component for handling image removal requests
+ * Features:
+ * - Form validation
+ * - Email verification with OTP
+ * - ID card upload
+ * - Request submission
+ */
+
 import React, { useState, useRef, useCallback } from 'react';
 
 import UploadComponent from '~/components/UploadComponent';
@@ -23,6 +32,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
   onClose,
   onSubmit,
 }) => {
+  // Form state management
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [description, setDescription] = useState('');
@@ -34,10 +44,16 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
   const [otpSent, setOtpSent] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
+  /**
+   * Generates a random 4-digit OTP
+   */
   const generateOtp = () => {
     return Math.floor(1000 + Math.random() * 9000).toString();
   };
 
+  /**
+   * Handles form submission with validation
+   */
   const handleSubmit = useCallback(async () => {
     if (!name || !email || !description) {
       toast.error('Please fill all fields.');
@@ -74,6 +90,9 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
     onClose();
   }, [name, email, description, uploadUrl, imagePath, emailVerified, onSubmit, onClose]);
 
+  /**
+   * Handles email verification process
+   */
   const handleEmailVerification = useCallback(async () => {
     const generatedOtp = generateOtp();
     setOtp(generatedOtp);

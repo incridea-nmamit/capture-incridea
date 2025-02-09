@@ -15,14 +15,34 @@ import { api } from '~/utils/api';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 
-const ActionComponent = ({ id, email }: { id: number, email: string }) => {
+/**
+ * ActionComponent Props
+ */
+type Props = {
+    id: number;      // Request ID
+    email: string;   // User email for notifications
+}
+
+/**
+ * ActionComponent
+ * Handles approval/decline actions for removal requests
+ * Includes email notifications and audit logging
+ */
+const ActionComponent = ({ id, email }: Props) => {
+    // State management
     const [actionType, setActionType] = useState<'approve' | 'decline' | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [isFinalOpen, setIsFinalOpen] = useState(false);
+
+    // Hooks and API mutations
     const refetch = UseRefetch();
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
     const clearRequest = api.request.clearRequest.useMutation();
     const auditLogMutation = api.audit.log.useMutation();
+
+    /**
+     * Handles initial action button click
+     */
     const handleActionClick = (action: 'approve' | 'decline') => {
         setActionType(action);
         setIsOpen(true);
@@ -33,6 +53,9 @@ const ActionComponent = ({ id, email }: { id: number, email: string }) => {
         setIsFinalOpen(true);
     };
 
+    /**
+     * Processes the final confirmation and sends notifications
+     */
     const handleFinalConfirm = async () => {
         if (actionType === 'approve') {
             await clearRequest.mutateAsync({ id: id!, status: "approved" }, {
@@ -115,6 +138,7 @@ const ActionComponent = ({ id, email }: { id: number, email: string }) => {
 
     return (
         <div className="flex gap-2 items-center justify-center">
+            {/* Action Buttons */}
             <div className="flex flex-row gap-2 items-center justify-center">
                 <Button
                     className="px-4 py-2 text-sm bg-green-500 hover:bg-green-600 text-white rounded-md"
@@ -130,6 +154,7 @@ const ActionComponent = ({ id, email }: { id: number, email: string }) => {
                 </Button>
             </div>
 
+            {/* Confirmation Dialogs */}
             <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>

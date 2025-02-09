@@ -1,9 +1,17 @@
 "use client"
+
+/**
+ * Column definitions for the audit logs table
+ * Defines the structure and behavior of each column in the table
+ */
+
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, } from "lucide-react";
 import { Button } from "../ui/button";
 
-
+/**
+ * Type definition for audit log entries
+ */
 export type AduitLogs = {
     id: number;
     description: string;
@@ -11,6 +19,11 @@ export type AduitLogs = {
     audit_type: string;
     dateTime: Date;
 }
+
+/**
+ * Column configuration for the audit logs table
+ * Defines how each column should be rendered and behave
+ */
 export const auditcolumns: ColumnDef<AduitLogs>[] = [
     {
         accessorKey: "audit_type",
@@ -51,7 +64,5 @@ export const auditcolumns: ColumnDef<AduitLogs>[] = [
             </div>
         ),
     },
-
-
 ];
 

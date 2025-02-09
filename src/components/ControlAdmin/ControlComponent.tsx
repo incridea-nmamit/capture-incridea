@@ -5,25 +5,36 @@ import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import ExecuteEvents from '../ExecuteTabAdmin/ExecuteEvents';
 
+// Interface for variable data structure
 interface Variable {
   id: number;
   key: string;
   value: string;
 }
 
+/**
+ * ControlComponent - Admin control panel for managing system variables
+ * Handles editing and updating of system configuration variables
+ */
 const ControlComponent: React.FC = () => {
+  // API queries and mutations
   const { data: variables, isLoading, refetch } = api.variables.getAll.useQuery<Variable[]>();
   const updateKeyMutation = api.variables.updateKey.useMutation();
+  const auditLogMutation = api.audit.log.useMutation();
+  
+  // State management
   const [editId, setEditId] = useState<number | null>(null);
   const [editValue, setEditValue] = useState<string>('');
-  const auditLogMutation = api.audit.log.useMutation();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
+
+  // Handler functions
   const handleEdit = (variable: Variable) => {
     setEditId(variable.id);
     setEditValue(variable.value);
   };
 
   const handleSave = async (variable: Variable) => {
+    // Input validation and value transformation
     let updatedValue = editValue;
 
     // Handle transformations

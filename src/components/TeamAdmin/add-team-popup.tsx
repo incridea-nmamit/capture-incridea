@@ -1,3 +1,7 @@
+/**
+ * Add Team Member Modal
+ * Form component for adding new team members with image upload
+ */
 "use client"
 import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
@@ -19,6 +23,7 @@ import { Teamgroup } from "@prisma/client"
 import { Textarea } from "../ui/textarea"
 import { FaBehance } from "react-icons/fa"
 
+// Form validation schema
 const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
     committee: z.nativeEnum(Teamgroup),
@@ -33,12 +38,13 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>
 
-type Props = {
-    isPopupOpen: boolean
-    setIsPopupOpen: (open: boolean) => void
+interface AddTeamProps {
+    isPopupOpen: boolean;
+    setIsPopupOpen: (open: boolean) => void;
 }
 
-const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
+const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: AddTeamProps) => {
+    // State and API hooks
     const { data: session } = useSession()
     const [uploadUrl, setUploadUrl] = useState<string>("")
     const { refetch } = api.team.getAllTeams.useQuery()
@@ -67,12 +73,20 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
         },
     })
 
+    /**
+     * Handle image upload completion
+     * @param url - Uploaded image URL
+     */
     const handleUploadComplete = (url: string) => {
         setUploadUrl(url)
         setValue("uploadKey", url)
         console.log("your url", url)
     }
 
+    /**
+     * Form submission handler
+     * Processes form data and creates new team member
+     */
     const onSubmit = async (data: FormData) => {
         if (!uploadUrl) {
             toast.error("Please upload an image")

@@ -5,18 +5,31 @@ import { motion, AnimatePresence } from "framer-motion";
 import Spline from "@splinetool/react-spline";
 import { Sparkles } from "lucide-react";
 
+/**
+ * Props interface for ReleaseOverlay component
+ */
 interface ReleaseOverlayProps {
-  releaseDate: string;
-  onRelease: () => void;
+  releaseDate: string;          // Date string for countdown target
+  onRelease: () => void;        // Callback function when countdown ends
 }
 
+/**
+ * ReleaseOverlay Component
+ * Displays a countdown timer with animated 3D background
+ * Shows days, hours, minutes, and seconds until release
+ */
 const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease }) => {
+  // State management
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
+  // Setup countdown timer
   useEffect(() => {
     setIsMounted(true);
 
+    /**
+     * Calculate remaining time until release
+     */
     const getTimeLeft = (): number => {
       const now = new Date();
       const releaseDateTime = new Date(releaseDate);
@@ -27,6 +40,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
       return Math.max(releaseDateTime.getTime() - now.getTime(), 0);
     };
 
+    // Update timer every second
     const interval = setInterval(() => {
       const newTimeLeft = getTimeLeft();
       setTimeLeft(newTimeLeft);
@@ -39,6 +53,9 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
     return () => clearInterval(interval);
   }, [releaseDate, onRelease]);
 
+  /**
+   * Helper functions for time formatting
+   */
   const formatTimeLeft = (time: number) => ({
     days: Math.floor(time / (1000 * 60 * 60 * 24)),
     hours: Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
@@ -48,20 +65,21 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
 
   const formatTwoDigits = (num: number) => String(num).padStart(2, "0");
 
-  const timeDisplay = useMemo(
-    () => (timeLeft !== null ? formatTimeLeft(timeLeft) : { days: 0, hours: 0, minutes: 0, seconds: 0 }),
-    [timeLeft]
-  );
+  // Memoized time display values
+  const timeDisplay = useMemo(() => (
+    timeLeft !== null ? formatTimeLeft(timeLeft) : { days: 0, hours: 0, minutes: 0, seconds: 0 }
+  ), [timeLeft]);
 
-  if (!isMounted) {
-    return null;
-  }
+  if (!isMounted) return null;
 
   return (
     <div className="relative min-h-screen overflow-hidden">
+      {/* 3D Background */}
       <div className="absolute inset-0 z-0">
         <Spline scene="https://draft.spline.design/7bkQ9atSXshr5SlV/scene.splinecode" />
       </div>
+
+      {/* Content Overlay */}
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -70,6 +88,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
           transition={{ duration: 0.5 }}
           className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none z-10 p-4 sm:p-6 md:p-8"
         >
+          {/* Main Content Card */}
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
