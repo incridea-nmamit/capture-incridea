@@ -1,27 +1,27 @@
 import React from 'react';
 import EmblaCarousel from "~/components/EmblaCarousel";
 import TitleDescription from "~/components/TitleDescription";
-import StoryViewer  from "./Story";
-import { stories } from "./Story";
+import StoryViewer  from "~/components/StoryComponent";
+import { stories } from "~/components/StoryComponent";
 
 const Stories = () => {
-  // Step 1: Group stories by username
+  // Step 1: Group stories by category
   const groupedStories = stories.reduce((acc, story) => {
-    const username = story.username;
+    const category = story.category;
 
-    if (!acc[username]) {
-      acc[username] = [];
+    if (!acc[category]) {
+      acc[category] = [];
     }
 
-    acc[username].push(story);
+    acc[category].push(story);
 
     return acc;
   }, {} as Record<string, typeof stories[0][]>);
 
   // Step 2: Convert grouped stories into slides for the carousel
-  const slides = Object.entries(groupedStories).map(([username, userStories]) => (
-    <div key={username} className="w-full h-full">
-      <StoryViewer key={username} userStories={userStories} />
+  const slides = Object.entries(groupedStories).map(([category, userStories]) => (
+    <div key={category} className="w-full h-full">
+      <StoryViewer key={category} userStories={userStories} />
     </div>
   ));
 
