@@ -84,7 +84,7 @@ const accolades = () => {
       <TitleDescription
         title="Accolades"
         description="Engaging our audience and building community through strategic social media initiatives"
-        imagePath="https://utfs.io/f/0yks13NtToBiR2RImlGmqjGOIgx47y3cAJSCbQ1V82Nitrsf"
+        imagePath="/images/CapturePage/accolades.webp"
       />
       <ImagesGrid
         isFetchingNextPage={isFetchingNextPage}

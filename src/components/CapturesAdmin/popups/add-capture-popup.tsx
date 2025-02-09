@@ -109,7 +109,8 @@ export function AddCapturePopUpModel({ isOpen, setOpen }: Props) {
                                                     Select a category
                                                 </option>
                                                 <option value="events">Events</option>
-                                                <option value="pronite">Pronite</option>
+                                                <option value="shaan">Shaan</option>
+                                                <option value="masalacoffee">Masala Coffee</option>
                                                 <option value="snaps">Snaps</option>
                                                 <option value="accolades">Accolades</option>
                                                 <option value="faculty">Faculty</option>

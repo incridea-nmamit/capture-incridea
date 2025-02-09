@@ -84,7 +84,7 @@ const behindincridea = () => {
       <TitleDescription
         title="Behind Incridea"
         description="Engaging our audience and building community through strategic social media initiatives"
-        imagePath="https://utfs.io/f/0yks13NtToBiR2RImlGmqjGOIgx47y3cAJSCbQ1V82Nitrsf"
+        imagePath="/images/CapturePage/behindincridea.webp"
       />
       <ImagesGrid
         isFetchingNextPage={isFetchingNextPage}

@@ -11,7 +11,7 @@ import ImagePopup from "~/components/ImagePopup/image-popup";
 import { Button } from "~/components/ui/button";
 
 
-const pronite = () => {
+const Shaan = () => {
   const { data: session } = useSession();
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
@@ -30,7 +30,7 @@ const pronite = () => {
       router.push("/captures");
     }
   }, [cardState, router]);
-  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.capture.getApprovedImagesByCategory.useInfiniteQuery({ category: "pronite", includeDownloadCount: session?.user.role === "admin" }, {
+  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.capture.getApprovedImagesByCategory.useInfiniteQuery({ category: "shaan", includeDownloadCount: session?.user.role === "admin" }, {
     getNextPageParam: (lastPage: any) => lastPage.nextCursor,
   },);
 
@@ -132,4 +132,4 @@ const pronite = () => {
 
 }
 
-export default pronite
+export default Shaan
