@@ -25,17 +25,42 @@ import GlobeLoader from '~/components/LoadingAnimation/GlobeLoader'
 
 const items = [
   {
-    image: 'https://picsum.photos/300/300',
+    image: '/images/general/s1.webp',
   },
   {
-    image: 'https://picsum.photos/400/400',
+    image: '/images/general/s12.webp',
   },
   {
-    image: 'https://picsum.photos/500/500',
+    image: '/images/general/s11.webp',
   },
   {
-    image: 'https://picsum.photos/600/600',
-  }
+    image: '/images/general/s10.webp',
+  },
+  {
+    image: '/images/general/s7.webp',
+  },
+  {
+    image: '/images/general/s9.webp',
+  },
+  {
+    image: '/images/general/s8.webp',
+  },
+  {
+    image: '/images/general/s5.webp',
+  },
+  {
+    image: '/images/general/s6.webp',
+  },
+  {
+    image: '/images/general/s2.webp',
+  },
+  {
+    image: '/images/general/s4.webp',
+  },
+  {
+    image: '/images/general/s3.webp',
+  },
+
 ];
 
 
