@@ -23,6 +23,7 @@ const StoriesComponent: React.FC<StoriesComponentProps> = ({ storyData }) => {
         width={'100%'}
         height={'100%'}
         stories={storyData}
+        isPaused={true}
         defaultInterval={10000}
         progressStyles={{
           backgroundColor: 'rgb(255, 255, 255)',

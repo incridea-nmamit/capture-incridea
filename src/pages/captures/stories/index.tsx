@@ -2,8 +2,7 @@ import React from 'react';
 import { useEffect, useState } from "react";
 import EmblaCarousel from "~/components/EmblaCarousel";
 import TitleDescription from "~/components/TitleDescription";
-import StoriesComponent from "~/components/StoryComponent";
-import { duration } from '@mui/material';
+import StoryTest from './Story'
 
 const Stories = () => {
   const storyData = [
@@ -47,16 +46,7 @@ const Stories = () => {
       },
       duration:5000,
     },
-    {
-      url: 'https://media.istockphoto.com/id/1742796178/video/vertical-video-media-star-films-digital-tablet-review.mp4?s=mp4-640x640-is&k=20&c=igLDnDXvJ9Q1jPDIHY-SpvzL7uJrkWsAlkO7cEarigI=',
-      type: 'video',
-      header: {
-        heading: 'Business',
-        subheading: 'Captured By: Incridia',
-        profileImage: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=600',
-      },
-      duration:5000,
-    },
+    
     // Add more story data here along with Cateogry Name(heading) to Merge them, and the slides will automatically update
   ];
 
@@ -74,8 +64,8 @@ const Stories = () => {
   }, {} as Record<string, typeof storyData>); // TypeScript: Record<string, StoryData[]>
 
   // Dynamically generate slides based on storyData
-  const slides = Object.entries(groupedStories).map(([heading, stories]) => (
-    <StoriesComponent key={heading} storyData={stories} />
+  const slides = Object.entries(groupedStories).map(([heading]) => (
+    <StoryTest key={heading}/>
   ));
 
 
