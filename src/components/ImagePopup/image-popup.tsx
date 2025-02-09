@@ -214,7 +214,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
 
                 <div className="flex items-center justify-center w-full text-center font-Trap-Regular text-xs">
                   <span>
-                    NIf you prefer this capture not to be public or have any issues,&nbsp;
+                    If you prefer this capture not to be public or have any issues,&nbsp;
                     <button
                       className="underline hover:no-underline text-blue-400 hover:text-blue-500 transition duration-200"
                       onClick={() => {
@@ -230,13 +230,13 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
 
                 <a href="/our-team">
                   <div className="flex items-center justify-center gap-4 text-xs">
-                    <span>Captured By</span>
+                    <span>{author?.name ? "Captured By" : ""}</span>
                     <div className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center overflow-hidden">
                       <Avatar className="w-full h-full">
-                        <AvatarImage src={author?.image || "https://github.com/shadcn.png"} alt={author?.name || "User"} />
+                        <AvatarImage src={author?.image || ""} alt={author?.name || "User"} />
                       </Avatar>
                     </div>
-                    <span>{author?.name || "Loading..."}</span>
+                    <span>{author?.name || ""}</span>
                   </div>
                 </a>
               </div>

@@ -37,10 +37,6 @@ const config: Config = {
 					'Trap-Regular',
 					'cursive'
 				],
-				"cursive": [
-					'Hunters',
-					'cursive'
-				]
 			},
 			colors: {
 				gold: '#FFD700',

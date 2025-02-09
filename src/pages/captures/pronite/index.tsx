@@ -15,10 +15,10 @@ const pronite = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen w-screen mt-16">
+    <div className="flex flex-col md:flex-row h-screen w-screen">
        <div
         onClick={() => handleDivClick('/captures/pronite/masala-coffee')}
-        className="group flex-1 bg-cover bg-center relative overflow-hidden md:cursor-pointer"
+        className="group flex-[1.2] md:flex-1 bg-cover bg-center relative overflow-hidden md:cursor-pointer"
         style={{ backgroundImage: "url('/images/landing-images/Masala_Coffee.webp')", backgroundPosition: "center", backgroundSize: "cover" }}
       >
         <div className="absolute inset-0 bg-black/40 md:bg-transparent md:bg-gradient-to-t md:from-black/50 md:to-transparent transition-all duration-500 md:group-hover:bg-black/40 md:group-hover:backdrop-blur-[2px]"></div>
