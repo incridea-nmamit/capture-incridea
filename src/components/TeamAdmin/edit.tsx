@@ -1,4 +1,3 @@
-
 "use client";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -112,9 +111,9 @@ const EditTeamPopupModel = ({ isPopupOpen, setIsPopupOpen, id }: Props) => {
 
   return (
     <Dialog open={isPopupOpen} onOpenChange={setIsPopupOpen}>
-      <DialogContent className="bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950 border border-gray-100 p-10 rounded-3xl shadow-lg text-center w-full max-w-4xl">
+      <DialogContent className="bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950p-4 md:p-10 rounded-2xl md:rounded-3xl shadow-lg text-center w-[95%] md:w-full max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-white">Edit Team Member</DialogTitle>
+          <DialogTitle className="text-white text-lg md:text-xl">Edit Team Member</DialogTitle>
         </DialogHeader>
 
         {isLoading ? (
@@ -139,7 +138,7 @@ const EditTeamPopupModel = ({ isPopupOpen, setIsPopupOpen, id }: Props) => {
              
               <div>
                 <Label className="text-white">Committee</Label>
-                <select {...register("committee")} className="w-full p-2 bg-black border border-neutral-700 text-white">
+                <select {...register("committee")} className="w-full p-2 bg-black text-white">
                   <option value="media">Media</option>
                   <option value="socialmedia">Social Media</option>
                   <option value="developer">Developer</option>
@@ -162,7 +161,7 @@ const EditTeamPopupModel = ({ isPopupOpen, setIsPopupOpen, id }: Props) => {
                   {field === "behance" && <FaBehance className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />}
                   <Input
                     {...register(field as keyof FormData)}
-                    className="bg-black text-white pl-10 border border-gray-700"
+                    className="bg-black text-white pl-10 "
                     placeholder={`Enter ${field.charAt(0).toUpperCase() + field.slice(1)} URL`}
                   />
                   {errors[field as keyof FormData] && (
