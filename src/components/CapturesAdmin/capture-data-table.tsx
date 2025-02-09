@@ -25,21 +25,33 @@ import useUserRole from "~/hooks/useUserRole";
 import { AddCapturePopUpModel } from "./popups/add-capture-popup";
 
 
+/**
+ * DataTable Component
+ * A reusable table component with advanced filtering and sorting capabilities.
+ * Features:
+ * - Global search
+ * - Column visibility toggle
+ * - Category and event filtering
+ * - Pagination
+ * - Add capture functionality for admin/editor roles
+ */
+
 interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[];
-    data: TData[];
+    columns: ColumnDef<TData, TValue>[]; // Column definitions
+    data: TData[];                       // Table data
 }
 
 export function DataTable<TData extends Record<string, any>, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
+    // Filter management
+    const [globalFilter, setGlobalFilter] = useState("");
+    const [sorting, setSorting] = useState<SortingState>([]);
     const userRole = useUserRole();
     const [openAddCaptureModel, setOpenAddCaptureModel] = useState(false);
-    const [globalFilter, setGlobalFilter] = useState("");
-    const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
     const [selectedEventName, setSelectedEventName] = useState<string | undefined>();
 
@@ -71,6 +83,11 @@ export function DataTable<TData extends Record<string, any>, TValue>({
         },
     });
 
+    /**
+     * Updates filters based on selected category or event
+     * @param filterId - The ID of the filter to update
+     * @param value - The new filter value
+     */
     const updateFilters = (filterId: string, value: string | undefined) => {
         setColumnFilters((currentFilters) => {
             const filters = currentFilters.filter((filter) => filter.id !== filterId);

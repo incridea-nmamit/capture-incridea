@@ -1,6 +1,10 @@
 import React from "react";
 import RedirectButton from "./RedirectButton";
 
+/**
+ * About Component
+ * Displays information about the photography service with a call-to-action button
+ */
 function About() {
   return (
     <section className="container-size mx-auto flex h-screen flex-col items-center justify-center gap-8 text-left md:text-center">

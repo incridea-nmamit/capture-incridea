@@ -1,4 +1,5 @@
 "use client"
+
 import { Button } from "~/components/ui/button"
 import {
     Dialog,
@@ -41,28 +42,40 @@ import { useSession } from "next-auth/react"
 import UseRefetch from "~/hooks/use-refetch"
 import { useState } from "react"
 
+/**
+ * Props interface for ChangeRolePopUP component
+ */
 type Props = {
-    isOpen: boolean
-    onClose: () => void
-    userId: string
+    isOpen: boolean;         // Controls dialog visibility
+    onClose: () => void;     // Handler for closing the dialog
+    userId: string;          // ID of user whose role is being changed
 }
 
+/**
+ * Form validation schema for role changes
+ */
 const formSchema = z.object({
     role: z.nativeEnum(Role)
 });
 
+/**
+ * ChangeRolePopUP Component
+ * Dialog for changing user roles with form validation and audit logging
+ */
 export function ChangeRolePopUP({
     isOpen,
     onClose,
     userId
-}: Props
-) {
-    const { data: existingRole } = api.user.getUserRoleById.useQuery({ userId: userId })
-    const refetch = UseRefetch()
+}: Props) {
+    // Hooks and API calls
+    const { data: existingRole } = api.user.getUserRoleById.useQuery({ userId });
+    const refetch = UseRefetch();
     const auditLogMutation = api.audit.log.useMutation();
-    const changeRole = api.user.changeUserRole.useMutation()
+    const changeRole = api.user.changeUserRole.useMutation();
     const { data: session } = useSession();
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+
+    // Form initialization
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -70,6 +83,10 @@ export function ChangeRolePopUP({
         }
     })
 
+    /**
+     * Handle form submission
+     * Changes user role and logs the action
+     */
     function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             setLoading(true)
@@ -100,12 +117,15 @@ export function ChangeRolePopUP({
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[425px]">
+                {/* Dialog Header */}
                 <DialogHeader>
                     <DialogTitle>Change UserRole</DialogTitle>
                     <DialogDescription>
                         Select the new role for the user
                     </DialogDescription>
                 </DialogHeader>
+
+                {/* Role Change Form */}
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
 

@@ -6,6 +6,9 @@ import { Button } from "../../ui/button";
 import { ArrowUpDown } from "lucide-react";
 import ActionComponent from "./actionComponent";
 
+/**
+ * Type definition for removal request data
+ */
 export type Request = {
     id: number;
     image_path: string;
@@ -16,25 +19,29 @@ export type Request = {
     idcard: string;
 };
 
+/**
+ * Column definitions for pending requests
+ * Includes special handling for actions and status display
+ */
 export const pendingColumns: ColumnDef<Request>[] = [
+    // Name Column
     {
         accessorKey: "name",
         header: "Name",
         cell: ({ row }) => row.original.name || "",
     },
+    // Email Column with sorting
     {
         accessorKey: "email",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Email
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            );
-        },
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            >
+                Email
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+        ),
     },
     {
         accessorKey: "description",
@@ -86,26 +93,29 @@ export const pendingColumns: ColumnDef<Request>[] = [
     },
 ];
 
-
+/**
+ * Column definitions for all requests
+ * Includes status-based styling and formatting
+ */
 export const columns: ColumnDef<Request>[] = [
+    // Name Column
     {
         accessorKey: "name",
         header: "Name",
         cell: ({ row }) => row.original.name || "",
     },
+    // Email Column with sorting
     {
         accessorKey: "email",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Email
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            );
-        },
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            >
+                Email
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+        ),
     },
     {
         accessorKey: "description",
@@ -134,23 +144,22 @@ export const columns: ColumnDef<Request>[] = [
             />
         ),
     },
+    // Status Column with conditional styling
     {
         accessorKey: "status",
         header: "Status",
         cell: ({ row }) => {
             const status = row.original.status;
-            const statusClasses =
-                status === "approved" ? "bg-green-500 text-white" :
-                    status === "declined" ? "bg-red-500 text-white" :
-                        "bg-gray-500 text-white"; 
+            const statusClasses = status === "approved" ? "bg-green-500 text-white" :
+                                status === "declined" ? "bg-red-500 text-white" :
+                                "bg-gray-500 text-white";
 
             return (
                 <span className={`inline-flex items-center px-2 py-1 text-xs md:text-md font-medium rounded-full 
-                    ${statusClasses}  border border-white`}>
+                    ${statusClasses} border border-white`}>
                     {status}
                 </span>
             );
         },
-
     },
 ];

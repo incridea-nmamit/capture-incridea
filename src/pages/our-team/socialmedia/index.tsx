@@ -70,7 +70,7 @@ const SocialMediaPage: React.FC = () => {
       <TitleSection
         title="Social Media Team"
         description="Engaging our audience and building community through strategic social media initiatives"
-        backgroundImage="https://utfs.io/f/0yks13NtToBiNScub3pjzD2wWm5AylYHcVfipk40e8O9RubF"
+        backgroundImage="/images/CapturePage/smc-bg.webp"
       />
       {/* Cards Section */}
       <div className="container-size flex flex-col flex-wrap justify-center gap-6 py-6 text-white md:flex-row md:gap-8 md:py-12">
@@ -82,6 +82,10 @@ const SocialMediaPage: React.FC = () => {
             name={member.name}
             designation={member.designation}
             say={member.say}
+            github={member.github!}
+            linkedin={member.linkedin!}
+            instagram={member.instagram!}
+            behance={member.behance!}
           />
         ))}
       </div>

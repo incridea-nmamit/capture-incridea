@@ -1,3 +1,12 @@
+/**
+ * Advanced carousel component with smooth transitions
+ * Features:
+ * - Scale and blur animations
+ * - Navigation controls
+ * - Auto-loop functionality
+ * - Responsive design
+ */
+
 import React, { useCallback, useEffect, useRef } from 'react';
 import {
   EmblaCarouselType,
@@ -14,20 +23,26 @@ import { Share,Download,Heart } from "lucide-react";
 
 const TWEEN_FACTOR_BASE = 0.5;
 
+/**
+ * Constrains a number within specified range
+ */
 const numberWithinRange = (number: number, min: number, max: number): number =>
   Math.min(Math.max(number, min), max);
 
-type PropType = {
-  slides: React.ReactNode[]; // Accept an array of React nodes (custom content)
+interface PropType {
+  slides: React.ReactNode[];
   options?: EmblaOptionsType;
-};
+}
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
-  const {slides, options = { loop: true,  } } = props;
+  const { slides, options = { loop: true } } = props;
+  
+  // Carousel state and refs
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
 
+  // Navigation button handlers
   const {
     prevBtnDisabled,
     nextBtnDisabled,
@@ -35,6 +50,9 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     onNextButtonClick,
   } = usePrevNextButtons(emblaApi);
 
+  /**
+   * Sets up animation nodes for transitions
+   */
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
     tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
       return slideNode.querySelector('.embla__slide__content') as HTMLElement; // Changed to target custom content
@@ -45,6 +63,11 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     tweenFactor.current = TWEEN_FACTOR_BASE * emblaApi.scrollSnapList().length;
   }, []);
 
+  /**
+   * Handles slide transition animations
+   * - Applies scale and blur effects
+   * - Handles loop transitions
+   */
   const tweenScale = useCallback(
     (emblaApi: EmblaCarouselType, eventName?: EmblaEventType) => {
       const engine = emblaApi.internalEngine();
@@ -98,6 +121,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     []
   );
   
+  // Effect for carousel initialization
   useEffect(() => {
     if (!emblaApi) return;
 

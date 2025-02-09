@@ -1,29 +1,39 @@
 import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
+
+/**
+ * Custom hook to get and monitor the user's role
+ * @returns {string | null} The current user's role or null if not authenticated
+ */
 const useUserRole = () => {
+  // State to store the user's role
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
+    /**
+     * Fetches the user's role from the session
+     * @async
+     */
     const fetchUserRole = async () => {
       try {
         const session = await getSession();
-        if (session) {
-          setUserRole(session.user.role); 
-        } else {
-          setUserRole(null);
-        }
+        setUserRole(session ? session.user.role : null);
       } catch (error) {
-        console.error(error);
-        setUserRole(null); 
+        console.error('Error fetching user role:', error);
+        setUserRole(null);
       }
     };
 
+    // Initial fetch
     void fetchUserRole();
-    const intervalId = setInterval(() => {
-      fetchUserRole().catch(console.error);
-    }, 5000); // Check every 5 seconds
 
-    return () => clearInterval(intervalId); // Clean up on unmount
+    // Set up polling interval
+    const intervalId = setInterval(() => {
+      void fetchUserRole();
+    }, 5000);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return userRole;

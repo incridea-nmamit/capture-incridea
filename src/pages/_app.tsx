@@ -4,8 +4,6 @@ import { type AppType } from "next/app";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
-import Head from "next/head";
-import { fonts } from "~/fonts";
 import "~/styles/globals.css";
 import "~/styles/embla.css";
 import Header from "~/components/HeaderFooter/Header";
@@ -16,11 +14,30 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import LoginComponent from "./LoginComponent";
 import NotRegistered from "./NotRegistered";
 import KeyboardShortcut from "~/components/Shortcuts";
-import IntroAnimation from "./Intro";
 import { usePathname } from "next/navigation";
-import SEO from "~/components/SEO";
 import Footer from "~/components/HeaderFooter/Footer";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Script from "next/script";
+import dynamic from "next/dynamic";
+import SEO from "~/components/SEO";
+import GlobeLoader from '~/components/LoadingAnimation/GlobeLoader'
+
+
+const items = [
+  {
+    image: 'https://picsum.photos/300/300',
+  },
+  {
+    image: 'https://picsum.photos/400/400',
+  },
+  {
+    image: 'https://picsum.photos/500/500',
+  },
+  {
+    image: 'https://picsum.photos/600/600',
+  }
+];
+
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -66,8 +83,18 @@ const AuthenticatedApp = ({
     }
   }, [fetchedEmailData, verifiedEmailData]);
 
-  if (sessionStatus === "loading" || (isVerifiedEmailLoading && !verifiedEmailData))
-    return <CameraLoading />;
+  const [showIntro,setShowIntro]  = useState(true);
+
+  useEffect(()=>{
+    const interval = setInterval(()=>{
+      if (sessionStatus === "loading" || (isVerifiedEmailLoading && !verifiedEmailData)){
+        setShowIntro(false)
+        clearInterval(interval)
+      }
+    },6000)
+  },[])
+
+  if(showIntro) return <GlobeLoader items={items}/>;
 
   if (!sessionData) return <LoginComponent />;
 
@@ -87,7 +114,7 @@ const AuthenticatedApp = ({
   const isCapturesPath = pathname === "/captures";
   if (isExcluded) {
     return (
-      <ScrollArea className="font-description flex h-screen min-h-screen w-full flex-1 flex-col">
+      <ScrollArea className="font-description flex h-screen min-h-screen w-full flex-1 flex-col" id="main-scroller">
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-grow">
@@ -102,7 +129,7 @@ const AuthenticatedApp = ({
   } else {
     return (
       <QueryClientProvider client={queryClient}>
-        <ScrollArea className="font-roboto flex h-screen min-h-screen w-full flex-1 flex-col">
+        <ScrollArea className="font-roboto flex h-screen min-h-screen w-full flex-1 flex-col" id="main-scroller"> 
           <div className="font-roboto flex min-h-screen flex-col">
             <Header />
             <main className="flex-grow">
@@ -140,12 +167,26 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <SEO/>
       <KeyboardShortcut />
-      {/* {showIntro ? (
-        <IntroAnimation onAnimationComplete={handleIntroAnimationComplete} />
-      ) : (
-        <AuthenticatedApp Component={Component} pageProps={pageProps} />
-      )} */}
+      <Script
+        strategy="lazyOnload"
+        src="https://www.googletagmanager.com/gtag/js?id=G-QRVG032QD4"
+      />
+      <Script
+        id="google-analytics"
+        strategy="lazyOnload"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-QRVG032QD4', {
+              page_path: window.location.pathname,
+            });
+          `,
+        }}
+      />
       <AuthenticatedApp Component={Component} pageProps={pageProps} />
+
     </SessionProvider>
   );
 };

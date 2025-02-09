@@ -1,9 +1,18 @@
+/**
+ * ApproveCaptures Component
+ * Main component for displaying and managing capture approvals
+ * Features:
+ * - Displays pending captures that need approval
+ * - Loading state handling
+ * - Error state handling
+ */
 import React from 'react';
 import { api } from '~/utils/api';
 import CameraLoading from '../LoadingAnimation/CameraLoading';
 import ApproveCard from './approve-card';
 
 const ApproveCaptures: React.FC = () => {
+  // Query hook for fetching pending captures with loading and error states
   const { data: pendingCaptures, isLoading, isError, } = api.capture.getApproveCaptures.useQuery();
   if (isLoading) return <CameraLoading />;
   if (isError) return <div>Error loading gallery. Please try again later.</div>;

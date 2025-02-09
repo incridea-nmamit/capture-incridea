@@ -13,18 +13,27 @@ import UseRefetch from "~/hooks/use-refetch";
 
 import { api } from "~/utils/api";
 
+/**
+ * Props interface for DeletePlayBacksPopUpModel
+ */
 type Props = {
-    isOpen: boolean;
-    setOpen: (open: boolean) => void;
-    id: number;
+    isOpen: boolean;        // Controls dialog visibility
+    setOpen: (open: boolean) => void;  // Dialog state setter
+    id: number;            // ID of playback to delete
 }
 
+/**
+ * DeletePlayBacksPopUpModel Component
+ * Handles deletion of playback videos with confirmation dialog
+ * Includes audit logging of deletion actions
+ */
 export function DeletePlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
+    // API and state management
     const deletePlayback = api.playbacks.deletePlaybacks.useMutation();
     const auditLogMutation = api.audit.log.useMutation();
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
     const { data: session } = useSession();
-    const refetch = UseRefetch()
+    const refetch = UseRefetch();
     const toastStyle = {
         style: {
             borderRadius: '10px',
@@ -32,6 +41,10 @@ export function DeletePlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
             color: 'white',
         },
     };
+
+    /**
+     * Handle delete confirmation
+     */
     const confirmDelete = async () => {
         if (id) {
             try {
@@ -61,22 +74,22 @@ export function DeletePlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
         }
     };
 
-
-
     const cancelDelete = () => {
         toast.error('Event not deleted.', toastStyle);
         setOpen(false);
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={setOpen} >
+        <Dialog open={isOpen} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px]">
+                {/* Confirmation Dialog Content */}
                 <DialogHeader>
                     <DialogTitle>Delete Confirmation</DialogTitle>
                     <DialogDescription>
                         Are you sure you want to delete  ?
                     </DialogDescription>
                 </DialogHeader>
+                {/* Action Buttons */}
                 <div className="flex justify-end mt-4 space-x-4">
                     <Button disabled={loading} onClick={confirmDelete} className="bg-red-600 text-white px-4 py-2 rounded">
                         {loading ? (
@@ -107,5 +120,5 @@ export function DeletePlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
                 </div>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

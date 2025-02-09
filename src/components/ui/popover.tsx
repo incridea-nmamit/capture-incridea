@@ -1,14 +1,18 @@
+/**
+ * Popover Component
+ * A floating content overlay that appears relative to a trigger element.
+ * Built using Radix UI Popover primitive.
+ */
 import * as React from "react"
 import * as PopoverPrimitive from "@radix-ui/react-popover"
-
 import { cn } from "~/lib/utils"
 
+// Core Popover components
 const Popover = PopoverPrimitive.Root
-
 const PopoverTrigger = PopoverPrimitive.Trigger
-
 const PopoverAnchor = PopoverPrimitive.Anchor
 
+// Styled PopoverContent component
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>

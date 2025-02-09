@@ -1,14 +1,25 @@
 import { useScroll, useTransform, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 
+/**
+ * TimelineEntry interface defining the structure of timeline items
+ */
 type TimelineEntry = {
   title: string;
   content: React.ReactNode;
 };
 
+/**
+ * TimelineLayout Component
+ * Creates an animated timeline with scroll-based progress indicators
+ * @param data Array of timeline entries to display
+ */
 export const TimelineLayout = ({ data }: { data: TimelineEntry[] }) => {
+  // Refs for scroll animation
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Height state for animation calculations
   const [height, setHeight] = useState(0);
 
   useEffect(() => {

@@ -39,13 +39,17 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+/**
+ * LogChartComponent
+ * Visualizes log data using a pie chart with dynamic data updates
+ */
 export function LogChartComponent() {
-  // Fetch data for all three log types
+  // Data fetching hooks
   const { data: downloadLogs = [] } = api.download.getAllDownloadLogs.useQuery()
   const { data: storyLogs = [] } = api.stories.getAllStoryLogs.useQuery()
   const { data: playbackLogs = [] } = api.playbacks.getAllPlayBackLogs.useQuery()
 
-  // Calculate the total number of logs for each type
+  // Compute chart data
   const logData = React.useMemo(() => {
     return [
       { browser: "Download Logs", visitors: downloadLogs.length, fill: "blue" },

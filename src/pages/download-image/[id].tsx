@@ -6,7 +6,6 @@ import UseRefetch from "~/hooks/use-refetch";
 import { api } from "~/utils/api";
 import { Button } from "react-bootstrap";
 import { useSession } from "next-auth/react";
-import QRCode from "react-qr-code";
 import { MoreInfo } from "~/components/MoreInfoDrawer/more-infoPopup";
 import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { useRouter } from "next/router";
@@ -112,38 +111,31 @@ const ImagePopup = () => {
   };
 
   return (
-    <div>
+    <div className="mx-4">
       <div
         className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col  items-center justify-center z-50"
         role="dialog"
         aria-modal="true"
-
       >
-
         <div
-          className="    max-h-[98vh] w-full md:w-[60%]  h-auto space-y-10 gradient-bg grid grid-cols-1 gap-4 rounded-[50px]   border-[4px] border-indigo-700"
+          className="max-h-[98vh] w-full md:w-[60%] h-auto space-y-10 gradient-bg grid grid-cols-1 gap-4 rounded-3xl mx-4 md:mx-0"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex flex-col md:flex-row w-full h-full ">
-
-            <div className="flex bg-indigo-700  justify-center items-center w-full md:w-1/2   border-[5px] md:border-r-[12px] border-indigo-700  rounded-[40px] ">
-
+        <div className="flex flex-col md:flex-row w-full h-full">
+          <div className="relative flex justify-center items-center w-full md:w-1/2 min-h-[300px] rounded-l-3xl">
               <Image
                 src={Selectedcapture?.image_path || "/images/fallback.webp"}
                 alt="Selected"
-                className="rounded-[30px]  shadow-2xl transition-opacity "
-                width={isLandscape ? 600 : 350}
-                height={isLandscape ? 450 : 400}
-                layout="intrinsic"
+                className="rounded-[10px] shadow-2xl transition-opacity overflow-hidden"
+                layout="fill"
+                objectFit="cover"
                 onLoad={handleImageLoad}
                 onContextMenu={(e) => e.preventDefault()}
                 onDragStart={(e) => e.preventDefault()}
               />
 
             </div>
-
-            <div className="w-full md:w-1/2 h-full p-10 ">
-
+            <div className="w-full md:w-1/2 h-full p-8">
               <div className="flex justify-between gap-2 items-center">
                 <div>
                   <Image
@@ -151,45 +143,36 @@ const ImagePopup = () => {
                     alt="Logo"
                     width={150}
                     height={80}
-                    className="h-auto w-auto max-w-32"
+                    className="h-auto w-auto max-w-24"
                     onContextMenu={(e) => e.preventDefault()}
                     onDragStart={(e) => e.preventDefault()}
                   />
                 </div>
-                <div className="flex flex-row items-center justify-center gap-5">
+                <div className="flex flex-row items-center justify-center gap-5">                  
                   <Button onClick={handleShare} className="flex items-center">
                     <Share2 className="text-white w-5 h-5" />
                   </Button>
-                  <Button onClick={() => setOpenMoreInfo(true)} className="flex items-center">
-                    <Info className="text-white w-5 h-5" />
-                  </Button>
                 </div>
               </div>
-
-
-
-
-
-              <div className="flex flex-col justify-center items-center h-full w-full  space-y-5 md:space-y-6 font-cursive text-white text-md md:text-xl tracking-widest text-center px-4 ">
-
+              <div className="flex flex-col justify-center items-center h-full w-full  space-y-5 md:space-y-6 font-Teknaf text-white text-md md:text-xl tracking-widest text-center px-4 md:py-36">
                 <div className="flex justify-center gap-2 items-center">
                   <button onClick={handleToggleLike} aria-label="Like Button">
-                    <FaHeart size={24} color={hasLiked ? "red" : "white"} />
+                    <FaHeart size={20} color={hasLiked ? "red" : "white"} />
                   </button>
-                  <span className="text-white text-sm">
+                  <span className="text-white text-sm font-Trap-Regular">
                     {isLoading ? "..." : totalLikes !== null ? totalLikes : "Loading..."}
                   </span>
 
                   <Button
-                    className="bg-white rounded-xl text-black px-7 py-2 text-xl hover:scale-105 transition-all"
+                    className="bg-white rounded-xl text-black px-7 py-2 mx-5 font-Trap-Regular text-xs hover:scale-105 transition-all"
                     onClick={() => handleDownload(Selectedcapture?.image_path)}
                   >
-                    Download
+                    Download Original
                   </Button>
                 </div>
 
 
-                <div className="flex items-center justify-center w-full text-center">
+                <div className="flex items-center justify-center w-full text-center text-xs font-Trap-Regular">
                   <span>
                     Note: If you prefer this capture not to be public or have any issues,
                     <button
@@ -205,19 +188,19 @@ const ImagePopup = () => {
                   </span>
                 </div>
 
-
-                <div className="flex items-center justify-center gap-4">
-                  <span>Captured By</span>
-                  <div className="w-12 h-12 border border-gray-500 rounded-full flex items-center justify-center overflow-hidden">
-                    <Avatar className="w-full h-full">
-                      <AvatarImage src={Selectedcapture?.captured_by?.image || "https://github.com/shadcn.png"} alt={Selectedcapture?.captured_by?.name || "User"} />
-                    </Avatar>
+                <a href="/our-team">
+                  <div className="flex items-center justify-center gap-4 text-xs font-Trap-Regular">
+                    <span>Captured By</span>
+                    <div className="w-6 h-6 md:w-8 md:h-8 border border-gray-500 rounded-full flex items-center justify-center overflow-hidden">
+                      <Avatar className="w-full h-full">
+                        <AvatarImage src={Selectedcapture?.captured_by?.image || "https://github.com/shadcn.png"} alt={Selectedcapture?.captured_by?.name || "User"} />
+                      </Avatar>
+                    </div>
+                    <span>{Selectedcapture?.captured_by?.name || "Loading..."}</span>
                   </div>
-                  <span>{Selectedcapture?.captured_by?.name || "Loading..."}</span>
-                </div>
+                </a>
               </div>
             </div>
-
           </div>
         </div>
         {isModalOpen && (
@@ -231,20 +214,8 @@ const ImagePopup = () => {
           </div>
         )}
       </div>
-      {
-        openMoreInfo && (
-          <MoreInfo
-            isOpen={openMoreInfo}
-            setOpen={setOpenMoreInfo}
-            id={Selectedcapture?.id}
-            apiTobeCalled="capture"
-          />
-        )
-      }
-
-
-
     </div>
+    
   );
 };
 

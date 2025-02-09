@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import CapturesComponent from "~/components/Captures/CapturePage";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 import ReleaseOverlay from "~/components/ReleasingOverlay/ReleaseOverlay";
+import SEO from "~/components/SEO/index";
 import { api } from "~/utils/api";
+
 
 const Captures: React.FC = () => {
   const [isReleased, setIsReleased] = useState<boolean>(false);
@@ -32,13 +34,20 @@ const Captures: React.FC = () => {
   const releaseDate = data.value; // The fetched release date
 
   return (
-    <main>
-      {checkReleaseDate(releaseDate) && !isReleased ? (
-        <ReleaseOverlay releaseDate={releaseDate} onRelease={handleRelease} />
-      ) : (
-        <CapturesComponent />
-      )}
-    </main>
+    <>
+      <SEO 
+        title="Captures | Capture Incridea"
+        description="Browse through the official gallery of Incridea. View and download high-quality photos from various events and moments of Incridea."
+        url="https://capture.incridea.in/captures"
+      />
+      <main>
+        {checkReleaseDate(releaseDate) && !isReleased ? (
+          <ReleaseOverlay releaseDate={releaseDate} onRelease={handleRelease} />
+        ) : (
+          <CapturesComponent />
+        )}
+      </main>
+    </>
   );
 };
 

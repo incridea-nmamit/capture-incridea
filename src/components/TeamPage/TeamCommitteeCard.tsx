@@ -1,3 +1,7 @@
+/**
+ * Team Committee Card Component
+ * Displays committee information with icon and hover effects
+ */
 "use client";
 
 import { Camera, Computer, PcCase, Phone,  } from "lucide-react";
@@ -11,10 +15,12 @@ interface CardProps {
 }
 
 const TeamCommitteeCard: React.FC<CardProps> = ({ title, description, imageUrl, href }) => {
-
+  /**
+   * Renders appropriate icon based on committee title
+   */
   const renderIcon = (title:string) => {
     switch (title) {
-      case "Capture Incridea Developers & Team":
+      case "Developers Team & Editors":
         return <Computer size={32} className="text-white" />;
       case "Media Team":
         return <Camera size={32} className="text-white" />;
@@ -44,4 +50,3 @@ const TeamCommitteeCard: React.FC<CardProps> = ({ title, description, imageUrl, 
 };
 
 export default TeamCommitteeCard;
-

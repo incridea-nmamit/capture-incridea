@@ -10,7 +10,7 @@ import {
 import { HiOutlineLogout } from "react-icons/hi";
 import { BiSolidDashboard } from "react-icons/bi";
 import { GoHomeFill } from "react-icons/go";
-import { MdCamera } from "react-icons/md";
+import { MdCamera, MdLogout } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi";
 import NavLink from "./NavLink";
@@ -18,6 +18,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import SplitText from "./SplitText";
 
 const adminLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: <BiSolidDashboard /> },
@@ -31,15 +32,26 @@ const userLinks = [
   { href: "/our-team", label: "Our Team", icon: <RiTeamFill /> },
 ];
 
+// Props interface for MobileNav
 type MobileNavProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+/**
+ * MobileNav Component
+ * Responsive navigation menu for mobile devices
+ */
 const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
+  // Session and routing hooks
   const { data: session } = useSession();
   const pathname = usePathname() || "";
   const isAdminRoute = pathname.startsWith("/admin");
+
+  // Animation completion handler
+  const handleAnimationComplete = () => {
+    console.log("All letters have animated!");
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -58,7 +70,7 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
                 alt="Logo"
                 width={150}
                 height={80}
-                className="h-auto w-auto max-w-32"
+                className="h-auto w-auto max-w-24"
                 onContextMenu={(e) => e.preventDefault()}
                 onDragStart={(e) => e.preventDefault()}
               />
@@ -70,11 +82,26 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
           {(session && isAdminRoute && session.user?.role === "admin"
             ? adminLinks
             : userLinks
-          ).map((link) => (
+          ).map((link, index) => (
             <SheetClose asChild key={link.href}>
               <NavLink
                 href={link.href}
-                label={link.label}
+                label={
+                  <SplitText
+                    text={link.label}
+                    className="text-center text-2xl font-semibold"
+                    delay={150 * index}
+                    animationFrom={{
+                      opacity: 0,
+                      transform: "translateY(20px)",
+                    }}
+                    animationTo={{ opacity: 1, transform: "translateY(0)" }}
+                    easing="easeOutCubic"
+                    threshold={0.2}
+                    rootMargin="-50px"
+                    onLetterAnimationComplete={handleAnimationComplete}
+                  />
+                }
                 active={
                   link.href === "/"
                     ? pathname === link.href
@@ -82,17 +109,19 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
                 }
                 className="flex items-center gap-3 text-center"
               >
-                <span>{link.icon}</span> {link.label}
+                <span>{link.icon}</span>
               </NavLink>
             </SheetClose>
           ))}
 
-          {!session && isAdminRoute && (
+          {session && !isAdminRoute && (
             <button
               onClick={() => signIn()}
-              className="flex items-center gap-3 text-center"
+              className="flex items-center justify-center text-xl text-white"
             >
-              <HiOutlineLogout /> SignIn
+              <div>
+                <MdLogout size={24} />
+              </div>
             </button>
           )}
           {session && isAdminRoute && session.user?.role === "admin" && (

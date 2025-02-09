@@ -40,19 +40,22 @@ const MediaCommittee: React.FC = () => {
         if (designation.includes("head")) {
           return 1;
         }
+        if (designation.includes("multimedia")) {
+          return 3;
+        }
         if (
           designation.includes("video") ||
           designation.includes("videography")
         ) {
-          return 3;
+          return 4;
         }
         if (
           designation.includes("photo") ||
           designation.includes("photography")
         ) {
-          return 4;
+          return 5;
         }
-        return 5;
+        return 6;
       };
 
       const priorityA = designationPriority(aDesignation);
@@ -71,7 +74,7 @@ const MediaCommittee: React.FC = () => {
       <TitleSection
         title="Media Committee"
         description="Capturing the spirit of our fest through stunning visuals. Our media team is dedicated to delivering high-quality content."
-        backgroundImage="https://utfs.io/f/0yks13NtToBi9i0lf2ogikwWxTSynjh8EY7rbsRV6vKmQGft"
+        backgroundImage="/images/CapturePage/media-bg.webp"
       />
       {/* Cards Section */}
       <div className="container-size z-20 flex flex-col flex-wrap justify-center gap-6 py-6 md:flex-row md:gap-8 md:py-12">
@@ -82,6 +85,10 @@ const MediaCommittee: React.FC = () => {
             name={member.name}
             designation={member.designation}
             say={member.say}
+            github={member.github!}
+            linkedin={member.linkedin!}
+            instagram={member.instagram!}
+            behance={member.behance!}
           />
         ))}
       </div>

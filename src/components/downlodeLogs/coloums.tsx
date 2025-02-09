@@ -2,8 +2,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "../ui/button";
 
-// Define types for your logs
-export type DownlodeLog = {
+// Type definitions for different log entries
+export type DownloadLog = {
   id: number;
   session_user: string;
   date_time: Date;
@@ -24,7 +24,7 @@ export type StoryLog = {
   story_id: number;
 };
 
-// Column definitions
+// Column configurations for different log types
 export const StoryLogColumns: ColumnDef<StoryLog>[] = [
   {
     accessorKey: "session_user",
@@ -83,7 +83,7 @@ export const PlayBacksLogColumns: ColumnDef<PlayBacksLog>[] = [
   },
 ];
 
-export const downlodeLogColumns: ColumnDef<DownlodeLog>[] = [
+export const downloadLogColumns: ColumnDef<DownloadLog>[] = [
   {
     accessorKey: "session_user",
     header: "User Name",

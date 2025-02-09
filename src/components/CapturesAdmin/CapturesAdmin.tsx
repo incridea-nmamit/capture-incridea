@@ -1,3 +1,10 @@
+/**
+ * CapturesAdmin Component
+ * Main dashboard for managing captures. Features:
+ * - Toggle between active and deleted captures
+ * - Batch upload functionality
+ * - DataTable display of captures
+ */
 import React, { useState } from 'react';
 import { api } from '~/utils/api';
 
@@ -8,6 +15,7 @@ import GalleryBatchUpload from './batchUplode/BatchUpload';
 import UseRefetch from '~/hooks/use-refetch';
 
 const CapturesAdmin: React.FC = () => {
+  // Persistent state management for capture view
   const refetch = UseRefetch();
 
   const initialState = sessionStorage.getItem('capture') || 'active';
@@ -23,6 +31,10 @@ const CapturesAdmin: React.FC = () => {
       enabled: captureState === 'deleted',
     });
 
+  /**
+   * Toggles between active and deleted captures view
+   * Persists selection in sessionStorage
+   */
   const toggleCaptureState = () => {
     const newState = captureState === 'active' ? 'deleted' : 'active';
     sessionStorage.setItem('capture', newState);

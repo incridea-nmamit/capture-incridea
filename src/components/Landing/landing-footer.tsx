@@ -1,10 +1,16 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { BsFillSuitHeartFill } from "react-icons/bs";
 
+/**
+ * LandingFooter Component
+ * Displays alternating footer content with links and copyright information
+ * Features an animation that switches between two states every 5 seconds
+ */
 export const LandingFooter = () => {
+    // State to toggle between footer views
     const [show, setShow] = useState(true);
   
+    // Toggle footer content every 5 seconds
     useEffect(() => {
       const timeout = setTimeout(() => {
         setShow(!show);
@@ -12,8 +18,10 @@ export const LandingFooter = () => {
   
       return () => clearTimeout(timeout);
     }, [show]);
+
     return ( 
-      <footer className="absolute bottom-0 flex w-full flex-col gap-2  text-gray-200 md:gap-4">
+      <footer className="absolute bottom-0 flex w-full flex-col gap-2 text-gray-200 md:gap-4">
+        {/* Policy Links Section */}
         {show && (
           <ul className="mb-5 flex flex-1 flex-row flex-wrap items-center justify-center gap-2 whitespace-nowrap text-xs sm:text-xs md:gap-5">
             <li className="text-white transition-colors duration-300 hover:text-gray-300">
@@ -37,6 +45,8 @@ export const LandingFooter = () => {
             </li>
           </ul>
         )}
+
+        {/* Copyright Section */}
         {!show && (
           <p className="pb-3 text-center text-xs">
             <Link
@@ -45,10 +55,8 @@ export const LandingFooter = () => {
             >
               Made with ❤️ by Tech Team   ©  Capture Incridea 2024
             </Link>
-           
           </p>
         )}
       </footer>
     );
-  };
-  
+};

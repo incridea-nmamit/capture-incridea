@@ -8,21 +8,29 @@ import { CategoryBox } from '../SMCUploads/addcategory';
 import { Button } from '../ui/button';
 import { X } from 'lucide-react';
 
-const   Stories: React.FC = () => {
-  const addStories = api.stories.addStories.useMutation();
-  const { data: stories, isLoading, isError, refetch } = api.stories.getAllStories.useQuery();
-  const { data: categories, isLoading: categoriesLoading, refetch: refetchCategories } = api.storycat.getAllCategories.useQuery();
+/**
+ * Stories Component
+ * Manages video story uploads with categories and team attribution
+ * Includes category management and video upload functionality
+ */
+const Stories: React.FC = () => {
+  // State Management
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isCatPopupOpen, setIsCatPopupOpen] = useState(false);
   const [description, setDescription] = useState('');
   const [uploadUrl, setUploadUrl] = useState<string>('');
   const [categoryName, setCategoryName] = useState('');
   const [authoredId, setAuthoredId] = useState<number>(0);
-  const { data: team, isLoading: teamsLoading } = api.team.getAllTeams.useQuery();
   const [categoryInput, setCategoryInput] = useState('');
-  const addCat = api.storycat.addCat.useMutation();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [Open, setOpen] = useState(false)
+  const [Open, setOpen] = useState(false);
+
+  // API Queries and Mutations
+  const addStories = api.stories.addStories.useMutation();
+  const { data: stories, isLoading, isError, refetch } = api.stories.getAllStories.useQuery();
+  const { data: categories, isLoading: categoriesLoading, refetch: refetchCategories } = api.storycat.getAllCategories.useQuery();
+  const { data: team, isLoading: teamsLoading } = api.team.getAllTeams.useQuery();
+  const addCat = api.storycat.addCat.useMutation();
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -31,7 +39,9 @@ const   Stories: React.FC = () => {
     },
   };
 
-
+  /**
+   * Form Reset and Handler Functions
+   */
   const resetForm = useCallback(() => {
     setDescription('');
     setUploadUrl('');
@@ -54,6 +64,9 @@ const   Stories: React.FC = () => {
     setIsCatPopupOpen(false);
   };
 
+  /**
+   * Form Submission Handlers
+   */
   const handleCategorySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -121,8 +134,14 @@ const   Stories: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center">Stories Uploads</h1>
+      {/* Main Layout */}
+      <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center">
+        Stories Uploads
+      </h1>
+
+      {/* Grid Layout */}
       <div className="flex flex-col-reverse md:grid md:grid-cols-12 gap-4">
+        {/* Stories Table */}
         <div className="col-span-12 md:col-span-10">
           <div>
             {isError ? (
@@ -152,6 +171,8 @@ const   Stories: React.FC = () => {
             )}
           </div>
         </div>
+
+        {/* Action Buttons */}
         <div className="col-span-12 md:col-span-2">
           <div className="mb-4 flex flex-col  gap-2">
             <Button
@@ -169,10 +190,7 @@ const   Stories: React.FC = () => {
         </div>
       </div>
 
-
-
-
-
+      {/* Modals */}
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black/70 border border-gray-800 p-10 rounded-3xl shadow-lg relative w-96">

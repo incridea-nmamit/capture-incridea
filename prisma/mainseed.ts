@@ -5,7 +5,7 @@ const seed = async () => {
   const cards = [
     {
       cardName: "Events",
-      cardState: true, // Use the enum value here
+      cardState: true,
 
     },
     {
@@ -14,7 +14,7 @@ const seed = async () => {
 
     },
     {
-      cardName: "Abode of Memories",
+      cardName: "Abode Of Memories",
       cardState: true,
 
     },
@@ -24,7 +24,7 @@ const seed = async () => {
 
     },
     {
-      cardName: "Cultural",
+      cardName: "Playbacks",
       cardState: true,
 
     },
@@ -34,12 +34,17 @@ const seed = async () => {
 
     },
     {
-      cardName: "Flashmobs",
+      cardName: "Cultural",
       cardState: true,
 
     },
     {
-      cardName: "Cultural ",
+      cardName: "Accolades",
+      cardState: true,
+
+    },
+    {
+      cardName: "Faculty",
       cardState: true,
 
     },

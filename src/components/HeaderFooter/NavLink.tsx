@@ -1,15 +1,22 @@
 import { ReactNode, type FC } from "react";
 import Link from "next/link";
 
+/**
+ * NavLink Props Interface
+ */
 interface NavLinkProps {
   href: string;
-  label: string;
+  label: ReactNode;
   active: boolean;
   onClick?: () => void;
   className?: string;
   children?: ReactNode;
 }
 
+/**
+ * NavLink Component
+ * Custom navigation link with active state and hover effects
+ */
 const NavLink: FC<NavLinkProps> = ({
   href,
   label,

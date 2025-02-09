@@ -1,13 +1,19 @@
 "use client";
 import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
-import { downlodeLogColumns, StoryLogColumns, PlayBacksLogColumns } from "./coloums";
+import { StoryLogColumns, PlayBacksLogColumns, downloadLogColumns } from "./coloums";
 import { DataTable } from "./datatable";
 import { LogChartComponent } from "./chart";
 
-const DownLodeLogs = () => {
+/**
+ * DownloadLogs Component
+ * Displays logs for downloads, stories, and playbacks with filtering and visualization
+ */
+const DownloadLogs = () => {
+  // Type definition for log categories
   type LogType = "download" | "story" | "playback";
 
+  // State management with session storage persistence
   const [logType, setLogType] = useState<LogType>(() => {
     if (typeof window !== "undefined") {
       const storedLogType = sessionStorage.getItem("logType");
@@ -16,6 +22,7 @@ const DownLodeLogs = () => {
     return "download";
   });
 
+  // API queries for different log types
   const { data: downloadLogs = [] } = api.download.getAllDownloadLogs.useQuery();
   const { data: storyLogs = [] } = api.stories.getAllStoryLogs.useQuery();
   const { data: playbackLogs = [] } = api.playbacks.getAllPlayBackLogs.useQuery();
@@ -29,7 +36,7 @@ const DownLodeLogs = () => {
   return (
     <div className="p-3">
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">DownLode Logs</h1>
+        <h1 className="text-2xl font-semibold">DownLoad Logs</h1>
         <select
           className="border rounded-md p-2"
           value={logType}
@@ -42,7 +49,7 @@ const DownLodeLogs = () => {
       </div>
 
       {logType === "download" && (
-        <DataTable columns={downlodeLogColumns} data={downloadLogs} />
+        <DataTable columns={downloadLogColumns} data={downloadLogs} />
       )}
       {logType === "story" && (
         <DataTable columns={StoryLogColumns} data={storyLogs} />
@@ -57,4 +64,4 @@ const DownLodeLogs = () => {
   );
 };
 
-export default DownLodeLogs;
+export default DownloadLogs;

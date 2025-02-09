@@ -28,7 +28,8 @@ import ApproveCaptures from "~/components/ApproveCapture/ApproveCapture";
 import { Role } from "@prisma/client";
 import AdminPlayBacks from "../Playbacks";
 import AuditLogs from "../AuditLogs";
-import DownLodeLogs from "../downlodeLogs";
+import DownloadLogs from "../downlodeLogs";
+
 
 export const randomSliderImages = [
   { src: "/images/landing-images/img1.webp" },
@@ -239,17 +240,17 @@ export const tabs = [
     roles: [Role.admin, Role.manager],
   },
   {
-    name: "downlodelogs",
-    label: "Downlode Logs",
+    name: "downloadlogs",
+    label: "Download Logs",
     icon: Download,
-    content: <DownLodeLogs />,
+    content: <DownloadLogs />,
     roles: [Role.admin, Role.manager],
   },
 ];
 
 export const carouselItems = [
   {
-    imgSrc: "images/CapturePage/img1.webp",
+    imgSrc: "images/CapturePage/pronite.webp",
     title: "Pronite",
     route: "/pronite",
     description: `
@@ -258,46 +259,52 @@ featuring top stars, high-energy music, and an unforgettable atmosphere.
 Grab your tickets now and be part of the excitement!",`,
   },
   {
-    imgSrc: "images/CapturePage/img2.webp",
+    imgSrc: "images/CapturePage/cultural.webp",
     title: "Cultural",
     route: "/cultural",
     description: `Feast your eyes to the glorious display of traditional brilliance paired alongside the glitzy, modern era`,
   },
   {
-    imgSrc: "images/CapturePage/img3.webp",
+    imgSrc: "images/CapturePage/playbacks.webp",
     title: "Playbacks",
     route: "/playbacks",
     description: `When your life needs some playbacks!`,
   },
   {
-    imgSrc: "images/CapturePage/img4.webp",
+    imgSrc: "images/CapturePage/events.webp",
     title: "Events",
     route: "/events",
     description: `Dive into a thrilling world of exciting events and competitions, tailored for every interest, at Incridea!`,
   },
 
   {
-    imgSrc: "images/CapturePage/img5.webp",
+    imgSrc: "images/CapturePage/stories.webp",
     title: "Stories",
     route: "/stories",
     description: `Stories captured for you`,
   },
   {
-    imgSrc: "images/CapturePage/img5.webp",
+    imgSrc: "images/CapturePage/yoursnaps.webp",
     title: "Abode Of Memories",
     route: "/your-snaps",
     description: `The memories all so sweet, with moments cherished for life. Here lies the moments cherished with ones we love to cross paths by`,
   },
   {
-    imgSrc: "images/CapturePage/img3.webp",
+    imgSrc: "images/CapturePage/behindincridea.webp",
     title: "Behind Incridea",
     route: "/behindincridea",
     description: `Explore the behind-the-scenes moments`,
   },
   {
-    imgSrc: "images/CapturePage/img3.webp",
+    imgSrc: "images/CapturePage/accolades.webp",
     title: "Accolades",
     route: "/accolades",
     description: `Accolades – More than just trophies. They’re the celebration of grit, passion, and those unforgettable moments when hard work meets success`,
+  },
+  {
+    imgSrc: "images/CapturePage/faculty.webp",
+    title: "Faculty",
+    route: "/faculty",
+    description: `Curated captures for the faculty`,
   },
 ];

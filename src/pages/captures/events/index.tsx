@@ -7,7 +7,7 @@ function EventsPage() {
       <TitleDescription 
         title="Events" 
         description="Vibrant Events"
-        imagePath="https://utfs.io/f/0yks13NtToBitJchJ4NSCB2X9TSlbJxWYgG6rpN3n8swf4Fz"
+        imagePath="/images/CapturePage/events.webp"
       />
       <Events />
     </div>

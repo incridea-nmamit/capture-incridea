@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import { useState, type FC } from "react";
 import toast from "react-hot-toast";
@@ -8,15 +7,30 @@ import PopupComponent from "./PopupComponent";
 import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
 
+/**
+ * ApproveCard Component
+ * Displays individual capture cards with approval/decline functionality
+ * Features:
+ * - Image preview
+ * - Approval/Decline actions
+ * - Confirmation modal
+ * - Audit logging
+ */
+
+/**
+ * Props interface for the ApproveCard component
+ */
 type ApproveCardProps = {
-    id: number;
-    eventName: string;
-    category: string;
-    imageUrl: string;
+    id: number;          // Unique identifier for the capture
+    eventName: string;   // Name of the event
+    category: string;    // Category of the event
+    imageUrl: string;    // URL of the capture image
 }
 
 const ApproveCard: FC<ApproveCardProps> = ({ id, eventName, category, imageUrl }) => {
+    // State for tracking selected capture and confirmation modal
     const [selectedCapture, setSelectedCapture] = useState<{ id: number; action: 'approve' | 'decline' } | null>(null);
+    // State for image preview modal
     const [selectedImage, setSelectedImage] = useState<string | null>(null); // State for the selected image
     const refetch = UseRefetch();
     const updateState = api.capture.updateState.useMutation();
@@ -32,6 +46,11 @@ const ApproveCard: FC<ApproveCardProps> = ({ id, eventName, category, imageUrl }
         },
     };
     const { data: session } = useSession();
+
+    /**
+     * Handles the actual approval/decline action
+     * Includes audit logging and state updates
+     */
     const handleAction = async () => {
         if (selectedCapture) {
             const newState = selectedCapture.action === 'approve' ? 'approved' : 'declined';
@@ -79,7 +98,7 @@ const ApproveCard: FC<ApproveCardProps> = ({ id, eventName, category, imageUrl }
 
                 <div className="p-4 space-y-3 ">
                     <div className=" flex flex-row justify-between items-center gap-2">
-                        <h2 className="text-xl md:text-2xl font-bold text-white font-cursive tracking-wider"> {category}</h2>
+                        <h2 className="text-xl md:text-2xl font-bold text-white font-Teknaf tracking-wider"> {category}</h2>
                         <span className="border border-gray-200 text-gray-200 px-2 py-1 rounded-md ">
                             {category}
                         </span>

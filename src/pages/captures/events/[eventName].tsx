@@ -89,7 +89,7 @@ const EventCaptures = () => {
   return (
     <div className="mt-32 gradient-bg">
       <div className="mt-20">
-        <h1 className="text-3xl md:text-6xl font-cursive text-white text-center mb-8 mt-4 md:mb-4 md:mt-8">
+        <h1 className="text-3xl md:text-6xl font-Teknaf text-white text-center mb-8 mt-4 md:mb-4 md:mt-8">
           {formattedEventName} Captures
         </h1>
         <div className="flex   justify-center mb-10 ">

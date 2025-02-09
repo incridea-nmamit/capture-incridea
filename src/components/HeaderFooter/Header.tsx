@@ -5,12 +5,15 @@ import NavLink from "./NavLink";
 import { HiOutlineLogout } from "react-icons/hi";
 import { BiSolidDashboard } from "react-icons/bi";
 import { GoHomeFill } from "react-icons/go";
-import { MdCamera } from "react-icons/md";
+import { MdCamera, MdLogout } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi";
 import Image from "next/image";
-import MobileNav from "./MobileNav"; // Import the MobileNav component
+import MobileNav from "./MobileNav";
 
+/**
+ * Navigation link configurations
+ */
 const adminLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: <BiSolidDashboard /> },
   { href: "/", label: "MainPage", icon: <GoHomeFill /> },
@@ -20,16 +23,22 @@ const userLinks = [
   { href: "/", label: "Home", icon: <GoHomeFill /> },
   { href: "/captures", label: "Captures", icon: <MdCamera /> },
   { href: "/about", label: "About", icon: <HiInformationCircle /> },
-  { href: "/our-team", label: "Our Team", icon: <RiTeamFill /> },
+  { href: "/our-team", label: "Team", icon: <RiTeamFill /> },
 ];
 
+/**
+ * Header Component
+ * Main navigation component with responsive design and role-based access
+ */
 const Header: FC = () => {
+  // Session and state management
   const { data: session } = useSession();
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname() || "";
   const isAdminRoute = pathname.startsWith("/admin");
 
+  // Client-side mounting check
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -47,7 +56,7 @@ const Header: FC = () => {
                 alt="Logo"
                 width={150}
                 height={80}
-                className="h-auto w-auto max-w-32"
+                className="h-auto w-auto max-w-28"
                 onContextMenu={(e) => e.preventDefault()}
                 onDragStart={(e) => e.preventDefault()}
               />
@@ -77,15 +86,14 @@ const Header: FC = () => {
               </div>
             ))}
 
-            {!session && isAdminRoute && (
+            {session && !isAdminRoute && (
               <button
                 onClick={() => signIn()}
-                className="flex text-xl text-white"
+                className="flex items-center justify-center text-xl text-white"
               >
-                <HiOutlineLogout />{" "}
-                <span className="relative top-0.5 font-Trap-Regular">
-                  SignIn
-                </span>
+                <div>
+                  <MdLogout />
+                </div>
               </button>
             )}
             {session && isAdminRoute && session.user?.role === "admin" && (

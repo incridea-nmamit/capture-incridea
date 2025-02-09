@@ -4,9 +4,9 @@ import { ColumnDef } from "@tanstack/react-table"
 import ReactPlayer from "react-player";
 import PlaybacksAction from "./action";
 
-
-
-
+/**
+ * Type definition for Playbacks data structure
+ */
 export type Playbacks = {
     id?: number;
     thumbnails?: string | null;
@@ -14,26 +14,30 @@ export type Playbacks = {
     videoPath?: string;
     description?: string
 }
+
+/**
+ * Column definitions for the Playbacks table
+ * Includes title, description, thumbnail, video player, and actions
+ */
 export const Playbackscolumns: ColumnDef<Playbacks>[] = [
+    // Title Column
     {
         accessorKey: "name",
         header: "Title",
-        cell: ({ row }) => (
-            row.original.name || "mkc"
-        ),
+        cell: ({ row }) => (row.original.name || "N/A"),
     },
+    // Description Column with truncation
     {
         accessorKey: "description",
         header: "Description",
         cell: ({ row }) => (
-            <div
-                className="truncate max-w-[200px] text-ellipsis whitespace-nowrap overflow-hidden"
-                title={row.original.description}
-            >
-                {row.original.description || "mkc"}
+            <div className="truncate max-w-[200px] text-ellipsis whitespace-nowrap overflow-hidden"
+                 title={row.original.description}>
+                {row.original.description || "N/A"}
             </div>
         ),
     },
+    // Thumbnail Column
     {
         accessorKey: "thumbnails",
         header: "Thumbnail",
@@ -47,7 +51,7 @@ export const Playbackscolumns: ColumnDef<Playbacks>[] = [
             />
         ),
     },
-
+    // Video Column
     {
         accessorKey: "videoPath",
         header: "Video",
@@ -61,6 +65,7 @@ export const Playbackscolumns: ColumnDef<Playbacks>[] = [
             />
         ),
     },
+    // Actions Column
     {
         id: "actions",
         header: "Delete",

@@ -6,13 +6,18 @@ import CameraLoading from "../LoadingAnimation/CameraLoading";
 import { useRouter } from "next/router";
 import { eventDays, eventTypes } from "~/utils/constants";
 
-const Events: FC = () => {
+// Component for displaying and filtering events
+const Events: React.FC = () => {
+  // State for search and filtering
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedEventType, setSelectedEventType] = useState<string>("all");
   const [selectedDay, setSelectedDay] = useState<string>("all");
+
+  // API query for fetching events
   const { data: eventsData = [], isLoading } = api.events.getAllEvents.useQuery(undefined, {
     refetchInterval: 5000,
   });
+
   const router = useRouter();
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Events" }

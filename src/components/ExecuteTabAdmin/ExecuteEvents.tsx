@@ -4,18 +4,25 @@ import CameraLoading from '../LoadingAnimation/CameraLoading';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 
+// Interface for Card data structure
 interface Card {
   id: number;
   cardName: string;
   cardState: boolean;
 }
 
-
+/**
+ * ExecuteEvents Component
+ * Manages visibility and state of feature cards in the admin panel
+ */
 const ExecuteEvents = () => {
+  // API queries and mutations
   const { data: cards, isLoading, refetch } = api.capturecard.getCards.useQuery();
   const auditLogMutation = api.audit.log.useMutation();
   const { data: session } = useSession();
   const updateVisibility = api.capturecard.updateCardVisibility.useMutation();
+
+  // Loading state handler
   if (isLoading) {
     return <CameraLoading />;
   }
