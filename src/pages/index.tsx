@@ -26,9 +26,16 @@ export default function Home() {
       <SEO />
       <Hero />
       <About />
-      <div className="w-full h-96">
-      <CircularGallery items={items} />
-      </div>
+      <section className="relative flex h-fit flex-col items-center space-y-8 overflow-hidden text-center">
+        <br />
+        <h3 className="mb-12 text-center font-Teknaf text-3xl md:text-4xl lg:text-5xl">
+          "Let’s cherish memories by sharing them with all."
+        </h3>
+        <div className="w-full h-96">
+          <CircularGallery items={items} />
+        </div>
+      </section>
+
       <TimeLine />
     </>
   );
