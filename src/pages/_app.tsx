@@ -114,7 +114,7 @@ const AuthenticatedApp = ({
   const isCapturesPath = pathname === "/captures";
   if (isExcluded) {
     return (
-      <ScrollArea className="font-description flex h-screen min-h-screen w-full flex-1 flex-col">
+      <ScrollArea className="font-description flex h-screen min-h-screen w-full flex-1 flex-col" id="main-scroller">
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-grow">
@@ -129,7 +129,7 @@ const AuthenticatedApp = ({
   } else {
     return (
       <QueryClientProvider client={queryClient}>
-        <ScrollArea className="font-roboto flex h-screen min-h-screen w-full flex-1 flex-col">
+        <ScrollArea className="font-roboto flex h-screen min-h-screen w-full flex-1 flex-col" id="main-scroller"> 
           <div className="font-roboto flex min-h-screen flex-col">
             <Header />
             <main className="flex-grow">
