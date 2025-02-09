@@ -3,7 +3,7 @@ import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import styles from "./carousel.module.css";
 import { carouselItems } from "../constants/data";
-import { ArrowLeftCircle, ArrowRightCircle, Lock } from "lucide-react"; // Import the Lock icon
+import { ChevronLeftCircle, ChevronRightCircle, Lock } from "lucide-react"; // Import the Lock icon
 import { Button } from "../ui/button";
 import { api } from "~/utils/api";
 
@@ -129,7 +129,7 @@ const CaptureCard = () => {
                   onClick={() =>
                     (window.location.href = `/captures/${item.route}`)
                   }
-                  className={`text-md border-1 z-50 mx-auto my-10 w-52 max-w-xs transform rounded-full border-white bg-gradient-to-br from-gray-900 via-blue-800 to-gray-900 px-6 py-3 font-Trap-Regular font-bold text-white shadow-lg transition hover:scale-105 hover:shadow-xl ${!item.cardState ? styles.hide : ""}`}
+                  className={`m-3 px-20 py-6 rounded-3xl bg-white/10 backdrop-blur-sm text-white border border-white/20 shadow-lg transition-all duration-300 hover:bg-white/20 hover:shadow-xl ${!item.cardState ? styles.hide : ""}`}
                 >
                   Enter
                 </Button>
@@ -176,7 +176,7 @@ const CaptureCard = () => {
             onClick={handlePrev}
             aria-label="Previous slide"
           >
-            <ArrowLeftCircle size={40} />
+            <ChevronLeftCircle size={40} />
           </button>
         </div>
 
@@ -186,7 +186,7 @@ const CaptureCard = () => {
             onClick={handleNext}
             aria-label="Next slide"
           >
-            <ArrowRightCircle size={40} />
+            <ChevronRightCircle size={40} />
           </button>
         </div>
       </div>

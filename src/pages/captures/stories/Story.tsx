@@ -18,7 +18,11 @@ interface Story {
   duration?: number;
 }
 
-const stories: Story[] = [
+interface StoryViewerProps {
+  userStories: Story[];
+}
+
+export const stories: Story[] = [
   {
     id: 1,
     username: 'sarah_designs',
@@ -48,17 +52,28 @@ const stories: Story[] = [
     capturedBy: 'Lisa Chen',
     duration: 5,
   },
+  {
+    id: 4,
+    username: 'photo_lisa',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop',
+    media: 'https://images.unsplash.com/photo-1682687220067-dced9a881b56?w=1200&h=2000&fit=crop',
+    mediaType: 'image',
+    timestamp: '6h',
+    capturedBy: 'Lisa Chen',
+    duration: 5,
+  },
 ];
 
-export default function StoryViewer() {
+export default function StoryViewer({ userStories }: StoryViewerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [progress, setProgress] = useState<number[]>(stories.map(() => 0));
+  const [progress, setProgress] = useState<number[]>(userStories.map(() => 0));
   const [isPaused, setIsPaused] = useState(true); // Start paused
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressInterval = useRef<NodeJS.Timeout>();
   const elapsedRef = useRef<number>(0);
 
-  const currentStory = stories[currentIndex];
+  const currentStory = userStories[currentIndex]; // Now cycles only through the selected user's stories
+
 
   useEffect(() => {
     let mounted = true;
@@ -115,7 +130,7 @@ export default function StoryViewer() {
 
         if (percentage >= 100) {
           clearInterval(progressInterval.current);
-          if (currentIndex < stories.length - 1) {
+          if (currentIndex < userStories.length - 1) {
             handleNext();
           }
         }
@@ -124,7 +139,7 @@ export default function StoryViewer() {
   };
 
   const handleNext = () => {
-    if (currentIndex < stories.length - 1) {
+    if (currentIndex < userStories.length - 1) {
       if (videoRef.current) {
         videoRef.current.pause();
         videoRef.current.currentTime = 0;
@@ -195,7 +210,7 @@ export default function StoryViewer() {
       )}
 
       <div className="absolute top-0 left-0 right-0 flex gap-1 p-2 z-10">
-        {stories.map((_, index) => (
+        {userStories.map((_, index) => (
           <div
             key={index}
             className="h-1 flex-1 bg-gray-500/50 rounded-full overflow-hidden"
@@ -243,7 +258,7 @@ export default function StoryViewer() {
         onClick={handleNext}
         className={cn(
           "absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-sm transition-opacity",
-          currentIndex === stories.length - 1 ? "opacity-0" : "opacity-100"
+          currentIndex === userStories.length - 1 ? "opacity-0" : "opacity-100"
         )}
         disabled={currentIndex === stories.length - 1}
       >
