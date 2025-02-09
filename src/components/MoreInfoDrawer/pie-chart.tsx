@@ -19,31 +19,43 @@ import {
     ChartTooltipContent,
 } from "~/components/ui/chart"
 
+/**
+ * Props interface for CustomPieChart
+ */
 type Props = {
-    totalDownloads: number;
-    totalLikes: number;
+    totalDownloads: number;    // Total number of downloads
+    totalLikes: number;        // Total number of likes
 }
 
+/**
+ * CustomPieChart Component
+ * Displays a pie chart comparing downloads and likes
+ * Features interactive tooltips and animated transitions
+ */
 export function CustomPieChart({
     totalDownloads,
     totalLikes
 }: Props) {
-
+    // Chart data configuration
     const chartData = [
         { browser: "downloads", visitors: totalDownloads, fill: "blue" },
         { browser: "likes", visitors: totalLikes, fill: "red" },
     ]
 
+    // Calculate total for center label
     const totalVisitors = React.useMemo(() => {
         return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
     }, [totalDownloads, totalLikes])
 
     return (
         <Card className="flex flex-col bg-gradient-to-tl from-neutral-900 to-black">
+            {/* Chart Header */}
             <CardHeader className="items-center pb-0">
                 <CardTitle className="font-">Pie Chart - Likes/Downloades</CardTitle>
                 <CardDescription>{new Date().toLocaleDateString()}</CardDescription>
             </CardHeader>
+
+            {/* Chart Content */}
             <CardContent className="flex-1 pb-0">
                 <ChartContainer
                     config={{
@@ -103,6 +115,8 @@ export function CustomPieChart({
                     </RechartsPieChart>
                 </ChartContainer>
             </CardContent>
+
+            {/* Chart Footer */}
             <CardFooter className="flex-col gap-2 text-sm">
                 <div className="flex items-center gap-2 font-medium leading-none">
                     Trending up by {totalDownloads+totalLikes} now <TrendingUp className="h-4 w-4" />

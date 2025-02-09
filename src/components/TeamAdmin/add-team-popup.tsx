@@ -1,3 +1,7 @@
+/**
+ * Add Team Member Modal
+ * Form component for adding new team members with image upload
+ */
 "use client"
 import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
@@ -19,6 +23,7 @@ import { Teamgroup } from "@prisma/client"
 import { Textarea } from "../ui/textarea"
 import { FaBehance } from "react-icons/fa"
 
+// Form validation schema
 const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
     committee: z.nativeEnum(Teamgroup),
@@ -33,12 +38,13 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>
 
-type Props = {
-    isPopupOpen: boolean
-    setIsPopupOpen: (open: boolean) => void
+interface AddTeamProps {
+    isPopupOpen: boolean;
+    setIsPopupOpen: (open: boolean) => void;
 }
 
-const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
+const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: AddTeamProps) => {
+    // State and API hooks
     const { data: session } = useSession()
     const [uploadUrl, setUploadUrl] = useState<string>("")
     const { refetch } = api.team.getAllTeams.useQuery()
@@ -67,12 +73,20 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
         },
     })
 
+    /**
+     * Handle image upload completion
+     * @param url - Uploaded image URL
+     */
     const handleUploadComplete = (url: string) => {
         setUploadUrl(url)
         setValue("uploadKey", url)
         console.log("your url", url)
     }
 
+    /**
+     * Form submission handler
+     * Processes form data and creates new team member
+     */
     const onSubmit = async (data: FormData) => {
         if (!uploadUrl) {
             toast.error("Please upload an image")
@@ -105,18 +119,18 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
 
     return (
         <Dialog open={isPopupOpen} onOpenChange={setIsPopupOpen}>
-            <DialogContent className="bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950 border border-gray-100 p-10 rounded-3xl shadow-lg text-center w-full max-w-4xl">
+            <DialogContent className="bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950 p-4 md:p-10 rounded-2xl md:rounded-3xl shadow-lg text-center w-[95%] md:w-full max-w-4xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle className="text-white">Add Team Member</DialogTitle>
+                    <DialogTitle className="text-white text-lg md:text-xl">Add Team Member</DialogTitle>
                 </DialogHeader>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="flex md:flex-row flex-col  justify-between gap-6 mt-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="flex md:flex-row flex-col justify-between gap-4 md:gap-6 mt-4 md:mt-6">
 
                     <div className="md:w-1/2 w-full space-y-4 text-left">
                         <div>
                             <Input
                                 {...register("name")}
-                                className="bg-black text-white border border-gray-700"
+                                className="bg-black text-white"
                                 placeholder="Enter team member name"
                             />
                             {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
@@ -125,7 +139,7 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
                         <div>
                             <Textarea
                                 {...register("say")}
-                                className="bg-black text-white border border-gray-700"
+                                className="bg-black text-white"
                                 placeholder="Enter a quote or saying"
                             />
                             {errors.say && <p className="text-red-500 text-sm">{errors.say.message}</p>}
@@ -134,14 +148,14 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
                         <div>
                             <Input
                                 {...register("designation")}
-                                className="bg-black text-white border border-gray-700"
+                                className="bg-black text-white"
                                 placeholder="Enter designation"
                             />
                             {errors.designation && <p className="text-red-500 text-sm">{errors.designation.message}</p>}
                         </div>
 
                         <div>
-                            <select {...register("committee")} className="w-full p-2 bg-black border border-neutral-700">
+                            <select {...register("committee")} className="w-full p-2 bg-black">
                                 <option value="media">Media</option>
                                 <option value="socialmedia">Social Media</option>
                                 <option value="developer">Developer</option>
@@ -152,7 +166,7 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
                             <Github className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
                             <Input
                                 {...register("github")}
-                                className="bg-black text-white pl-10 border border-gray-700"
+                                className="bg-black text-white pl-10"
                                 placeholder="Enter GitHub URL"
                             />
                             {errors.github && <p className="text-red-500 text-sm">{errors.github.message}</p>}
@@ -162,7 +176,7 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
                             <Linkedin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
                             <Input
                                 {...register("linkedin")}
-                                className="bg-black text-white pl-10 border border-gray-700"
+                                className="bg-black text-white pl-10"
                                 placeholder="Enter LinkedIn URL"
                             />
                             {errors.linkedin && <p className="text-red-500 text-sm">{errors.linkedin.message}</p>}
@@ -172,7 +186,7 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
                             <Instagram className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
                             <Input
                                 {...register("instagram")}
-                                className="bg-black text-white pl-10 border border-gray-700"
+                                className="bg-black text-white pl-10"
                                 placeholder="Enter Instagram URL"
                             />
                             {errors.instagram && <p className="text-red-500 text-sm">{errors.instagram.message}</p>}
@@ -182,7 +196,7 @@ const AddTeamPopUpModel = ({ isPopupOpen, setIsPopupOpen }: Props) => {
                             <FaBehance className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
                             <Input
                                 {...register("behance")}
-                                className="bg-black text-white pl-10 border border-gray-700"
+                                className="bg-black text-white pl-10"
                                 placeholder="Enter Behance URL"
                             />
                             {errors.behance && <p className="text-red-500 text-sm">{errors.behance.message}</p>}

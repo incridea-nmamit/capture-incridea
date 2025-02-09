@@ -18,6 +18,7 @@ import {
 import { Input } from "~/components/ui/input"
 import { Textarea } from '../ui/textarea';
 
+// Form validation schema for event creation/editing
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
   description: z.string().min(1, { message: "Description is required." }),
@@ -60,23 +61,15 @@ import Image from 'next/image';
 import EditForm from './edit-form';
 
 const EventsAdmin: React.FC = () => {
-
-
+  // API mutations and queries
   const addEvent = api.events.addEvent.useMutation();
-
-
-
   const updateVisibility = api.events.updateEventVisibility.useMutation();
-
-
   const { data: events, isLoading, isError, refetch } = api.events.getAllEvents.useQuery();
-
-
   const deleteEvent = api.events.deleteEvent.useMutation();
   const auditLogMutation = api.audit.log.useMutation();
   const { data: session } = useSession();
 
-
+  // State management
   const [uploading, setUploading] = useState(false);
   const [uploadUrl, setUploadUrl] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -88,7 +81,7 @@ const EventsAdmin: React.FC = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState<number>();
 
-
+  // Form initialization with validation schema
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

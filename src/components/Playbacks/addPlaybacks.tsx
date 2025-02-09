@@ -24,6 +24,9 @@ import VideoUploadComponent from "~/components/VideoUploadComponent"; // Replace
 import UseRefetch from "~/hooks/use-refetch";
 import { UploadButton } from "~/utils/uploadthing";
 
+/**
+ * Form validation schema for playback uploads
+ */
 const schema = z.object({
     thumbnail: z.string().min(1, "Required"),
     name: z.string().min(1, "Required"),
@@ -33,16 +36,26 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
+/**
+ * Props interface for AddPlayBacksPopUpModel
+ */
 type Props = {
-    isOpen: boolean;
-    setOpen: (open: boolean) => void;
+    isOpen: boolean;         // Controls dialog visibility
+    setOpen: (open: boolean) => void;  // Dialog state setter
 };
 
+/**
+ * AddPlayBacksPopUpModel Component
+ * Handles uploading and adding new playback videos with thumbnails
+ */
 export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
+    // State and API hooks
     const addPlayback = api.playbacks.addPlaybacks.useMutation();
     const [uploadUrl, setUploadUrl] = useState<string>("");
     const [isthumbnail, setThumbnail] = useState<boolean>(false);
-    const refetch = UseRefetch()
+    const refetch = UseRefetch();
+
+    // Form initialization
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
@@ -53,14 +66,18 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
         },
     });
 
+    /**
+     * Handles video upload completion
+     */
     function handleUploadComplete(url: string) {
         setUploadUrl(url);
         form.setValue("uplodeurl", url);
         toast.success("Upload successful!");
     }
 
-
-
+    /**
+     * Form submission handler
+     */
     function onSubmit(values: FormValues) {
         try {
             if (!uploadUrl) {
@@ -81,18 +98,23 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
             toast.error("Failed to submit the form. Please try again.");
         }
     }
+
     return (
         <Dialog open={isOpen} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px] bg-neutral-950">
+                {/* Dialog Header */}
                 <DialogHeader>
                     <DialogTitle className="font-Teknaf text-2xl">Add PlayBacks</DialogTitle>
                 </DialogHeader>
+
+                {/* Form Content */}
                 <div>
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-8 max-w-3xl mx-auto py-10"
                         >
+                            {/* Video Upload Field */}
                             <FormField
                                 control={form.control}
                                 name="uplodeurl"
@@ -117,6 +139,7 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
                                     </FormItem>
                                 )}
                             />
+                            {/* Thumbnail Upload Field */}
                             <FormField
                                 control={form.control}
                                 name="thumbnail"
@@ -150,6 +173,7 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
                                     </FormItem>
                                 )}
                             />
+                            {/* Title and Description Fields */}
                             <FormField
                                 control={form.control}
                                 name="name"

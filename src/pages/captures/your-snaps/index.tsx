@@ -30,7 +30,7 @@ const YourSnapsPage: React.FC = () => {
   }, [cardState, router]);
 
 
-  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.capture.getApprovedImagesByCategory.useInfiniteQuery({ category: "pronite", includeDownloadCount: session?.user.role === "admin" }, {
+  const { data, isLoading, error, fetchNextPage, isFetchingNextPage } = api.capture.getApprovedImagesByCategory.useInfiniteQuery({ category: "snaps", includeDownloadCount: session?.user.role === "admin" }, {
     getNextPageParam: (lastPage:any) => lastPage.nextCursor,
   },);
 
@@ -89,7 +89,7 @@ const YourSnapsPage: React.FC = () => {
       <TitleDescription
         title="Your Snaps"
         description="Engaging our audience and building community through strategic social media initiatives."
-        imagePath="https://utfs.io/f/0yks13NtToBiJ2v3kqw4BLygFdW15xChAKiDEleRHcja6tkI"
+        imagePath="/images/CapturePage/yoursnaps.webp"
       />
 
 

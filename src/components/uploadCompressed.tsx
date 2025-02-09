@@ -1,4 +1,13 @@
-// UploadComponent.tsx
+/**
+ * Advanced image upload component with compression
+ * Features:
+ * - Image compression
+ * - Progress tracking
+ * - Multiple format support
+ * - Error handling
+ * - Loading states
+ */
+
 import React, { useState } from 'react';
 import { api } from '~/utils/api';
 import { UploadButton } from '~/utils/uploadthing';
@@ -8,13 +17,7 @@ import toast from 'react-hot-toast';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-
-type UploadedImage = {
-  original: string;
-  compressed: string;
-}
-
-type UploadComponentProps = {
+interface UploadComponentProps {
   name: string;
   category: string;
   type: string;
@@ -22,7 +25,13 @@ type UploadComponentProps = {
   handleClosePopup: () => void;
 }
 
-const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type, authorid, handleClosePopup }) => {
+const UploadComponent: React.FC<UploadComponentProps> = ({ 
+  name, 
+  category, 
+  type, 
+  authorid, 
+  handleClosePopup 
+}) => {
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const mutation = api.capture.addImage.useMutation({
@@ -36,7 +45,12 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
     },
   });
 
-
+  /**
+   * Handles image compression
+   * @param file Original file
+   * @param quality Compression quality (0-1)
+   * @param maxWidth Maximum width of compressed image
+   */
   const compressImage = (file: File, quality: number = 0.25, maxWidth: number = 600): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -75,6 +89,9 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
     });
   };
 
+  /**
+   * Prepares files for upload by creating compressed versions
+   */
   const handleBeforeUploadBegin = async (files: File[]) => {
     const uploads: File[] = [];
     for (const file of files) {
@@ -95,6 +112,9 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
     return uploads;
   };
 
+  /**
+   * Handles successful upload completion
+   */
   const handleUploadComplete = (res: any) => {
     if (!res || res.length < 2) {
       toast.error('Upload incomplete. Please try again.');
@@ -133,7 +153,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ name, category, type,
 
   return (
     <div className="flex flex-col items-center justify-center p-6 bg-neutral-900 rounded-lg shadow-md">
-      <h1 className="text-4xl font-cursive leading-5 font-semibold mb-4 text-white">
+      <h1 className="text-4xl font-Teknaf leading-5 font-semibold mb-4 text-white">
         Upload Your Images
       </h1>
       <p className="mb-6 font-Trap-Regular text-gray-400 text-sm text-center">

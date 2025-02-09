@@ -1,3 +1,12 @@
+/**
+ * Modal component for handling image removal requests
+ * Features:
+ * - Form validation
+ * - Email verification with OTP
+ * - ID card upload
+ * - Request submission
+ */
+
 import React, { useState, useRef, useCallback } from 'react';
 
 import UploadComponent from '~/components/UploadComponent';
@@ -23,6 +32,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
   onClose,
   onSubmit,
 }) => {
+  // Form state management
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [description, setDescription] = useState('');
@@ -34,10 +44,16 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
   const [otpSent, setOtpSent] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
+  /**
+   * Generates a random 4-digit OTP
+   */
   const generateOtp = () => {
     return Math.floor(1000 + Math.random() * 9000).toString();
   };
 
+  /**
+   * Handles form submission with validation
+   */
   const handleSubmit = useCallback(async () => {
     if (!name || !email || !description) {
       toast.error('Please fill all fields.');
@@ -74,6 +90,9 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
     onClose();
   }, [name, email, description, uploadUrl, imagePath, emailVerified, onSubmit, onClose]);
 
+  /**
+   * Handles email verification process
+   */
   const handleEmailVerification = useCallback(async () => {
     const generatedOtp = generateOtp();
     setOtp(generatedOtp);
@@ -169,7 +188,8 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
       role="dialog"
       aria-modal="true"
     >
-      <div className="relative gradient-bg border border-gray-500 shadow-2xl p-6 rounded-3xl w-fit h-fit flex flex-col items-center justify-center mx-auto z-50 font-Trap-Regular">        <h2 className="text-2xl text-white text-center mb-4">Request Removal</h2>
+      <div className="relative bg-gradient-to-br from-[#0d1115] to-[#000000] shadow-2xl p-6 rounded-3xl w-fit h-fit flex flex-col items-center justify-center mx-auto z-50 font-Trap-Regular">        
+        <h2 className="text-2xl text-white text-center font-Teknaf m-5 mb-4">Request Removal</h2>
         <button onClick={handleModalClose} className="absolute top-1 right-6 text-2xl text-white p-5">
           &times;
         </button>
@@ -220,7 +240,7 @@ const RequestRemovalModal: React.FC<RequestRemovalModalProps> = ({
               <button
                 type="button"
                 onClick={handleEmailVerification}
-                className="w-full bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-full"
+                className="w-full bg-white hover:bg-gray-300 text-black px-4 py-2 rounded-full"
               >
                 Send OTP
               </button>

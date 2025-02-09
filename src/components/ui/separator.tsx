@@ -1,3 +1,8 @@
+/**
+ * Separator Component
+ * A visual divider that can be oriented horizontally or vertically
+ * Built using Radix UI Separator primitive
+ */
 import * as React from "react"
 import * as SeparatorPrimitive from "@radix-ui/react-separator"
 

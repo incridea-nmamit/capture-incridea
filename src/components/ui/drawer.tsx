@@ -1,8 +1,14 @@
+/**
+ * Drawer Component
+ * A panel that slides out from the edge of the screen.
+ * Built using Vaul primitive components.
+ */
 import * as React from "react"
 import { Drawer as DrawerPrimitive } from "vaul"
 
 import { cn } from "~/lib/utils"
 
+// Main drawer component with scale background option
 const Drawer = ({
   shouldScaleBackground = true,
   ...props

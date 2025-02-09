@@ -1,3 +1,7 @@
+/**
+ * DataTable Component
+ * Generic table component supporting sorting, filtering, and pagination
+ */
 import {
     ColumnDef,
     flexRender,
@@ -24,15 +28,22 @@ import {
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import AddTeamPopUpModel from "./add-team-popup";
 
+// Component props interface
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
 }
 
+/**
+ * Generic DataTable component
+ * @template TData - Type of data being displayed
+ * @template TValue - Type of column values
+ */
 export function DataTable<TData extends Record<string, any>, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
+    // Table state management
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -40,13 +51,14 @@ export function DataTable<TData extends Record<string, any>, TValue>({
     const [selectedCommittee, setSelectedCommittee] = useState<string | null>(null);
     const [open, setOpen] = useState(false)
 
+    // Memoized committee filtering
     const committeeTypes = useMemo(() => Array.from(new Set(data.map((item) => item.committee))), [data]);
-
 
     const filteredData = useMemo(() => {
         return selectedCommittee ? data.filter((item) => item.committee === selectedCommittee) : data;
     }, [data, selectedCommittee]);
 
+    // Table configuration and features
     const table = useReactTable({
         data: filteredData,
         columns,

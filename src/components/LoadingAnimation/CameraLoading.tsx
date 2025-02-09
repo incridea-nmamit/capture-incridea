@@ -1,6 +1,10 @@
 import React from "react";
 import styles from "./loader.module.css";
 
+/**
+ * CenteredLoader Component
+ * Displays a fullscreen loading animation with camera effect
+ */
 const CenteredLoader = () => {
   return (
     <div className={styles.fullscreen}>

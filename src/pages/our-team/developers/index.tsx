@@ -64,7 +64,7 @@ const DevCommittee: React.FC = () => {
       <TitleSection
         title="Capture Incridea Developers"
         description="Developing for your convinience"
-        backgroundImage="https://utfs.io/f/0yks13NtToBiNX5DnCjzD2wWm5AylYHcVfipk40e8O9RubFS"
+        backgroundImage="/images/CapturePage/developer-bg.webp"
       />
       {/* Cards Section */}
       <div className="container-size flex flex-col flex-wrap justify-center gap-6 py-6 md:flex-row md:gap-8 md:py-12">

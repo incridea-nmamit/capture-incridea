@@ -3,40 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Allura";
-  src: url("/fonts/Allura.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Silkscreen";
-  src: url("/fonts/Silkscreen.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "BebasNeue";
-  src: url("/fonts/BebasNeue.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "ClubHouse";
-  src: url("/fonts/ClubHouse.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Velocista";
-  src: url("/fonts/Velocista.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
 
 @font-face {
   font-family: "Trap-Regular";
@@ -55,13 +21,6 @@
 @font-face {
   font-family: "Teknaf";
   src: url("/fonts/Teknaf.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Hunters";
-  src: url("/fonts/Hunters.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }

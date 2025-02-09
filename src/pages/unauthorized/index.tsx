@@ -35,7 +35,7 @@ const NotAuthorized = () => {
           />
         </a>
         <div className="z-50 text-md md:text-xl leading-relaxed space-y-4 opacity-90 text-left max-w-lg mx-auto px-4 sm:px-6">
-          <h1 className="z-50 text-4xl font-cursive md:text-5xl font-semibold mb-6 text-shadow-lg text-center">
+          <h1 className="z-50 text-4xl font-Teknaf md:text-5xl font-semibold mb-6 text-shadow-lg text-center">
             Oops! Your Unauthorized!
           </h1>
           <div className="p-2 font-Trap-Regular">

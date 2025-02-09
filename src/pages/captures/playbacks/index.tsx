@@ -74,7 +74,7 @@ const CulturalPlaybacks = () => {
           <div className="col-span-12 lg:col-span-3 flex flex-col gap-">
             <div className="gradient-bg shadow-2xl flex flex-col justify-start w-full h-full gap-2 border border-gray-50 p-4 rounded-xl">
               <div className="flex items-center justify-between">
-                <h3 className="text-4xl font-cursive">{selectedVideo?.name}</h3>
+                <h3 className="text-4xl font-Teknaf">{selectedVideo?.name}</h3>
                 <div className="flex flex-col items-center justify-center gap-2">
                   <button><Share2 className="text-white" /></button>
                   {session?.user?.role === "admin" && (

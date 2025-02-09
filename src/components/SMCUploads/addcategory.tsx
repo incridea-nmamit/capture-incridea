@@ -21,12 +21,21 @@ import { ScrollArea } from "~/components/ui/scroll-area"
 import toast from "react-hot-toast";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle,  DialogFooter } from "../ui/dialog";
 
+/**
+ * Props interface for CategoryBox
+ */
 type Props = {
-  isOpen: boolean;
-  setOpen: (open: boolean) => void;
+  isOpen: boolean;          // Controls popover visibility
+  setOpen: (open: boolean) => void;  // Popover state setter
 };
 
+/**
+ * CategoryBox Component
+ * Provides category management interface with add/delete functionality
+ * Includes confirmation dialogs for destructive actions
+ */
 export function CategoryBox({ isOpen, setOpen }: Props) {
+  // API Queries and Mutations
   const { data: categories, isLoading, refetch } = api.storycat.getAllCategories.useQuery();
   const addCategory = api.storycat.addCat.useMutation({
     onSuccess: () => refetch(),
@@ -36,13 +45,16 @@ export function CategoryBox({ isOpen, setOpen }: Props) {
     onSuccess: () => refetch(),
   });
 
+  // Local State Management
   const [value, setValue] = React.useState<number | null>(null);
   const [newCategory, setNewCategory] = React.useState("");
-  const [isOpens, setopens] = React.useState(false)
+  const [isOpens, setopens] = React.useState(false);
   const [category, setCategory] = React.useState("");
   const [categoryId, setCategoryId] = React.useState<number | null>(null);
 
-
+  /**
+   * Category Management Functions
+   */
   const handleAddCategory = () => {
     if (newCategory.trim()) {
       addCategory.mutate({ name: newCategory }, {
@@ -65,6 +77,7 @@ export function CategoryBox({ isOpen, setOpen }: Props) {
 
   return (
     <>
+      {/* Category Selector Popover */}
       <Popover open={isOpen} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -122,34 +135,34 @@ export function CategoryBox({ isOpen, setOpen }: Props) {
           </Command>
         </PopoverContent>
       </Popover>
-      {
-        isOpens && (
-          <Dialog open={isOpens} onOpenChange={setopens}>
-            <DialogContent className="sm:max-w-[425px] sapce-y-5">
-              <DialogHeader>
-                <DialogTitle>Delete Confirmation</DialogTitle>
-                <DialogDescription>
-                Are you sure you want to delete {category}?
-                </DialogDescription>
-                <DialogFooter>
-                <div className="gap-4 flex items-center">
-                  <Button
-                 variant="destructive"
-                    onClick={()=>{
-                      handleDeleteCategory()
-                    setopens(false)
-                    }}
-                  >Delete</Button>
-                  <Button
-                    onClick={() => setopens(false)}
-                  >Close</Button>
-                </div>
-                </DialogFooter>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        )
-      }
+
+      {/* Delete Confirmation Dialog */}
+      {isOpens && (
+        <Dialog open={isOpens} onOpenChange={setopens}>
+          <DialogContent className="sm:max-w-[425px] sapce-y-5">
+            <DialogHeader>
+              <DialogTitle>Delete Confirmation</DialogTitle>
+              <DialogDescription>
+              Are you sure you want to delete {category}?
+              </DialogDescription>
+              <DialogFooter>
+              <div className="gap-4 flex items-center">
+                <Button
+               variant="destructive"
+                  onClick={()=>{
+                    handleDeleteCategory()
+                  setopens(false)
+                  }}
+                >Delete</Button>
+                <Button
+                  onClick={() => setopens(false)}
+                >Close</Button>
+              </div>
+              </DialogFooter>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   );
 }

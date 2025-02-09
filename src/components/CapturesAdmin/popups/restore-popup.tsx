@@ -1,3 +1,13 @@
+/**
+ * RestorePopup Component
+ * Modal dialog for restoring previously deleted captures
+ * Features:
+ * - Confirmation dialog
+ * - Loading state handling
+ * - Success/Error toast notifications
+ * - Automatic refetch after restore
+ */
+
 import { on } from "nodemailer/lib/xoauth2";
 import { use, useState } from "react";
 import toast from "react-hot-toast";
@@ -18,18 +28,17 @@ import UseRefetch from "~/hooks/use-refetch";
 import { api } from "~/utils/api";
 
 type Props = {
-  isOpen: boolean;
-  setOpen: (open: boolean) => void;
-  captureId: number;
+  isOpen: boolean;          // Controls dialog visibility
+  setOpen: (open: boolean) => void;  // Dialog state setter
+  captureId: number;        // ID of capture to restore
 }
 
 export default function RestorePopup({
   isOpen,
   setOpen,
   captureId
-}
-  : Props
-) {
+}: Props) {
+  // Mutation hook for restore operation
   const restoreImage = api.capture.restoreDeletedcaptures.useMutation();
   const [loading, setLoading] = useState(false)
   const refetch = UseRefetch()

@@ -1,7 +1,12 @@
+/**
+ * Table Components
+ * A collection of components for building accessible tables
+ * Includes Table, TableHeader, TableBody, TableFooter, etc.
+ */
 import * as React from "react"
-
 import { cn } from "~/lib/utils"
 
+// Main table container with overflow handling
 const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
@@ -16,6 +21,7 @@ const Table = React.forwardRef<
 ))
 Table.displayName = "Table"
 
+// Table section components
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
@@ -51,6 +57,7 @@ const TableFooter = React.forwardRef<
 ))
 TableFooter.displayName = "TableFooter"
 
+// Additional table components for structure
 const TableRow = React.forwardRef<
   HTMLTableRowElement,
   React.HTMLAttributes<HTMLTableRowElement>

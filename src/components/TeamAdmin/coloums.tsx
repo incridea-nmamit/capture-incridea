@@ -1,3 +1,9 @@
+/**
+ * Team Table Columns Configuration
+ * Defines the structure and rendering of team data table columns
+ * @module TeamColumns
+ */
+
 "use client"
 
 import { Teamgroup } from "@prisma/client";
@@ -6,7 +12,9 @@ import TeamAction from "./actions";
 import { Github, Linkedin, Instagram } from "lucide-react";
 import { FaBehance } from "react-icons/fa";
 
-
+/**
+ * Team member data interface
+ */
 type TeamProps = {
     id?: number;
     name?: string;
@@ -20,7 +28,10 @@ type TeamProps = {
     say?: string;
 }
 
-
+/**
+ * Column definitions for team data table
+ * Includes sorting, filtering, and custom cell rendering
+ */
 export const Teamcolumns: ColumnDef<TeamProps>[] = [
     {
         accessorKey: "name",
@@ -50,6 +61,7 @@ export const Teamcolumns: ColumnDef<TeamProps>[] = [
             row.original.say || ""
         ),
     },
+    // Social links column with custom rendering
     {
         accessorKey: "socialLinks",
         header: "Social Links",

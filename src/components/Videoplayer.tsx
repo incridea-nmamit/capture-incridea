@@ -1,4 +1,13 @@
-import React, { useRef, useState } from 'react';
+/**
+ * Custom video player component with enhanced controls
+ * Features:
+ * - Custom controls
+ * - Download prevention
+ * - Picture-in-Picture blocking
+ * - Responsive design
+ */
+
+import React, { useRef } from 'react';
 import ReactPlayer from 'react-player';
 
 interface VideoPlayerProps {
@@ -6,19 +15,20 @@ interface VideoPlayerProps {
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ url }) => {
+  // Reference to control player functions
   const playerRef = useRef<ReactPlayer>(null);
 
-  // Function to handle seeking
+  /**
+   * Handles seeking to specific timestamp
+   */
   const handleSeek = (seconds: number) => {
     if (playerRef.current) {
       playerRef.current.seekTo(seconds, 'seconds');
     }
   };
 
-  // Function to update playe
   return (
     <div className="space-y-4 bg-gray-900 p-6 rounded-lg shadow-lg">
-      {/* Video Player */}
       <div className="relative aspect-video overflow-hidden rounded-lg">
         <ReactPlayer
           ref={playerRef}

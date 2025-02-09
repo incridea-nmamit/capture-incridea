@@ -1,14 +1,21 @@
+/**
+ * Tooltip Components
+ * Floating tooltips that appear when hovering over elements
+ * Built using Radix UI Tooltip primitive
+ */
 import * as React from "react"
 import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "~/lib/utils"
 
+// Core tooltip components
 const TooltipProvider = TooltipPrimitive.Provider
 
 const Tooltip = TooltipPrimitive.Root
 
 const TooltipTrigger = TooltipPrimitive.Trigger
 
+// Styled tooltip content with animations
 const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>

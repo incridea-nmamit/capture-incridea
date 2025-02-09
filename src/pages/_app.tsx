@@ -20,6 +20,24 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Script from "next/script";
 import dynamic from "next/dynamic";
 import SEO from "~/components/SEO";
+import GlobeLoader from '~/components/LoadingAnimation/GlobeLoader'
+
+
+const items = [
+  {
+    image: 'https://picsum.photos/300/300',
+  },
+  {
+    image: 'https://picsum.photos/400/400',
+  },
+  {
+    image: 'https://picsum.photos/500/500',
+  },
+  {
+    image: 'https://picsum.photos/600/600',
+  }
+];
+
 
 const useRouteLoading = () => {
   const router = useRouter();
@@ -65,8 +83,18 @@ const AuthenticatedApp = ({
     }
   }, [fetchedEmailData, verifiedEmailData]);
 
-  if (sessionStatus === "loading" || (isVerifiedEmailLoading && !verifiedEmailData))
-    return <CameraLoading />;
+  const [showIntro,setShowIntro]  = useState(true);
+
+  useEffect(()=>{
+    const interval = setInterval(()=>{
+      if (sessionStatus === "loading" || (isVerifiedEmailLoading && !verifiedEmailData)){
+        setShowIntro(false)
+        clearInterval(interval)
+      }
+    },6000)
+  },[])
+
+  if(showIntro) return <GlobeLoader items={items}/>;
 
   if (!sessionData) return <LoginComponent />;
 
@@ -157,9 +185,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           `,
         }}
       />
-      
-
-        <AuthenticatedApp Component={Component} pageProps={pageProps} />
+      <AuthenticatedApp Component={Component} pageProps={pageProps} />
 
     </SessionProvider>
   );

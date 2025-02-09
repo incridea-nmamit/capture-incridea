@@ -5,6 +5,9 @@ import Image from "next/image";
 import { ImageListItem } from "@mui/material";
 import { FaHeart } from "react-icons/fa";
 
+/**
+ * GridCard Component Props
+ */
 interface GridCardProps {
   imageId: number;
   imagePath: string;
@@ -13,6 +16,10 @@ interface GridCardProps {
   prefech?: boolean;
 }
 
+/**
+ * GridCard Component
+ * Displays individual image cards with like count and loading states
+ */
 export const GridCard: React.FC<GridCardProps> = ({
   imageId,
   imagePath,
@@ -20,11 +27,13 @@ export const GridCard: React.FC<GridCardProps> = ({
   onClick,
   prefech = false,
 }) => {
+  // API query for likes
   const { data: totalLikes } = api.like.getTotalLikes.useQuery({
     captureId: imageId!,
   });
 
-  const [isLoading, setIsLoading] = useState(false)
+  // Loading state management
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <ImageListItem

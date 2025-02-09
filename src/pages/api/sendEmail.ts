@@ -1,6 +1,14 @@
+/**
+ * Email Service API
+ * Handles sending OTP emails for capture removal requests
+ */
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 
+/**
+ * Email transport configuration
+ */
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -9,6 +17,11 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+/**
+ * Email sending handler
+ * @param req - Contains email and OTP data
+ * @param res - API response
+ */
 const sendEmail = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
       const { email, otp } = req.body;

@@ -22,6 +22,22 @@ import {
     DropdownMenuItem,
 } from "~/components/ui/dropdown-menu";
 
+/**
+ * DataTable Component
+ * A reusable table component with sorting, filtering, and pagination capabilities.
+ * Features:
+ * - Global search
+ * - Column visibility toggle
+ * - Audit type filtering
+ * - Pagination
+ * - Sorting
+ */
+
+/**
+ * Interface defining the props required by the DataTable component
+ * @template TData The type of data being displayed
+ * @template TValue The type of values in the columns
+ */
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
@@ -31,18 +47,22 @@ export function DataTable<TData extends Record<string, any>, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
+    // State management for table features
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [selectedAuditType, setSelectedAuditType] = useState<string | null>(null);
 
+    // Extract unique audit types for filtering
     const auditTypes = useMemo(() => Array.from(new Set(data.map((item) => item.audit_type))), [data]);
 
+    // Filter data based on selected audit type
     const filteredData = useMemo(() => {
         return selectedAuditType ? data.filter((item) => item.audit_type === selectedAuditType) : data;
     }, [data, selectedAuditType]);
 
+    // Initialize table instance with all features
     const table = useReactTable({
         data: filteredData,
         columns,

@@ -4,6 +4,9 @@ import useResponsiveColumns from "~/hooks/useResponsiveColumns";
 import { GridCard } from "./grid-card";
 import { SkeletonLoader } from "./skeleton-loader";
 
+/**
+ * Type definition for image data structure
+ */
 type CaptureImage = {
     id: number;
     onClick: () => void;
@@ -12,6 +15,15 @@ type CaptureImage = {
     downloadCount?: number;
 };
 
+/**
+ * ImagesGrid Component
+ * Displays a responsive grid of images with infinite scroll functionality
+ * @param images - Array of image data
+ * @param nextCursor - Pagination cursor
+ * @param isFetchingNextPage - Loading state for next page
+ * @param fetchNextPage - Function to fetch next page
+ * @param isLoading - Initial loading state
+ */
 export default function ImagesGrid({
     images,
     nextCursor,
@@ -25,13 +37,16 @@ export default function ImagesGrid({
     fetchNextPage: () => void;
     isLoading: boolean;
 }) {
+    // Intersection observer reference for infinite scroll
     const observerRef = useRef<HTMLDivElement | null>(null);
     const [loading, setLoading] = useState(isLoading || isFetchingNextPage);
 
+    // Effect for loading state management
     useEffect(() => {
         setLoading(isLoading || isFetchingNextPage);
     }, [isLoading, isFetchingNextPage]);
 
+    // Intersection observer setup for infinite scroll
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {

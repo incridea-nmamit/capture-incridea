@@ -1,7 +1,11 @@
+/**
+ * Card Components
+ * Collection of components for building card-based interfaces
+ */
 import * as React from "react"
-
 import { cn } from "~/lib/utils"
 
+// Main card container
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -17,6 +21,7 @@ const Card = React.forwardRef<
 ))
 Card.displayName = "Card"
 
+// Card subcomponents
 const CardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -73,4 +78,5 @@ const CardFooter = React.forwardRef<
 ))
 CardFooter.displayName = "CardFooter"
 
+// Export card components
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }

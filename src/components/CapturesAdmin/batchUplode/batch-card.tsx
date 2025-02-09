@@ -1,14 +1,16 @@
 import Image from "next/image";
 import toast from "react-hot-toast";
 
-
+/**
+ * Props interface for BatchCard component
+ */
 type CardProps = {
-  id: number;
-  event_name: string | null;
-  event_category: string;
-  upload_type: string;
-  state: "pending" | "declined" | "approved";
-  image_path: string;
+    id: number;             // Unique identifier
+    event_name: string | null; // Name of the event
+    event_category: string; // Category of the event
+    upload_type: string;    // Type of upload
+    state: "pending" | "declined" | "approved"; // Current state
+    image_path: string;     // Path to image
 };
 
 const BatchCard = ({ id, event_name, event_category, upload_type, state, image_path }: CardProps) => {

@@ -1,3 +1,7 @@
+/**
+ * Form Components
+ * A collection of form-related components built with React Hook Form integration
+ */
 "use client"
 
 import * as React from "react"
@@ -15,8 +19,10 @@ import {
 import { cn } from "~/lib/utils"
 import { Label } from "~/components/ui/label"
 
+// Main Form component wrapper
 const Form = FormProvider
 
+// Form field context and provider
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
@@ -28,6 +34,7 @@ const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue
 )
 
+// Form field components with validation support
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
@@ -41,6 +48,7 @@ const FormField = <
   )
 }
 
+// Hook to access form field context
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
   const itemContext = React.useContext(FormItemContext)
@@ -64,6 +72,7 @@ const useFormField = () => {
   }
 }
 
+// Form item components for layout structure
 type FormItemContextValue = {
   id: string
 }

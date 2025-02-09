@@ -1,3 +1,8 @@
+/**
+ * Analytics Dashboard Component
+ * Provides comprehensive analytics visualization with charts and data tables
+ */
+
 import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
 import { Bar, Doughnut, Line, Radar } from "react-chartjs-2";
@@ -33,7 +38,12 @@ ChartJS.register(
   RadialLinearScale
 );
 
+/**
+ * Main Analytics component
+ * Handles data fetching, filtering, and visualization
+ */
 const Analytics = () => {
+  // State management for filters and data
   const [filter, setFilter] = useState<string>("all");
   const [captureFilter, setCaptureFilter] = useState<string>("all");
   const [customDate, setCustomDate] = useState<string | null>(null);
@@ -257,6 +267,8 @@ const Analytics = () => {
         const validRoutes = [
           "pronite", 
           "your-snaps", 
+          "accolades",
+          "faculty",
           "our-team", 
           "about", 
           "events", 
@@ -334,6 +346,10 @@ const Analytics = () => {
   const eventVisits = filteredEvents.length;
   const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.session_user)).size;
 
+  /**
+   * Effect hook for graph data processing
+   * Processes and formats data for various charts
+   */
   useEffect(() => {
     const visitData = filteredLogs.reduce<{ [key: string]: { visits: number; uniqueIPs: Set<string>; totalTime: number } }>(
       (acc, log) => {
@@ -606,7 +622,10 @@ const radarData = {
                   <option value="/">Home</option>
                   <option value="captures">Captures</option>
                   <option value="events">Events</option>
-                  <option value="pronite">Pronite</option>
+                  <option value="shaan">Shaan</option>
+                  <option value="masalacoffee">Masala Coffee</option>
+                  <option value="accolades">Accolades</option>
+                  <option value="faculty">Faculty</option>
                   <option value="your-snaps">Your Snaps</option>
                   <option value="behindincridea">Behind Incridea</option>
                   <option value="our-team">Our Team</option>

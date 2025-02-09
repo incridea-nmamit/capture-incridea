@@ -1,3 +1,11 @@
+/**
+ * Carousel pagination dots component
+ * Features:
+ * - Dynamic dot generation
+ * - Active state tracking
+ * - Click navigation
+ */
+
 import React, {
     ComponentPropsWithRef,
     useCallback,
@@ -12,6 +20,9 @@ import React, {
     onDotButtonClick: (index: number) => void
   }
   
+  /**
+   * Hook for managing dot button state and interactions
+   */
   export const useDotButton = (
     emblaApi: EmblaCarouselType | undefined,
     onButtonClick?: (emblaApi: EmblaCarouselType) => void
@@ -54,6 +65,9 @@ import React, {
   
   type PropType = ComponentPropsWithRef<'button'>
   
+  /**
+   * Individual dot button component
+   */
   export const DotButton: React.FC<PropType> = (props) => {
     const { children, ...restProps } = props
   

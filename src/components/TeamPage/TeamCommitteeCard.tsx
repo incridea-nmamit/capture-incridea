@@ -1,3 +1,7 @@
+/**
+ * Team Committee Card Component
+ * Displays committee information with icon and hover effects
+ */
 "use client";
 
 import { Camera, Computer, PcCase, Phone,  } from "lucide-react";
@@ -11,7 +15,9 @@ interface CardProps {
 }
 
 const TeamCommitteeCard: React.FC<CardProps> = ({ title, description, imageUrl, href }) => {
-
+  /**
+   * Renders appropriate icon based on committee title
+   */
   const renderIcon = (title:string) => {
     switch (title) {
       case "Developers Team & Editors":

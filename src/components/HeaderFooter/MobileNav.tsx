@@ -32,19 +32,26 @@ const userLinks = [
   { href: "/our-team", label: "Our Team", icon: <RiTeamFill /> },
 ];
 
+// Props interface for MobileNav
 type MobileNavProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const handleAnimationComplete = () => {
-  console.log("All letters have animated!");
-};
-
+/**
+ * MobileNav Component
+ * Responsive navigation menu for mobile devices
+ */
 const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
+  // Session and routing hooks
   const { data: session } = useSession();
   const pathname = usePathname() || "";
   const isAdminRoute = pathname.startsWith("/admin");
+
+  // Animation completion handler
+  const handleAnimationComplete = () => {
+    console.log("All letters have animated!");
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>

@@ -1,3 +1,11 @@
+/**
+ * Hero section component with title, description and background image
+ * Features:
+ * - Responsive design
+ * - Gradient overlay
+ * - Custom typography
+ */
+
 import React from 'react';
 
 interface TitleDescriptionProps {
@@ -6,7 +14,11 @@ interface TitleDescriptionProps {
   imagePath: string;
 }
 
-const TitleDescription: React.FC<TitleDescriptionProps> = ({ title, description, imagePath }) => {
+const TitleDescription: React.FC<TitleDescriptionProps> = ({ 
+  title, 
+  description, 
+  imagePath 
+}) => {
   return (
     <div
       className="relative w-full h-[50vh] md:h-[55vh] bg-cover bg-center z-20"
@@ -18,7 +30,7 @@ const TitleDescription: React.FC<TitleDescriptionProps> = ({ title, description,
 
 
       <div className="absolute inset-0 flex flex-col items-center justify-center p-4 mt-36">
-        <h1 className="text-4xl font-cursive md:text-6xl text-white text-center">{title}</h1>
+        <h1 className="text-4xl font-Teknaf md:text-6xl text-white text-center">{title}</h1>
         <p className="mt-2 text-base md:text-lg text-gray-300 max-w-2xl text-center">
           {description}
         </p>

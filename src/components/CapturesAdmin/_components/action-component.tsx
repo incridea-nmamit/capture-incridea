@@ -5,12 +5,25 @@ import { Button } from '~/components/ui/button'
 import DeleteCapturePopUpModel from '../popups/delete-permanently-popup'
 import RestorePopup from '../popups/restore-popup'
 
+/**
+ * ActionComponent
+ * Provides action buttons for managing deleted captures.
+ * Features:
+ * - Restore functionality
+ * - Permanent deletion
+ * - Dropdown menu interface
+ */
+
 type Props = {
-    id: number
+    id: number; // ID of the capture to manage
 }
+
 const ActionComponent = ({
     id
 }: Props) => {
+    /**
+     * State management for modals
+     */
     const [captureIdToDelete,] = useState<number>(id);
     const [openRestorePopup, setOpenRestorePopup] = useState(false)
     const [openDeleteCaptureModel, setopenDeleteCaptureModel] = useState(false)
@@ -64,4 +77,4 @@ const ActionComponent = ({
     )
 }
 
-export default ActionComponent 
+export default ActionComponent

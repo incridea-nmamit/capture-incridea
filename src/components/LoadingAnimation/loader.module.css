@@ -1,4 +1,6 @@
-/* From Uiverse.io by Smit-Prajapati */
+/* Loading animation styles - Originally from Uiverse.io by Smit-Prajapati */
+
+/* Main loader container */
 .loader {
   --size: 300px;
   --duration: 2s;
@@ -13,6 +15,7 @@
   position: relative;
 }
 
+/* Animated box elements */
 .loader .box {
   position: absolute;
   background: rgba(100, 100, 100, 0.15);
@@ -24,12 +27,7 @@
   animation: ripple var(--duration) infinite ease-in-out;
 }
 
-/* .loader .box:nth-child(1) {
-  inset: 40%;
-  z-index: 99;
-
-} */
-
+/* Individual box animations with delays */
 .loader .box:nth-child(2) {
   inset: 30%;
   z-index: 98;
@@ -61,6 +59,7 @@
   animation-delay: 0.8s;
 }
 
+/* Logo container and animations */
 .loader .logo {
   position: absolute;
   inset: 0;
@@ -75,6 +74,7 @@
   animation: color-change var(--duration) infinite ease-in-out;
 }
 
+/* Animation keyframes */
 @keyframes ripple {
   0% {
     transform: scale(1);
@@ -101,14 +101,15 @@
     fill: var(--logo-color);
   }
 }
-.fullscreen {
-  position: fixed; /* Equivalent to 'fixed' */
-  inset: 0; /* Equivalent to 'inset-0' (top: 0, right: 0, bottom: 0, left: 0) */
-  z-index: 50; /* Equivalent to 'z-50' */
 
-  display: flex; /* Equivalent to 'flex' */
-  align-items: center; /* Equivalent to 'items-center' */
+/* Fullscreen container */
+.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
   justify-content: center;
   background: radial-gradient(circle at center, #0d1115, #000000),
-    linear-gradient(135deg, #0d1115, #000000); /* Equivalent to 'justify-center' */
+    linear-gradient(135deg, #0d1115, #000000);
 }

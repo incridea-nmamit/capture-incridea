@@ -15,6 +15,9 @@ import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { Label } from "../../ui/label";
 
+/**
+ * Zod schema for form validation
+ */
 const schema = z.object({
     event_category: z.string().nonempty("Please select a category"),
     event_name: z.string().optional(),
@@ -25,8 +28,8 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 type Props = {
-    isOpen: boolean;
-    setOpen: (open: boolean) => void;
+    isOpen: boolean;          // Controls dialog visibility
+    setOpen: (open: boolean) => void;  // Dialog state setter
 };
 
 export function AddCapturePopUpModel({ isOpen, setOpen }: Props) {
@@ -45,6 +48,10 @@ export function AddCapturePopUpModel({ isOpen, setOpen }: Props) {
         },
     });
 
+    /**
+     * Handles form progression to upload step
+     * Validates required fields based on category
+     */
     const handleNextStep = (data: FormValues) => {
         if (data.event_category === "events" && !data.event_name?.trim()) {
             form.setError("event_name", {
@@ -74,6 +81,9 @@ export function AddCapturePopUpModel({ isOpen, setOpen }: Props) {
         }
     };    
 
+    /**
+     * Resets form state and closes popup
+     */
     const handlePopupClose = () => {
         setStep(1);
         form.reset();
@@ -109,8 +119,11 @@ export function AddCapturePopUpModel({ isOpen, setOpen }: Props) {
                                                     Select a category
                                                 </option>
                                                 <option value="events">Events</option>
-                                                <option value="pronite">Pronite</option>
+                                                <option value="shaan">Shaan</option>
+                                                <option value="masalacoffee">Masala Coffee</option>
                                                 <option value="snaps">Snaps</option>
+                                                <option value="accolades">Accolades</option>
+                                                <option value="faculty">Faculty</option>
                                                 <option value="behindincridea">Behind Incridea</option>
                                             </select>
                                         </FormControl>

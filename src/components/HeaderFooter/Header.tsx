@@ -10,6 +10,10 @@ import { RiTeamFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi";
 import Image from "next/image";
 import MobileNav from "./MobileNav";
+
+/**
+ * Navigation link configurations
+ */
 const adminLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: <BiSolidDashboard /> },
   { href: "/", label: "MainPage", icon: <GoHomeFill /> },
@@ -22,13 +26,19 @@ const userLinks = [
   { href: "/our-team", label: "Team", icon: <RiTeamFill /> },
 ];
 
+/**
+ * Header Component
+ * Main navigation component with responsive design and role-based access
+ */
 const Header: FC = () => {
+  // Session and state management
   const { data: session } = useSession();
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname() || "";
   const isAdminRoute = pathname.startsWith("/admin");
 
+  // Client-side mounting check
   useEffect(() => {
     setIsMounted(true);
   }, []);

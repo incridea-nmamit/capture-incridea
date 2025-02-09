@@ -1,3 +1,7 @@
+/**
+ * Social Media Committee Uploads Component
+ * Manages video uploads and display for social media team
+ */
 import React, { useState } from 'react';
 import { api } from '~/utils/api';
 import toast from 'react-hot-toast';
@@ -8,13 +12,18 @@ import ReactPlayer from 'react-player';
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 
 const SMCUploads: React.FC = () => {
+  // State and API hooks
   const userName = useUserName() ?? 'user';
   const addVideo = api.smc.addVideo.useMutation();
   const { data: uploads, isLoading, isError, refetch } = api.smc.getAllUploads.useQuery();
+  
+  // UI state management
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [description, setDescription] = useState('');
   const [uploadUrl, setUploadUrl] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Toast configuration
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -23,8 +32,10 @@ const SMCUploads: React.FC = () => {
     },
   };
 
+  /**
+   * Handlers for video upload and form submission
+   */
   const handleUploadComplete = (url: string) => setUploadUrl(url);
-
   const handleAddEventClick = () => {
     setIsPopupOpen(true);
     setDescription('');
@@ -33,6 +44,10 @@ const SMCUploads: React.FC = () => {
 
   const handlePopupClose = () => setIsPopupOpen(false);
 
+  /**
+   * Form submission handler
+   * Validates and processes video upload
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -64,6 +79,7 @@ const SMCUploads: React.FC = () => {
     }
   };
 
+  // Loading state
   if (isLoading) return <CameraLoading />;
 
   return (

@@ -5,17 +5,28 @@ import ScrollableContainer from '../ScrollableDiv';
 import SearchInput from '../ui/search-input';
 import { ChangeRolePopUP } from './changeRolePopup';
 
-// Define a type for roles
+/**
+ * Role type definition for user management
+ * Possible values: 'admin' | 'manager' | 'smc' | 'editor' | 'user'
+ */
 type Role = 'admin' | 'manager' | 'smc' | 'editor' | 'user';
 
+/**
+ * ManageRoles Component
+ * Provides interface for managing user roles with search and filtering capabilities
+ */
 const ManageRoles = () => {
+  // State management for users and UI controls
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // Fetch users data
   const { data: usersData, refetch } = api.user.getAllUsers.useQuery();
 
+  // Update users when data is fetched
   useEffect(() => {
     if (usersData) {
       setUsers(usersData);
@@ -23,6 +34,7 @@ const ManageRoles = () => {
     }
   }, [usersData]);
 
+  // Filter users based on search term
   useEffect(() => {
     if (searchTerm) {
       setFilteredUsers(
@@ -38,7 +50,7 @@ const ManageRoles = () => {
     }
   }, [searchTerm, users]);
 
-
+  // Calculate role counts
   const roleCounts: { [key in Role]: number } = users.reduce((counts, user) => {
     if (user.role) {
       counts[user.role] = (counts[user.role] || 0) + 1;
@@ -48,11 +60,14 @@ const ManageRoles = () => {
 
   return (
     <div className="p-4">
-      <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center">Manage Roles</h1>
+      {/* Header Section */}
+      <h1 className="flex justify-center text-4xl font-Teknaf mb-8 py-5 text-center">
+        Manage Roles
+      </h1>
 
-      {/* Search Bar and Role Count Buttons */}
+      {/* Dashboard Grid Layout */}
       <div className='dashboard-grid'>
-
+        {/* Search Input */}
         <SearchInput
           type="text"
           placeholder="Search..."
@@ -61,6 +76,7 @@ const ManageRoles = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
+        {/* Role Count Display */}
         <div className="dashboard-controls flex flex-col gap-2 w-full justify-start md:items-center sitems-start">
           <div className='flex flex-row md:flex-col gap-2'>
             <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28"> Admin-{roleCounts['admin'] || 0}</div>
@@ -73,6 +89,7 @@ const ManageRoles = () => {
           <div className="text-white text-center border-slate-700 border p-2 rounded-3xl w-28">Users-{roleCounts['user'] || 0} </div>
         </div>
 
+        {/* Users Table */}
         <ScrollableContainer className='dashboard-table'>
           <table className="min-w-full border border-gray-300 bg-neutral-950 font-Trap-Regular text-sm">
             <thead>
@@ -107,8 +124,13 @@ const ManageRoles = () => {
         </ScrollableContainer>
       </div>
 
+      {/* Role Change Popup */}
       {isPopupOpen && (
-        <ChangeRolePopUP isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} userId={selectedUserId!} />
+        <ChangeRolePopUP 
+          isOpen={isPopupOpen} 
+          onClose={() => setIsPopupOpen(false)} 
+          userId={selectedUserId!} 
+        />
       )}
     </div>
   );

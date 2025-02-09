@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-} from "~/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "~/components/ui/dialog";
 import {
     Form,
     FormControl,
@@ -24,6 +19,9 @@ import VideoUploadComponent from "~/components/VideoUploadComponent";
 import UseRefetch from "~/hooks/use-refetch";
 import { UploadButton } from "~/utils/uploadthing";
 
+/**
+ * Form validation schema for playback editing
+ */
 const schema = z.object({
     name: z.string().min(1, "Required"),
     uplodeurl: z.string().min(1, "Required"),
@@ -33,22 +31,33 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
+/**
+ * Props interface for EditPlayBacksPopUpModel
+ */
 type Props = {
-    isOpen: boolean;
-    setOpen: (open: boolean) => void;
-    id: number;
+    isOpen: boolean;           // Controls dialog visibility
+    setOpen: (open: boolean) => void;  // Dialog state setter
+    id: number;               // ID of playback to edit
 };
 
+/**
+ * EditPlayBacksPopUpModel Component
+ * Modal dialog for editing existing playback entries
+ * Handles video upload, thumbnail management, and metadata updates
+ */
 export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
+    // State and API hooks
     const { data: defaultValue, isLoading, error } = api.playbacks.getPlaybacksDetailsById.useQuery({ id });
     const editPlayBacks = api.playbacks.editPlaybacks.useMutation();
     const [uploadUrl, setUploadUrl] = useState<string>(defaultValue?.videoPath || "");
     const [thumbnailUrl, setThumbnailUrl] = useState<string>(defaultValue?.thumbnails || "");
-    const [edited, setEdited] = useState(false)
+    const [edited, setEdited] = useState(false);
     const refetch = UseRefetch();
 
+    // Extract upload key from video path
     const uploadKey = defaultValue?.videoPath.split("/f/")[1];
 
+    // Form initialization with default values
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
@@ -59,11 +68,23 @@ export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
         },
     });
 
+    /**
+     * Handlers for file uploads and form submission
+     */
     function handleUploadComplete(url: string) {
         setUploadUrl(url);
         form.setValue("uplodeurl", url);
         toast.success("Upload successful!");
         setEdited(true)
+    }
+
+    function handleThumbnailUploadComplete(res: { url: string }[]) {
+        if (res && res.length > 0) {
+            const uploadedUrl = res[0]?.url || "";
+            setThumbnailUrl(uploadedUrl);
+            form.setValue("thumbnails", uploadedUrl);
+            toast.success("Thumbnail uploaded successfully!");
+        }
     }
 
     function onSubmit(values: FormValues) {
@@ -90,25 +111,20 @@ export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
         }
     }
 
-    function handleThumbnailUploadComplete(res: { url: string }[]) {
-        if (res && res.length > 0) {
-            const uploadedUrl = res[0]?.url || "";
-            setThumbnailUrl(uploadedUrl);
-            form.setValue("thumbnails", uploadedUrl);
-            toast.success("Thumbnail uploaded successfully!");
-        }
-    }
-
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error loading playback details.</div>;
 
     return (
         <Dialog open={isOpen} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px] bg-neutral-950">
+                {/* Dialog Header */}
                 <DialogHeader>
                     <DialogTitle className="font-Teknaf text-2xl">Edit PlayBacks</DialogTitle>
                 </DialogHeader>
+
+                {/* Form Content */}
                 <div>
+                    {/* Preview Section */}
                     <div className="flex flex-row space-x-4 items-center justify-center">
                         {defaultValue?.videoPath && (
                             <ReactPlayer
@@ -126,6 +142,8 @@ export function EditPlayBacksPopUpModel({ isOpen, setOpen, id }: Props) {
                             />
                         )}
                     </div>
+
+                    {/* Edit Form */}
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
