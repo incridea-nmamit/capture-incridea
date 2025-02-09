@@ -40,7 +40,7 @@ const TeamCard: React.FC<CardProps> = ({
           width={300}
           height={300}
           objectFit="cover"
-          loading="lazy"
+          loading="eager"
           className="rounded-tr-2xl"
           onContextMenu={(e) => e.preventDefault()}
           onDragStart={(e) => e.preventDefault()}
