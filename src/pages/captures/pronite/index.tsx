@@ -36,7 +36,7 @@ const pronite = () => {
               className="bg-white text-black px-4 py-2 rounded text-lg shadow md:hidden"
               onClick={(e) => {
                 e.stopPropagation();
-                router.push('/captures/pronite/day1');
+                router.push('/captures/pronite/masala-coffee');
               }}
             >
               Enter
@@ -47,7 +47,7 @@ const pronite = () => {
       <div
         onClick={() => handleDivClick('/captures/pronite/shaan')}
         className="group flex-1 bg-cover bg-center relative overflow-hidden md:cursor-pointer"
-        style={{ backgroundImage: "url('/images/landing-images/shaan.png')" }}
+        style={{ backgroundImage: "url('/images/landing-images/shaan.webp')" }}
       >
         <div className="absolute inset-0 bg-black/40 md:bg-transparent md:bg-gradient-to-t md:from-black/50 md:to-transparent transition-all duration-500 md:group-hover:bg-black/40 md:group-hover:backdrop-blur-[2px]"></div>
         <div className="absolute inset-0 transition-all duration-500 group-hover:scale-110"></div>
@@ -64,7 +64,7 @@ const pronite = () => {
               className="bg-white text-black px-4 py-2 rounded text-lg shadow md:hidden"
               onClick={(e) => {
                 e.stopPropagation();
-                router.push('/captures/pronite/day2');
+                router.push('/captures/pronite/shaan');
               }}
             >
               Enter
