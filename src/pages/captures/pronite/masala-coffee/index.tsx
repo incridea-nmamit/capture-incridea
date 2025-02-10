@@ -87,13 +87,12 @@ const MasalaCoffee = () => {
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
-    <div className="gradient-bg">
+    <div>
       <TitleDescription
-        title="Pronite Captures"
+        title="Masala Coffee"
         description="Engaging our audience and building community through strategic social media initiatives"
-        imagePath="https://utfs.io/f/0yks13NtToBitJchJ4NSCB2X9TSlbJxWYgG6rpN3n8swf4Fz"
+        imagePath="/images/general/masala-coffee.webp"
       />
-
       <ImagesGrid
         isFetchingNextPage={isFetchingNextPage}
         fetchNextPage={fetchNextPage}

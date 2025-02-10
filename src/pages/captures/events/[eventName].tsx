@@ -87,9 +87,9 @@ const EventCaptures = () => {
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
-    <div className="mt-20 gradient-bg">
-      <div className="md:mt-20 mt-10">
-        <h1 className="text-3xl md:text-5xl font-Teknaf text-white text-center my-5">
+    <div>
+      <div className="md:mt-40 mt-10">
+        <h1 className="text-3xl md:text-4xl font-Trap-Black text-white text-center my-5">
           {formattedEventName} Captures
         </h1>
         <div className="flex   justify-center mb-10 ">

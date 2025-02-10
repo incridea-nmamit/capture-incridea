@@ -87,7 +87,7 @@ const YourSnapsPage: React.FC = () => {
   return (
     <div className="flex flex-col gradient-bg">
       <TitleDescription
-        title="Your Snaps"
+        title="Abode Of Memories"
         description="Engaging our audience and building community through strategic social media initiatives."
         imagePath="/images/CapturePage/yoursnaps.webp"
       />

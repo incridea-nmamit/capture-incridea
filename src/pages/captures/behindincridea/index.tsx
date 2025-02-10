@@ -80,7 +80,7 @@ const behindincridea = () => {
   if (error) return <p className="text-white text-center">Error loading images.</p>;
 
   return (
-    <div className="gradient-bg">
+    <div>
       <TitleDescription
         title="Behind Incridea"
         description="Engaging our audience and building community through strategic social media initiatives"

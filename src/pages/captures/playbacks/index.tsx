@@ -6,7 +6,7 @@ import { api } from '~/utils/api';
 import Loading from '~/pages/Loading';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import { FaHeart } from 'react-icons/fa';
+import { FaHeart, FaShareSquare } from 'react-icons/fa';
 import { MoreInfo } from '~/components/MoreInfoDrawer/more-infoPopup';
 import { Button } from '~/components/ui/button';
 import ReactPlayer from 'react-player';
@@ -65,22 +65,23 @@ const CulturalPlaybacks = () => {
   return (
     <div className="gradient-bg h-full w-full">
       <div className='!mt-24 container-size'>
-        <h1 className="text-5xl font-Teknaf md:text-5xl text-center text-white my-20">Playbacks</h1>
+        <h1 className="text-5xl font-Trap-Black md:text-5xl text-center text-white mt-32 my-10">Cultural Playbacks</h1>
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 my-6">
           <div className="col-span-12 lg:col-span-9">
           <VideoPlayer url={selectedVideo?.videoPath ?? ''} />
           </div>
 
           <div className="col-span-12 lg:col-span-3 flex flex-col gap-">
-            <div className="gradient-bg shadow-2xl flex flex-col justify-start w-full h-full gap-2 border border-gray-50 p-4 rounded-xl">
+            <div className="shadow-2xl flex flex-col justify-start w-full h-full gap-2  p-4 rounded-xl">
               <div className="flex items-center justify-between">
-                <h3 className="text-4xl font-Teknaf">{selectedVideo?.name}</h3>
-                <div className="flex flex-col items-center justify-center gap-2">
-                  <button><Share2 className="text-white" /></button>
-                  {session?.user?.role === "admin" && (
-                  <button onClick={() => setOpenMoreInfor(!openMoreInfo)}><Info className="text-white" /></button>
-                  )}
+                <h3 className="text-3xl font-Trap-Black">{selectedVideo?.name}</h3>
+                  <div className="flex items-center justify-center gap-2">
+                    <button><FaShareSquare size={24} className="text-white" /></button>
+                    {session?.user?.role === "admin" && (
+                    <button onClick={() => setOpenMoreInfor(!openMoreInfo)}><Info className="text-white" /></button>
+                    )}
                   </div>
+
               </div>
               <p className="text-white">{selectedVideo?.description}</p>
               <div className="flex flex-row items-center w-full justify-start gap-4 mt-2">
@@ -94,14 +95,14 @@ const CulturalPlaybacks = () => {
           </div>
         </div>
 
-        <div className="mb-10 space-y-7">
-          <h1 className="text-xl md:text-3xl font-Teknaf">Recently Uploaded Playbacks</h1>
-          <ScrollArea className="whitespace-nowrap rounded-md border-2 lg:overflow-x-auto h-full gradient-bg">
+        <div className="mb-20 space-y-7">
+          <h1 className="text-xl md:text-2xl font-Trap-Black">Recently Uploaded Playbacks</h1>
+          <ScrollArea className="whitespace-nowrap rounded-md lg:overflow-x-auto h-full">
             <div className="flex lg:w-max h-max p-4 flex-wrap gap-4 items-center justify-center">
               {Videos.map((video) => (
                 <div key={video.id} className="flex flex-col items-center">
                   <div
-                    className={`relative shrink-0 cursor-pointer rounded-md max-h-52 h-full overflow-hidden max-w-full aspect-video ${selectedVideo?.id === video.id ? "border-4 border-white p-1" : ""}`}
+                    className={`relative shrink-0 cursor-pointer rounded-md max-h-52 h-full overflow-hidden max-w-full aspect-video ${selectedVideo?.id === video.id ? "border-2 border-white p-1" : ""}`}
                     onClick={() => setSelectedVideo(video as VideosProps)}
                   >
                     <Image
