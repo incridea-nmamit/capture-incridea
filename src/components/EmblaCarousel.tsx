@@ -7,7 +7,7 @@
  * - Responsive design
  */
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, forwardRef } from 'react';
 import {
   EmblaCarouselType,
   EmblaEventType,
@@ -32,15 +32,19 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
 interface PropType {
   slides: React.ReactNode[];
   options?: EmblaOptionsType;
+  onSlideChange?: (index: number) => void;  // Add this prop
 }
 
-const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { slides, options = { loop: true } } = props;
+const EmblaCarousel = forwardRef<EmblaCarouselType, PropType>((props, ref) => {
+  const { slides, options = { loop: true }, onSlideChange } = props;
   
   // Carousel state and refs
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
+
+  // Forward the API methods through the ref
+  React.useImperativeHandle(ref, () => emblaApi || ({} as EmblaCarouselType), [emblaApi]);
 
   // Navigation button handlers
   const {
@@ -129,13 +133,18 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     setTweenFactor(emblaApi);
     tweenScale(emblaApi);
 
+    emblaApi.on('select', () => {
+      const currentIndex = emblaApi.selectedScrollSnap();
+      onSlideChange?.(currentIndex);
+    });
+
     emblaApi
       .on('reInit', setTweenNodes)
       .on('reInit', setTweenFactor)
       .on('reInit', tweenScale)
       .on('scroll', tweenScale)
       .on('slideFocus', tweenScale);
-  }, [emblaApi, tweenScale]);
+  }, [emblaApi, tweenScale, onSlideChange]);
 
   return (
     <div className="embla h-full">
@@ -158,6 +167,6 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
       </div>
     </div>
   );
-};
+});
 
 export default EmblaCarousel;
