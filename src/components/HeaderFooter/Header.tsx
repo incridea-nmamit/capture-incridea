@@ -88,7 +88,7 @@ const Header: FC = () => {
 
             {session && !isAdminRoute && (
               <button
-                onClick={() => signIn()}
+                onClick={() => signOut()}
                 className="flex items-center justify-center text-xl text-white"
               >
                 <div>
