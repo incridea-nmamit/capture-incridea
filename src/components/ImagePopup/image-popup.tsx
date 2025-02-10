@@ -1,7 +1,7 @@
 import { Share2, Info } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaShareSquare } from "react-icons/fa";
 
 import UseRefetch from "~/hooks/use-refetch";
 import { api } from "~/utils/api";
@@ -73,6 +73,23 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
     }
   }, [response, totalLikesData]);
 
+  // Add this useEffect hook after other useEffects
+  useEffect(() => {
+    // Push a new state when popup opens
+    window.history.pushState(null, '', window.location.pathname);
+
+    // Handle back button press
+    const handlePopstate = () => {
+      handleClosePopup();
+    };
+
+    window.addEventListener('popstate', handlePopstate);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('popstate', handlePopstate);
+    };
+  }, []); // Empty dependency array as we only want this to run once when mounted
 
   const handleToggleLike = async () => {
     if (selectedImageId && hasLiked !== null) {
@@ -134,11 +151,11 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
         onClick={handleClosePopup}
       >
         <div
-          className="max-h-[98vh] w-full md:w-[60%]  h-auto space-y-10 gradient-bg grid grid-cols-1 gap-4 rounded-3xl"
+          className="max-h-[98vh] w-[90%] md:w-[60%] h-auto space-y-10 gradient-bg grid grid-cols-1 gap-4 rounded-3xl"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex flex-col md:flex-row w-full h-full">
-            <div className="relative flex justify-center items-center w-full md:w-1/2 aspect-square rounded-l-3xl">
+            <div className="relative flex justify-center items-center w-full md:w-1/2 aspect-square rounded-l-3xl p-2 md:p-0">
               <Image
                 src={selectedImage || "/images/fallback.webp"}
                 alt="Selected"
@@ -165,7 +182,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                 </div>
                 <div className="flex flex-row items-center justify-center gap-5">
                   <Button onClick={handleShare} className="flex items-center">
-                    <Share2 className="text-white w-6 h-6" />
+                    <FaShareSquare  className="text-white w-6 h-6" />
                   </Button>
 
                   {session?.user?.role === "admin" && (
@@ -189,7 +206,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                         />
                       </div>
                     </div>
-                    <div className=" absolute w-full top-[-30px]  border right-0 transform shadow-2xl -translate-x-1/2 bg-black text-white text-sm rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className=" absolute w-full top-32 border left-24 transform shadow-2xl -translate-x-1/2 bg-black text-white text-xs rounded-xl px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       You can scan this to download the image on your phone
                     </div>
                   </div>
