@@ -84,7 +84,7 @@ const Cultural = () => {
   return (
     <div className="gradient-bg ">
       <TitleDescription
-        title="Cultural Program Captures"
+        title="Cultural Program "
         description="Engaging our audience and building community through strategic social media initiatives"
         imagePath="/images/CapturePage/cultural.webp"
       />

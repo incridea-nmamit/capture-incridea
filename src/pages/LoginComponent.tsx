@@ -28,7 +28,7 @@ const LoginComponent = () => {
           />
         <div className="text-md text-left z-50 mx-auto max-w-lg space-y-4 px-4 leading-relaxed opacity-90 sm:px-6 md:text-xl">
           <div className="p-2 font-Trap-Regular text-sm">
-            <p className="text-md mb-8 text-md text-center">
+            <p className="text-md mb-8 text-md text-left">
               <strong>We’re delighted to have you here!</strong>
               <br />
               Experience the magic of Incridea through stunning moments captured

@@ -122,6 +122,7 @@ export function AddCapturePopUpModel({ isOpen, setOpen }: Props) {
                                                 <option value="shaan">Shaan</option>
                                                 <option value="masalacoffee">Masala Coffee</option>
                                                 <option value="snaps">Snaps</option>
+                                                <option value="cultural">Cultural</option>
                                                 <option value="accolades">Accolades</option>
                                                 <option value="faculty">Faculty</option>
                                                 <option value="behindincridea">Behind Incridea</option>

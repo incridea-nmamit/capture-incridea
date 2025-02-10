@@ -40,7 +40,7 @@ export const TimelineLayout = ({ data }: { data: TimelineEntry[] }) => {
   return (
     <div className="w-full md:px-10" ref={containerRef}>
       <div className="mx-auto max-w-7xl px-4 pt-10 md:px-8 lg:px-10">
-        <h2 className="mb-4 line-clamp-1 w-fit max-w-4xl rounded-md p-2 font-Teknaf text-3xl font-semibold text-white shadow-md md:text-4xl">
+        <h2 className="mb-4 line-clamp-1 w-fit max-w-4xl mt-20 rounded-md p-2 font-Teknaf text-3xl font-semibold text-white shadow-md md:text-4xl">
           Incridea Timeline
         </h2>
         <p className="text-md max-w-sm space-x-3 text-neutral-500 md:text-base">

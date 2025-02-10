@@ -28,7 +28,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ url }) => {
   };
 
   return (
-    <div className="space-y-4 bg-gray-900 p-6 rounded-lg shadow-lg">
+    <div className="space-y-4 p-6 rounded-lg shadow-lg">
       <div className="relative aspect-video overflow-hidden rounded-lg">
         <ReactPlayer
           ref={playerRef}

@@ -39,22 +39,22 @@ const EventCard: FC<EventCardProps> = ({ name, type, description, day, backgroun
 
       <div className="p-4 space-y-3 ">
         <div className=" flex flex-row justify-between items-center gap-2">
-          <h2 className="text-xl md:text-2xl font-bold text-white font-Teknaf tracking-wider">{name}</h2>
-          <span className="border border-gray-200 text-gray-200 px-2 py-1 rounded-md ">
-            {type}
+          <h2 className="text-xl md:text-lg font-bold text-white font-Trap-Regular tracking-wider">{name}</h2>
+          <span className="border border-gray-200 text-gray-200 text-xs px-2 py-1 rounded-md ">
+            {type.toUpperCase()}
           </span>
         </div>
 
 
         <div className="flex items-end justify-end text-sm text-gray-400 ">
-          <span className="bg-black text-gray-200 px-2 py-1 rounded-md">
-            {day}
+          <span className=" text-gray-200 px-2 py-1 rounded-md">
+            {day.toUpperCase()}
           </span>
         </div>
         <hr/>
 
         {/* Description */}
-        <p className="text-sm text-gray-300 line-clamp-3 ">{description}</p>
+        <p className="text-xs text-gray-300 line-clamp-3 ">{description}</p>
       </div>
     </div>
   );
