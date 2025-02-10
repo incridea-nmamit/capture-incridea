@@ -275,12 +275,18 @@
   }
 
   .thumbnailSlide {
-    width: 100px;
-    height: 150px;
+    width: 140px;
+    height: 180px;
   }
 
   .thumbnailTitle {
-    display: none;
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+
+  .thumbnailOverlay {
+    padding: 0.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4));
   }
 
   .controls_r, .controls_l {
@@ -303,12 +309,13 @@
   }
 
   .thumbnailSlide {
-    width: 110px;
-    height: 120px;
+    width: 130px;
+    height: 160px;
   }
 
   .thumbnailTitle {
-    display: none;
+    font-size: 0.75rem;
+    line-height: 1.1;
   }
 
   .controls_r, .controls_l {
@@ -331,12 +338,13 @@
   }
 
   .thumbnailSlide {
-    width: 110px;
-    height: 120px;
+    width: 120px;
+    height: 150px;
   }
 
   .thumbnailTitle {
-    display: none;
+    font-size: 0.7rem;
+    line-height: 1;
   }
 
   .controls_r, .controls_l {
