@@ -29,7 +29,7 @@ const userLinks = [
   { href: "/", label: "Home", icon: <GoHomeFill /> },
   { href: "/captures", label: "Captures", icon: <MdCamera /> },
   { href: "/about", label: "About", icon: <HiInformationCircle /> },
-  { href: "/our-team", label: "Our Team", icon: <RiTeamFill /> },
+  { href: "/our-team", label: "Team", icon: <RiTeamFill /> },
 ];
 
 // Props interface for MobileNav
@@ -90,12 +90,15 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
                   <SplitText
                     text={link.label}
                     className="text-center text-2xl font-semibold"
-                    delay={150 * index}
+                    delay={150}
                     animationFrom={{
                       opacity: 0,
-                      transform: "translateY(20px)",
+                      transform: "translate3d(0,50px,0)",
                     }}
-                    animationTo={{ opacity: 1, transform: "translateY(0)" }}
+                    animationTo={{
+                      opacity: 1,
+                      transform: "translate3d(0,0,0)",
+                    }}
                     easing="easeOutCubic"
                     threshold={0.2}
                     rootMargin="-50px"
