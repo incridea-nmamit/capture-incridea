@@ -20,7 +20,7 @@ function Hero() {
         <div className="absolute inset-0 bg-black opacity-30"></div>
         <div className="relative z-10 flex h-full flex-col items-center justify-end pb-24 sm:pb-28 md:pb-32">
           <div className="flex w-full flex-col gap-2 px-6 text-left text-white md:text-center">
-            <h1 className="mb-4 w-full font-Teknaf text-5xl font-semibold md:text-6xl lg:text-6xl">
+            <h1 className="mb-4 w-full font-Trap-Black text-5xl font-semibold md:text-6xl lg:text-6xl">
               Your Memories, Our Passion
             </h1>
             <p className="px-1 font-Trap-Regular text-xs sm:text-sm md:px-4 md:text-base">

@@ -13,6 +13,7 @@ import {
   Users,
   ListOrdered,
   Download,
+  MailCheck
 } from "lucide-react";
 
 import EventsAdmin from "~/components/EventsAdmin/EventsAdmin";
@@ -29,6 +30,7 @@ import { Role } from "@prisma/client";
 import AdminPlayBacks from "../Playbacks";
 import AuditLogs from "../AuditLogs";
 import DownloadLogs from "../downlodeLogs";
+import EmailVerifications from "../Verifications";
 
 
 export const randomSliderImages = [
@@ -244,6 +246,13 @@ export const tabs = [
     label: "Download Logs",
     icon: Download,
     content: <DownloadLogs />,
+    roles: [Role.admin, Role.manager],
+  },
+  {
+    name: "verifiedemails",
+    label: "Verfications",
+    icon: MailCheck,
+    content: <EmailVerifications/>,
     roles: [Role.admin, Role.manager],
   },
 ];

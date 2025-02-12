@@ -6,6 +6,7 @@ import { carouselItems } from "../constants/data";
 import { ChevronLeftCircle, ChevronRightCircle, Lock } from "lucide-react"; // Import the Lock icon
 import { Button } from "../ui/button";
 import { api } from "~/utils/api";
+import ShinyText from "./ShinyText"; // Import the ShinyText component
 
 /**
  * CaptureCard Component
@@ -21,6 +22,7 @@ const CaptureCard = () => {
   /**
    * State management for carousel
    */
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [autoPlay] = useState(true);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -38,16 +40,16 @@ const CaptureCard = () => {
   });
 
   const sortedCards = carouselItems.map((carouselItem) => {
-    const cardState = cardStates?.find(
-      (state) => state.cardName === carouselItem.title
-    )?.cardState ?? true; // Default to true if cardState is undefined
-  
+    const cardState =
+      cardStates?.find((state) => state.cardName === carouselItem.title)
+        ?.cardState ?? true; // Default to true if cardState is undefined
+
     return {
       ...carouselItem,
       cardState,
     };
   });
-  
+
   /**
    * Carousel control functions
    */
@@ -125,13 +127,19 @@ const CaptureCard = () => {
                   <div className={styles.title}>{item.title}</div>
                   <div className={styles.description}>{item.description}</div>
                 </div>
+
                 <Button
                   onClick={() =>
                     (window.location.href = `/captures/${item.route}`)
                   }
-                  className={`m-3 px-20 py-6 rounded-3xl bg-white/10 backdrop-blur-sm text-white border border-white/20 shadow-lg transition-all duration-300 hover:bg-white/20 hover:shadow-xl ${!item.cardState ? styles.hide : ""}`}
+                  className={`relative m-3 rounded-3xl border border-white/20 bg-white/10 px-20 py-6 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:shadow-xl ${!item.cardState ? "hidden" : ""} before:animate-shine before:absolute before:inset-0 before:rounded-3xl before:border-[2px] before:border-transparent before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-10 hover:before:opacity-5`}
                 >
-                  Enter
+                  <ShinyText
+                    text="Enter"
+                    disabled={false}
+                    speed={5}
+                    className="custom-class"
+                  />
                 </Button>
               </div>
             </div>

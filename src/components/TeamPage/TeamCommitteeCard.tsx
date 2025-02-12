@@ -4,8 +4,9 @@
  */
 "use client";
 
-import { Camera, Computer, PcCase, Phone,  } from "lucide-react";
+import { Camera, Computer, PcCase } from "lucide-react";
 import Link from "next/link";
+import { IoDocumentTextOutline } from "react-icons/io5";
 
 interface CardProps {
   title: string;
@@ -20,12 +21,14 @@ const TeamCommitteeCard: React.FC<CardProps> = ({ title, description, imageUrl, 
    */
   const renderIcon = (title:string) => {
     switch (title) {
-      case "Developers Team & Editors":
+      case "Capture Incridea Developers":
         return <Computer size={32} className="text-white" />;
       case "Media Team":
         return <Camera size={32} className="text-white" />;
       case "Social Media Team":
         return <PcCase size={32} className="text-white" />; 
+      case "Documentation Team":
+        return <IoDocumentTextOutline size={32} className="text-white" />; 
       default:
         return null; 
     }

@@ -10,7 +10,7 @@ const OurTeam = () => {
   // Team data configuration
   const teams = [
     {
-      title: "Developers Team & Editors",
+      title: "Capture Incridea Developers",
       description: "Developing for your convenience.",
       imageUrl:
         "/images/CapturePage/developer-bg.webp",
@@ -30,13 +30,20 @@ const OurTeam = () => {
         "/images/CapturePage/smc-bg.webp",
       href: "/our-team/socialmedia",
     },
+    {
+      title: "Documentation Team",
+      description: "Preserving every detail with clarity and precision",
+      imageUrl:
+        "/images/CapturePage/doc-1.webp",
+      href: "/our-team/documentation",
+    },
   ];
 
   return (
     <div className="mt-16 lg:mt-20">
       {/* Section header */}
       <div className="max-w-screen-xl mx-auto text-white flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 z-20">
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-center font-Teknaf  mb-8">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-center font-Trap-Black  mb-8">
           Our Elite Teams
         </h1>
 

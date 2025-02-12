@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Spline from "@splinetool/react-spline";
 import { Sparkles } from "lucide-react";
 
 /**
@@ -74,11 +73,6 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* 3D Background */}
-      <div className="absolute inset-0 z-0">
-        <Spline scene="https://draft.spline.design/7bkQ9atSXshr5SlV/scene.splinecode" />
-      </div>
-
       {/* Content Overlay */}
       <AnimatePresence>
         <motion.div
@@ -99,7 +93,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, type: "spring" }}
-              className="mb-4 sm:mb-6 text-6xl sm:text-5xl md:text-6xl lg:text-8xl font-bold font-Teknaf tracking-wider bg-clip-text"
+              className="mb-4 sm:mb-6 text-6xl sm:text-5xl md:text-6xl lg:text6xl font-bold font-Trap-Black tracking-wider bg-clip-text"
             >
               Captures
             </motion.h1>
@@ -143,7 +137,7 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
               className="mt-6 sm:mt-8 md:mt-10 text-sm sm:text-base md:text-lg lg:text-xl font-medium text-blue-200 flex items-center justify-center"
             >
               <Sparkles className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-              Hold tight while we sift through today's moments to bring you pure captures like never before!
+              Hold on tight until the Incridea fun begins!!
             </motion.p>
           </motion.div>
         </motion.div>

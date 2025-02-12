@@ -9,7 +9,7 @@ function About() {
   return (
     <section className="container-size mx-auto flex flex-col items-center justify-center gap-8 text-left md:text-center">
       <br />
-      <h3 className="mb-8 w-full mt-32 text-center font-Teknaf font-bold text-4xl md:text-5xl lg:text-6xl">
+      <h3 className="mb-8 w-full mt-32 text-center font-Trap-Black font-bold text-4xl md:text-4xl lg:text-6xl">
       Framing Moments <br/> Creating Stories
       </h3>
 
