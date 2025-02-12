@@ -319,6 +319,7 @@ enum Teamgroup {
   media
   socialmedia
   developer
+  documentation
   none
 }
 

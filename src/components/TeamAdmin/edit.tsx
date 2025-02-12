@@ -148,6 +148,7 @@ const EditTeamPopupModel = ({ isPopupOpen, setIsPopupOpen, id }: Props) => {
                   <option value="media">Media</option>
                   <option value="socialmedia">Social Media</option>
                   <option value="developer">Developer</option>
+                  <option value="documentation">Documentation</option>
                 </select>
                 {errors.committee && <p className="text-red-500 text-sm">{errors.committee.message}</p>}
               </div>
