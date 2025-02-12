@@ -14,7 +14,7 @@ function SignIn() {
   return (
     <div>
       <button
-        onClick={async () => await signIn()}
+        onClick={async () => await signIn("google")}
       >
         Sign In
       </button>

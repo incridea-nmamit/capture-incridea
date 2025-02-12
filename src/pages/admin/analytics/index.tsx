@@ -24,7 +24,6 @@ import {
 } from "chart.js";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
 
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -37,6 +36,29 @@ ChartJS.register(
   Legend,
   RadialLinearScale
 );
+
+// Add a monochrome palette near the top of the file
+const monochromeColors = {
+  line: {
+    primary: 'rgba(255, 255, 255, 0.9)',
+    secondary: 'rgba(200, 200, 200, 0.9)',
+    tertiary: 'rgba(150, 150, 150, 0.9)',
+    quaternary: 'rgba(100, 100, 100, 0.9)',
+    background: 'rgba(255, 255, 255, 0.1)'
+  },
+  bar: {
+    primary: 'rgba(255, 255, 255, 0.8)',
+    hover: 'rgba(255, 255, 255, 0.9)'
+  }
+};
+
+// Update the line chart styles
+const lineChartBaseStyle = {
+  borderWidth: 2,
+  fill: true,
+  tension: 0.4,
+  pointBackgroundColor: 'rgba(255, 255, 255, 0.8)'
+};
 
 /**
  * Main Analytics component
@@ -62,6 +84,22 @@ const Analytics = () => {
   const [growthData, setGrowthData] = useState<{ time: string; cumulativeVisits: number }[]>([]);
   const router = useRouter();
   const { data: session, status } = useSession();
+  const [selectedRoute, setSelectedRoute] = useState<string>("all");
+  const [routeAnalytics, setRouteAnalytics] = useState<{
+    hourlyTraffic: { hour: number; count: number }[];
+    deviceDistribution: { device: string; count: number }[];
+    averageTimeSpent: number;
+    bounceRate: number;
+    peakHours: { hour: number; count: number }[];
+    userRetention: number;
+  }>({
+    hourlyTraffic: [],
+    deviceDistribution: [],
+    averageTimeSpent: 0,
+    bounceRate: 0,
+    peakHours: [],
+    userRetention: 0,
+  });
   
     useEffect(() => {
       if (status === 'unauthenticated') {
@@ -128,8 +166,8 @@ const Analytics = () => {
         datasets: [
           {
             data: [deviceCounts.tablet, deviceCounts.desktop, deviceCounts.mobile],
-            backgroundColor: ["#B0B0B0", "#707070", "#303030"], // Light gray, medium gray, dark gray
-            hoverBackgroundColor: ["#A0A0A0", "#606060", "#202020"], // Slightly darker shades on hover
+            backgroundColor: ["#E0E0E0", "#A0A0A0", "#606060"], // Light gray, medium gray, dark gray
+            hoverBackgroundColor: ["#D0D0D0", "#909090", "#505050"], // Slightly darker on hover
           },
         ],
       };
@@ -346,6 +384,92 @@ const Analytics = () => {
   const eventVisits = filteredEvents.length;
   const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.session_user)).size;
 
+  // Add new state for college analytics
+  const [collegeStats, setCollegeStats] = useState({
+    internal: 0,
+    external: 0,
+    internalDownloads: 0,
+    externalDownloads: 0,
+    internalStoryViews: 0,
+    externalStoryViews: 0,
+    internalPlaybackViews: 0,
+    externalPlaybackViews: 0
+  });
+
+  // Calculate college-based statistics
+  useEffect(() => {
+    const internal = verifiedusers.filter(user => user.college === "internal").length;
+    const external = verifiedusers.filter(user => user.college === "external").length;
+
+    // Get user IDs by college type
+    const internalIds = new Set(verifiedusers.filter(user => user.college === "internal").map(user => user.id));
+    const externalIds = new Set(verifiedusers.filter(user => user.college === "external").map(user => user.id));
+
+    // Calculate downloads by college type
+    const internalDownloads = filtereddLogs.filter(log => internalIds.has(Number(log.session_user))).length;
+    const externalDownloads = filtereddLogs.filter(log => externalIds.has(Number(log.session_user))).length;
+
+    // Calculate story views by college type
+    const internalStoryViews = filteredsLogs.filter(log => internalIds.has(Number(log.session_user))).length;
+    const externalStoryViews = filteredsLogs.filter(log => externalIds.has(Number(log.session_user))).length;
+
+    // Calculate playback views by college type
+    const internalPlaybackViews = filteredpLogs.filter(log => internalIds.has(Number(log.session_user))).length;
+    const externalPlaybackViews = filteredpLogs.filter(log => externalIds.has(Number(log.session_user))).length;
+
+    setCollegeStats({
+      internal,
+      external,
+      internalDownloads,
+      externalDownloads,
+      internalStoryViews,
+      externalStoryViews,
+      internalPlaybackViews,
+      externalPlaybackViews
+    });
+  }, [verifiedusers, filtereddLogs, filteredsLogs, filteredpLogs]);
+
+  // Create college distribution chart data
+  const collegeDistributionData = {
+    labels: ['Internal', 'External'],
+    datasets: [{
+      label: 'Users by College Type',
+      data: [collegeStats.internal, collegeStats.external],
+      backgroundColor: ['#B0B0B0', '#606060'], // Light gray, dark gray
+      borderColor: ['#A0A0A0', '#505050'], // Slightly darker borders
+      borderWidth: 1
+    }]
+  };
+
+  // Create college engagement chart data
+  const collegeEngagementData = {
+    labels: ['Downloads', 'Story Views', 'Playback Views'],
+    datasets: [
+      {
+        label: 'Internal College',
+        data: [
+          collegeStats.internalDownloads,
+          collegeStats.internalStoryViews,
+          collegeStats.internalPlaybackViews
+        ],
+        backgroundColor: monochromeColors.line.primary,
+        borderColor: 'rgba(255, 255, 255, 1)',
+        borderWidth: 1
+      },
+      {
+        label: 'External College',
+        data: [
+          collegeStats.externalDownloads,
+          collegeStats.externalStoryViews,
+          collegeStats.externalPlaybackViews
+        ],
+        backgroundColor: monochromeColors.line.tertiary,
+        borderColor: 'rgba(200, 200, 200, 1)',
+        borderWidth: 1
+      }
+    ]
+  };
+
   /**
    * Effect hook for graph data processing
    * Processes and formats data for various charts
@@ -396,9 +520,9 @@ const Analytics = () => {
       {
         label: "Average Time Spent per Visit (s)",
         data: graphData.map((data) => data.avgTimeSpent),
-        borderColor: "rgba(255, 159, 64, 1)",
-        backgroundColor: "rgba(255, 159, 64, 0.2)",
-        fill: true,
+        borderColor: monochromeColors.line.primary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
       },
     ],
   };
@@ -409,9 +533,9 @@ const Analytics = () => {
       {
         label: "Total Visits",
         data: graphData.map((data) => data.visits),
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        fill: true,
+        borderColor: monochromeColors.line.secondary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
       },
     ],
   };
@@ -422,9 +546,9 @@ const Analytics = () => {
       {
         label: "Unique Visitors",
         data: graphData.map((data) => data.unique),
-        borderColor: "rgba(255, 99, 132, 1)",
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        fill: true,
+        borderColor: monochromeColors.line.tertiary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
       },
     ],
   };
@@ -435,9 +559,9 @@ const Analytics = () => {
       {
         label: "Total Views per Unique View",
         data: graphData.map((data) => data.viewsPerUnique),
-        borderColor: "rgba(153, 102, 255, 1)",
-        backgroundColor: "rgba(153, 102, 255, 0.2)",
-        fill: true,
+        borderColor: monochromeColors.line.quaternary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
       },
     ],
   };
@@ -448,9 +572,9 @@ const Analytics = () => {
       {
         label: "Cumulative Visits Growth",
         data: growthData.map((data) => data.cumulativeVisits),
-        borderColor: "rgba(54, 162, 235, 1)",
-        backgroundColor: "rgba(54, 162, 235, 0.2)",
-        fill: true,
+        borderColor: monochromeColors.line.primary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
       },
     ],
   };
@@ -496,7 +620,7 @@ const Analytics = () => {
     datasets: [{
       label: 'Device Distribution',
       data: counts,
-      backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#F2F533'], // Add more colors as needed
+      backgroundColor: ['#E0E0E0', '#B0B0B0', '#808080', '#505050'], // Monochrome grays
     }],
   };
 
@@ -506,19 +630,22 @@ const Analytics = () => {
     datasets: [{
       label: 'Sessions by Device',
       data: counts,
-      backgroundColor: '#4D73D9',
+      backgroundColor: monochromeColors.bar.primary,
+      hoverBackgroundColor: monochromeColors.bar.hover,
+      borderColor: 'rgba(255, 255, 255, 1)',
+      borderWidth: 1
     }],
   };
 
   // Line Chart: Timer Over Time for Each Device
   const lineData = {
     labels: filteredLogs.map(log => new Date(log.startPing).toLocaleString()),
-    datasets: devices.map(device => ({
+    datasets: devices.map((device, index) => ({
       label: device,
       data: filteredLogs.filter(log => log.device === device).map(log => log.timer ?? 0),
-      borderColor: '#FF5733',
-      backgroundColor: 'rgba(255, 87, 51, 0.2)',
-      fill: true,
+      borderColor: monochromeColors.line[['primary', 'secondary', 'tertiary'][index] as 'primary' | 'secondary' | 'tertiary'],
+      backgroundColor: monochromeColors.line.background,
+      ...lineChartBaseStyle
     })),
   };
 
@@ -528,7 +655,7 @@ const Analytics = () => {
     datasets: [{
       label: 'Time Spent per Device (ms)',
       data: timeSpent,
-      backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#F2F533'],
+      backgroundColor: ['#E0E0E0', '#B0B0B0', '#808080', '#505050'], // Monochrome grays
     }],
   };
 
@@ -562,8 +689,85 @@ const radarData = {
   })),
 };
 
-  
+  useEffect(() => {
+    if (selectedRoute === "all") return;
 
+    const routeLogs = filteredLogs.filter(log => 
+      selectedRoute === "/" ? log.routePath === "/" : log.routePath.includes(selectedRoute)
+    );
+
+    // Calculate hourly traffic
+    const hourlyTraffic = Array.from({ length: 24 }, (_, hour) => ({
+      hour,
+      count: routeLogs.filter(log => new Date(log.startPing).getHours() === hour).length
+    }));
+
+    // Calculate device distribution
+    const devices = routeLogs.reduce((acc, log) => {
+      acc[log.device] = (acc[log.device] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    const deviceDistribution = Object.entries(devices).map(([device, count]) => ({
+      device,
+      count
+    }));
+
+    // Calculate average time spent
+    const averageTimeSpent = routeLogs.reduce((acc, log) => acc + (log.timer || 0), 0) / (routeLogs.length || 1);
+
+    // Calculate bounce rate (users who only visited once)
+    const uniqueUsers = new Set(routeLogs.map(log => log.session_user));
+    const bounceUsers = [...uniqueUsers].filter(user =>
+      routeLogs.filter(log => log.session_user === user).length === 1
+    );
+    const bounceRate = (bounceUsers.length / uniqueUsers.size) * 100;
+
+    // Find peak hours (top 3)
+    const peakHours = [...hourlyTraffic]
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 3);
+
+    // Calculate user retention (users who visited more than once)
+    const userRetention = 100 - bounceRate;
+
+    setRouteAnalytics({
+      hourlyTraffic,
+      deviceDistribution,
+      averageTimeSpent,
+      bounceRate,
+      peakHours,
+      userRetention,
+    });
+  }, [selectedRoute, filteredLogs]);
+
+  // Add these new chart configurations
+  const hourlyTrafficData = {
+    labels: routeAnalytics.hourlyTraffic.map(item => `${item.hour}:00`),
+    datasets: [{
+      label: 'Visits per Hour',
+      data: routeAnalytics.hourlyTraffic.map(item => item.count),
+      backgroundColor: monochromeColors.bar.primary,
+      hoverBackgroundColor: monochromeColors.bar.hover,
+      borderColor: 'rgba(255, 255, 255, 1)',
+      borderWidth: 1,
+    }]
+  };
+
+  const deviceDistributionData = {
+    labels: routeAnalytics.deviceDistribution.map(item => item.device),
+    datasets: [{
+      label: 'Device Distribution',
+      data: routeAnalytics.deviceDistribution.map(item => item.count),
+      backgroundColor: ['#E0E0E0', '#B0B0B0', '#808080', '#505050'], // Monochrome grays
+    }]
+  };
+
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user?.role !== 'admin') {
+      void router.push('/');
+    }
+  }, [session, status, router]);
 
   if (isLoading || galleryLoading || eventsLoading) {
     return <CameraLoading />;
@@ -572,7 +776,7 @@ const radarData = {
 
   return (
     <div className="p-6 mt-20 mb-20">
-      <h1 className="text-center text-4xl font-Teknaf mb-8 text-white">Detailed Admin Analytics</h1>
+      <h1 className="text-center text-4xl font-Trap-Black mb-8 text-white">Detailed Admin Analytics</h1>
       <div className="flex justify-center gap-2">
         <div className="flex justify-center mb-4 ">
           <select
@@ -822,6 +1026,178 @@ const radarData = {
         <div className="col-span-1 w-full max-w-sm">
           <Doughnut data={doughnutData} />
         </div>
+      </div>
+
+      {/* Add college analytics section before the final closing div */}
+      <div className="mt-20">
+        <h2 className="text-center text-3xl font-Trap-Black mb-8 text-white">College-wise Analytics</h2>
+        
+        <div className="overflow-x-auto mb-10">
+          <table className="min-w-full text-white font-Trap-Regular">
+            <thead className="bg-gray-700">
+              <tr>
+                <th className="p-2 text-left">Metric</th>
+                <th className="p-2 text-left">Internal</th>
+                <th className="p-2 text-left">External</th>
+                <th className="p-2 text-left">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="p-2">Verified Users</td>
+                <td className="p-2">{collegeStats.internal}</td>
+                <td className="p-2">{collegeStats.external}</td>
+                <td className="p-2">{collegeStats.internal + collegeStats.external}</td>
+              </tr>
+              <tr>
+                <td className="p-2">Downloads</td>
+                <td className="p-2">{collegeStats.internalDownloads}</td>
+                <td className="p-2">{collegeStats.externalDownloads}</td>
+                <td className="p-2">{collegeStats.internalDownloads + collegeStats.externalDownloads}</td>
+              </tr>
+              <tr>
+                <td className="p-2">Story Views</td>
+                <td className="p-2">{collegeStats.internalStoryViews}</td>
+                <td className="p-2">{collegeStats.externalStoryViews}</td>
+                <td className="p-2">{collegeStats.internalStoryViews + collegeStats.externalStoryViews}</td>
+              </tr>
+              <tr>
+                <td className="p-2">Playback Views</td>
+                <td className="p-2">{collegeStats.internalPlaybackViews}</td>
+                <td className="p-2">{collegeStats.externalPlaybackViews}</td>
+                <td className="p-2">{collegeStats.internalPlaybackViews + collegeStats.externalPlaybackViews}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="w-full h-96">
+            <h3 className="text-center text-xl text-white mb-4">User Distribution by College</h3>
+            <Doughnut 
+              data={collegeDistributionData}
+              options={{
+                ...chartOptions,
+                plugins: {
+                  ...chartOptions.plugins,
+                  title: {
+                    display: true,
+                    text: 'Internal vs External College Users',
+                    color: 'white'
+                  }
+                }
+              }}
+            />
+          </div>
+          
+          <div className="w-full h-96">
+            <h3 className="text-center text-xl text-white mb-4">Engagement by College Type</h3>
+            <Bar 
+              data={collegeEngagementData}
+              options={{
+                ...chartOptions,
+                plugins: {
+                  ...chartOptions.plugins,
+                  title: {
+                    display: true,
+                    text: 'Engagement Metrics by College Type',
+                    color: 'white'
+                  }
+                }
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
+       <div className="mt-20 max-h-[1200px] overflow-y-auto">
+        <h2 className="text-center text-3xl font-Trap-Black mb-8 text-white sticky top-0 py-4 z-10">
+          Route-specific Analytics
+        </h2>
+        
+        <div className="flex justify-center mb-8 sticky top-16 py-4 z-10">
+          <select
+            value={selectedRoute}
+            onChange={(e) => setSelectedRoute(e.target.value)}
+            className="border font-Trap-Regular border-gray-700 rounded-lg py-2 pl-3 pr-4  text-white"
+          >
+            <option value="all">Select Route</option>
+            <option value="/">Home</option>
+            <option value="captures">Captures</option>
+            <option value="events">Events</option>
+            <option value="shaan">Shaan</option>
+            <option value="masalacoffee">Masala Coffee</option>
+            <option value="accolades">Accolades</option>
+            <option value="faculty">Faculty</option>
+            <option value="your-snaps">Your Snaps</option>
+            <option value="behindincridea">Behind Incridea</option>
+            <option value="our-team">Our Team</option>
+            <option value="about">About</option>
+          </select>
+        </div>
+
+        {selectedRoute !== "all" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+            {/* Stats Cards */}
+            <div className="bg-gray-800 rounded-lg p-6 h-[400px] overflow-y-auto">
+              <h3 className="text-xl text-white mb-4 sticky top-0 bg-gray-800 py-2">Key Metrics</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-700 p-4 rounded-lg">
+                  <p className="text-gray-400">Avg. Time Spent</p>
+                  <p className="text-2xl text-white">
+                    {Math.floor(routeAnalytics.averageTimeSpent / 60)}m {Math.floor(routeAnalytics.averageTimeSpent % 60)}s
+                  </p>
+                </div>
+                <div className="bg-gray-700 p-4 rounded-lg">
+                  <p className="text-gray-400">Bounce Rate</p>
+                  <p className="text-2xl text-white">{routeAnalytics.bounceRate.toFixed(1)}%</p>
+                </div>
+                <div className="bg-gray-700 p-4 rounded-lg">
+                  <p className="text-gray-400">User Retention</p>
+                  <p className="text-2xl text-white">{routeAnalytics.userRetention.toFixed(1)}%</p>
+                </div>
+                <div className="bg-gray-700 p-4 rounded-lg">
+                  <p className="text-gray-400">Peak Hours</p>
+                  <p className="text-sm text-white">
+                    {routeAnalytics.peakHours.map(peak => `${peak.hour}:00 (${peak.count})`).join(', ')}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Hourly Traffic Chart */}
+            <div className="bg-gray-800 rounded-lg p-6 h-[400px]">
+              <h3 className="text-xl text-white mb-4 sticky top-0 bg-gray-800 py-2">Hourly Traffic</h3>
+              <div className="h-[320px]">
+                <Bar data={hourlyTrafficData} options={{
+                  ...chartOptions,
+                  maintainAspectRatio: false,
+                  scales: {
+                    ...chartOptions.scales,
+                    y: {
+                      beginAtZero: true,
+                      ticks: { color: "white" }
+                    }
+                  }
+                }} />
+              </div>
+            </div>
+
+            {/* Device Distribution Chart */}
+            <div className="bg-gray-800 rounded-lg p-6 h-[400px] md:col-span-2">
+              <h3 className="text-xl text-white mb-4 sticky top-0 bg-gray-800 py-2">Device Distribution</h3>
+              <div className="h-[320px]">
+                <Doughnut 
+                  data={deviceDistributionData} 
+                  options={{
+                    ...chartOptions,
+                    maintainAspectRatio: false
+                  }} 
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
