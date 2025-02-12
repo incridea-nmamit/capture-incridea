@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Spline from "@splinetool/react-spline";
 import { Sparkles } from "lucide-react";
 
 /**
@@ -74,11 +73,6 @@ const ReleaseOverlay: React.FC<ReleaseOverlayProps> = ({ releaseDate, onRelease 
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* 3D Background */}
-      <div className="absolute inset-0 z-0">
-        <Spline scene="https://draft.spline.design/7bkQ9atSXshr5SlV/scene.splinecode" />
-      </div>
-
       {/* Content Overlay */}
       <AnimatePresence>
         <motion.div
