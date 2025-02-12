@@ -13,7 +13,7 @@ const OurTeam = () => {
       title: "Capture Incridea Developers",
       description: "Developing for your convenience.",
       imageUrl:
-        "/images/CapturePage/developer-bg.webp",
+        "/images/CapturePage/dev-bg.webp",
       href: "/our-team/developers",
     },
     {
