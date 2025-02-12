@@ -60,7 +60,7 @@ const DocCommittee: React.FC = () => {
       {/* Title Section */}
       <TitleSection
         title="Documentation Team"
-        description="Developing for your convinience"
+        description=" We Document for you!"
         backgroundImage="/images/CapturePage/doc.webp"
       />
       {/* Cards Section */}

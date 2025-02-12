@@ -9,7 +9,7 @@ function OurTeamPage() {
         description="Meet the talented team behind Capture Incridea - the photographers, developers, and creatives who make it all possible."
         url="https://capture.incridea.in/our-team"
       />
-      <div className="gradient-bg">
+      <div>
         <OurTeam />
       </div>
     </>
