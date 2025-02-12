@@ -62,17 +62,20 @@ export const eventRouter = createTRPCRouter({
         name: z.string().min(1, "Event name is required").optional(),
         description: z.string().min(1, "Event description is required").optional(),
         shortDescription: z.string().min(1, "Short description is required").optional(),
+        uploadKey: z.string().min(1, "Upload key is required").optional(),
         type: z.nativeEnum(EventType).optional(),
         day: z.nativeEnum(Day).optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const imageUrl = `https://utfs.io/f/${input.uploadKey}`;
       const newEvent = await ctx.db.events.update({
         where:{id: input.id},
         data: {
           name: input.name!,
           description: input.description!,
           shortDescription: input.shortDescription!,
+          image: imageUrl,
           type: input.type!,
           day: input.day!,
         },
