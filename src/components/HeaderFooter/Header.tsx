@@ -1,16 +1,16 @@
 import { FC, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { useSession, signOut, signIn } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import NavLink from "./NavLink";
 import { HiOutlineLogout } from "react-icons/hi";
 import { BiSolidDashboard } from "react-icons/bi";
 import { GoHomeFill } from "react-icons/go";
-import { MdCamera, MdLogout } from "react-icons/md";
+import { MdCamera, MdLogout, MdOutlineDashboardCustomize } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi";
 import Image from "next/image";
 import MobileNav from "./MobileNav";
-
+import { TbDeviceAnalytics } from "react-icons/tb";
 /**
  * Navigation link configurations
  */
@@ -85,6 +85,42 @@ const Header: FC = () => {
                 />
               </div>
             ))}
+            {session && !isAdminRoute && session.user?.role !== "user" && (
+                <button
+                onClick={() => {
+                  window.location.href = "/admin";
+                }}
+                className="flex items-center justify-center text-xl text-white"
+                >
+                <div>
+                  <MdOutlineDashboardCustomize />
+                </div>
+                </button>
+            )}
+             {session && isAdminRoute && session.user?.role === "admin" && (
+                <button
+                onClick={() => {
+                  window.location.href = "/admin/analytics";
+                }}
+                className="flex items-center justify-center text-xl text-white"
+                >
+                <div>
+                <TbDeviceAnalytics />
+                </div>
+                </button>
+            )}
+            {session && !isAdminRoute && session.user?.role === "admin" && (
+                <button
+                onClick={() => {
+                  window.location.href = "/admin/analytics";
+                }}
+                className="flex items-center justify-center text-xl text-white"
+                >
+                <div>
+                <TbDeviceAnalytics />
+                </div>
+                </button>
+            )}
 
             {session && !isAdminRoute && (
               <button
@@ -101,8 +137,7 @@ const Header: FC = () => {
                 onClick={() => signOut()}
                 className="flex items-center gap-3 font-Trap-Regular text-lg text-white"
               >
-                <HiOutlineLogout />{" "}
-                <span className="relative top-0.5">Logout</span>
+                <HiOutlineLogout />
               </button>
             )}
           </nav>

@@ -55,7 +55,7 @@ const LoginComponent = () => {
 
         {/* Log In Button */}
         <button
-          onClick={() => signIn()}
+          onClick={() => signIn("google")}
           className="z-50 mx-auto my-5 max-w-xs transform rounded-lg bg-gradient-to-r from-red-400 via-pink-500 to-red-600 px-6 py-3 font-Trap-Regular text-lg font-bold text-white shadow-lg transition hover:scale-105 hover:shadow-xl"
         >
           Log In

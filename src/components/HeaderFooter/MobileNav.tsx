@@ -116,6 +116,45 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
               </NavLink>
             </SheetClose>
           ))}
+          {session && !isAdminRoute && session.user?.role !== "user" && (
+            <button
+              onClick={() => {
+              signIn();
+              window.location.href = "/admin";
+              }}
+              className="flex items-center justify-center text-xl text-white"
+            >
+              <div>
+              Dashboard
+              </div>
+            </button>
+          )}
+          {session && isAdminRoute && session.user?.role === "admin" && (
+            <button
+              onClick={() => {
+              signIn();
+              window.location.href = "/admin/analytics";
+              }}
+              className="flex items-center justify-center text-xl text-white"
+            >
+              <div>
+              Analytics
+              </div>
+            </button>
+          )}
+          {session && !isAdminRoute && session.user?.role === "admin" && (
+            <button
+              onClick={() => {
+              signIn();
+              window.location.href = "/admin/analytics";
+              }}
+              className="flex items-center justify-center text-xl text-white"
+            >
+              <div>
+              Analytics
+              </div>
+            </button>
+          )}
 
           {session && !isAdminRoute && (
             <button
@@ -132,7 +171,7 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
               onClick={() => signOut()}
               className="flex items-center gap-3 text-center"
             >
-              <HiOutlineLogout /> Logout
+              <HiOutlineLogout /> 
             </button>
           )}
         </div>

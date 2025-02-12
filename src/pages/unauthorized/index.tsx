@@ -17,7 +17,7 @@ const NotAuthorized = () => {
 
   const handleSignOutAndIn = async () => {
     await signOut({ redirect: false }); // Do not redirect immediately
-    await signIn();
+    await signIn("google");
   };
 
   return (

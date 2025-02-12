@@ -763,6 +763,12 @@ const radarData = {
     }]
   };
 
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user?.role !== 'admin') {
+      void router.push('/');
+    }
+  }, [session, status, router]);
+
   if (isLoading || galleryLoading || eventsLoading) {
     return <CameraLoading />;
   }
