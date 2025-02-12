@@ -37,6 +37,29 @@ ChartJS.register(
   RadialLinearScale
 );
 
+// Add a monochrome palette near the top of the file
+const monochromeColors = {
+  line: {
+    primary: 'rgba(255, 255, 255, 0.9)',
+    secondary: 'rgba(200, 200, 200, 0.9)',
+    tertiary: 'rgba(150, 150, 150, 0.9)',
+    quaternary: 'rgba(100, 100, 100, 0.9)',
+    background: 'rgba(255, 255, 255, 0.1)'
+  },
+  bar: {
+    primary: 'rgba(255, 255, 255, 0.8)',
+    hover: 'rgba(255, 255, 255, 0.9)'
+  }
+};
+
+// Update the line chart styles
+const lineChartBaseStyle = {
+  borderWidth: 2,
+  fill: true,
+  tension: 0.4,
+  pointBackgroundColor: 'rgba(255, 255, 255, 0.8)'
+};
+
 /**
  * Main Analytics component
  * Handles data fetching, filtering, and visualization
@@ -143,8 +166,8 @@ const Analytics = () => {
         datasets: [
           {
             data: [deviceCounts.tablet, deviceCounts.desktop, deviceCounts.mobile],
-            backgroundColor: ["#B0B0B0", "#707070", "#303030"], // Light gray, medium gray, dark gray
-            hoverBackgroundColor: ["#A0A0A0", "#606060", "#202020"], // Slightly darker shades on hover
+            backgroundColor: ["#E0E0E0", "#A0A0A0", "#606060"], // Light gray, medium gray, dark gray
+            hoverBackgroundColor: ["#D0D0D0", "#909090", "#505050"], // Slightly darker on hover
           },
         ],
       };
@@ -412,8 +435,8 @@ const Analytics = () => {
     datasets: [{
       label: 'Users by College Type',
       data: [collegeStats.internal, collegeStats.external],
-      backgroundColor: ['#4CAF50', '#2196F3'],
-      borderColor: ['#388E3C', '#1976D2'],
+      backgroundColor: ['#B0B0B0', '#606060'], // Light gray, dark gray
+      borderColor: ['#A0A0A0', '#505050'], // Slightly darker borders
       borderWidth: 1
     }]
   };
@@ -429,8 +452,8 @@ const Analytics = () => {
           collegeStats.internalStoryViews,
           collegeStats.internalPlaybackViews
         ],
-        backgroundColor: 'rgba(76, 175, 80, 0.5)',
-        borderColor: '#388E3C',
+        backgroundColor: monochromeColors.line.primary,
+        borderColor: 'rgba(255, 255, 255, 1)',
         borderWidth: 1
       },
       {
@@ -440,8 +463,8 @@ const Analytics = () => {
           collegeStats.externalStoryViews,
           collegeStats.externalPlaybackViews
         ],
-        backgroundColor: 'rgba(33, 150, 243, 0.5)',
-        borderColor: '#1976D2',
+        backgroundColor: monochromeColors.line.tertiary,
+        borderColor: 'rgba(200, 200, 200, 1)',
         borderWidth: 1
       }
     ]
@@ -497,9 +520,9 @@ const Analytics = () => {
       {
         label: "Average Time Spent per Visit (s)",
         data: graphData.map((data) => data.avgTimeSpent),
-        borderColor: "rgba(255, 159, 64, 1)",
-        backgroundColor: "rgba(255, 159, 64, 0.2)",
-        fill: true,
+        borderColor: monochromeColors.line.primary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
       },
     ],
   };
@@ -510,9 +533,9 @@ const Analytics = () => {
       {
         label: "Total Visits",
         data: graphData.map((data) => data.visits),
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        fill: true,
+        borderColor: monochromeColors.line.secondary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
       },
     ],
   };
@@ -523,9 +546,9 @@ const Analytics = () => {
       {
         label: "Unique Visitors",
         data: graphData.map((data) => data.unique),
-        borderColor: "rgba(255, 99, 132, 1)",
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        fill: true,
+        borderColor: monochromeColors.line.tertiary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
       },
     ],
   };
@@ -536,9 +559,9 @@ const Analytics = () => {
       {
         label: "Total Views per Unique View",
         data: graphData.map((data) => data.viewsPerUnique),
-        borderColor: "rgba(153, 102, 255, 1)",
-        backgroundColor: "rgba(153, 102, 255, 0.2)",
-        fill: true,
+        borderColor: monochromeColors.line.quaternary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
       },
     ],
   };
@@ -549,9 +572,9 @@ const Analytics = () => {
       {
         label: "Cumulative Visits Growth",
         data: growthData.map((data) => data.cumulativeVisits),
-        borderColor: "rgba(54, 162, 235, 1)",
-        backgroundColor: "rgba(54, 162, 235, 0.2)",
-        fill: true,
+        borderColor: monochromeColors.line.primary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
       },
     ],
   };
@@ -597,7 +620,7 @@ const Analytics = () => {
     datasets: [{
       label: 'Device Distribution',
       data: counts,
-      backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#F2F533'], // Add more colors as needed
+      backgroundColor: ['#E0E0E0', '#B0B0B0', '#808080', '#505050'], // Monochrome grays
     }],
   };
 
@@ -607,19 +630,22 @@ const Analytics = () => {
     datasets: [{
       label: 'Sessions by Device',
       data: counts,
-      backgroundColor: '#4D73D9',
+      backgroundColor: monochromeColors.bar.primary,
+      hoverBackgroundColor: monochromeColors.bar.hover,
+      borderColor: 'rgba(255, 255, 255, 1)',
+      borderWidth: 1
     }],
   };
 
   // Line Chart: Timer Over Time for Each Device
   const lineData = {
     labels: filteredLogs.map(log => new Date(log.startPing).toLocaleString()),
-    datasets: devices.map(device => ({
+    datasets: devices.map((device, index) => ({
       label: device,
       data: filteredLogs.filter(log => log.device === device).map(log => log.timer ?? 0),
-      borderColor: '#FF5733',
-      backgroundColor: 'rgba(255, 87, 51, 0.2)',
-      fill: true,
+      borderColor: monochromeColors.line[['primary', 'secondary', 'tertiary'][index] as 'primary' | 'secondary' | 'tertiary'],
+      backgroundColor: monochromeColors.line.background,
+      ...lineChartBaseStyle
     })),
   };
 
@@ -629,7 +655,7 @@ const Analytics = () => {
     datasets: [{
       label: 'Time Spent per Device (ms)',
       data: timeSpent,
-      backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#F2F533'],
+      backgroundColor: ['#E0E0E0', '#B0B0B0', '#808080', '#505050'], // Monochrome grays
     }],
   };
 
@@ -721,8 +747,9 @@ const radarData = {
     datasets: [{
       label: 'Visits per Hour',
       data: routeAnalytics.hourlyTraffic.map(item => item.count),
-      backgroundColor: 'rgba(75, 192, 192, 0.5)',
-      borderColor: 'rgba(75, 192, 192, 1)',
+      backgroundColor: monochromeColors.bar.primary,
+      hoverBackgroundColor: monochromeColors.bar.hover,
+      borderColor: 'rgba(255, 255, 255, 1)',
       borderWidth: 1,
     }]
   };
@@ -732,17 +759,7 @@ const radarData = {
     datasets: [{
       label: 'Device Distribution',
       data: routeAnalytics.deviceDistribution.map(item => item.count),
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.5)',
-        'rgba(54, 162, 235, 0.5)',
-        'rgba(255, 206, 86, 0.5)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-      ],
-      borderWidth: 1,
+      backgroundColor: ['#E0E0E0', '#B0B0B0', '#808080', '#505050'], // Monochrome grays
     }]
   };
 
@@ -753,7 +770,7 @@ const radarData = {
 
   return (
     <div className="p-6 mt-20 mb-20">
-      <h1 className="text-center text-4xl font-Teknaf mb-8 text-white">Detailed Admin Analytics</h1>
+      <h1 className="text-center text-4xl font-Trap-Black mb-8 text-white">Detailed Admin Analytics</h1>
       <div className="flex justify-center gap-2">
         <div className="flex justify-center mb-4 ">
           <select
@@ -1007,7 +1024,7 @@ const radarData = {
 
       {/* Add college analytics section before the final closing div */}
       <div className="mt-20">
-        <h2 className="text-center text-3xl font-Teknaf mb-8 text-white">College-wise Analytics</h2>
+        <h2 className="text-center text-3xl font-Trap-Black mb-8 text-white">College-wise Analytics</h2>
         
         <div className="overflow-x-auto mb-10">
           <table className="min-w-full text-white font-Trap-Regular">
@@ -1088,7 +1105,7 @@ const radarData = {
       </div>
 
        <div className="mt-20 max-h-[1200px] overflow-y-auto">
-        <h2 className="text-center text-3xl font-Teknaf mb-8 text-white sticky top-0 py-4 z-10">
+        <h2 className="text-center text-3xl font-Trap-Black mb-8 text-white sticky top-0 py-4 z-10">
           Route-specific Analytics
         </h2>
         
