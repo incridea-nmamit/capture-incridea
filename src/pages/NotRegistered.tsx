@@ -1,8 +1,10 @@
 import Image from "next/image";
-import { signOut } from "next-auth/react"; // Ensure you are using signOut if you're using NextAuth.js
+import { signOut, useSession } from "next-auth/react"; // Ensure you are using signOut if you're using NextAuth.js
 import ImageGrid from "~/components/login/imageGrid";
+import { HiOutlineLogout } from "react-icons/hi";
 
 const NotRegistered = () => {
+  const { data: session } = useSession();
   return (
     <ImageGrid>
       <div className="z-50 flex h-full flex-col items-center justify-center rounded-t-2xl bg-neutral-950 p-4">
@@ -62,14 +64,26 @@ const NotRegistered = () => {
             </p>
           </div>
         </div>
+        <div className="flex items-center justify-center gap-10">
+          {/* Register Button */}
+          <button
+            onClick={() => (window.location.href = "https://incridea.in")} // Redirecting to the registration page
+            className="z-50 mx-auto my-10 max-w-xs w-52 transform rounded-full bg-gradient-to-br from-gray-900 via-blue-800 to-gray-900 px-6 py-3 font-Trap-Regular text-md font-bold text-white shadow-lg transition hover:scale-105 hover:shadow-xl border-1 border-white"
+          >
+            Register Now
+          </button>
 
-        {/* Register Button */}
-        <button
-          onClick={() => (window.location.href = "https://incridea.in")} // Redirecting to the registration page
-          className="z-50 mx-auto my-10 max-w-xs w-52 transform rounded-full bg-gradient-to-br from-gray-900 via-blue-800 to-gray-900 px-6 py-3 font-Trap-Regular text-md font-bold text-white shadow-lg transition hover:scale-105 hover:shadow-xl border-1 border-white"
-        >
-          Register Now
-        </button>
+        {session && (
+          <div className="flex items-center justify-center">
+          <button
+            onClick={() => signOut()}
+            className="flex items-center gap-3 font-Trap-Regular text-lg text-white"
+          >
+            <HiOutlineLogout size={32}/>
+          </button>
+          </div>
+        )}
+        </div>
 
         {/* Footer */}
         <p className="z-50 text-center font-Trap-Regular text-xs">
