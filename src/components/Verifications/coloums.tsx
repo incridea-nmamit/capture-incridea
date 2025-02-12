@@ -53,4 +53,5 @@ export const verficationcolumns: ColumnDef<Verfications>[] = [
             <DeleteComponent  id={row.original.id!} />
         )
     },
+   
 ];
