@@ -1,6 +1,3 @@
-
-
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -196,20 +193,20 @@ const AddEventPopUp = ({ open, setOpen, }: AddEventProps) => {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Day</FormLabel>
-                                            <FormControl>
-                                                <Select {...field}>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                                                <FormControl>
                                                     <SelectTrigger>
                                                         <SelectValue placeholder="Select Day" />
                                                     </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectGroup>
-                                                            {Object.entries(Day).map(([key, val]) => (
-                                                                <SelectItem value={key} key={key} className="cursor-pointer hover:bg-accent">{val}</SelectItem>
-                                                            ))}
-                                                        </SelectGroup>
-                                                    </SelectContent>
-                                                </Select>
-                                            </FormControl>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        {Object.entries(Day).map(([key, val]) => (
+                                                            <SelectItem value={key} key={key} className="cursor-pointer hover:bg-accent">{val}</SelectItem>
+                                                        ))}
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
                                             <FormMessage />
                                         </FormItem>
                                     )}

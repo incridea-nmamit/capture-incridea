@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -130,16 +128,14 @@ export default function EditForm({ id, open, setOpen }: Props) {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="sm:max-w-[425px]">
-                <p className="text-center  justify-center items-center text-xl">Edit Events</p>
-                {
-                    loading && <div>Loading...</div>
-                }
-                <ScrollArea className=" md:h-fit h-[800px] w-fulr">
+            <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-hidden">
+                <p className="text-center justify-center items-center text-xl">Edit Events</p>
+                {loading && <div>Loading...</div>}
+                <ScrollArea className="h-[calc(85vh-4rem)] pr-4">
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-8 py-10"
+                            className="space-y-8 py-4"
                         >
                             <FormField
                                 control={form.control}
