@@ -15,7 +15,7 @@ const Shaan = () => {
   const { data: session } = useSession();
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
-  const session_user = session?.user.email || "";
+  const session_user = session?.user.email?.toLowerCase() || "";
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
   const router = useRouter();

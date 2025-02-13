@@ -20,7 +20,7 @@ const ImagePopup = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [openMoreInfo, setOpenMoreInfo] = useState(false);
   const { data: session } = useSession();
-  const session_user = session?.user.email || "";
+  const session_user = session?.user.email?.toLowerCase() || "";
 
   const { data: Selectedcapture, isLoading: isCaptureLoading } =
     api.capture.getCaptureDetailsForQrScanById.useQuery({

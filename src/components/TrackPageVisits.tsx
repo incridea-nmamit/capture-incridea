@@ -28,7 +28,7 @@ const TrackPageVisits = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const syncIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const { data: session } = useSession();
-  const session_user = session?.user.email || "";
+  const session_user = session?.user.email?.toLowerCase() || "";
 
   // State to track device readiness
   const [deviceType, setDeviceType] = useState<string | null>(null);

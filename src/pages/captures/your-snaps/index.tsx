@@ -18,7 +18,7 @@ const YourSnapsPage: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
   const { data: session } = useSession();
-  const session_user = session?.user.email || "";
+  const session_user = session?.user.email?.toLowerCase() || "";
   const router = useRouter();
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Abode of Memories" }

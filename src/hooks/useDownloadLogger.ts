@@ -11,7 +11,7 @@ const useDownloadLogger = () => {
   
   // Get current session
   const { data: session } = useSession();
-  const session_user = session?.user.email ?? "";
+  const session_user = session?.user.email?.toLowerCase() ?? "";
 
   /**
    * Logs an image download to the server

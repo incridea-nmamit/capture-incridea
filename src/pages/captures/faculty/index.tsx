@@ -17,7 +17,7 @@ const Faculty = () => {
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Accolades" }
   );
-  const session_user = session?.user.email || "";
+  const session_user = session?.user.email?.toLowerCase() || "";
   useEffect(() => {
     if (cardState === false) {
       router.push("/captures");
@@ -29,7 +29,7 @@ const Faculty = () => {
   },);
 
   const images = data?.pages.map((page:any) => page.images).flat() || []
-  const isFaculty = session?.user.email?.endsWith("nitte.edu.in");
+  const isFaculty = session?.user.email?.toLowerCase()?.endsWith("nitte.edu.in");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [removalImage, setRemovalImage] = useState<string | null>(null);
   const [selectedImageOg, setSelectedImageOg] = useState<string | null>(null);
