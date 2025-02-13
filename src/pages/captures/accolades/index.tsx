@@ -17,7 +17,7 @@ const accolades = () => {
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Accolades" }
   );
-  const session_user = session?.user.email || "";
+  const session_user = session?.user.email?.toLowerCase() || "";
   useEffect(() => {
     if (cardState === false) {
       router.push("/captures");

@@ -41,7 +41,7 @@ const ManageRoles = () => {
         users.filter((user) => {
           return (
             (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-            (user.email && user.email.toLowerCase().includes(searchTerm.toLowerCase()))
+            (user.email?.toLowerCase() && user.email.toLowerCase().toLowerCase().includes(searchTerm.toLowerCase()))
           );
         })
       );
@@ -104,7 +104,7 @@ const ManageRoles = () => {
               {filteredUsers.map((user) => (
                 <tr key={user.id} className="text-center hover:bg-gray-800/90">
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{user.name}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{user.email}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{user.email?.toLowerCase()}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{user.role}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
                     <button

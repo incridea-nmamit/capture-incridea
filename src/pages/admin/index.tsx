@@ -80,7 +80,7 @@ function Admin() {
             {welcomeText}
           </h1>
           <p className="font-Trap-Regular text-lg mb-2">
-            You are logged in with {session.user.email}
+            You are logged in with {session.user.email?.toLowerCase()}
           </p>
           <button className="font-Trap-Black mt-4 px-6 py-2 text-blue-500 font-bold rounded shadow-lg transition hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
             You have the {session.user.role} access

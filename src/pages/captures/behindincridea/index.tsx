@@ -17,7 +17,7 @@ const behindincridea = () => {
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery(
     { cardName: "Behind Incridea" }
   );
-  const session_user = session?.user.email || "";
+  const session_user = session?.user.email?.toLowerCase() || "";
   useEffect(() => {
     if (cardState === false) {
       router.push("/captures");

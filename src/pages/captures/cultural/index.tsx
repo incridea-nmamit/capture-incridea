@@ -11,7 +11,7 @@ import ImagePopup from "~/components/ImagePopup/image-popup";
 
 const Cultural = () => {
   const { data: session } = useSession();
-  const session_user = session?.user.email || "";
+  const session_user = session?.user.email?.toLowerCase() || "";
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
