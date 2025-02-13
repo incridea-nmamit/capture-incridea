@@ -133,7 +133,7 @@ const AuthenticatedApp = ({
 
   const isEmailVerified =
     verifiedEmailData?.some(
-      (emailEntry) => emailEntry.email === sessionData?.user?.email
+      (emailEntry) => emailEntry.email.toLowerCase() === sessionData?.user?.email?.toLowerCase()
     ) ||
     sessionData?.user?.email?.endsWith("nitte.edu.in") ||
     sessionData?.user?.role === "admin";
