@@ -27,7 +27,7 @@ function Hero() {
               Get your event photos and story-worthy moments.
               <br />
               See them the same day! <br />
-              <strong>captures.incridea.in</strong> is where it{"'"}s at!
+              <strong>capture.incridea.in</strong> is where it{"'"}s at!
             </p>
           </div>
         </div>
