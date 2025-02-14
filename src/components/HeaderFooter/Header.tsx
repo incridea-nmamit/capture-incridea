@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import NavLink from "./NavLink";
@@ -35,12 +35,27 @@ const Header: FC = () => {
   const { data: session } = useSession();
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropOpen, setIsDropOpen] = useState(false);
   const pathname = usePathname() || "";
   const isAdminRoute = pathname.startsWith("/admin");
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Client-side mounting check
   useEffect(() => {
     setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   if (!isMounted) return null;
@@ -123,22 +138,64 @@ const Header: FC = () => {
             )}
 
             {session && !isAdminRoute && (
+              <div className="relative" ref={dropdownRef}>
               <button
-                onClick={() => signOut()}
-                className="flex items-center justify-center text-xl text-white"
-              >
-                <div>
-                  <MdLogout />
-                </div>
-              </button>
-            )}
-            {session && isAdminRoute && session.user?.role === "admin" && (
-              <button
-                onClick={() => signOut()}
+                onClick={() => setIsDropOpen(!isDropOpen)}
                 className="flex items-center gap-3 font-Trap-Regular text-lg text-white"
               >
-                <HiOutlineLogout />
+                {session.user.image && (
+                  <Image
+                    src={session.user.image}
+                    alt="Profile"
+                    width={30}
+                    height={30}
+                    className="rounded-full"
+                    priority
+                  />
+                )}
               </button>
+              {isDropOpen && (
+                <div className="absolute right-1/2 mt-2 w-32 translate-x-1/2 rounded-md bg-zinc-800 shadow-lg ring-1 ring-black ring-opacity-5">
+                <button
+                  onClick={() => signOut()}
+                  className="flex w-full items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-zinc-200 transition-colors hover:bg-zinc-700"
+                >
+                  <HiOutlineLogout className="text-lg" />
+                  <span>Logout</span>
+                </button>
+                </div>
+              )}
+              </div>
+            )}
+            {session && isAdminRoute && session.user?.role === "admin" && (
+              <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setIsDropOpen(!isDropOpen)}
+                className="flex items-center gap-3 font-Trap-Regular text-lg text-white"
+              >
+                {session.user.image && (
+                  <Image
+                    src={session.user.image}
+                    alt="Profile"
+                    width={30}
+                    height={30}
+                    className="rounded-full"
+                    priority
+                  />
+                )}
+              </button>
+              {isDropOpen && (
+                <div className="absolute right-1/2 mt-2 w-32 translate-x-1/2 rounded-md bg-zinc-800 shadow-lg ring-1 ring-black ring-opacity-5">
+                <button
+                  onClick={() => signOut()}
+                  className="flex w-full items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-zinc-200 transition-colors hover:bg-zinc-700"
+                >
+                  <HiOutlineLogout className="text-lg" />
+                  <span>Logout</span>
+                </button>
+                </div>
+              )}
+              </div>
             )}
           </nav>
           <button

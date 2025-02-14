@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import CapturesComponent from "~/components/Captures/CapturePage";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
@@ -11,7 +12,7 @@ const Captures: React.FC = () => {
   const { data, isLoading, error } = api.variables.getVariable.useQuery({
     key: "CountDown-Capture",
   });
-
+  const { data: session, status } = useSession();
   const handleRelease = () => {
     setIsReleased(true);
   };
@@ -41,10 +42,14 @@ const Captures: React.FC = () => {
         url="https://capture.incridea.in/captures"
       />
       <main>
-        {checkReleaseDate(releaseDate) && !isReleased ? (
-          <ReleaseOverlay releaseDate={releaseDate} onRelease={handleRelease} />
-        ) : (
+        {session?.user?.role === "admin" ? (
           <CapturesComponent />
+        ) : (
+          checkReleaseDate(releaseDate) && !isReleased ? (
+            <ReleaseOverlay releaseDate={releaseDate} onRelease={handleRelease} />
+          ) : (
+            <CapturesComponent />
+          )
         )}
       </main>
     </>
