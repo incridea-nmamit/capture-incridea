@@ -11,6 +11,8 @@ import { Skeleton } from "../ui/skeleton";
 import { useSession } from "next-auth/react";
 import { MoreInfo } from "../MoreInfoDrawer/more-infoPopup";
 import QRCode from "react-qr-code";
+import downloadImage from "~/utils/downloadUtils";
+import { Spinner } from "../ui/spinner";
 
 /**
  * ImagePopup Props Interface
@@ -20,7 +22,6 @@ interface ImagePopupProps {
   selectedImageOg: string | null;
   selectedImageId: number | null;
   handleClosePopup: () => void;
-  handleDownload: (imageUrl: string) => void;
   openRemovalPopup: (imageUrl: string) => void;
   session_user: string;
   session_role: string;
@@ -36,7 +37,6 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   selectedImageOg,
   selectedImageId,
   handleClosePopup,
-  handleDownload,
   openRemovalPopup,
   session_user,
   session_role,
@@ -49,7 +49,8 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   const [openMoreInfo, setOpenMoreInfor] = useState(false);
   const [animating, setAnimating] = useState(false);
   const { data: session } = useSession();
-
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(0);
 
   const [totalLikes, setTotalLikes] = useState<number>(0);
   const [hasLiked, setHasLiked] = useState<boolean | null>(null);
@@ -63,6 +64,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   );
   const { data: author } = api.capture.getAuthorDetails.useQuery({ id: selectedImageId! });
   const toggleLike = api.like.toggleLike.useMutation();
+  const logDownload = api.download.logDownload.useMutation();
 
   useEffect(() => {
     if (response !== undefined) {
@@ -132,6 +134,22 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
       }
     } else {
       alert("Sharing files is not supported on your device.");
+    }
+  };
+
+  const handleDownload = async (imagePathOg: string) => {
+    setIsDownloading(true);
+    setDownloadProgress(0);
+    try {
+      await downloadImage(
+        imagePathOg,
+        "capture-incridea.webp",
+        (progress) => setDownloadProgress(progress)
+      );
+      await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
+    } finally {
+      setIsDownloading(false);
+      setDownloadProgress(0);
     }
   };
 
@@ -221,10 +239,18 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                   </span>
 
                   <Button
-                    className="bg-white rounded-xl text-black px-7 py-2 mx-5 font-Trap-Regular text-xs hover:scale-105 transition-all"
+                    className="bg-white rounded-xl text-black px-7 py-2 mx-5 font-Trap-Regular text-xs hover:scale-105 transition-all flex items-center justify-center gap-2"
                     onClick={() => handleDownload(selectedImageOg || selectedImage)}
+                    disabled={isDownloading}
                   >
-                    Download Original
+                    {isDownloading ? (
+                      <>
+                        <Spinner />
+                        <span>Downloading... {downloadProgress}%</span>
+                      </>
+                    ) : (
+                      "Download Original"
+                    )}
                   </Button>
                 </div>
 

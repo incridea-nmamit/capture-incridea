@@ -44,14 +44,6 @@ const MasalaCoffee = () => {
 
   const handleClosePopup = useCallback(() => setSelectedImage(null), []);
 
-  const handleDownload = useCallback(
-    async (imagePathOg: string) => {
-      await downloadImage(imagePathOg, "capture-incridea.webp");
-      await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
-    },
-    [selectedImageId, logDownload, session_user]
-  );
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openRemovalPopup = useCallback((imagePath: string) => {
     setRemovalImage(imagePath);
@@ -111,7 +103,6 @@ const MasalaCoffee = () => {
         selectedImageOg={selectedImageOg}
         selectedImageId={selectedImageId}
         handleClosePopup={handleClosePopup}
-        handleDownload={handleDownload}
         openRemovalPopup={openRemovalPopup}
         session_user={session_user}
         session_role={session?.user.role || 'user'}

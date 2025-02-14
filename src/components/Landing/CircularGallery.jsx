@@ -140,13 +140,16 @@ class Media {
       texture.image = img
       this.program.uniforms.uImageSizes.value = [img.naturalWidth, img.naturalHeight]
     }
+    img.oncontextmenu = (e) => e.preventDefault(); // Prevent right-click context menu
+    img.onmousedown = (e) => e.preventDefault(); // Prevent image dragging
   }
+  
   createMesh() {
     this.plane = new Mesh(this.gl, {
       geometry: this.geometry,
       program: this.program
-    })
-    this.plane.setParent(this.scene)
+    });
+    this.plane.setParent(this.scene);
   }
   update(scroll, direction) {
     this.plane.position.x = this.x - scroll.current - this.extra
@@ -280,10 +283,10 @@ class App {
     })
   }
   onTouchDown(e) {
-    this.isDown = true
-    console.log("down")
-    this.scroll.position = this.scroll.current
-    this.start = e.touches ? e.touches[0].clientX : e.clientX
+    this.isDown = true;
+    console.log("down");
+    this.scroll.position = this.scroll.current;
+    this.start = e.touches ? e.touches[0].clientX : e.clientX;
   }
   onTouchMove(e) {
     if (!this.isDown) return

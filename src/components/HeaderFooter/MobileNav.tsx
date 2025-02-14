@@ -19,6 +19,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import SplitText from "./SplitText";
+import Dashboard from "~/pages/admin/dashboard";
 
 const adminLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: <BiSolidDashboard /> },
@@ -119,39 +120,84 @@ const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
           {session && !isAdminRoute && session.user?.role !== "user" && (
             <button
               onClick={() => {
-              signIn();
               window.location.href = "/admin";
               }}
               className="flex items-center justify-center text-xl text-white"
             >
               <div>
-              Dashboard
+              <SplitText
+                    text='Dashboard'
+                    className="text-center text-2xl font-semibold"
+                    delay={150}
+                    animationFrom={{
+                      opacity: 0,
+                      transform: "translate3d(0,50px,0)",
+                    }}
+                    animationTo={{
+                      opacity: 1,
+                      transform: "translate3d(0,0,0)",
+                    }}
+                    easing="easeOutCubic"
+                    threshold={0.2}
+                    rootMargin="-50px"
+                    onLetterAnimationComplete={handleAnimationComplete}
+                  />
               </div>
             </button>
           )}
           {session && isAdminRoute && session.user?.role === "admin" && (
             <button
               onClick={() => {
-              signIn();
               window.location.href = "/admin/analytics";
               }}
               className="flex items-center justify-center text-xl text-white"
             >
               <div>
-              Analytics
+              <SplitText
+                    text='Analytics'
+                    className="text-center text-2xl font-semibold"
+                    delay={150}
+                    animationFrom={{
+                      opacity: 0,
+                      transform: "translate3d(0,50px,0)",
+                    }}
+                    animationTo={{
+                      opacity: 1,
+                      transform: "translate3d(0,0,0)",
+                    }}
+                    easing="easeOutCubic"
+                    threshold={0.2}
+                    rootMargin="-50px"
+                    onLetterAnimationComplete={handleAnimationComplete}
+                  />
               </div>
             </button>
           )}
           {session && !isAdminRoute && session.user?.role === "admin" && (
             <button
               onClick={() => {
-              signIn();
               window.location.href = "/admin/analytics";
               }}
               className="flex items-center justify-center text-xl text-white"
             >
               <div>
-              Analytics
+              <SplitText
+                    text='Analytics'
+                    className="text-center text-2xl font-semibold"
+                    delay={150}
+                    animationFrom={{
+                      opacity: 0,
+                      transform: "translate3d(0,50px,0)",
+                    }}
+                    animationTo={{
+                      opacity: 1,
+                      transform: "translate3d(0,0,0)",
+                    }}
+                    easing="easeOutCubic"
+                    threshold={0.2}
+                    rootMargin="-50px"
+                    onLetterAnimationComplete={handleAnimationComplete}
+                  />
               </div>
             </button>
           )}

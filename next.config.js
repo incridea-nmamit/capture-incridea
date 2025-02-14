@@ -33,6 +33,9 @@ const config = {
         pathname: '/**',
       },
     ],
+    domains: [
+      'lh3.googleusercontent.com',
+    ],
   },
 
   webpack: (config) => {

@@ -111,6 +111,7 @@ const ControlComponent: React.FC = () => {
                             value={editValue}
                             onChange={(e) => setEditValue(e.target.value)}
                             className="w-full border px-2 py-1 text-white bg-black custom-date"
+                            style={{ colorScheme: 'light' }}
                           />
                           <style jsx>{`
                         .custom-date::-webkit-calendar-picker-indicator {
@@ -126,6 +127,7 @@ const ControlComponent: React.FC = () => {
                             value={editValue}
                             onChange={(e) => setEditValue(e.target.value)}
                             className="w-full border px-2 py-1 text-white bg-black custom-datetime"
+                            style={{ colorScheme: 'light' }}
                           />
                           <style jsx>{`
                         .custom-datetime::-webkit-calendar-picker-indicator {

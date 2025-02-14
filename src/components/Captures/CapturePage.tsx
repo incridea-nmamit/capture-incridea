@@ -7,6 +7,7 @@ import { ChevronLeftCircle, ChevronRightCircle, Lock } from "lucide-react"; // I
 import { Button } from "../ui/button";
 import { api } from "~/utils/api";
 import ShinyText from "./ShinyText"; // Import the ShinyText component
+import { useSession } from "next-auth/react";
 
 /**
  * CaptureCard Component
@@ -32,7 +33,7 @@ const CaptureCard = () => {
     isLoading,
     refetch,
   } = api.capturecard.getCards.useQuery();
-
+  const { data: session, status } = useSession();
   const [thumbnailEmblaRef, thumbnailEmbla] = useEmblaCarousel({
     loop: true,
     dragFree: true,
@@ -40,7 +41,7 @@ const CaptureCard = () => {
   });
 
   const sortedCards = carouselItems.map((carouselItem) => {
-    const cardState =
+    const cardState = session?.user?.role === "admin" ? true : 
       cardStates?.find((state) => state.cardName === carouselItem.title)
         ?.cardState ?? true; // Default to true if cardState is undefined
 
