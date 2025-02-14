@@ -71,8 +71,9 @@ const Dashboard = () => {
    */
   const renderSidebar = () => (
     <div
-      className={`absolute mt-16 lg:relative bg-neutral-950   max-w-48 transition-all ${state.sidebarOpen ? '-ml-48  ' : ''
-        } z-20`}
+      className={`absolute mt-16 lg:relative bg-neutral-950 max-w-48 transition-all ${
+        state.sidebarOpen ? '-ml-48  ' : ''
+      } z-20 max-h-[calc(100vh-4rem)] lg:max-h-none overflow-y-auto lg:overflow-visible`}
     >
       <div className="relative p-4">
         <div className="flex flex-col mb-4 gap-4">
@@ -86,11 +87,11 @@ const Dashboard = () => {
                   handleTabClick(name)
                   setState((prevState) => ({ ...prevState, sidebarOpen: true }));
                 }}
-                
-                className={`relative flex items-center text-md h-16 gap-2 p-2 rounded-lg ${state.activeTab === name
-                  ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
-                  : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
-                  }`}
+                className={`relative flex items-center text-md h-12 gap-2 p-1.5 rounded-lg ${
+                  state.activeTab === name
+                    ? 'bg-gradient-to-r from-blue-700 to-green-700 text-white'
+                    : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-blue-700 to-green-700'
+                }`}
               >
                 <div className="flex-1">{label}</div>
                 {name === 'removalrequest' && state.pendingCount > 0 && (

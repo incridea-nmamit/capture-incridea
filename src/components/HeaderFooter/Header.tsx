@@ -144,7 +144,7 @@ const Header: FC = () => {
                   onClick={() => setIsDropOpen(!isDropOpen)}
                   className="flex items-center justify-center p-1 text-white hover:opacity-80"
                 >
-                  <MdAccountCircle size={32} className="text-white" />
+                  <MdAccountCircle size={24} className="text-white" />
                 </button>
                 {isDropOpen && (
                   <div className="absolute right-1/2 translate-x-1/2 top-full mt-2 w-32 rounded-md bg-zinc-800 shadow-lg ring-1 ring-black ring-opacity-5">
@@ -165,7 +165,7 @@ const Header: FC = () => {
                   onClick={() => setIsDropOpen(!isDropOpen)}
                   className="flex items-center justify-center p-1 text-white hover:opacity-80"
                 >
-                  <MdAccountCircle size={32} className="text-white" />
+                  <MdAccountCircle size={24} className="text-white" />
                 </button>
                 {isDropOpen && (
                   <div className="absolute right-1/2 translate-x-1/2 top-full mt-2 w-32 rounded-md bg-zinc-800 shadow-lg ring-1 ring-black ring-opacity-5">
