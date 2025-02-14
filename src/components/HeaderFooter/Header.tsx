@@ -10,6 +10,7 @@ import { RiTeamFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi";
 import Image from "next/image";
 import MobileNav from "./MobileNav";
+import { MdAccountCircle } from "react-icons/md";
 import { TbDeviceAnalytics } from "react-icons/tb";
 /**
  * Navigation link configurations
@@ -138,63 +139,45 @@ const Header: FC = () => {
             )}
 
             {session && !isAdminRoute && (
-              <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setIsDropOpen(!isDropOpen)}
-                className="flex items-center gap-3 font-Trap-Regular text-lg text-white"
-              >
-                {session.user.image && (
-                  <Image
-                    src={session.user.image}
-                    alt="Profile"
-                    width={30}
-                    height={30}
-                    className="rounded-full"
-                    priority
-                  />
-                )}
-              </button>
-              {isDropOpen && (
-                <div className="absolute right-1/2 mt-2 w-32 translate-x-1/2 rounded-md bg-zinc-800 shadow-lg ring-1 ring-black ring-opacity-5">
+              <div className="relative flex items-center" ref={dropdownRef}>
                 <button
-                  onClick={() => signOut()}
-                  className="flex w-full items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-zinc-200 transition-colors hover:bg-zinc-700"
+                  onClick={() => setIsDropOpen(!isDropOpen)}
+                  className="flex items-center justify-center p-1 text-white hover:opacity-80"
                 >
-                  <HiOutlineLogout className="text-lg" />
-                  <span>Logout</span>
+                  <MdAccountCircle size={32} className="text-white" />
                 </button>
-                </div>
-              )}
+                {isDropOpen && (
+                  <div className="absolute right-1/2 translate-x-1/2 top-full mt-2 w-32 rounded-md bg-zinc-800 shadow-lg ring-1 ring-black ring-opacity-5">
+                    <button
+                      onClick={() => signOut()}
+                      className="flex w-full items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-zinc-200 transition-colors hover:bg-zinc-700"
+                    >
+                      <HiOutlineLogout className="text-lg" />
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                )}
               </div>
             )}
             {session && isAdminRoute && session.user?.role === "admin" && (
-              <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setIsDropOpen(!isDropOpen)}
-                className="flex items-center gap-3 font-Trap-Regular text-lg text-white"
-              >
-                {session.user.image && (
-                  <Image
-                    src={session.user.image}
-                    alt="Profile"
-                    width={30}
-                    height={30}
-                    className="rounded-full"
-                    priority
-                  />
-                )}
-              </button>
-              {isDropOpen && (
-                <div className="absolute right-1/2 mt-2 w-32 translate-x-1/2 rounded-md bg-zinc-800 shadow-lg ring-1 ring-black ring-opacity-5">
+              <div className="relative flex items-center" ref={dropdownRef}>
                 <button
-                  onClick={() => signOut()}
-                  className="flex w-full items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-zinc-200 transition-colors hover:bg-zinc-700"
+                  onClick={() => setIsDropOpen(!isDropOpen)}
+                  className="flex items-center justify-center p-1 text-white hover:opacity-80"
                 >
-                  <HiOutlineLogout className="text-lg" />
-                  <span>Logout</span>
+                  <MdAccountCircle size={32} className="text-white" />
                 </button>
-                </div>
-              )}
+                {isDropOpen && (
+                  <div className="absolute right-1/2 translate-x-1/2 top-full mt-2 w-32 rounded-md bg-zinc-800 shadow-lg ring-1 ring-black ring-opacity-5">
+                    <button
+                      onClick={() => signOut()}
+                      className="flex w-full items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-zinc-200 transition-colors hover:bg-zinc-700"
+                    >
+                      <HiOutlineLogout className="text-lg" />
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </nav>
