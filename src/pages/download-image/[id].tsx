@@ -11,6 +11,7 @@ import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { useRouter } from "next/router";
 import downloadImage from "~/utils/downloadUtils";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
+import { Spinner } from "~/components/ui/spinner";
 
 const ImagePopup = () => {
   const router = useRouter();
@@ -21,6 +22,8 @@ const ImagePopup = () => {
   const [openMoreInfo, setOpenMoreInfo] = useState(false);
   const { data: session } = useSession();
   const session_user = session?.user.email?.toLowerCase() || "";
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(0);
 
   const { data: Selectedcapture, isLoading: isCaptureLoading } =
     api.capture.getCaptureDetailsForQrScanById.useQuery({
@@ -83,9 +86,19 @@ const ImagePopup = () => {
     setIsLoading(false);
   };
   const handleDownload = async (imagePathOg: string) => {
-    await downloadImage(imagePathOg, "capture-incridea.webp");
-    await logDownload.mutateAsync({ image_id: Selectedcapture?.id || 0, session_user });
-
+    setIsDownloading(true);
+    setDownloadProgress(0);
+    try {
+      await downloadImage(
+        imagePathOg,
+        "capture-incridea.webp",
+        (progress) => setDownloadProgress(progress)
+      );
+      await logDownload.mutateAsync({ image_id: Selectedcapture?.id || 0, session_user });
+    } finally {
+      setIsDownloading(false);
+      setDownloadProgress(0);
+    }
   };
   const handleRemovalSubmit = async (data: {
     name: string;
@@ -164,10 +177,18 @@ const ImagePopup = () => {
                   </span>
 
                   <Button
-                    className="bg-white rounded-xl text-black px-7 py-2 mx-5 font-Trap-Regular text-xs hover:scale-105 transition-all"
+                    className="bg-white rounded-xl text-black px-7 py-2 mx-5 font-Trap-Regular text-xs hover:scale-105 transition-all flex items-center justify-center gap-2"
                     onClick={() => handleDownload(Selectedcapture?.image_path)}
+                    disabled={isDownloading}
                   >
-                    Download Original
+                    {isDownloading ? (
+                      <>
+                        <Spinner />
+                        <span>Downloading... {downloadProgress}%</span>
+                      </>
+                    ) : (
+                      "Download Original"
+                    )}
                   </Button>
                 </div>
 

@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { MoreInfo } from "../MoreInfoDrawer/more-infoPopup";
 import QRCode from "react-qr-code";
 import downloadImage from "~/utils/downloadUtils";
+import { Spinner } from "../ui/spinner";
 
 /**
  * ImagePopup Props Interface
@@ -48,7 +49,8 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   const [openMoreInfo, setOpenMoreInfor] = useState(false);
   const [animating, setAnimating] = useState(false);
   const { data: session } = useSession();
-
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(0);
 
   const [totalLikes, setTotalLikes] = useState<number>(0);
   const [hasLiked, setHasLiked] = useState<boolean | null>(null);
@@ -136,8 +138,19 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   };
 
   const handleDownload = async (imagePathOg: string) => {
-    await downloadImage(imagePathOg, "capture-incridea.webp");
-    await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
+    setIsDownloading(true);
+    setDownloadProgress(0);
+    try {
+      await downloadImage(
+        imagePathOg,
+        "capture-incridea.webp",
+        (progress) => setDownloadProgress(progress)
+      );
+      await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
+    } finally {
+      setIsDownloading(false);
+      setDownloadProgress(0);
+    }
   };
 
   if (!selectedImage) return null;
@@ -226,10 +239,18 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
                   </span>
 
                   <Button
-                    className="bg-white rounded-xl text-black px-7 py-2 mx-5 font-Trap-Regular text-xs hover:scale-105 transition-all"
+                    className="bg-white rounded-xl text-black px-7 py-2 mx-5 font-Trap-Regular text-xs hover:scale-105 transition-all flex items-center justify-center gap-2"
                     onClick={() => handleDownload(selectedImageOg || selectedImage)}
+                    disabled={isDownloading}
                   >
-                    Download Original
+                    {isDownloading ? (
+                      <>
+                        <Spinner />
+                        <span>Downloading... {downloadProgress}%</span>
+                      </>
+                    ) : (
+                      "Download Original"
+                    )}
                   </Button>
                 </div>
 
