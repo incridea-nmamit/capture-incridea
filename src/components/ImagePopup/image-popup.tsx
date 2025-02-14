@@ -11,6 +11,7 @@ import { Skeleton } from "../ui/skeleton";
 import { useSession } from "next-auth/react";
 import { MoreInfo } from "../MoreInfoDrawer/more-infoPopup";
 import QRCode from "react-qr-code";
+import downloadImage from "~/utils/downloadUtils";
 
 /**
  * ImagePopup Props Interface
@@ -20,7 +21,6 @@ interface ImagePopupProps {
   selectedImageOg: string | null;
   selectedImageId: number | null;
   handleClosePopup: () => void;
-  handleDownload: (imageUrl: string) => void;
   openRemovalPopup: (imageUrl: string) => void;
   session_user: string;
   session_role: string;
@@ -36,7 +36,6 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   selectedImageOg,
   selectedImageId,
   handleClosePopup,
-  handleDownload,
   openRemovalPopup,
   session_user,
   session_role,
@@ -63,6 +62,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   );
   const { data: author } = api.capture.getAuthorDetails.useQuery({ id: selectedImageId! });
   const toggleLike = api.like.toggleLike.useMutation();
+  const logDownload = api.download.logDownload.useMutation();
 
   useEffect(() => {
     if (response !== undefined) {
@@ -133,6 +133,11 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
     } else {
       alert("Sharing files is not supported on your device.");
     }
+  };
+
+  const handleDownload = async (imagePathOg: string) => {
+    await downloadImage(imagePathOg, "capture-incridea.webp");
+    await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
   };
 
   if (!selectedImage) return null;

@@ -41,11 +41,6 @@ const accolades = () => {
   };
   const handleClosePopup = () => setSelectedImage(null);
 
-  const handleDownload = async (imagePathOg: string) => {
-    await downloadImage(imagePathOg, "capture-incridea.webp");
-    await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
-  };
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openRemovalPopup = (imagePath: string) => {
     setRemovalImage(imagePath);
@@ -104,7 +99,6 @@ const accolades = () => {
         selectedImageOg={selectedImageOg}
         selectedImageId={selectedImageId}
         handleClosePopup={handleClosePopup}
-        handleDownload={handleDownload}
         openRemovalPopup={openRemovalPopup}
         session_user={session_user}
         session_role={session?.user.role || 'user'}
