@@ -60,7 +60,78 @@ const items = [
   {
     image: '/images/general/s3.webp',
   },
-
+  {
+    image: '/images/general/s13.webp',
+  },
+  {
+    image: '/images/general/s14.webp',
+  },
+  {
+    image: '/images/general/s15.webp',
+  },
+  {
+    image: '/images/general/s16.webp',
+  },
+  {
+    image: '/images/general/s17.webp',
+  },
+  {
+    image: '/images/general/s18.webp',
+  },
+  {
+    image: '/images/general/s19.webp',
+  },
+  {
+    image: '/images/general/s20.webp',
+  },
+  {
+    image: '/images/general/s21.webp',
+  },
+  {
+    image: '/images/general/s22.webp',
+  },
+  {
+    image: '/images/general/s23.webp',
+  },
+  {
+    image: '/images/general/s24.webp',
+  },
+  {
+    image: '/images/general/s25.webp',
+  },
+  {
+    image: '/images/general/s26.webp',
+  },
+  {
+    image: '/images/general/s27.webp',
+  },
+  {
+    image: '/images/general/s28.webp',
+  },
+  {
+    image: '/images/general/s29.webp',
+  },
+  {
+    image: '/images/general/s30.webp',
+  },
+  {
+    image: '/images/general/s31.webp',
+  },
+  {
+    image: '/images/general/s32.webp',
+  },
+  {
+    image: '/images/general/s33.webp',
+  },
+  {
+    image: '/images/general/s34.webp',
+  },
+  {
+    image: '/images/general/s35.webp',
+  },
+  {
+    image: '/images/general/s36.webp',
+  },
 ];
 
 
