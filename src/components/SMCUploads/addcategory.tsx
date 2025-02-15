@@ -20,6 +20,7 @@ import { Input } from "../ui/input";
 import { ScrollArea } from "~/components/ui/scroll-area"
 import toast from "react-hot-toast";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle,  DialogFooter } from "../ui/dialog";
+import { useSession } from "next-auth/react";
 
 /**
  * Props interface for CategoryBox
@@ -51,7 +52,8 @@ export function CategoryBox({ isOpen, setOpen }: Props) {
   const [isOpens, setopens] = React.useState(false);
   const [category, setCategory] = React.useState("");
   const [categoryId, setCategoryId] = React.useState<number | null>(null);
-
+  const auditLogMutation = api.audit.log.useMutation();
+  const { data: session } = useSession();
   /**
    * Category Management Functions
    */
@@ -68,8 +70,13 @@ export function CategoryBox({ isOpen, setOpen }: Props) {
 
   const handleDeleteCategory = () => {
     deleteCategory.mutate({ id: categoryId! }, {
-      onSuccess: () => {
+      onSuccess: async () => {
         toast.success("Category deleted successfully");
+        await auditLogMutation.mutateAsync({
+          sessionUser: session?.user.name || "Invalid User",
+          description: `Deleted a category with id ${categoryId}`,
+          audit: 'CategoryManagementAudit'
+        });
       }
     });
 

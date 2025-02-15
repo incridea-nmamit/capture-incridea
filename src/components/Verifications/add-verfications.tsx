@@ -15,6 +15,7 @@ import { CollegeType } from "@prisma/client";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { useSession } from "next-auth/react";
 
 const formSchema = z.object({
     name: z.string().min(1, 'Name is required'),
@@ -31,7 +32,8 @@ type Props = {
 export function AddVerificationsPopUpModel({ isOpen, setOpen }: Props) {
     // Replace with correct query hook
     const [isSubmitting, setIsSubmitting] = useState(false);
-
+    const auditLogMutation = api.audit.log.useMutation();
+    const { data: session } = useSession();
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -57,7 +59,11 @@ export function AddVerificationsPopUpModel({ isOpen, setOpen }: Props) {
         setIsSubmitting(true);
         try {
             await addVerification.mutateAsync(values);
-
+            await auditLogMutation.mutateAsync({
+                sessionUser: session?.user.name || "Invalid User",
+                description: `Added a verification for user ${values.name} with email ${values.email} and phone number ${values.phone_number}`,
+                audit: 'VerificationAudit'
+            });
             toast.success(`User ${values.name} verified successfully!`);
             form.reset();
         } catch (error) {

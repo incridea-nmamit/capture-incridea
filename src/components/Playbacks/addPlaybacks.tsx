@@ -23,6 +23,7 @@ import ReactPlayer from "react-player"; // Import ReactPlayer
 import VideoUploadComponent from "~/components/VideoUploadComponent"; // Replace with your upload component's path
 import UseRefetch from "~/hooks/use-refetch";
 import { UploadButton } from "~/utils/uploadthing";
+import { useSession } from "next-auth/react";
 
 /**
  * Form validation schema for playback uploads
@@ -54,7 +55,8 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
     const [uploadUrl, setUploadUrl] = useState<string>("");
     const [isthumbnail, setThumbnail] = useState<boolean>(false);
     const refetch = UseRefetch();
-
+    const auditLogMutation = api.audit.log.useMutation();
+    const { data: session } = useSession();
     // Form initialization
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
@@ -78,7 +80,7 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
     /**
      * Form submission handler
      */
-    function onSubmit(values: FormValues) {
+    async function onSubmit(values: FormValues) {
         try {
             if (!uploadUrl) {
                 toast.error("Please upload a video first.");
@@ -93,6 +95,11 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
             setOpen(false)
             refetch()
             toast.success("Playback added successfully!");
+            await auditLogMutation.mutateAsync({
+                sessionUser: session?.user.name || "Invalid User",
+                description: `Added playbacks with name ${values.name} and description ${values.description}`,
+                audit: 'PlaybackAudit'
+            });
         } catch (error) {
             console.error("Form submission error", error);
             toast.error("Failed to submit the form. Please try again.");

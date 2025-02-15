@@ -46,6 +46,7 @@ const ActionComponent = ({ id, email }: Props) => {
     const handleActionClick = (action: 'approve' | 'decline') => {
         setActionType(action);
         setIsOpen(true);
+        
     };
 
     const handleConfirmFirstDialog = () => {

@@ -8,8 +8,8 @@
  * - Automatic refetch after restore
  */
 
-import { on } from "nodemailer/lib/xoauth2";
-import { use, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import {
   AlertDialog,
@@ -20,8 +20,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-
-} from "~/components/ui/alert-dialog"
+} from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "~/components/ui/dialog";
 import UseRefetch from "~/hooks/use-refetch";
@@ -40,8 +39,11 @@ export default function RestorePopup({
 }: Props) {
   // Mutation hook for restore operation
   const restoreImage = api.capture.restoreDeletedcaptures.useMutation();
-  const [loading, setLoading] = useState(false)
-  const refetch = UseRefetch()
+  const [loading, setLoading] = useState(false);
+  const refetch = UseRefetch();
+  const auditLogMutation = api.audit.log.useMutation();
+  const { data: session } = useSession();
+
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogContent>
@@ -53,24 +55,28 @@ export default function RestorePopup({
         </DialogHeader>
         <div className="flex flex-row items-center justify-start gap-2">
           <Button
-            onClick={() => {
+            onClick={async () => {
               setLoading(true);
-              restoreImage
-                .mutate({ id: captureId! },
-                  {
-                    onSuccess: () => {
-                      toast.success("Image Restored successfully");
-                      refetch()
-                      setLoading(false)
-                      setOpen(false)
-                    },
-                    onError: () => {
-                      toast.error("Couldnt Delete");
-                      setLoading(false)
-                    },
-                  }
-                )
-
+              restoreImage.mutate(
+                { id: captureId! },
+                {
+                  onSuccess: async () => {
+                    toast.success("Image Restored successfully");
+                    refetch();
+                    await auditLogMutation.mutateAsync({
+                      sessionUser: session?.user.name || "Invalid User",
+                      description: `Restored a capture with id ${captureId}`,
+                      audit: 'CaptureManagementAudit'
+                    });
+                    setLoading(false);
+                    setOpen(false);
+                  },
+                  onError: () => {
+                    toast.error("Couldnt Delete");
+                    setLoading(false);
+                  },
+                }
+              );
             }}
           >
             {loading ? (
@@ -105,11 +111,8 @@ export default function RestorePopup({
           >
             Cancel
           </Button>
-
         </div>
-
-
       </DialogContent>
     </Dialog>
-  )
+  );
 }
