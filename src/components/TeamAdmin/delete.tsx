@@ -85,7 +85,7 @@ export function DeleteTeamPopUpModel({ isOpen, setOpen, id, name }: DeleteTeamPr
                 <DialogHeader>
                     <DialogTitle>Delete Confirmation</DialogTitle>
                     <DialogDescription>
-                        Are you sure you want to delete him !?
+                        Are you sure you want to delete !?
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex justify-end mt-4 space-x-4">

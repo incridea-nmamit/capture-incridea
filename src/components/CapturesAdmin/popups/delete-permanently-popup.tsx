@@ -8,6 +8,7 @@
  * - Automatic refetch after deletion
  */
 
+import { useSession } from "next-auth/react";
 import {  useState } from "react";
 import toast from "react-hot-toast";
 import {
@@ -41,6 +42,8 @@ export default function DeleteCapturePopUpModel({
   const restoreImage = api.capture.deletecapturesPermanently.useMutation();
   const [loading, setLoading] = useState(false)
   const refetch = UseRefetch()
+  const auditLogMutation = api.audit.log.useMutation();
+  const { data: session } = useSession();
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogContent>
@@ -52,14 +55,19 @@ export default function DeleteCapturePopUpModel({
         </DialogHeader>
         <div className="flex flex-row items-center justify-start gap-2">
           <Button
-            onClick={() => {
+            onClick={async () => {
               setLoading(true);
               restoreImage
                 .mutate({ id: captureId! },
                   {
-                    onSuccess: () => {
+                    onSuccess: async () => {
                       toast.success("capture Deleted successfully");
                       refetch()
+                      await auditLogMutation.mutateAsync({
+                        sessionUser: session?.user.name || "Invalid User",
+                        description: `Deleted a capture with id ${captureId} permanently`,
+                        audit: 'CaptureManagementAudit'
+                    });
                       setLoading(false)
                       setOpen(false)
                     },
