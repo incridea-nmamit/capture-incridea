@@ -21,6 +21,32 @@ export const verifiedEmail = t.router({
       return newEmail;
     }),
 
+    addVerifiedEmailFaculty: t.procedure.input(z.object({ email: z.string().email(), phone_number:z.string(),name:z.string()}))
+    .mutation(async ({ ctx, input }) => {
+      const newEmail = await ctx.db.verifiedEmail.create({
+        data: {
+          email: input.email,
+          name:input.name,
+          phone_number:input.phone_number,
+          college:CollegeType.faculty,
+        },
+      });
+      return newEmail;
+    }),
+
+    addVerifiedEmailAlumni: t.procedure.input(z.object({ email: z.string().email(), phone_number:z.string(),name:z.string()}))
+    .mutation(async ({ ctx, input }) => {
+      const newEmail = await ctx.db.verifiedEmail.create({
+        data: {
+          email: input.email,
+          name:input.name,
+          phone_number:input.phone_number,
+          college:CollegeType.alumni,
+        },
+      });
+      return newEmail;
+    }),
+
   getEmail: publicProcedure.query(async ({ ctx }) => {
     const data = await ctx.db.verifiedEmail.findMany();
     return data;
