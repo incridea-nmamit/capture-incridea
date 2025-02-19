@@ -61,15 +61,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           email: z.string(),
           name: z.string(),
           phoneNumber: z.string(),
+          specialType: z.enum(['faculty','alumni','participant']).default('participant'),
         }).safeParse(JSON.parse(req.body));
         if (!success) { 
           return res.status(400).json({ error: error}); 
         }
-        const { email, name,phoneNumber } = data;
-        console.log('Email:', email);   
-        const result = await trpcHandler.verifiedEmail.addVerifiedEmail({name, email ,phone_number:phoneNumber });
-        console.log('Result:', result);
-        return res.status(200).json(result); 
+        if(data.specialType==='faculty'){
+          const { email, name,phoneNumber } = data;
+          console.log('Email:', email);   
+          const result = await trpcHandler.verifiedEmail.addVerifiedEmailFaculty({name, email ,phone_number:phoneNumber });
+          console.log('Result:', result);
+          return res.status(200).json(result); 
+        } else if(data.specialType==='alumni'){
+          const { email, name,phoneNumber } = data;
+          console.log('Email:', email);   
+          const result = await trpcHandler.verifiedEmail.addVerifiedEmailAlumni({name, email ,phone_number:phoneNumber });
+          console.log('Result:', result);
+          return res.status(200).json(result); 
+        } else if(data.specialType==='participant'){
+          const { email, name,phoneNumber } = data;
+          console.log('Email:', email);   
+          const result = await trpcHandler.verifiedEmail.addVerifiedEmail({name, email ,phone_number:phoneNumber });
+          console.log('Result:', result);
+          return res.status(200).json(result); 
+        }
       }  
       console.log(`Method Not Allowed: ${req.method}`); 
       res.setHeader('Allow', ['POST']);
