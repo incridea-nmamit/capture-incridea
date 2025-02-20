@@ -7,7 +7,7 @@
     "seed": "tsx prisma/seed.ts"
   },
   "scripts": {
-    "build": "next build",
+    "build": "BUILD_DIR=\"build\" next build",
     "db:generate": "prisma migrate dev",
     "db:migrate": "prisma migrate deploy",
     "db:push": "prisma db push",
@@ -95,7 +95,11 @@
     "uploadthing": "^7.3.0",
     "uuid": "^11.0.3",
     "vaul": "^1.1.2",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "ffmpeg-static": "^5.2.0",
+    "hls.js": "^1.4.12",
+    "video.js": "^8.5.2",
+    "@videojs/http-streaming": "^3.7.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

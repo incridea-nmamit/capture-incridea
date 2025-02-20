@@ -10,7 +10,7 @@ import { FaHeart, FaShareSquare } from 'react-icons/fa';
 import { MoreInfo } from '~/components/MoreInfoDrawer/more-infoPopup';
 import { Button } from '~/components/ui/button';
 import ReactPlayer from 'react-player';
-import VideoPlayer from '~/components/Videoplayer';
+import VideoPlayer from '~/components/Videoplay';
 type VideosProps = {
   id: number;
   name: string;
