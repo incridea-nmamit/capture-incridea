@@ -38,6 +38,8 @@ const config = {
     ],
   },
 
+  distDir: process.env.BUILD_DIR ?? ".next",
+
   webpack: (config) => {
     config.resolve.fallback = {
       fs: false,        // Disable the fs module on the client-side

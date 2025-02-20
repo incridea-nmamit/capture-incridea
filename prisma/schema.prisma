@@ -10,7 +10,7 @@ generator client {
 }
 
 datasource db {
-  provider = "cockroachdb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -71,7 +71,7 @@ model VerificationToken {
 }
 
 model VerifiedEmail {
-  id           Int         @id @default(sequence())
+  id           Int         @id @default(autoincrement())
   email        String
   name         String
   phone_number String
@@ -85,7 +85,7 @@ model VerifiedEmail {
 
 // Captures model for managing images
 model Captures {
-  id              Int           @id @default(sequence())
+  id              Int           @id @default(autoincrement())
   image_path      String        // Path to original image
   compressed_path String        // Path to compressed version
   event_name      String?       // Optional event reference
@@ -101,7 +101,7 @@ model Captures {
 }
 
 model downloadLog {
-  id           Int      @id @default(sequence())
+  id           Int      @id @default(autoincrement())
   session_user String
   date_time    DateTime @default(now())
   image_id     Int
@@ -120,7 +120,7 @@ model CaptureLike {
 }
 
 model CaptureCard {
-  id        Int     @id @default(sequence())
+  id        Int     @id @default(autoincrement())
   cardName  String
   cardState Boolean @default(false)
 }
@@ -132,7 +132,7 @@ model CaptureCard {
 
 // Stories model for short-form video content
 model Stories {
-  id             Int             @id @default(sequence())
+  id             Int             @id @default(autoincrement())
   video_path     String
   captured_by_id Int
   captured_by    team            @relation(fields: [captured_by_id], references: [id])
@@ -144,13 +144,13 @@ model Stories {
 }
 
 model storycategories {
-  id      Int       @id @default(sequence())
+  id      Int       @id @default(autoincrement())
   name    String    @unique
   stories Stories[]
 }
 
 model StoryLog {
-  id           Int      @id @default(sequence())
+  id           Int      @id @default(autoincrement())
   session_user String
   date_time    DateTime @default(now())
   story_id     Int
@@ -175,7 +175,7 @@ model StoryLike {
 
 // Team member model with social links and responsibilities
 model team {
-  id          Int        @id @default(sequence())
+  id          Int        @id @default(autoincrement())
   name        String
   committee   Teamgroup  // Team category
   designation String     // Role in team
@@ -191,7 +191,7 @@ model team {
 
 //Playbacks model
 model Playbacks {
-  id            Int            @id @default(sequence())
+  id            Int            @id @default(autoincrement())
   thumbnails    String?
   videoPath     String
   name          String
@@ -201,7 +201,7 @@ model Playbacks {
 }
 
 model PlaybackLog {
-  id           Int       @id @default(sequence())
+  id           Int       @id @default(autoincrement())
   session_user String
   date_time    DateTime  @default(now())
   playback_id  Int
@@ -220,7 +220,7 @@ model playbackLike {
 }
 
 model RemovalRequest {
-  id          Int    @id @default(sequence())
+  id          Int    @id @default(autoincrement())
   name        String
   idcard      String
   description String
@@ -230,7 +230,7 @@ model RemovalRequest {
 }
 
 model events {
-  id               Int       @id @default(sequence())
+  id               Int       @id @default(autoincrement())
   name             String    @unique
   description      String
   shortDescription String    // New field for short description
@@ -247,7 +247,7 @@ model events {
 
 // Web analytics tracking
 model webAnalytics {
-  id           Int      @id @default(sequence())
+  id           Int      @id @default(autoincrement())
   session_user String   // User session info
   uniqueId     String   // Unique visitor ID
   routePath    String   // Page accessed
@@ -259,7 +259,7 @@ model webAnalytics {
 }
 
 model Smcuploads {
-  id          Int      @id @default(sequence())
+  id          Int      @id @default(autoincrement())
   video_path  String
   description String
   author      String
@@ -268,7 +268,7 @@ model Smcuploads {
 
 // Audit logging for system actions
 model AuditLog {
-  id              Int      @id @default(sequence())
+  id              Int      @id @default(autoincrement())
   sessionUserName String   // User performing action
   audit_type      String   // Type of audit entry
   dateTime        DateTime @default(now())
@@ -276,7 +276,7 @@ model AuditLog {
 }
 
 model Variables {
-  id    Int    @id @default(sequence())
+  id    Int    @id @default(autoincrement())
   key   String @unique
   value String
 }
