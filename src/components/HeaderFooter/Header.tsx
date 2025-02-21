@@ -38,6 +38,7 @@ const Header: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropOpen, setIsDropOpen] = useState(false);
   const pathname = usePathname() || "";
+  const notUser = session?.user?.role !== "user";
   const isAdminRoute = pathname.startsWith("/admin");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -101,7 +102,7 @@ const Header: FC = () => {
                 />
               </div>
             ))}
-            {session && !isAdminRoute && session.user?.role !== "user" && (
+            {session && !isAdminRoute && notUser && (
                 <button
                 onClick={() => {
                   window.location.href = "/admin";
