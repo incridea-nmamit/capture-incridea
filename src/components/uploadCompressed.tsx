@@ -51,7 +51,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({
    * @param quality Compression quality (0-1)
    * @param maxWidth Maximum width of compressed image
    */
-  const compressImage = (file: File, quality: number = 0.40, maxWidth: number = 600): Promise<Blob> => {
+  const compressImage = (file: File, quality: number = 0.50, maxWidth: number = 800): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
