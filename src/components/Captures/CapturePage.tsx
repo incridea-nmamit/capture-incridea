@@ -42,7 +42,6 @@ const CaptureCard = () => {
     loop: true,
     dragFree: true,
     align: "center",
-    containScroll: "keepSnaps"  // Changed from default
   });
 
   const sortedCards = carouselItems.map((carouselItem) => {
@@ -91,7 +90,7 @@ const CaptureCard = () => {
    */
   useEffect(() => {
     if (autoPlay) {
-      timeoutRef.current = setTimeout(handleNext, 7000);
+      timeoutRef.current = setTimeout(handleNext, 9000);
     }
     return () => resetTimeout();
   }, [activeIndex, autoPlay]);
@@ -103,27 +102,10 @@ const CaptureCard = () => {
   }, [embla]);
 
   const handleThumbnailClick = (index: number) => {
-    if (embla && thumbnailEmbla) {
-      setActiveIndex(index);
-      embla.scrollTo(index, true);  // Added animation
-      thumbnailEmbla.scrollTo(index, true);  // Added animation
-    }
+    setActiveIndex(index);
+    if (embla) embla.scrollTo(index);
+    if (thumbnailEmbla) thumbnailEmbla.scrollTo(index);
   };
-
-  // Add synchronization between main carousel and thumbnails
-  useEffect(() => {
-    if (embla && thumbnailEmbla) {
-      embla.on('select', () => {
-        const index = embla.selectedScrollSnap();
-        thumbnailEmbla.scrollTo(index);
-      });
-      
-      thumbnailEmbla.on('select', () => {
-        const index = thumbnailEmbla.selectedScrollSnap();
-        embla.scrollTo(index);
-      });
-    }
-  }, [embla, thumbnailEmbla]);
 
   /**
    * Touch and scroll event handlers
@@ -234,9 +216,8 @@ const CaptureCard = () => {
             ))}
           </div>
         </div>
-        
         {/* Add navigation instructions */}
-        <div className={styles.navigationInstructions}>
+        <div className={styles.navigationText}>
           Tap on the sides of the screen to navigate
         </div>
         
