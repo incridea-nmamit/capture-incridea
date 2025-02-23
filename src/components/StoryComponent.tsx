@@ -20,6 +20,8 @@ interface Story {
 
 interface StoryViewerProps {
   userStories: Story[];
+  isVisible?: boolean;
+  onComplete?: () => void;  // Add this prop
 }
 
 export const stories: Story[] = [
@@ -54,7 +56,7 @@ export const stories: Story[] = [
   },
 ];
 
-export default function StoryViewer({ userStories }: StoryViewerProps) {
+export default function StoryViewer({ userStories, isVisible = false, onComplete }: StoryViewerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState<number[]>(userStories.map(() => 0));
   const [isPaused, setIsPaused] = useState(true); // Start paused
@@ -93,6 +95,23 @@ export default function StoryViewer({ userStories }: StoryViewerProps) {
       }
     };
   }, [currentIndex, currentStory]); // Add currentStory to dependency array
+
+  useEffect(() => {
+    if (currentStory?.mediaType === 'video' && videoRef.current) {
+      if (isVisible) {
+        videoRef.current.currentTime = 0;
+        videoRef.current.play().catch(() => {
+          // Handle potential autoplay restrictions
+          console.log('Autoplay prevented');
+        });
+        setIsPaused(false);
+      } else {
+        videoRef.current.pause();
+        videoRef.current.currentTime = 0;
+        setIsPaused(true);
+      }
+    }
+  }, [isVisible, currentStory]);
 
   const startProgress = () => {
     if (!currentStory) return; // Guard clause to handle undefined currentStory
@@ -172,6 +191,15 @@ export default function StoryViewer({ userStories }: StoryViewerProps) {
     }
   };
 
+  const handleVideoEnd = () => {
+    if (currentIndex < userStories.length - 1) {
+      handleNext();
+    } else {
+      // If this is the last story in the group, trigger carousel next
+      onComplete?.();
+    }
+  };
+
   if (!currentStory) {
     return <div>No story available.</div>; // Fallback UI if no story is found
   }
@@ -191,11 +219,11 @@ export default function StoryViewer({ userStories }: StoryViewerProps) {
           className="object-cover"
           playsInline
           muted
-          controls
+          // remove controls prop to prevent user interaction
           onPlay={handleVideoPlay}
           onPause={handleVideoPause}
           onTimeUpdate={handleTimeUpdate}
-          onEnded={handleNext}
+          onEnded={handleVideoEnd}
         />
       )}
 

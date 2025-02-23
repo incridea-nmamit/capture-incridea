@@ -7,7 +7,7 @@
  * - Responsive design
  */
 
-import React, { useCallback, useEffect, useRef, forwardRef } from 'react';
+import React, { useCallback, useEffect, useRef, forwardRef, useState } from 'react';
 import {
   EmblaCarouselType,
   EmblaEventType,
@@ -42,10 +42,10 @@ const EmblaCarousel = forwardRef<EmblaCarouselType, PropType>((props, ref) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
+  const [inView, setInView] = useState<number>(0);
 
   // Forward the API methods through the ref
   React.useImperativeHandle(ref, () => emblaApi || ({} as EmblaCarouselType), [emblaApi]);
-
   // Navigation button handlers
   const {
     prevBtnDisabled,
@@ -148,23 +148,34 @@ const EmblaCarousel = forwardRef<EmblaCarouselType, PropType>((props, ref) => {
 
   return (
     <div className="embla h-full">
-      <div className="embla__viewport " ref={emblaRef}>
+      <div className="embla__viewport relative" ref={emblaRef}>
         <div className="embla__container">
           {slides.map((slide, index) => (
             <div className="embla__slide" key={index}>
-              
-              <div className="embla__slide__content">{slide}</div> {/* Wrap custom content in a div for tweening */}
+              <div className="embla__slide__content">{slide}</div>
             </div>
           ))}
         </div>
+        {/* Add clickable areas */}
+        <div 
+          className="absolute inset-y-0 left-0 w-1/2 z-10" 
+          onClick={onPrevButtonClick}
+          style={{ cursor: prevBtnDisabled ? 'default' : 'pointer' }}
+        />
+        <div 
+          className="absolute inset-y-0 right-0 w-1/2 z-10" 
+          onClick={onNextButtonClick}
+          style={{ cursor: nextBtnDisabled ? 'default' : 'pointer' }}
+        />
       </div>
 
-      <div className="embla__controls">
+      {/* Remove or hide the existing buttons if you don't want them */}
+      {/* <div className="embla__controls">
         <div className="embla__buttons">
           <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
           <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 });

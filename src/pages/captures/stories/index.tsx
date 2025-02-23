@@ -5,6 +5,8 @@ import StoryViewer  from "~/components/StoryComponent";
 import { stories } from "~/components/StoryComponent";
 
 const Stories = () => {
+  const [activeIndex, setActiveIndex] = React.useState(0);
+
   // Step 1: Group stories by category
   const groupedStories = stories.reduce((acc, story) => {
     const category = story.category;
@@ -19,9 +21,13 @@ const Stories = () => {
   }, {} as Record<string, typeof stories[0][]>);
 
   // Step 2: Convert grouped stories into slides for the carousel
-  const slides = Object.entries(groupedStories).map(([category, userStories]) => (
+  const slides = Object.entries(groupedStories).map(([category, userStories], index) => (
     <div key={category} className="w-full h-full">
-      <StoryViewer key={category} userStories={userStories} />
+      <StoryViewer 
+        key={category} 
+        userStories={userStories} 
+        isVisible={activeIndex === index}
+      />
     </div>
   ));
 
@@ -33,7 +39,10 @@ const Stories = () => {
         imagePath="https://utfs.io/f/0yks13NtToBitJchJ4NSCB2X9TSlbJxWYgG6rpN3n8swf4Fz"
       />
       <div className="mt-20">
-        <EmblaCarousel slides={slides} />
+        <EmblaCarousel 
+          slides={slides} 
+          onSlideChange={setActiveIndex}
+        />
       </div>
     </div>
   );
