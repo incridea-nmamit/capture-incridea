@@ -121,7 +121,7 @@
   padding: 10px;
   overflow: hidden;
   position: absolute;
-  bottom: 50px;
+  bottom: 200px; /* Increased from 150px to move it higher */
   left: 50%;
   transform: translateX(-50%);
   max-width: 50%;
@@ -229,6 +229,24 @@
   transform: scale(1.1);
 }
 
+.touchZone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.touchZoneLeft {
+  left: 0;
+}
+
+.touchZoneRight {
+  right: 0;
+}
+
+
 /* Responsive design breakpoints */
 @media (max-width: 1366px) {
   .title {
@@ -241,7 +259,7 @@
 
   .thumbnailContainer {
     max-width: 70%;
-    bottom: 20px;
+    bottom: 180px; /* Increased from 120px */
   }
 
   .thumbnailSlide {
@@ -271,7 +289,7 @@
 
   .thumbnailContainer {
     max-width: 90%;
-    bottom: 10px;
+    bottom: 150px; /* Increased from 80px */
   }
 
   .thumbnailSlide {
@@ -305,7 +323,7 @@
 
   .thumbnailContainer {
     max-width: 95%;
-    bottom: 5px;
+    bottom: 100px; /* Increased from 5px */
   }
 
   .thumbnailSlide {
@@ -334,7 +352,7 @@
 
   .thumbnailContainer {
     max-width: 95%;
-    bottom: 5px;
+    bottom: 80px; /* Increased from 5px */
   }
 
   .thumbnailSlide {

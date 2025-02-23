@@ -27,7 +27,11 @@ const CaptureCard = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [autoPlay] = useState(true);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [emblaRef, embla] = useEmblaCarousel({});
+  const [emblaRef, embla] = useEmblaCarousel({
+    loop: true,
+    containScroll: "trimSnaps",
+    direction: 'ltr'
+  });
   const {
     data: cardStates,
     isLoading,
@@ -38,6 +42,7 @@ const CaptureCard = () => {
     loop: true,
     dragFree: true,
     align: "center",
+    containScroll: "keepSnaps"  // Changed from default
   });
 
   const sortedCards = carouselItems.map((carouselItem) => {
@@ -98,16 +103,67 @@ const CaptureCard = () => {
   }, [embla]);
 
   const handleThumbnailClick = (index: number) => {
-    setActiveIndex(index);
-    if (embla) embla.scrollTo(index);
-    if (thumbnailEmbla) thumbnailEmbla.scrollTo(index);
+    if (embla && thumbnailEmbla) {
+      setActiveIndex(index);
+      embla.scrollTo(index, true);  // Added animation
+      thumbnailEmbla.scrollTo(index, true);  // Added animation
+    }
   };
+
+  // Add synchronization between main carousel and thumbnails
+  useEffect(() => {
+    if (embla && thumbnailEmbla) {
+      embla.on('select', () => {
+        const index = embla.selectedScrollSnap();
+        thumbnailEmbla.scrollTo(index);
+      });
+      
+      thumbnailEmbla.on('select', () => {
+        const index = thumbnailEmbla.selectedScrollSnap();
+        embla.scrollTo(index);
+      });
+    }
+  }, [embla, thumbnailEmbla]);
+
+  /**
+   * Touch and scroll event handlers
+   */
+  const handleScroll = (event: Event) => {
+    const wheelEvent = event as WheelEvent;
+    if (wheelEvent.deltaX > 0) {
+      handleNext();
+    } else if (wheelEvent.deltaX < 0) {
+      handlePrev();
+    }
+  };
+
+  useEffect(() => {
+    const carouselElement = document.querySelector(`.${styles.list}`);
+    if (carouselElement) {
+      carouselElement.addEventListener('wheel', handleScroll as EventListener);
+      return () => {
+        carouselElement.removeEventListener('wheel', handleScroll as EventListener);
+      };
+    }
+  }, []);
 
   return (
     <div className="bg-secondary">
       <div className={styles.carousel}>
         {/* Main Page Carousel */}
         <div className={styles.list}>
+          {/* Add touch zones */}
+          <div 
+            className={`${styles.touchZone} ${styles.touchZoneLeft}`}
+            onClick={handlePrev}
+            aria-label="Previous slide"
+          />
+          <div 
+            className={`${styles.touchZone} ${styles.touchZoneRight}`}
+            onClick={handleNext}
+            aria-label="Next slide"
+          />
+          
           {sortedCards.map((item, index) => (
             <div
               key={index}
