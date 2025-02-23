@@ -234,6 +234,12 @@ const CaptureCard = () => {
             ))}
           </div>
         </div>
+        
+        {/* Add navigation instructions */}
+        <div className={styles.navigationInstructions}>
+          Tap on the sides of the screen to navigate
+        </div>
+        
         {/* Left and Right buttons */}
         <div className={styles.controls_l}>
           <button
