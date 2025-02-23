@@ -119,11 +119,11 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
 
   const QrLink = `${process.env.NEXT_PUBLIC_QRCODELINK}/${selectedImageId}`;
   const handleShare = async () => {
-    if (navigator.share && selectedImage) {
+    if (navigator.share && selectedImageOg) {
       try {
-        const response = await fetch(selectedImage);
+        const response = await fetch(selectedImageOg);
         const blob = await response.blob();
-        const file = new File([blob], "shared-image.webp", { type: blob.type });
+        const file = new File([blob], "shared-image.png", { type: blob.type });
 
         await navigator.share({
           files: [file],
