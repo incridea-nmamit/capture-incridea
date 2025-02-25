@@ -26,12 +26,13 @@ model User {
   email         String?        @unique
   emailVerified DateTime?
   image         String?
-  accounts      Account[]      // OAuth accounts associated with user
-  sessions      Session[]      // Active sessions for user
+  accounts      Account[] // OAuth accounts associated with user
+  sessions      Session[] // Active sessions for user
   role          Role           @default(user)
-  captureLikes  CaptureLike[]  // User's liked captures
-  storyLikes    StoryLike[]    // User's liked stories
+  captureLikes  CaptureLike[] // User's liked captures
+  storyLikes    StoryLike[] // User's liked stories
   playbackLikes playbackLike[] // User's liked playbacks
+  Feeback       Feeback?
 }
 
 // OAuth account connections
@@ -86,13 +87,13 @@ model VerifiedEmail {
 // Captures model for managing images
 model Captures {
   id              Int           @id @default(autoincrement())
-  image_path      String        // Path to original image
-  compressed_path String        // Path to compressed version
-  event_name      String?       // Optional event reference
-  event_category  String        // Category classification
-  captured_by_id  Int           // Photographer reference
-  upload_type     String        // Upload method identifier
-  state           Status        // Current approval state
+  image_path      String // Path to original image
+  compressed_path String // Path to compressed version
+  event_name      String? // Optional event reference
+  event_category  String // Category classification
+  captured_by_id  Int // Photographer reference
+  upload_type     String // Upload method identifier
+  state           Status // Current approval state
   date_time       DateTime      @default(now())
   // Relations
   captured_by     team          @relation(fields: [captured_by_id], references: [id])
@@ -177,16 +178,16 @@ model StoryLike {
 model team {
   id          Int        @id @default(autoincrement())
   name        String
-  committee   Teamgroup  // Team category
-  designation String     // Role in team
-  image       String     // Profile image
-  say         String     // Team member quote
-  github      String?    // Social links
+  committee   Teamgroup // Team category
+  designation String // Role in team
+  image       String // Profile image
+  say         String // Team member quote
+  github      String? // Social links
   linkedin    String?
   instagram   String?
   behance     String?
   captures    Captures[] // Captures by team member
-  stories     Stories[]  // Stories by team member
+  stories     Stories[] // Stories by team member
 }
 
 //Playbacks model
@@ -233,7 +234,7 @@ model events {
   id               Int       @id @default(autoincrement())
   name             String    @unique
   description      String
-  shortDescription String    // New field for short description
+  shortDescription String // New field for short description
   image            String
   type             EventType
   day              Day
@@ -248,14 +249,14 @@ model events {
 // Web analytics tracking
 model webAnalytics {
   id           Int      @id @default(autoincrement())
-  session_user String   // User session info
-  uniqueId     String   // Unique visitor ID
-  routePath    String   // Page accessed
-  isChecked    String   // Verification status
-  timer        Int?     // Time spent
+  session_user String // User session info
+  uniqueId     String // Unique visitor ID
+  routePath    String // Page accessed
+  isChecked    String // Verification status
+  timer        Int? // Time spent
   startPing    DateTime // Session start
   lastPing     DateTime // Last activity
-  device       String   // User device info
+  device       String // User device info
 }
 
 model Smcuploads {
@@ -269,10 +270,10 @@ model Smcuploads {
 // Audit logging for system actions
 model AuditLog {
   id              Int      @id @default(autoincrement())
-  sessionUserName String   // User performing action
-  audit_type      String   // Type of audit entry
+  sessionUserName String // User performing action
+  audit_type      String // Type of audit entry
   dateTime        DateTime @default(now())
-  description     String   // Audit details
+  description     String // Audit details
 }
 
 model Variables {
@@ -295,11 +296,11 @@ enum Status {
 
 // User role definitions
 enum Role {
-  admin    // Full system access
-  manager  // Content management access
-  editor   // Content editing access
-  user     // Basic user access
-  smc      // Social media team access
+  admin // Full system access
+  manager // Content management access
+  editor // Content editing access
+  user // Basic user access
+  smc // Social media team access
 }
 
 enum EventType {
@@ -328,4 +329,19 @@ enum CollegeType {
   external
   faculty
   alumni
+}
+
+/**
+ * Feedback and User Interaction
+ * Models for user feedback and interaction tracking
+ */
+
+model Feeback {
+  id          Int    @id @default(autoincrement())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  description String?
+  rating      Int  
+  date_time   DateTime @default(now())
+  @@unique([userId])
 }

@@ -17,6 +17,7 @@ import { likeRouter } from "./routers/like";
 import { playbacksRouter } from "./routers/playbacks";
 import { moreInfoRouter } from "./routers/moreinfo";
 import { verficationRouter } from "./routers/verfications";
+import { feedbackRouter } from "./routers/feedback";
 
 export const appRouter = createTRPCRouter({
   team: teamRouter,
@@ -37,6 +38,7 @@ export const appRouter = createTRPCRouter({
   playbacks :playbacksRouter,
   moreInfo:moreInfoRouter ,
   verfication:verficationRouter,
+  feedback:feedbackRouter
 });
 
 export type AppRouter = typeof appRouter;

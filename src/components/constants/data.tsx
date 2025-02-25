@@ -13,7 +13,8 @@ import {
   Users,
   ListOrdered,
   Download,
-  MailCheck
+  MailCheck,
+  MessageSquare
 } from "lucide-react";
 
 import EventsAdmin from "~/components/EventsAdmin/EventsAdmin";
@@ -31,6 +32,7 @@ import AdminPlayBacks from "../Playbacks";
 import AuditLogs from "../AuditLogs";
 import DownloadLogs from "../downlodeLogs";
 import EmailVerifications from "../Verifications";
+import FeedbackAdmin from "../FeedbackAdmin/";
 
 
 export const randomSliderImages = [
@@ -277,6 +279,13 @@ export const tabs = [
     label: "Verfications",
     icon: MailCheck,
     content: <EmailVerifications/>,
+    roles: [Role.admin],
+  },
+  {
+    name: "feedback",
+    label: "Feedback",
+    icon: MessageSquare,
+    content: <FeedbackAdmin/>,
     roles: [Role.admin],
   },
 ];
