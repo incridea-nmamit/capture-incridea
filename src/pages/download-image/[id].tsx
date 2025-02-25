@@ -4,14 +4,13 @@ import { useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import UseRefetch from "~/hooks/use-refetch";
 import { api } from "~/utils/api";
-import { Button } from "react-bootstrap";
 import { useSession } from "next-auth/react";
-import { MoreInfo } from "~/components/MoreInfoDrawer/more-infoPopup";
 import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { useRouter } from "next/router";
 import downloadImage from "~/utils/downloadUtils";
 import RequestRemovalModal from "~/components/RequestRemovalModal";
 import { Spinner } from "~/components/ui/spinner";
+import { Button } from "~/components/ui/button";
 
 const ImagePopup = () => {
   const router = useRouter();

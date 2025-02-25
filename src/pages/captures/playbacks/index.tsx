@@ -1,4 +1,3 @@
-import Plyr from 'plyr-react';
 import { useEffect, useRef, useState } from 'react';
 import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area';
 import { Info, Share2 } from 'lucide-react';
