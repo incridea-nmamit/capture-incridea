@@ -96,7 +96,7 @@ const About = () => {
               artists, DJs, and bands. The fest constitutes over 40+ events and
               expected footfall of around 45,000, making it one of the most
               happening fests in the region. With grand successes over the years
-              and a flair for perfection, we intend to make Incridea '24 and
+              and a flair for perfection, we intend to make Incridea '25 and
               grand success and the best one so far.
             </p>
           </div>

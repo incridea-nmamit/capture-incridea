@@ -29,8 +29,8 @@ model User {
   accounts      Account[] // OAuth accounts associated with user
   sessions      Session[] // Active sessions for user
   role          Role           @default(user)
-  captureLikes  CaptureLike[] // User's liked captures
-  storyLikes    StoryLike[] // User's liked stories
+  captureLikes  CaptureLike[]  // User's liked captures
+
   playbackLikes playbackLike[] // User's liked playbacks
   Feeback       Feeback?
 }
@@ -132,42 +132,7 @@ model CaptureCard {
  */
 
 // Stories model for short-form video content
-model Stories {
-  id             Int             @id @default(autoincrement())
-  video_path     String
-  captured_by_id Int
-  captured_by    team            @relation(fields: [captured_by_id], references: [id])
-  date_time      DateTime        @default(now())
-  category_name  String
-  category       storycategories @relation(fields: [category_name], references: [name])
-  storyLog       StoryLog[]
-  storyLikes     StoryLike[]
-}
 
-model storycategories {
-  id      Int       @id @default(autoincrement())
-  name    String    @unique
-  stories Stories[]
-}
-
-model StoryLog {
-  id           Int      @id @default(autoincrement())
-  session_user String
-  date_time    DateTime @default(now())
-  story_id     Int
-  story        Stories  @relation(fields: [story_id], references: [id])
-}
-
-model StoryLike {
-  id       String  @id @default(cuid())
-  userId   String
-  story_id Int
-  liked    Boolean @default(true)
-  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Story    Stories @relation(fields: [story_id], references: [id], onDelete: Cascade)
-
-  @@unique([userId, story_id])
-}
 
 /**
  * Team and Event Management
@@ -187,7 +152,6 @@ model team {
   instagram   String?
   behance     String?
   captures    Captures[] // Captures by team member
-  stories     Stories[] // Stories by team member
 }
 
 //Playbacks model

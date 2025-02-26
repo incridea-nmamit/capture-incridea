@@ -8,9 +8,6 @@ import { userRouter } from "./routers/user";
 import { capturecardRouter } from "./routers/capturecard";
 import { analyticsRouter } from "./routers/analytics";
 import { variableRouter } from "./routers/variable";
-import { smcRouter } from "./routers/smc";
-import { storycatRouter } from "./routers/storycat";
-import { storiesRouter } from "./routers/stories";
 import { auditLog } from "./routers/auditlog";
 import { verifiedEmail } from "./routers/verifiedemail";
 import { likeRouter } from "./routers/like";
@@ -29,9 +26,6 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   capturecard: capturecardRouter,
   variables: variableRouter,
-  smc: smcRouter,
-  stories: storiesRouter,
-  storycat: storycatRouter,
   audit: auditLog,
   verifiedEmail: verifiedEmail,
   like: likeRouter,

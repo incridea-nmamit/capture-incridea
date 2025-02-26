@@ -24,7 +24,6 @@ const DownloadLogs = () => {
 
   // API queries for different log types
   const { data: downloadLogs = [] } = api.download.getAllDownloadLogs.useQuery();
-  const { data: storyLogs = [] } = api.stories.getAllStoryLogs.useQuery();
   const { data: playbackLogs = [] } = api.playbacks.getAllPlayBackLogs.useQuery();
 
   useEffect(() => {
@@ -50,9 +49,6 @@ const DownloadLogs = () => {
 
       {logType === "download" && (
         <DataTable columns={downloadLogColumns} data={downloadLogs} />
-      )}
-      {logType === "story" && (
-        <DataTable columns={StoryLogColumns} data={storyLogs} />
       )}
       {logType === "playback" && (
         <DataTable columns={PlayBacksLogColumns} data={ playbackLogs } />

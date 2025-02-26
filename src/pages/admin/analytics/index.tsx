@@ -75,11 +75,9 @@ const Analytics = () => {
   const { data: users = [], isLoading: usersLoading } = api.user.getAllUsers.useQuery();
   const { data: verifiedusers = [], isLoading: verfiedUsersLoading } = api.user.getAllVerifiedUsers.useQuery();
   const { data: dlogs = [] } = api.download.getAllDownloadLogs.useQuery();
-  const { data: slogs = [] } = api.stories.getAllStoryLogs.useQuery();
   const { data: plogs = [] } = api.playbacks.getAllPlayBackLogs.useQuery();
   const { data: captures = [], isLoading: galleryLoading } = api.capture.getAllcaptures.useQuery();
   const { data: playbacks = [], isLoading: playbacksLoading } = api.playbacks.getAllPlaybacks.useQuery();
-  const { data: stories = [], isLoading: storiesLoading } = api.stories.getAllStories.useQuery();
   const [graphData, setGraphData] = useState<{ time: string; visits: number; unique: number; viewsPerUnique: number; avgTimeSpent: number }[]>([]);
   const [growthData, setGrowthData] = useState<{ time: string; cumulativeVisits: number }[]>([]);
   const router = useRouter();
@@ -210,29 +208,6 @@ const Analytics = () => {
           log.session_user !== null
         );
       });
-  const filteredsLogs =
-  filter === "all"
-    ? slogs.filter(
-        (log) =>
-          log.session_user !== "" &&
-          log.session_user !== null
-      )
-      : filter === "custom" && customDate
-      ? slogs.filter((log) => {
-          const logDate = new Date(log.date_time).toISOString().split("T")[0];
-          return logDate === customDate;
-        })
-    : slogs.filter((log) => {
-        const logDate = new Date(log.date_time);
-        const dateReferenceKey = `day${filter}`;
-        const dateReference = dateReferences[dateReferenceKey];
-        return (
-          dateReference &&
-          logDate.toDateString() === dateReference.toDateString() &&
-          log.session_user !== "" &&
-          log.session_user !== null
-        );
-      });
     const filteredpLogs =
     filter === "all"
       ? plogs.filter(
@@ -285,16 +260,6 @@ const Analytics = () => {
         const dateReference = dateReferences[dateReferenceKey];
         return dateReference && galleryItemDate.toDateString() === dateReference.toDateString();
       });
-
-    const filteredStories=
-    filter === "all"
-      ? stories
-      : stories.filter((galleryItem: any) => {
-          const galleryItemDate = new Date(galleryItem.date_time);
-          const dateReferenceKey = `day${filter}`;
-          const dateReference = dateReferences[dateReferenceKey];
-          return dateReference && galleryItemDate.toDateString() === dateReference.toDateString();
-        });
 
   const filteredCaptures = captureFilter === "all"
     ? filteredLogs.filter((log) => {
@@ -390,8 +355,6 @@ const Analytics = () => {
     external: 0,
     internalDownloads: 0,
     externalDownloads: 0,
-    internalStoryViews: 0,
-    externalStoryViews: 0,
     internalPlaybackViews: 0,
     externalPlaybackViews: 0
   });
@@ -409,9 +372,6 @@ const Analytics = () => {
     const internalDownloads = filtereddLogs.filter(log => internalIds.has(Number(log.session_user))).length;
     const externalDownloads = filtereddLogs.filter(log => externalIds.has(Number(log.session_user))).length;
 
-    // Calculate story views by college type
-    const internalStoryViews = filteredsLogs.filter(log => internalIds.has(Number(log.session_user))).length;
-    const externalStoryViews = filteredsLogs.filter(log => externalIds.has(Number(log.session_user))).length;
 
     // Calculate playback views by college type
     const internalPlaybackViews = filteredpLogs.filter(log => internalIds.has(Number(log.session_user))).length;
@@ -422,12 +382,10 @@ const Analytics = () => {
       external,
       internalDownloads,
       externalDownloads,
-      internalStoryViews,
-      externalStoryViews,
       internalPlaybackViews,
       externalPlaybackViews
     });
-  }, [verifiedusers, filtereddLogs, filteredsLogs, filteredpLogs]);
+  }, [verifiedusers, filtereddLogs, filteredpLogs]);
 
   // Create college distribution chart data
   const collegeDistributionData = {
@@ -449,7 +407,6 @@ const Analytics = () => {
         label: 'Internal College',
         data: [
           collegeStats.internalDownloads,
-          collegeStats.internalStoryViews,
           collegeStats.internalPlaybackViews
         ],
         backgroundColor: monochromeColors.line.primary,
@@ -460,7 +417,6 @@ const Analytics = () => {
         label: 'External College',
         data: [
           collegeStats.externalDownloads,
-          collegeStats.externalStoryViews,
           collegeStats.externalPlaybackViews
         ],
         backgroundColor: monochromeColors.line.tertiary,
@@ -941,23 +897,7 @@ const radarData = {
               <td className="py-6"></td>
               <td className="py-6"></td>
               <td className="py-6"></td>
-            </tr>
-            <tr>
-              <td className="py-2 px-4 border-b">Total Stories</td>
-              <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{filteredStories.length}</td> 
-            </tr>
-            <tr>
-              <td className="py-2 px-4 border-b">Total Stories Downloads</td>
-              <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{filteredsLogs.length}</td> 
-            </tr>
-            
-            <tr>
-              <td className="py-2 px-4 border-b">Unique Stories Download ID's</td>
-              <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{new Set(filteredsLogs.map((entry) => entry.session_user)).size}</td> 
-            </tr>
+            </tr>            
             <tr>
               <td className="py-6"></td>
               <td className="py-6"></td>
@@ -1054,12 +994,6 @@ const radarData = {
                 <td className="p-2">{collegeStats.internalDownloads}</td>
                 <td className="p-2">{collegeStats.externalDownloads}</td>
                 <td className="p-2">{collegeStats.internalDownloads + collegeStats.externalDownloads}</td>
-              </tr>
-              <tr>
-                <td className="p-2">Story Views</td>
-                <td className="p-2">{collegeStats.internalStoryViews}</td>
-                <td className="p-2">{collegeStats.externalStoryViews}</td>
-                <td className="p-2">{collegeStats.internalStoryViews + collegeStats.externalStoryViews}</td>
               </tr>
               <tr>
                 <td className="p-2">Playback Views</td>

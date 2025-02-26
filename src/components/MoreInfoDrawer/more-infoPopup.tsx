@@ -21,7 +21,7 @@ type Props = {
   isOpen: boolean;                              // Controls drawer visibility
   setOpen: (open: boolean) => void;            // Drawer state setter
   id: number;                                  // Item ID for data fetching
-  apiTobeCalled: "capture" | "playbacks" | "stories"; // API endpoint selector
+  apiTobeCalled: "capture" | "playbacks"; // API endpoint selector
 }
 
 /**
@@ -40,10 +40,10 @@ export function MoreInfo({
     { enabled: apiTobeCalled === "capture" }
   );
   const { data: moreInforPlaybacks, isLoading: isLoadingPlaybacks } = api.moreInfo.moreInfoForPlayBacksById.useQuery({ id }, { enabled: apiTobeCalled === "playbacks" });
-  const { data: moreInforStories, isLoading: isLoadingStories } = api.moreInfo.moreInfoForStoreisById.useQuery({ id }, { enabled: apiTobeCalled === "stories" });
+
 
   // Combined loading state
-  const isLoading = isLoadingCapture || isLoadingPlaybacks || isLoadingStories;
+  const isLoading = isLoadingCapture || isLoadingPlaybacks;
 
   // Select appropriate data based on API type
   let moreInfor;
@@ -51,8 +51,6 @@ export function MoreInfo({
     moreInfor = moreInforCapture;
   } else if (apiTobeCalled === "playbacks") {
     moreInfor = moreInforPlaybacks;
-  } else if (apiTobeCalled === "stories") {
-    moreInfor = moreInforStories;
   }
 
   return (

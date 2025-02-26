@@ -23,8 +23,6 @@ import TeamAdmin from "~/components/TeamAdmin/TeamAdmin";
 import ManageRoles from "~/components/ManageRoles/ManageRoles";
 import RemovalRequest from "~/components/RemovalRequestAdmin/RemovalRequest";
 import ControlComponent from "~/components/ControlAdmin/ControlComponent";
-import SMCUploads from "~/components/SMCUploads/SMCUploads";
-import Stories from "~/components/Stories/Stories";
 import ApproveCaptures from "~/components/ApproveCapture/ApproveCapture";
 
 import { Role } from "@prisma/client";
@@ -233,20 +231,6 @@ export const tabs = [
     roles: [Role.admin],
   },
   {
-    name: "smc",
-    label: "SMC Uploads",
-    icon: ImageUp,
-    content: <SMCUploads />,
-    roles: [Role.admin, Role.editor, Role.smc],
-  },
-  {
-    name: "stories",
-    label: "Capture Stories",
-    icon: GalleryHorizontalEnd,
-    content: <Stories />,
-    roles: [Role.admin, Role.editor],
-  },
-  {
     name: "approvecap",
     label: "Approve Captures",
     icon: BookCheck,
@@ -317,13 +301,6 @@ Grab your tickets now and be part of the excitement!",`,
     title: "Events",
     route: "/events",
     description: `Dive into a thrilling world of exciting events and competitions, tailored for every interest, at Incridea!`,
-  },
-
-  {
-    imgSrc: "images/CapturePage/stories.webp",
-    title: "Stories",
-    route: "/stories",
-    description: `Stories captured for you`,
   },
   {
     imgSrc: "images/CapturePage/yoursnaps.webp",

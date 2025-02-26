@@ -46,17 +46,15 @@ const chartConfig = {
 export function LogChartComponent() {
   // Data fetching hooks
   const { data: downloadLogs = [] } = api.download.getAllDownloadLogs.useQuery()
-  const { data: storyLogs = [] } = api.stories.getAllStoryLogs.useQuery()
   const { data: playbackLogs = [] } = api.playbacks.getAllPlayBackLogs.useQuery()
 
   // Compute chart data
   const logData = React.useMemo(() => {
     return [
       { browser: "Download Logs", visitors: downloadLogs.length, fill: "blue" },
-      { browser: "Story Logs", visitors: storyLogs.length, fill: "var(--color-safari)" },
       { browser: "Playback Logs", visitors: playbackLogs.length, fill: "var(--color-firefox)" },
     ]
-  }, [downloadLogs, storyLogs, playbackLogs])
+  }, [downloadLogs, playbackLogs])
 
   // Calculate the total number of visitors (logs)
   const totalLogs = React.useMemo(() => {
