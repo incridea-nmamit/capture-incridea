@@ -242,7 +242,7 @@ export const tabs = [
     label: "playBacks",
     icon: PlayCircle,
     content: <AdminPlayBacks />,
-    roles: [Role.admin],
+    roles: [Role.admin ,Role.editor],
   },
   {
     name: "auditlogs",

@@ -112,7 +112,7 @@ export const moreInfoRouter = createTRPCRouter({
             });
 
             if (!playback) {
-                throw new Error("Stories not found");
+                throw new Error("Playbacks not found");
             }
             const downloadUsers = await Promise.all(
                 playback.playbackLog.map(async (log) => {
