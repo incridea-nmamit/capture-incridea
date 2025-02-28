@@ -24,7 +24,6 @@ import VideoUploadComponent from "~/components/VideoUploadComponent"; // Replace
 import UseRefetch from "~/hooks/use-refetch";
 import { UploadButton } from "~/utils/uploadthing";
 import { useSession } from "next-auth/react";
-
 /**
  * Form validation schema for playback uploads
  */
@@ -34,9 +33,7 @@ const schema = z.object({
     uplodeurl: z.string().min(1, "Required"),
     description: z.string().min(1, "Required"),
 });
-
 type FormValues = z.infer<typeof schema>;
-
 /**
  * Props interface for AddPlayBacksPopUpModel
  */
@@ -44,7 +41,6 @@ type Props = {
     isOpen: boolean;         // Controls dialog visibility
     setOpen: (open: boolean) => void;  // Dialog state setter
 };
-
 /**
  * AddPlayBacksPopUpModel Component
  * Handles uploading and adding new playback videos with thumbnails
@@ -67,7 +63,6 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
             description: "",
         },
     });
-
     /**
      * Handles video upload completion
      */
@@ -76,7 +71,6 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
         form.setValue("uplodeurl", url);
         toast.success("Upload successful!");
     }
-
     /**
      * Form submission handler
      */
@@ -105,7 +99,6 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
             toast.error("Failed to submit the form. Please try again.");
         }
     }
-
     return (
         <Dialog open={isOpen} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px] bg-neutral-950">
@@ -113,7 +106,6 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
                 <DialogHeader>
                     <DialogTitle className="font-Teknaf text-2xl">Add PlayBacks</DialogTitle>
                 </DialogHeader>
-
                 {/* Form Content */}
                 <div>
                     <Form {...form}>
@@ -151,8 +143,7 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
                                 control={form.control}
                                 name="thumbnail"
                                 render={() => (
-                                    <FormItem>
-                                                                                 
+                                    <FormItem>                                                                                 
                                           {isthumbnail && (
                                                 <img
                                                     src={form.watch("thumbnail")}
@@ -160,7 +151,6 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
                                                     className="w-full h-40 object-cover mb-4 rounded-lg border border-gray-500"
                                                 />
                                             )}
-
                                         <FormControl>
                                             <UploadButton
                                                 endpoint="imageUploaderCompressed"
@@ -195,8 +185,6 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
                                     </FormItem>
                                 )}
                             />
-
-
                             <FormField
                                 control={form.control}
                                 name="description"
@@ -212,7 +200,6 @@ export function AddPlayBacksPopUpModel({ isOpen, setOpen }: Props) {
                                     </FormItem>
                                 )}
                             />
-
                             <Button type="submit">Add</Button>
                         </form>
                     </Form>
