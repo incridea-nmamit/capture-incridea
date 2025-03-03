@@ -32,6 +32,9 @@ const CulturalPlaybacks = () => {
   const { data: isLiked, refetch: refetchIsliked } = api.playbacks.isLiked.useQuery(
     { userId: session?.user.id!, playback_Id: selectedVideo?.id! }
   );
+  // Add new state for download progress and status
+  const [downloadProgress, setDownloadProgress] = useState(0);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   useEffect(() => {
     if (Videos.length > 0 && !selectedVideo) {
@@ -49,6 +52,59 @@ const CulturalPlaybacks = () => {
     });
     refetchIsliked();
     refetchTotalLikes();
+  };
+
+  const handleDownload = async () => {
+    if (!selectedVideo?.videoPath) return;
+    
+    try {
+      setIsDownloading(true);
+      setDownloadProgress(0);
+      
+      const response = await fetch(selectedVideo.videoPath);
+      if (!response.ok) throw new Error('Network response was not ok');
+      
+      const contentLength = response.headers.get('Content-Length');
+      const totalBytes = contentLength ? parseInt(contentLength, 10) : 0;
+      let receivedBytes = 0;
+      
+      const reader = response.body?.getReader();
+      const chunks: Uint8Array[] = [];
+      
+      if (!reader) throw new Error('Could not get reader from response');
+      
+      // Read the stream
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        chunks.push(value);
+        receivedBytes += value.length;
+        
+        if (totalBytes) {
+          const progress = Math.round((receivedBytes / totalBytes) * 100);
+          setDownloadProgress(progress);
+        }
+      }
+      
+      // Combine chunks and download
+      const blob = new Blob(chunks);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${selectedVideo.name}.mp4`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      setIsDownloading(false);
+      setDownloadProgress(0);
+    } catch (error) {
+      console.error('Download failed:', error);
+      setIsDownloading(false);
+      setDownloadProgress(0);
+    }
   };
 
   useEffect(() => {
@@ -89,7 +145,19 @@ const CulturalPlaybacks = () => {
                   <FaHeart size={30} color={isLiked ? "red" : "white"} />
                 </button>
                 <span className="flex items-center text-white">{isLoading ? "..." : totalLikes?.length ?? "..."}</span>
-                <Button className="bg-white rounded-xl w-full text-black px-6 py-2 hover:scale-105 transition-all">Download</Button>
+                <Button 
+                  onClick={handleDownload} 
+                  disabled={isDownloading || !selectedVideo} 
+                  className="bg-white rounded-xl w-full text-black px-6 py-2 hover:scale-105 transition-all relative overflow-hidden"
+                >
+                  {isDownloading ? `Downloading ${downloadProgress}%` : "Download"}
+                  {isDownloading && (
+                    <div 
+                      className="absolute bottom-0 left-0 h-1 bg-blue-500" 
+                      style={{ width: `${downloadProgress}%` }}
+                    />
+                  )}
+                </Button>
               </div>
             </div>
           </div>
