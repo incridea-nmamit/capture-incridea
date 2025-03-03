@@ -26,6 +26,7 @@ const EventCaptures = () => {
   const logDownload = api.download.logDownload.useMutation();
   const submitRemovalRequest = api.request.submit.useMutation();
   const { data: cardState } = api.capturecard.getCardStateByName.useQuery({ cardName: "Events" });
+
   const session_user = session?.user.email?.toLowerCase() || "";
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
