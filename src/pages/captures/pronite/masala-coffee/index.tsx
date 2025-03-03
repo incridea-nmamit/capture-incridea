@@ -82,7 +82,7 @@ const MasalaCoffee = () => {
     <div>
       <TitleDescription
         title="Masala Coffee"
-        description="Engaging our audience and building community through strategic social media initiatives"
+        description="Relive the electrifying energy of Masala Coffee! A collection of moments capturing their dynamic performance and soulful music."
         imagePath="/images/general/masala-coffee.webp"
       />
       <ImagesGrid

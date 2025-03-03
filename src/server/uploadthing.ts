@@ -38,7 +38,7 @@ export const ourFileRouter = {
       return { uploadedBy: metadata.userId };
     }),
 
-  playbackUploader: f({ video: { maxFileSize: "2GB", maxFileCount: 1 } })
+  playbackUploader: f({ video: { maxFileSize: "16GB", maxFileCount: 1 } })
     .middleware(async ({ req, res }) => {
       const user = auth(req, res);
       if (!user) throw new Error("Unauthorized");

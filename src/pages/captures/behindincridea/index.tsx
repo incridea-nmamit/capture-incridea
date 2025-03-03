@@ -79,7 +79,7 @@ const behindincridea = () => {
     <div>
       <TitleDescription
         title="Behind Incridea"
-        description="Engaging our audience and building community through strategic social media initiatives"
+        description="Meet the dedicated minds behind the scenes! A glimpse into the hard work and passion that bring the fest to life."
         imagePath="/images/CapturePage/behindincridea.webp"
       />
       <ImagesGrid

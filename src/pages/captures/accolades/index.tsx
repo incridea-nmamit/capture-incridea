@@ -78,7 +78,7 @@ const accolades = () => {
     <div>
       <TitleDescription
         title="Accolades"
-        description="Engaging our audience and building community through strategic social media initiatives"
+        description="Celebrate achievements and milestones! Explore moments of recognition as individuals receive their well-earned certifications."
         imagePath="/images/CapturePage/accolades.webp"
       />
       <ImagesGrid

@@ -78,7 +78,7 @@ const Faculty = () => {
     <div>
       <TitleDescription
         title="Captures Curated for the Faculty"
-        description="Engaging our audience and building community through strategic social media initiatives"
+        description="Meet our esteemed faculty! A gallery of the mentors and educators who inspire and guide with their knowledge"
         imagePath="/images/CapturePage/faculty.webp"
       />
       

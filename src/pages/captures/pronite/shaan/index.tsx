@@ -81,8 +81,8 @@ const Shaan = () => {
   return (
     <div>
       <TitleDescription
-        title="Masala Coffee"
-        description="Engaging our audience and building community through strategic social media initiatives"
+        title="Shaan"
+        description="Experience the magic of Shaan! A collection of moments capturing his soulful voice and unforgettable performance"
         imagePath="/images/general/shaan.webp"
       />
 
