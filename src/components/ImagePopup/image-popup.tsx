@@ -163,33 +163,50 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
   return (
     <>
       <div
-        className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col  items-center justify-center z-50"
+        className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center justify-center z-50"
         role="dialog"
         aria-modal="true"
         onClick={handleClosePopup}
       >
         <div
-          className="max-h-[98vh] w-[90%] md:w-[60%] h-auto space-y-10 gradient-bg grid grid-cols-1 gap-4 rounded-3xl"
+          className="max-h-[98vh] w-[90%] md:w-[60%] h-auto gradient-bg grid grid-cols-1 rounded-3xl overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex flex-col md:flex-row w-full h-full">
-            <div className="relative flex justify-center items-center w-full md:w-1/2 aspect-square rounded-l-3xl p-2 md:p-0">
-              <Image
-                src={selectedImage || "/images/fallback.webp"}
-                alt="Selected"
-                className="rounded-[10px] shadow-2xl transition-opacity overflow-hidden"
-                layout="fill"
-                objectFit="cover"
-                onLoad={handleImageLoad}
-                onContextMenu={(e) => e.preventDefault()}
-                onDragStart={(e) => e.preventDefault()}
-              />
+            <div className="relative w-full md:w-1/2 aspect-square overflow-hidden">
+              {/* Blurred background - same image but blurred */}
+              <div 
+                className="absolute inset-0 w-full h-full"
+                style={{
+                  backgroundImage: `url(${selectedImage || "/images/fallback.webp"})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  filter: 'blur(15px)',
+                  transform: 'scale(1.1)',
+                  opacity: '0.9'
+                }}
+              ></div>
+              
+              {/* Dimming overlay with increased opacity for better contrast */}
+              <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+              
+              {/* Container for the original non-blurred image */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <img
+                  src={selectedImage || "/images/fallback.webp"}
+                  alt="Selected"
+                  className="max-h-full max-w-full object-contain shadow-2xl"
+                  onLoad={handleImageLoad}
+                  onContextMenu={(e) => e.preventDefault()}
+                  onDragStart={(e) => e.preventDefault()}
+                />
+              </div>
             </div>
             <div className="w-full md:w-1/2 h-full p-8">
               <div className="flex justify-between gap-2 items-center">
                 <div>
                   <Image
-                    src="/images/Logo/capture.png"
+                    src="/images/Logo/capture.webp"
                     alt="Logo"
                     width={150}
                     height={80}
