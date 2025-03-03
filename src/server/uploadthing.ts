@@ -26,7 +26,7 @@ export const ourFileRouter = {
       return { uploadedBy: metadata.userId };
     }),
 
-  imageUploaderCompressed: f({ image: { maxFileSize: "8MB", maxFileCount: 2 } })
+  imageUploaderCompressed: f({ image: { maxFileSize: "64MB", maxFileCount: 2 } })
     .middleware(async ({ req, res }) => {
       const user = auth(req, res);
       if (!user) throw new Error("Unauthorized");

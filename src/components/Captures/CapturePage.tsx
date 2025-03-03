@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { api } from "~/utils/api";
 import ShinyText from "./ShinyText"; // Import the ShinyText component
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 /**
  * CaptureCard Component
@@ -27,6 +28,7 @@ const CaptureCard = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [autoPlay] = useState(true);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const router = useRouter();
   const [emblaRef, embla] = useEmblaCarousel({
     loop: true,
     containScroll: "trimSnaps",
@@ -101,10 +103,11 @@ const CaptureCard = () => {
     }
   }, [embla]);
 
-  const handleThumbnailClick = (index: number) => {
+  const handleThumbnailClick = (index: number , route: string) => {
     setActiveIndex(index);
     if (embla) embla.scrollTo(index);
     if (thumbnailEmbla) thumbnailEmbla.scrollTo(index);
+    router.push(`/captures/${route}`);
   };
 
   /**
@@ -191,7 +194,7 @@ const CaptureCard = () => {
               <div
                 key={index}
                 className={`${styles.thumbnailSlide} ${index === activeIndex ? styles.activeThumbnail : ""}`}
-                onClick={() => handleThumbnailClick(index)}
+                onClick={() => handleThumbnailClick(index,item.route)}
               >
                 <div
                   className={`${styles.thumbnailImageWrapper} ${!item.cardState ? styles.grayscale : ""}`}
