@@ -143,7 +143,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
     try {
       await downloadImage(
         imagePathOg,
-        "capture-incridea.webp",
+        "capture-incridea.png",
         (progress) => setDownloadProgress(progress)
       );
       await logDownload.mutateAsync({ image_id: selectedImageId || 0, session_user });
@@ -189,7 +189,7 @@ const ImagePopup: React.FC<ImagePopupProps> = ({
               <div className="flex justify-between gap-2 items-center">
                 <div>
                   <Image
-                    src="/images/Logo/capture.webp"
+                    src="/images/Logo/capture.png"
                     alt="Logo"
                     width={150}
                     height={80}
