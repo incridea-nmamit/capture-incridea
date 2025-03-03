@@ -91,7 +91,7 @@ const ImagePopup = () => {
     try {
       await downloadImage(
         imagePathOg,
-        "capture-incridea.webp",
+        "capture-incridea.png",
         (progress) => setDownloadProgress(progress)
       );
       await logDownload.mutateAsync({ image_id: Selectedcapture?.id || 0, session_user });
