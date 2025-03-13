@@ -5,7 +5,6 @@ import { FaHeart, FaShareSquare } from "react-icons/fa";
 
 import UseRefetch from "~/hooks/use-refetch";
 import { api } from "~/utils/api";
-import { Button } from 'react-bootstrap';
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Skeleton } from "../ui/skeleton";
 import { useSession } from "next-auth/react";
@@ -13,6 +12,7 @@ import { MoreInfo } from "../MoreInfoDrawer/more-infoPopup";
 import QRCode from "react-qr-code";
 import downloadImage from "~/utils/downloadUtils";
 import { Spinner } from "../ui/spinner";
+import { Button } from "../ui/button";
 
 /**
  * ImagePopup Props Interface

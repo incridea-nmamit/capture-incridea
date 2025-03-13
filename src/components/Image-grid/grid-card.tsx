@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { api } from "~/utils/api";
-import { FcLike } from "react-icons/fc";
 import Image from "next/image";
 import { ImageListItem } from "@mui/material";
 import { FaHeart } from "react-icons/fa";
