@@ -23,6 +23,7 @@ import {
   RadialLinearScale,
 } from "chart.js";
 import CameraLoading from "~/components/LoadingAnimation/CameraLoading";
+import type { ChartData } from 'chart.js';
 
 ChartJS.register(
   CategoryScale,
@@ -62,7 +63,7 @@ const lineChartBaseStyle = {
 
 /**
  * Main Analytics component
- * Handles data fetching, filtering, and visualization
+ * Handles data fetching and visualization
  */
 const Analytics = () => {
   // State management for filters and data
@@ -70,325 +71,182 @@ const Analytics = () => {
   const [captureFilter, setCaptureFilter] = useState<string>("all");
   const [customDate, setCustomDate] = useState<string | null>(null);
   const [eventFilter, setEventFilter] = useState<string>("all");
-  const { data: events = [], isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
-  const { data: analyticslog = [], isLoading } = api.analytics.getAnalytics.useQuery();
-  const { data: users = [], isLoading: usersLoading } = api.user.getAllUsers.useQuery();
-  const { data: verifiedusers = [], isLoading: verfiedUsersLoading } = api.user.getAllVerifiedUsers.useQuery();
-  const { data: dlogs = [] } = api.download.getAllDownloadLogs.useQuery();
-  const { data: plogs = [] } = api.playbacks.getAllPlayBackLogs.useQuery();
-  const { data: captures = [], isLoading: galleryLoading } = api.capture.getAllcaptures.useQuery();
-  const { data: playbacks = [], isLoading: playbacksLoading } = api.playbacks.getAllPlaybacks.useQuery();
-  const [graphData, setGraphData] = useState<{ time: string; visits: number; unique: number; viewsPerUnique: number; avgTimeSpent: number }[]>([]);
-  const [growthData, setGrowthData] = useState<{ time: string; cumulativeVisits: number }[]>([]);
+  const [selectedRoute, setSelectedRoute] = useState<string>("all");
+  
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [selectedRoute, setSelectedRoute] = useState<string>("all");
-  const [routeAnalytics, setRouteAnalytics] = useState<{
-    hourlyTraffic: { hour: number; count: number }[];
-    deviceDistribution: { device: string; count: number }[];
-    averageTimeSpent: number;
-    bounceRate: number;
-    peakHours: { hour: number; count: number }[];
-    userRetention: number;
-  }>({
-    hourlyTraffic: [],
-    deviceDistribution: [],
-    averageTimeSpent: 0,
-    bounceRate: 0,
-    peakHours: [],
-    userRetention: 0,
-  });
-  
-    useEffect(() => {
-      if (status === 'unauthenticated') {
-       void router.push('/unauthorized');
-      }
-      if (status === 'authenticated' && session?.user?.role === 'user') {
-        void router.push('/unauthorized');
-      }
-      if (status === 'authenticated' && session?.user?.role !== 'admin') {
-        void router.push('/unauthorized');
-      }
-      
-    }, [session, status, router]);
+
   // Hardcoded dates for Day 1, Day 2, and Day 3
-  // const dateReferences: Record<string, Date> = {
-  //   day1: new Date('2024-12-22'),
-  //   day2: new Date('2024-12-23'),
-  //   day3: new Date('2024-12-24'),
-  // };
-
-
   const dateReferences: Record<string, Date> = { 
     day1: new Date('2025-02-27'),
     day2: new Date('2025-02-28'),
     day3: new Date('2025-03-01'),
   };
 
-  const filteredLogs =
-  filter === "all"
-    ? analyticslog.filter(
-        (log) =>
-          log.routePath.includes("/") &&
-          log.isChecked === "yes" &&
-          log.session_user !== "" &&
-          log.session_user !== null
-      )
-    : filter === "custom" && customDate
-    ? analyticslog.filter((log) => {
-        const logDate = new Date(log.startPing).toISOString().split("T")[0];
-        return logDate === customDate;
-      })
-    : analyticslog.filter((log) => {
-        const logDate = new Date(log.startPing);
-        const dateReferenceKey = `day${filter}`;
-        const dateReference = dateReferences[dateReferenceKey];
-        return (
-          dateReference &&
-          logDate.toDateString() === dateReference.toDateString() &&
-          log.routePath.includes("/") &&
-          log.session_user !== "" &&
-          log.session_user !== null
-        );
-      });
-      const deviceCounts = filteredLogs.reduce(
-        (acc, log) => {
-          acc[log.device as keyof typeof acc] = (acc[log.device as keyof typeof acc] || 0) + 1;
-          return acc;
-        },
-        { tablet: 0, desktop: 0, mobile: 0 }
-      );
-      
-      const data = {
-        labels: ["Tablet", "Desktop", "Mobile"],
-        datasets: [
-          {
-            data: [deviceCounts.tablet, deviceCounts.desktop, deviceCounts.mobile],
-            backgroundColor: ["#E0E0E0", "#A0A0A0", "#606060"], // Light gray, medium gray, dark gray
-            hoverBackgroundColor: ["#D0D0D0", "#909090", "#505050"], // Slightly darker on hover
-          },
-        ],
-      };
-      const options = {
-        plugins: {
-          legend: {
-            labels: {
-              color: "#FFFFFF", // White text for legend
-            },
-          },
-          tooltip: {
-            titleColor: "#FFFFFF", // White tooltip title
-            bodyColor: "#FFFFFF", // White tooltip text
-          },
-        },
-      };
-      
-      
+  // API calls using the backend endpoints
+  const { data: events = [], isLoading: eventsLoading } = api.events.getAllEvents.useQuery();
+  const { data: users = [], isLoading: usersLoading } = api.user.getAllUsers.useQuery();
+  const { data: verifiedusers = [], isLoading: verifiedUsersLoading } = api.user.getAllVerifiedUsers.useQuery();
 
-  const filtereddLogs =
-  filter === "all"
-    ? dlogs.filter(
-        (log) =>
-          log.session_user !== "" &&
-          log.session_user !== null
-      )
-      : filter === "custom" && customDate
-      ? dlogs.filter((log) => {
-          const logDate = new Date(log.date_time).toISOString().split("T")[0];
-          return logDate === customDate;
-        })
-    : dlogs.filter((log) => {
-        const logDate = new Date(log.date_time);
-        const dateReferenceKey = `day${filter}`;
-        const dateReference = dateReferences[dateReferenceKey];
-        return (
-          dateReference &&
-          logDate.toDateString() === dateReference.toDateString() &&
-          log.session_user !== "" &&
-          log.session_user !== null
-        );
-      });
-    const filteredpLogs =
-    filter === "all"
-      ? plogs.filter(
-          (log) =>
-            log.session_user !== "" &&
-            log.session_user !== null
-        )
-        : filter === "custom" && customDate
-        ? plogs.filter((log) => {
-            const logDate = new Date(log.date_time).toISOString().split("T")[0];
-            return logDate === customDate;
-          })
-      : plogs.filter((log) => {
-          const logDate = new Date(log.date_time);
-          const dateReferenceKey = `day${filter}`;
-          const dateReference = dateReferences[dateReferenceKey];
-          return (
-            dateReference &&
-            logDate.toDateString() === dateReference.toDateString() &&
-            log.session_user !== "" &&
-            log.session_user !== null
-          );
-        });
-
-
-  const totalTimeSpent = filteredLogs.reduce((total, log) => total + (log.timer || 0), 0);
-  const averageTimeSpent = filteredLogs.length > 0 ? totalTimeSpent / filteredLogs.length : 0;
-  const hours = Math.floor(averageTimeSpent / 3600);
-  const minutes = Math.floor((averageTimeSpent % 3600) / 60);
-  const seconds = Math.floor(averageTimeSpent % 60);
-  const thours = Math.floor(totalTimeSpent / 3600);
-  const tminutes = Math.floor((totalTimeSpent % 3600) / 60);
-  const tseconds = Math.floor(totalTimeSpent % 60);
-
-  const filteredGallery =
-    filter === "all"
-      ? captures
-      : captures.filter((galleryItem: any) => {
-          const galleryItemDate = new Date(galleryItem.date_time);
-          const dateReferenceKey = `day${filter}`;
-          const dateReference = dateReferences[dateReferenceKey];
-          return dateReference && galleryItemDate.toDateString() === dateReference.toDateString();
-        });
-  const filteredPlaybacks =
-  filter === "all"
-    ? playbacks
-    : playbacks.filter((galleryItem: any) => {
-        const galleryItemDate = new Date(galleryItem.date_time);
-        const dateReferenceKey = `day${filter}`;
-        const dateReference = dateReferences[dateReferenceKey];
-        return dateReference && galleryItemDate.toDateString() === dateReference.toDateString();
-      });
-
-  const filteredCaptures = captureFilter === "all"
-    ? filteredLogs.filter((log) => {
-        const logDate = new Date(log.startPing);
-        const dateReferenceKey = `day${filter}`;
-        const dateReference = dateReferences[dateReferenceKey];
-
-        const validRoutes = [
-          "pronite", 
-          "your-snaps", 
-          "accolades",
-          "faculty",
-          "our-team", 
-          "about", 
-          "events", 
-          "/", 
-          "behindincridea",
-          "captures"
-        ];
-
-        const isValidRoute = validRoutes.some((route) => log.routePath.includes(route));
-
-        return (
-          isValidRoute && 
-          (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
-          log.isChecked === "yes"
-        );
-      })
-    : filteredLogs.filter((log) => {
-        const logDate = new Date(log.startPing);
-        const dateReferenceKey = `day${filter}`;
-        const dateReference = dateReferences[dateReferenceKey];
-
-        if (captureFilter === "/") {
-          return (
-            log.routePath === "/" && 
-            (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
-            log.isChecked === "yes"
-          );
-        }
-        if (captureFilter === "captures") {
-          return (
-            log.routePath === "/captures" &&
-            (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
-            log.isChecked === "yes"
-          );
-        }
-
-        if (captureFilter === "events") {
-          return (
-            log.routePath === "/captures/events" &&
-            (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
-            log.isChecked === "yes"
-          );
-        }
-
-        return (
-          log.routePath.includes(captureFilter) &&
-          (filter === "all" || logDate.toDateString() === dateReference?.toDateString()) &&
-          log.isChecked === "yes"
-        );
-    });
-
-  const routeVisits = filteredCaptures.length;
-  const uniqueRouteIDs = new Set(filteredCaptures.filter(log => log.isChecked === "yes").map((entry) => entry.session_user)).size;
-
-  const filteredEvents = eventFilter === "all"
-    ? filteredLogs.filter((log) => {
-        const logDate = new Date(log.startPing);
-        const dateReferenceKey = `day${filter}`;
-        const dateReference = dateReferences[dateReferenceKey];
-        return (
-          log.routePath.startsWith("/captures/events") && 
-          (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
-        );
-      })
-    : filteredLogs.filter((log) => {
-        const logDate = new Date(log.startPing);
-        const dateReferenceKey = `day${filter}`;
-        const dateReference = dateReferences[dateReferenceKey];
-        return (
-          log.routePath === `/captures/events/${eventFilter}` && 
-          (filter === "all" || logDate.toDateString() === dateReference?.toDateString())
-        );
-      });
-
-  const eventVisits = filteredEvents.length;
-  const uniqueEventIPs = new Set(filteredEvents.map((entry) => entry.session_user)).size;
-
-  // Add new state for college analytics
-  const [collegeStats, setCollegeStats] = useState({
-    internal: 0,
-    external: 0,
-    internalDownloads: 0,
-    externalDownloads: 0,
-    internalPlaybackViews: 0,
-    externalPlaybackViews: 0
+  // Analytics data from backend
+  const { data: analyticsSummary, isLoading: summaryLoading } = api.analytics.getAnalyticsSummary.useQuery({
+    filter,
+    customDate,
+    dateReferences,
+  });
+  
+  const { data: chartData, isLoading: chartLoading } = api.analytics.getChartData.useQuery({
+    filter,
+    customDate,
+    dateReferences,
+  });
+  
+  const { data: routeAnalytics, isLoading: routeLoading } = api.analytics.getRouteAnalytics.useQuery({
+    filter,
+    customDate,
+    dateReferences,
+    selectedRoute,
+  });
+  
+  const { data: filteredRouteData, isLoading: routeDataLoading } = api.analytics.getFilteredRouteCounts.useQuery({
+    filter,
+    customDate,
+    dateReferences,
+    captureFilter,
+  });
+  
+  const { data: eventData, isLoading: eventDataLoading } = api.analytics.getEventCounts.useQuery({
+    filter,
+    customDate,
+    dateReferences,
+    eventFilter,
+  });
+  
+  const { data: galleryData, isLoading: galleryLoading } = api.analytics.getGalleryData.useQuery({
+    filter,
+    dateReferences,
+  });
+  
+  const { data: downloadLogs = [], isLoading: downloadLogsLoading } = api.analytics.getDownloadLogs.useQuery({
+    filter,
+    customDate,
+    dateReferences,
+  });
+  
+  const { data: playbackLogs = [], isLoading: playbackLogsLoading } = api.analytics.getPlaybackLogs.useQuery({
+    filter,
+    customDate,
+    dateReferences,
+  });
+  
+  const { data: collegeStats, isLoading: collegeStatsLoading } = api.analytics.getCollegeAnalytics.useQuery({
+    filter,
+    customDate,
+    dateReferences,
   });
 
-  // Calculate college-based statistics
   useEffect(() => {
-    const internal = verifiedusers.filter(user => user.college === "internal").length;
-    const external = verifiedusers.filter(user => user.college === "external").length;
+    if (status === 'unauthenticated') {
+     void router.push('/unauthorized');
+    }
+    if (status === 'authenticated' && session?.user?.role === 'user') {
+      void router.push('/unauthorized');
+    }
+    if (status === 'authenticated' && session?.user?.role !== 'admin') {
+      void router.push('/unauthorized');
+    }
+  }, [session, status, router]);
 
-    // Get user IDs by college type
-    const internalIds = new Set(verifiedusers.filter(user => user.college === "internal").map(user => user.id));
-    const externalIds = new Set(verifiedusers.filter(user => user.college === "external").map(user => user.id));
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user?.role !== 'admin') {
+      void router.push('/');
+    }
+  }, [session, status, router]);
 
-    // Calculate downloads by college type
-    const internalDownloads = filtereddLogs.filter(log => internalIds.has(Number(log.session_user))).length;
-    const externalDownloads = filtereddLogs.filter(log => externalIds.has(Number(log.session_user))).length;
+  // Formatting time values
+  const formatTime = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+    return { hours, minutes, seconds: secs };
+  };
 
+  const totalTimeFormatted = analyticsSummary 
+    ? formatTime(analyticsSummary.totalTimeSpent)
+    : { hours: 0, minutes: 0, seconds: 0 };
+    
+  const avgTimeFormatted = analyticsSummary 
+    ? formatTime(analyticsSummary.averageTimeSpent)
+    : { hours: 0, minutes: 0, seconds: 0 };
 
-    // Calculate playback views by college type
-    const internalPlaybackViews = filteredpLogs.filter(log => internalIds.has(Number(log.session_user))).length;
-    const externalPlaybackViews = filteredpLogs.filter(log => externalIds.has(Number(log.session_user))).length;
+  // Chart configurations using backend data
+  const avgTimeSpentGraphData = chartData ? {
+    labels: chartData.timeSeriesData.map((data) => data.time),
+    datasets: [
+      {
+        label: "Average Time Spent per Visit (s)",
+        data: chartData.timeSeriesData.map((data) => data.avgTimeSpent),
+        borderColor: monochromeColors.line.primary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
+      },
+    ],
+  } : { labels: [], datasets: [] };
 
-    setCollegeStats({
-      internal,
-      external,
-      internalDownloads,
-      externalDownloads,
-      internalPlaybackViews,
-      externalPlaybackViews
-    });
-  }, [verifiedusers, filtereddLogs, filteredpLogs]);
+  const visitGraphData = chartData ? {
+    labels: chartData.timeSeriesData.map((data) => data.time),
+    datasets: [
+      {
+        label: "Total Visits",
+        data: chartData.timeSeriesData.map((data) => data.visits),
+        borderColor: monochromeColors.line.secondary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
+      },
+    ],
+  } : { labels: [], datasets: [] };
 
-  // Create college distribution chart data
-  const collegeDistributionData = {
+  const uniqueGraphData = chartData ? {
+    labels: chartData.timeSeriesData.map((data) => data.time),
+    datasets: [
+      {
+        label: "Unique Visitors",
+        data: chartData.timeSeriesData.map((data) => data.unique),
+        borderColor: monochromeColors.line.tertiary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
+      },
+    ],
+  } : { labels: [], datasets: [] };
+
+  const viewsPerUniqueGraphData = chartData ? {
+    labels: chartData.timeSeriesData.map((data) => data.time),
+    datasets: [
+      {
+        label: "Total Views per Unique View",
+        data: chartData.timeSeriesData.map((data) => data.viewsPerUnique),
+        borderColor: monochromeColors.line.quaternary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
+      },
+    ],
+  } : { labels: [], datasets: [] };
+
+  const growthGraphData = chartData ? {
+    labels: chartData.growthData.map((data) => data.time),
+    datasets: [
+      {
+        label: "Cumulative Visits Growth",
+        data: chartData.growthData.map((data) => data.cumulativeVisits),
+        borderColor: monochromeColors.line.primary,
+        backgroundColor: monochromeColors.line.background,
+        ...lineChartBaseStyle
+      },
+    ],
+  } : { labels: [], datasets: [] };
+  
+  // College analytics charts
+  const collegeDistributionData = collegeStats ? {
     labels: ['Internal', 'External'],
     datasets: [{
       label: 'Users by College Type',
@@ -397,11 +255,10 @@ const Analytics = () => {
       borderColor: ['#A0A0A0', '#505050'], // Slightly darker borders
       borderWidth: 1
     }]
-  };
+  } : { labels: [], datasets: [] };
 
-  // Create college engagement chart data
-  const collegeEngagementData = {
-    labels: ['Downloads', 'Story Views', 'Playback Views'],
+  const collegeEngagementData = collegeStats ? {
+    labels: ['Downloads', 'Playback Views'],
     datasets: [
       {
         label: 'Internal College',
@@ -424,117 +281,31 @@ const Analytics = () => {
         borderWidth: 1
       }
     ]
-  };
+  } : { labels: [], datasets: [] };
 
-  /**
-   * Effect hook for graph data processing
-   * Processes and formats data for various charts
-   */
-  useEffect(() => {
-    const visitData = filteredLogs.reduce<{ [key: string]: { visits: number; uniqueIPs: Set<string>; totalTime: number } }>(
-      (acc, log) => {
-        const dateObj = new Date(log.startPing);
-        const dateKey = dateObj.toLocaleDateString([], { month: "short", day: "numeric" });
-        const timeKey = dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-        const combinedKey = `${dateKey} ${timeKey}`;
+  // Route-specific analytics charts
+  const hourlyTrafficData = routeAnalytics ? {
+    labels: routeAnalytics.hourlyTraffic.map(item => `${item.hour}:00`),
+    datasets: [{
+      label: 'Visits per Hour',
+      data: routeAnalytics.hourlyTraffic.map(item => item.count),
+      backgroundColor: monochromeColors.bar.primary,
+      hoverBackgroundColor: monochromeColors.bar.hover,
+      borderColor: 'rgba(255, 255, 255, 1)',
+      borderWidth: 1,
+    }]
+  } : { labels: [], datasets: [] };
 
-        if (!acc[combinedKey]) {
-          acc[combinedKey] = { visits: 0, uniqueIPs: new Set(), totalTime: 0 };
-        }
+  const deviceDistributionData = routeAnalytics ? {
+    labels: routeAnalytics.deviceDistribution.map(item => item.device),
+    datasets: [{
+      label: 'Device Distribution',
+      data: routeAnalytics.deviceDistribution.map(item => item.count),
+      backgroundColor: ['#E0E0E0', '#B0B0B0', '#808080', '#505050'], // Monochrome grays
+    }]
+  } : { labels: [], datasets: [] };
 
-        acc[combinedKey].visits += 1;
-        acc[combinedKey].uniqueIPs.add(log.session_user);
-        acc[combinedKey].totalTime += log.timer ?? 0;
-
-        return acc;
-      },
-      {}
-    );
-
-    const timeSeriesData = Object.entries(visitData).map(([time, data]) => ({
-      time,
-      visits: data.visits,
-      unique: data.uniqueIPs.size,
-      viewsPerUnique: data.uniqueIPs.size ? data.visits / data.uniqueIPs.size : 0,
-      avgTimeSpent: data.visits > 0 ? data.totalTime / data.visits : 0, 
-    }));
-
-    setGraphData(timeSeriesData);
-
-    let cumulativeVisits = 0;
-    const growthSeriesData = timeSeriesData.map((data) => {
-      cumulativeVisits += data.visits;
-      return { time: data.time, cumulativeVisits };
-    });
-
-    setGrowthData(growthSeriesData);
-  }, [filteredLogs]);
-
-  const avgTimeSpentGraphData = {
-    labels: graphData.map((data) => data.time),
-    datasets: [
-      {
-        label: "Average Time Spent per Visit (s)",
-        data: graphData.map((data) => data.avgTimeSpent),
-        borderColor: monochromeColors.line.primary,
-        backgroundColor: monochromeColors.line.background,
-        ...lineChartBaseStyle
-      },
-    ],
-  };
-
-  const visitGraphData = {
-    labels: graphData.map((data) => data.time),
-    datasets: [
-      {
-        label: "Total Visits",
-        data: graphData.map((data) => data.visits),
-        borderColor: monochromeColors.line.secondary,
-        backgroundColor: monochromeColors.line.background,
-        ...lineChartBaseStyle
-      },
-    ],
-  };
-
-  const uniqueGraphData = {
-    labels: graphData.map((data) => data.time),
-    datasets: [
-      {
-        label: "Unique Visitors",
-        data: graphData.map((data) => data.unique),
-        borderColor: monochromeColors.line.tertiary,
-        backgroundColor: monochromeColors.line.background,
-        ...lineChartBaseStyle
-      },
-    ],
-  };
-
-  const viewsPerUniqueGraphData = {
-    labels: graphData.map((data) => data.time),
-    datasets: [
-      {
-        label: "Total Views per Unique View",
-        data: graphData.map((data) => data.viewsPerUnique),
-        borderColor: monochromeColors.line.quaternary,
-        backgroundColor: monochromeColors.line.background,
-        ...lineChartBaseStyle
-      },
-    ],
-  };
-
-  const growthGraphData = {
-    labels: growthData.map((data) => data.time),
-    datasets: [
-      {
-        label: "Cumulative Visits Growth",
-        data: growthData.map((data) => data.cumulativeVisits),
-        borderColor: monochromeColors.line.primary,
-        backgroundColor: monochromeColors.line.background,
-        ...lineChartBaseStyle
-      },
-    ],
-  };
-
+  // Chart options
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -547,188 +318,54 @@ const Analytics = () => {
       y: { ticks: { color: "white" } },
     },
   };
+
+  const options = {
+    plugins: {
+      legend: {
+        labels: {
+          color: "#FFFFFF", // White text for legend
+        },
+      },
+      tooltip: {
+        titleColor: "#FFFFFF", // White tooltip title
+        bodyColor: "#FFFFFF", // White tooltip text
+      },
+    },
+  };
+
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedDate = e.target.value;
     setCustomDate(selectedDate);
     setFilter("custom");
   };
-  // Grouping by routePath
-  const routeCounts = filteredLogs.reduce((acc, log) => {
-    acc[log.routePath] = (acc[log.routePath] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
 
-  // Time spent (sum of timers) per device
-  const deviceTimeSpent = filteredLogs.reduce((acc, log) => {
-    acc[log.device] = (acc[log.device] || 0) + (log.timer || 0);
-    return acc;
-  }, {} as Record<string, number>);
-
-  const devices = Object.keys(deviceCounts);
-  const counts = Object.values(deviceCounts);
-  const timeSpent = Object.values(deviceTimeSpent);
-  const routes = Object.keys(routeCounts);
-  const routeSessionCounts = Object.values(routeCounts);
-
-  // Pie Chart: Device Distribution
-  const pieData = {
-    labels: devices,
-    datasets: [{
-      label: 'Device Distribution',
-      data: counts,
-      backgroundColor: ['#E0E0E0', '#B0B0B0', '#808080', '#505050'], // Monochrome grays
-    }],
-  };
-
-  // Bar Chart: Sessions by Device
-  const barData = {
-    labels: devices,
-    datasets: [{
-      label: 'Sessions by Device',
-      data: counts,
-      backgroundColor: monochromeColors.bar.primary,
-      hoverBackgroundColor: monochromeColors.bar.hover,
-      borderColor: 'rgba(255, 255, 255, 1)',
-      borderWidth: 1
-    }],
-  };
-
-  // Line Chart: Timer Over Time for Each Device
-  const lineData = {
-    labels: filteredLogs.map(log => new Date(log.startPing).toLocaleString()),
-    datasets: devices.map((device, index) => ({
-      label: device,
-      data: filteredLogs.filter(log => log.device === device).map(log => log.timer ?? 0),
-      borderColor: monochromeColors.line[['primary', 'secondary', 'tertiary'][index] as 'primary' | 'secondary' | 'tertiary'],
-      backgroundColor: monochromeColors.line.background,
-      ...lineChartBaseStyle
-    })),
-  };
-
-  // Doughnut Chart: Time Spent per Device
-  const doughnutData = {
-    labels: devices,
-    datasets: [{
-      label: 'Time Spent per Device (ms)',
-      data: timeSpent,
-      backgroundColor: ['#E0E0E0', '#B0B0B0', '#808080', '#505050'], // Monochrome grays
-    }],
-  };
-
- // Define the type if not imported
- interface AnalyticsLog {
-  id: number;
-  session_user: string;
-  uniqueId: string;
-  routePath: string;
-  device: string;
-  timer: number | null; // Change from `number | undefined` to `number | null`
-  isChecked: string;
-  startPing: Date;
-  lastPing: Date;
-}
-
-
-// Radar Chart: Average Time per Device by Route
-const radarData = {
-  labels: routes,
-  datasets: devices.map(device => ({
-    label: device,
-    data: routes.map(route => {
-      const deviceRouteLogs = filteredLogs.filter((log: AnalyticsLog) => log.device === device && log.routePath === route);
-      const totalTime = deviceRouteLogs.reduce((acc: number, log: AnalyticsLog) => acc + (log.timer || 0), 0);
-      return totalTime / (deviceRouteLogs.length > 0 ? deviceRouteLogs.length : 1); // Avoid division by zero
-    }),
-    borderColor: '#FF5733',
-    backgroundColor: 'rgba(255, 87, 51, 0.2)',
-    fill: true,
-  })),
-};
-
-  useEffect(() => {
-    if (selectedRoute === "all") return;
-
-    const routeLogs = filteredLogs.filter(log => 
-      selectedRoute === "/" ? log.routePath === "/" : log.routePath.includes(selectedRoute)
-    );
-
-    // Calculate hourly traffic
-    const hourlyTraffic = Array.from({ length: 24 }, (_, hour) => ({
-      hour,
-      count: routeLogs.filter(log => new Date(log.startPing).getHours() === hour).length
-    }));
-
-    // Calculate device distribution
-    const devices = routeLogs.reduce((acc, log) => {
-      acc[log.device] = (acc[log.device] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-
-    const deviceDistribution = Object.entries(devices).map(([device, count]) => ({
-      device,
-      count
-    }));
-
-    // Calculate average time spent
-    const averageTimeSpent = routeLogs.reduce((acc, log) => acc + (log.timer || 0), 0) / (routeLogs.length || 1);
-
-    // Calculate bounce rate (users who only visited once)
-    const uniqueUsers = new Set(routeLogs.map(log => log.session_user));
-    const bounceUsers = [...uniqueUsers].filter(user =>
-      routeLogs.filter(log => log.session_user === user).length === 1
-    );
-    const bounceRate = (bounceUsers.length / uniqueUsers.size) * 100;
-
-    // Find peak hours (top 3)
-    const peakHours = [...hourlyTraffic]
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 3);
-
-    // Calculate user retention (users who visited more than once)
-    const userRetention = 100 - bounceRate;
-
-    setRouteAnalytics({
-      hourlyTraffic,
-      deviceDistribution,
-      averageTimeSpent,
-      bounceRate,
-      peakHours,
-      userRetention,
-    });
-  }, [selectedRoute, filteredLogs]);
-
-  // Add these new chart configurations
-  const hourlyTrafficData = {
-    labels: routeAnalytics.hourlyTraffic.map(item => `${item.hour}:00`),
-    datasets: [{
-      label: 'Visits per Hour',
-      data: routeAnalytics.hourlyTraffic.map(item => item.count),
-      backgroundColor: monochromeColors.bar.primary,
-      hoverBackgroundColor: monochromeColors.bar.hover,
-      borderColor: 'rgba(255, 255, 255, 1)',
-      borderWidth: 1,
-    }]
-  };
-
-  const deviceDistributionData = {
-    labels: routeAnalytics.deviceDistribution.map(item => item.device),
-    datasets: [{
-      label: 'Device Distribution',
-      data: routeAnalytics.deviceDistribution.map(item => item.count),
-      backgroundColor: ['#E0E0E0', '#B0B0B0', '#808080', '#505050'], // Monochrome grays
-    }]
-  };
-
-  useEffect(() => {
-    if (status === 'authenticated' && session?.user?.role !== 'admin') {
-      void router.push('/');
-    }
-  }, [session, status, router]);
-
-  if (isLoading || galleryLoading || eventsLoading) {
+  // Check if data is loading
+  if (summaryLoading || chartLoading || routeLoading || galleryLoading || 
+      eventsLoading || usersLoading || verifiedUsersLoading || 
+      routeDataLoading || eventDataLoading || collegeStatsLoading) {
     return <CameraLoading />;
   }
 
+  // Define default empty chart data
+  const emptyBarChartData: ChartData<'bar', number[], string> = {
+    labels: [],
+    datasets: []
+  };
+
+  const emptyLineChartData: ChartData<'line', number[], string> = {
+    labels: [],
+    datasets: []
+  };
+
+  const emptyPieChartData: ChartData<'pie', number[], string> = {
+    labels: [],
+    datasets: []
+  };
+
+  const emptyDoughnutChartData: ChartData<'doughnut', number[], string> = {
+    labels: [],
+    datasets: []
+  };
 
   return (
     <div className="p-6 mt-20 mb-20">
@@ -790,18 +427,16 @@ const radarData = {
                   <option value="behindincridea">Behind Incridea</option>
                   <option value="our-team">Our Team</option>
                   <option value="about">About</option>
-                  
-                  
                 </select>
               </td>
-              <td className="p-2 text-center w-1/3">{routeVisits}</td>
-              <td className="p-2 text-center w-1/3">{uniqueRouteIDs}</td>
+              <td className="p-2 text-center w-1/3">{filteredRouteData?.routeVisits || 0}</td>
+              <td className="p-2 text-center w-1/3">{filteredRouteData?.uniqueRouteIDs || 0}</td>
             </tr>
           </tbody>
         </table>
-        </div>
+      </div>
 
-        <div className="overflow-x-auto mt-5 mb-5">
+      <div className="overflow-x-auto mt-5 mb-5">
         <table className="min-w-full text-white font-Trap-Regular">
           <thead className="bg-gray-700">
             <tr>
@@ -829,16 +464,17 @@ const radarData = {
                   })}
                 </select>
               </td>
-              <td className="p-2 text-center w-1/3">{eventVisits}</td>
-              <td className="p-2 text-center w-1/3">{uniqueEventIPs}</td>              
+              <td className="p-2 text-center w-1/3">{eventData?.eventVisits || 0}</td>
+              <td className="p-2 text-center w-1/3">{eventData?.uniqueEventIPs || 0}</td>              
             </tr>
           </tbody>
         </table>
-        </div>
+      </div>
+      
       <div className="overflow-x-auto">
         <table className="min-w-full text-white font-Trap-Regular">
           <tbody>
-          <tr>
+            <tr>
               <td className="py-2 px-4 border-b">Total Users Logged</td>
               <td className="py-2 px-4 border-b"></td>
               <td className="py-2 px-4 border-b">{users.length}</td>
@@ -856,22 +492,31 @@ const radarData = {
             <tr>
               <td className="py-2 px-4 border-b">Total Web Visits</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{filteredLogs.length}</td>
+              <td className="py-2 px-4 border-b">{analyticsSummary?.totalVisits || 0}</td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 border-b">Total Legitimate Visits ({'>'}10s)</td>
+              <td className="py-2 px-4 border-b"></td>
+              <td className="py-2 px-4 border-b">{analyticsSummary?.legitimateVisits || 0}</td>
             </tr>
             <tr>
               <td className="py-2 px-4 border-b">Total Unique Visitors</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{new Set(filteredLogs.map((entry) => entry.session_user)).size}</td>
+              <td className="py-2 px-4 border-b">{analyticsSummary?.uniqueVisitors || 0}</td>
             </tr>
             <tr>
               <td className="py-2 px-4 border-b">Total Time Spent</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{thours} hours {tminutes} minutes {tseconds} seconds</td> 
+              <td className="py-2 px-4 border-b">
+                {totalTimeFormatted.hours} hours {totalTimeFormatted.minutes} minutes {totalTimeFormatted.seconds} seconds
+              </td> 
             </tr>
             <tr>
               <td className="py-2 px-4 border-b">Average Time Spent</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{hours} hours {minutes} minutes {seconds} seconds</td> 
+              <td className="py-2 px-4 border-b">
+                {avgTimeFormatted.hours} hours {avgTimeFormatted.minutes} minutes {avgTimeFormatted.seconds} seconds
+              </td> 
             </tr>
             <tr>
               <td className="py-6"></td>
@@ -881,19 +526,19 @@ const radarData = {
             <tr>
               <td className="py-2 px-4 border-b">Total Captures</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{filteredGallery.length}</td> 
+              <td className="py-2 px-4 border-b">{galleryData?.filteredGallery?.length || 0}</td> 
             </tr>
             <tr>
               <td className="py-2 px-4 border-b">Total Captures Downloads</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{filtereddLogs.length}</td> 
+              <td className="py-2 px-4 border-b">{downloadLogs.length}</td> 
             </tr>
             <tr>
               <td className="py-2 px-4 border-b">Unique Captures Download ID's</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{new Set(filtereddLogs.map((entry) => entry.session_user)).size}</td> 
+              <td className="py-2 px-4 border-b">{new Set(downloadLogs.map((entry) => entry.session_user)).size}</td> 
             </tr>
-                        <tr>
+            <tr>
               <td className="py-6"></td>
               <td className="py-6"></td>
               <td className="py-6"></td>
@@ -906,17 +551,17 @@ const radarData = {
             <tr>
               <td className="py-2 px-4 border-b">Total Playbacks</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{filteredPlaybacks.length}</td> 
+              <td className="py-2 px-4 border-b">{galleryData?.filteredPlaybacks?.length || 0}</td> 
             </tr>
             <tr>
               <td className="py-2 px-4 border-b">Total Playbacks Downloads</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{filteredpLogs.length}</td> 
+              <td className="py-2 px-4 border-b">{playbackLogs.length}</td> 
             </tr>
             <tr>
               <td className="py-2 px-4 border-b">Unique Playbacks Download ID's</td>
               <td className="py-2 px-4 border-b"></td>
-              <td className="py-2 px-4 border-b">{new Set(filteredpLogs.map((entry) => entry.session_user)).size}</td> 
+              <td className="py-2 px-4 border-b">{new Set(playbackLogs.map((entry) => entry.session_user)).size}</td> 
             </tr>
           </tbody>
         </table>
@@ -946,105 +591,31 @@ const radarData = {
         <h3 className="text-center text-2xl text-white mb-4">Views per Unique Visitor Over Time</h3>
         <Line data={viewsPerUniqueGraphData} options={chartOptions} />
       </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center py-20 gap-20">
         {/* Bar Chart - Full Width */}
         <div className="col-span-1 md:col-span-2 w-full max-w-4xl">
-          <Bar data={barData} options={options}/>
+          <Bar data={chartData?.chartData.barData || emptyBarChartData} options={options}/>
         </div>
 
         {/* Line Chart - Full Width */}
         <div className="col-span-1 md:col-span-2 w-full max-w-4xl">
-          <Line data={lineData} />
+          <Line data={chartData?.chartData.lineData || emptyLineChartData} />
         </div>
 
         {/* Pie Chart (Half Width) */}
         <div className="col-span-1 w-full max-w-sm">
-          <Pie data={pieData} options={options}/>
+          <Pie data={chartData?.chartData.pieData || emptyPieChartData} options={options}/>
         </div>
 
         {/* Doughnut Chart (Half Width) */}
         <div className="col-span-1 w-full max-w-sm">
-          <Doughnut data={doughnutData} />
+          <Doughnut data={chartData?.chartData.doughnutData || emptyDoughnutChartData} />
         </div>
       </div>
-
-      {/* Add college analytics section before the final closing div */}
-      <div className="mt-20">
-        <h2 className="text-center text-3xl font-Trap-Black mb-8 text-white">College-wise Analytics</h2>
-        
-        <div className="overflow-x-auto mb-10">
-          <table className="min-w-full text-white font-Trap-Regular">
-            <thead className="bg-gray-700">
-              <tr>
-                <th className="p-2 text-left">Metric</th>
-                <th className="p-2 text-left">Internal</th>
-                <th className="p-2 text-left">External</th>
-                <th className="p-2 text-left">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="p-2">Verified Users</td>
-                <td className="p-2">{collegeStats.internal}</td>
-                <td className="p-2">{collegeStats.external}</td>
-                <td className="p-2">{collegeStats.internal + collegeStats.external}</td>
-              </tr>
-              <tr>
-                <td className="p-2">Downloads</td>
-                <td className="p-2">{collegeStats.internalDownloads}</td>
-                <td className="p-2">{collegeStats.externalDownloads}</td>
-                <td className="p-2">{collegeStats.internalDownloads + collegeStats.externalDownloads}</td>
-              </tr>
-              <tr>
-                <td className="p-2">Playback Views</td>
-                <td className="p-2">{collegeStats.internalPlaybackViews}</td>
-                <td className="p-2">{collegeStats.externalPlaybackViews}</td>
-                <td className="p-2">{collegeStats.internalPlaybackViews + collegeStats.externalPlaybackViews}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div className="w-full h-96">
-            <h3 className="text-center text-xl text-white mb-4">User Distribution by College</h3>
-            <Doughnut 
-              data={collegeDistributionData}
-              options={{
-                ...chartOptions,
-                plugins: {
-                  ...chartOptions.plugins,
-                  title: {
-                    display: true,
-                    text: 'Internal vs External College Users',
-                    color: 'white'
-                  }
-                }
-              }}
-            />
-          </div>
-          
-          <div className="w-full h-96">
-            <h3 className="text-center text-xl text-white mb-4">Engagement by College Type</h3>
-            <Bar 
-              data={collegeEngagementData}
-              options={{
-                ...chartOptions,
-                plugins: {
-                  ...chartOptions.plugins,
-                  title: {
-                    display: true,
-                    text: 'Engagement Metrics by College Type',
-                    color: 'white'
-                  }
-                }
-              }}
-            />
-          </div>
-        </div>
-      </div>
-
-       <div className="mt-20 max-h-[1200px] overflow-y-auto">
+      
+      {/* Route-specific analytics */}
+      <div className="mt-20 max-h-[1200px] overflow-y-auto">
         <h2 className="text-center text-3xl font-Trap-Black mb-8 text-white sticky top-0 py-4 z-10">
           Route-specific Analytics
         </h2>
@@ -1053,7 +624,7 @@ const radarData = {
           <select
             value={selectedRoute}
             onChange={(e) => setSelectedRoute(e.target.value)}
-            className="border font-Trap-Regular border-gray-700 rounded-lg py-2 pl-3 pr-4  text-white"
+            className="border font-Trap-Regular border-gray-700 rounded-lg py-2 pl-3 pr-4 text-white"
           >
             <option value="all">Select Route</option>
             <option value="/">Home</option>
@@ -1070,7 +641,7 @@ const radarData = {
           </select>
         </div>
 
-        {selectedRoute !== "all" && (
+        {selectedRoute !== "all" && routeAnalytics && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
             {/* Stats Cards */}
             <div className="bg-gray-800 rounded-lg p-6 h-[400px] overflow-y-auto">
@@ -1079,21 +650,21 @@ const radarData = {
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">Avg. Time Spent</p>
                   <p className="text-2xl text-white">
-                    {Math.floor(routeAnalytics.averageTimeSpent / 60)}m {Math.floor(routeAnalytics.averageTimeSpent % 60)}s
+                    {Math.floor(routeAnalytics?.averageTimeSpent / 60)}m {Math.floor(routeAnalytics?.averageTimeSpent % 60)}s
                   </p>
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">Bounce Rate</p>
-                  <p className="text-2xl text-white">{routeAnalytics.bounceRate.toFixed(1)}%</p>
+                  <p className="text-2xl text-white">{routeAnalytics?.bounceRate.toFixed(1)}%</p>
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">User Retention</p>
-                  <p className="text-2xl text-white">{routeAnalytics.userRetention.toFixed(1)}%</p>
+                  <p className="text-2xl text-white">{routeAnalytics?.userRetention.toFixed(1)}%</p>
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">Peak Hours</p>
                   <p className="text-sm text-white">
-                    {routeAnalytics.peakHours.map(peak => `${peak.hour}:00 (${peak.count})`).join(', ')}
+                    {routeAnalytics?.peakHours.map(peak => `${peak.hour}:00 (${peak.count})`).join(', ')}
                   </p>
                 </div>
               </div>
